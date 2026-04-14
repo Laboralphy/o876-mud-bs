@@ -1,7 +1,1 @@
-import ABILITIES from './abilities.json';
-import PROPERTIES from './properties.json';
-
-export const CONSTS = {
-    ...ABILITIES,
-    ...PROPERTIES,
-};
+export { default as CONSTS } from './index.json';
