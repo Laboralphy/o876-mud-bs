@@ -1,0 +1,30 @@
+{
+    "name": "o876-mud-bs",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "lint": "eslint src/**/*.ts",
+        "format": "prettier --write src/**/*.ts && prettier --write src/**/*.json",
+        "fix": "npm run format && npm run lint -- --fix"
+    },
+    "devDependencies": {
+        "@types/node": "^25.6.0",
+        "eslint": "^10.2.0",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-prettier": "^5.5.5",
+        "prettier": "^3.8.2",
+        "tsx": "^4.21.0",
+        "typescript": "^6.0.2",
+        "typescript-eslint": "^8.58.1",
+        "vitest": "^4.1.4"
+    },
+    "dependencies": {
+        "zod": "^4.3.6"
+    }
+}
