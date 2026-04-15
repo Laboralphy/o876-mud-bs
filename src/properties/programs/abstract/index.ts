@@ -1,5 +1,7 @@
 import { Property } from '../../../schemas/Property';
 import { Creature } from '../../../Creature';
+import { Item } from '../../../schemas/Item';
+import { Attack } from '../../../Attack';
 
 export abstract class PropertyProgramAbstract<T extends object> {
     abstract buildProperty(payload: T): Property;

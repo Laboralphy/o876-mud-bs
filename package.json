@@ -26,6 +26,7 @@
         "vitest": "^4.1.4"
     },
     "dependencies": {
+        "@laboralphy/reactor": "^1.2.0",
         "zod": "^4.3.6"
     }
 }

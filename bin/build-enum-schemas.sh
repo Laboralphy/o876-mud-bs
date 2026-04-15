@@ -1,11 +1,14 @@
 #!/bin/bash
 
-echo "generating schemas enum index"
+# This script transforms a JSON constant structure into an enum schemas
+# input files : selected JSON in src/consts
+# output files : src/schemas/enums
 
 script_folder=$(dirname "$(realpath "$0")")
 source_folder=$(realpath "${script_folder}/../src/consts")
 target_folder=$(realpath "${script_folder}/../src/schemas/enums")
 
+source "$script_folder/check-jq.inc.sh"
 
 generateFileContent() {
     local sSchemaName="$1"
@@ -37,5 +40,3 @@ generateFile DamageType damage-types
 generateFile EntityType entity-types
 generateFile EquipmentSlot equipment-slots
 generateFile PropertyType property-types
-
-echo "generated: all schemas enum"
