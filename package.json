@@ -8,7 +8,7 @@
     "license": "ISC",
     "type": "module",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "vitest run",
         "lint": "eslint src/**/*.ts",
         "format": "prettier --write src/**/*.ts && prettier --write src/**/*.json",
         "fix": "npm run format && npm run lint -- --fix",
@@ -26,6 +26,7 @@
         "vitest": "^4.1.4"
     },
     "dependencies": {
+        "@laboralphy/reactor": "^1.2.1",
         "zod": "^4.3.6"
     }
 }
