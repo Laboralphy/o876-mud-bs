@@ -11,14 +11,14 @@ source "$script_folder/iterate-files.inc.sh"
 cmdImportGetterFunction() {
     local this_file="$1"
     local functionName=$(basename "$this_file" .ts)
-    echo "import { $functionName } from './$functionName';"
+    echo "import { $functionName } from './getters/$functionName';"
 }
 
 # echo a type definition direction for a specific getter function
 cmdBuildGetterReturnType() {
     local this_file="$1"
     local functionName=$(basename "$this_file" .ts)
-    echo "    $functionName: ReturnType<typeof $functionName>;"
+    echo "    $functionName: typeof $functionName;"
 }
 
 # echo an export directive for a specific getter
@@ -32,8 +32,8 @@ loopImportGetterFunctions() {
     iterateFiles ts "$getter_folder" cmdImportGetterFunction
 }
 
-loopBuildGetterReturnType() {
-    echo "export type GetterReturnType = {"
+loopBuildGetterReturnFunctions() {
+    echo "export type GetterReturnFunctions = {"
     iterateFiles ts "$getter_folder" cmdBuildGetterReturnType
     echo "};"
     echo ""
@@ -46,7 +46,9 @@ loopExportGetters() {
 }
 
 {
+    echo "import { GetterOutput } from '@laboralphy/reactor';"
     loopImportGetterFunctions
-    loopBuildGetterReturnType
+    loopBuildGetterReturnFunctions
+    echo "export type GetterReturnType = GetterOutput<GetterReturnFunctions>;"
     loopExportGetters
 } > $define_getters_ts

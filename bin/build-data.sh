@@ -11,4 +11,7 @@ $script_folder/build-properties-index.sh
 echo "generating enum schema from constants."
 $script_folder/build-enum-schemas.sh
 
+echo "generating getter index."
+$script_folder/build-getters-index.sh
+
 echo "done."
