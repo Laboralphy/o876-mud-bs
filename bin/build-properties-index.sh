@@ -38,7 +38,7 @@ generatePropertySchemaIndex() {
     # All property import
     iterateFiles ts "$target_folder" cmdExtractPropertyConst
     echo ""
-    # Generating Property schema
+    # Generating Index schema
     echo "export const PropertySchema = z.discriminatedUnion('type', ["
     # Add all property schema in this discriminated union
     iterateFiles ts "$target_folder" cmdPropertySchemaDiscUnion
