@@ -1,5 +1,5 @@
 import z from 'zod';
-import { PropertySchema } from '../properties';
+import { PropertySchema } from '../properties/schemas';
 
 /**
  * This schema define the base structure of a property in order to manage temporary properties

@@ -39,4 +39,7 @@ generateFile CreatureVisibility creature-visibility
 generateFile DamageType damage-types
 generateFile EntityType entity-types
 generateFile EquipmentSlot equipment-slots
+generateFile Proficiency proficiencies
 generateFile PropertyType property-types
+generateFile WeaponAttribute weapon-attributes
+generateFile WeaponSize weapon-sizes

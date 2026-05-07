@@ -3,7 +3,7 @@ import { CONSTS } from '../../consts';
 import { DamageTypeSchema } from '../../schemas/enums/DamageType';
 
 export const PropertySchemaRegeneration = z.strictObject({
-    type: z.literal(CONSTS.PROPERTY_ABILITY_MODIFIER),
+    type: z.literal(CONSTS.PROPERTY_REGENERATION),
     amp: z.number().int(), // normal amount of hp regain per turn
     vulnerabilities: z.array(DamageTypeSchema), // list of damage types that the regeneration is vulnerable to (increase shutdown)
     useBodyModifier: z.boolean().optional().default(false), // if true, regeneration will use the body modifier as a bonus to amp

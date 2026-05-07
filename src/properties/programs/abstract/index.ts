@@ -1,4 +1,4 @@
-import { Property } from '../../../schemas/Property';
+import { Property } from '../../schemas';
 import { Creature } from '../../../Creature';
 import { Item } from '../../../schemas/Item';
 import { Attack } from '../../../Attack';
