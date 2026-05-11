@@ -1,0 +1,5 @@
+export const VARS = {
+    HITPOINTS_PER_BODY: 8,
+    HITPOINTS_BASE_VALUE: 20,
+    ARMOR_CLASS_BASE_VALUE: 8,
+};

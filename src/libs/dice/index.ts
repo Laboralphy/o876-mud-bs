@@ -83,7 +83,10 @@ export class Dice {
      * @param sFormula - The dice formula to roll (e.g., "2d6+3").
      * @return The result of the dice roll.
      */
-    roll(sFormula: string): number {
+    roll(sFormula: string | number): number {
+        if (typeof sFormula === 'number') {
+            return sFormula;
+        }
         const oFormula = this.cachexdy.get(sFormula);
         if (oFormula) {
             return this.rollDice(oFormula.sides, oFormula.count) + oFormula.modifier;
