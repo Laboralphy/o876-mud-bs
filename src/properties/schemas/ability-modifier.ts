@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import z from 'zod';
 import { AbilitySchema } from '../../schemas/enums/Ability';
 import { CONSTS } from '../../consts';
 
@@ -7,3 +7,5 @@ export const PropertySchemaAbilityModifier = z.strictObject({
     amp: z.number().int(), // ability modifier
     ability: AbilitySchema, // what ability is modified
 });
+
+export type PropertyAbilityModifier = z.infer<typeof PropertySchemaAbilityModifier>;
