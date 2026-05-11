@@ -4,7 +4,8 @@ import { GetterReturnType } from '../define-getters';
 import { Ability } from '../../schemas/enums/Ability';
 
 /**
- * The abilities modifier values
+ * Returns the abilities modifier values
+ * For each ability, calculates the total modifier by adding the base ability score and the bonus value.
  */
 export const getAbilities = (state: State, getters: GetterReturnType): Record<Ability, number> => {
     const bv = getters.getAbilityBonusValues;

@@ -2,7 +2,9 @@
 
 script_folder=$(dirname "$(realpath "$0")")
 target_folder=$(realpath "${script_folder}/../src/properties/schemas")
+program_folder=$(realpath "${script_folder}/../src/properties/programs")
 prop_schemas_index_ts="${target_folder}/index.ts"
+prop_program_index_ts="${program_folder}/index.ts"
 prop_const_ts=$(realpath "${script_folder}/../src/consts/property-types.json")
 
 source "$script_folder/iterate-files.inc.sh"
@@ -56,5 +58,35 @@ generatePropertyTypeIndex() {
     echo "}"
 }
 
+cmdProgramImport() {
+    local this_file="$1"
+    local bFirst="$2"
+    local class_name="$(grep -oP 'export class \K\S+' $this_file)"
+    local this_basefile_nots="$(basename $this_file .ts)"
+    echo "import { $class_name } from './$this_basefile_nots';"
+}
+
+cmdProgramClassRegister() {
+    local this_file="$1"
+    local bFirst="$2"
+    local class_name="$(grep -oP 'export class \K\S+' $this_file)"
+    local this_basefile_nots="$(basename $this_file .ts)"
+    local prop_key="PROPERTY_$(echo "$class_name" | sed -E 's/^PropertyProgram//; s/([A-Z])/_\1/g; s/^_//' | tr '[:lower:]' '[:upper:]')"
+    echo "    [CONSTS.$prop_key, new ${class_name}()],"
+}
+
+generatePropertyProgramIndex() {
+    echo "import { CONSTS } from '../../consts';"
+    echo "import { IProgram } from '../../interfaces/IProgram';"
+    echo "import { Property } from '../schemas';"
+    echo ""
+    iterateFiles ts "$program_folder" cmdProgramImport
+    echo ""
+    echo "export const propertyPrograms = new Map<string, IProgram<Property>>(["
+    iterateFiles ts "$program_folder" cmdProgramClassRegister
+    echo "]);"
+}
+
 generatePropertyTypeIndex > $prop_const_ts
 generatePropertySchemaIndex > $prop_schemas_index_ts
+generatePropertyProgramIndex > $prop_program_index_ts

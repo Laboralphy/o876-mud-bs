@@ -5,7 +5,6 @@ import { VARS } from '../../vars';
 
 /**
  * Return the maximum hit points
- * @param state
  */
 export const getMaxHitPoints = (state: State, getters: GetterReturnType) => {
     const abilities = getters.getAbilities;

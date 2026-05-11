@@ -6,6 +6,7 @@ import { CONSTS } from '../../consts';
 export const PropertyTypeSchema = z
     .enum([
         CONSTS.PROPERTY_ABILITY_MODIFIER,
+        CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER,
         CONSTS.PROPERTY_REGENERATION,
     ])
     .describe('fields.propertyType');

@@ -1,0 +1,163 @@
+import { describe, it, expect, beforeEach } from 'vitest';
+import { Creature } from '../../src/Creature';
+import { CONSTS } from '../../src/consts';
+import {
+    makeWeapon,
+    makeRegenProperty,
+    makeAbilityModifierProperty,
+} from './helpers';
+
+describe('getInnateProperties', () => {
+    let creature: Creature;
+
+    beforeEach(() => {
+        creature = new Creature('test');
+    });
+
+    it('returns empty array when creature has no properties', () => {
+        expect(creature.getters.getInnateProperties).toEqual([]);
+    });
+
+    it('returns the innate properties', () => {
+        const prop = makeAbilityModifierProperty(2);
+        creature.state.properties.push(prop);
+        expect(creature.getters.getInnateProperties).toHaveLength(1);
+    });
+
+    it('returns a copy — mutating the result does not affect state', () => {
+        creature.state.properties.push(makeAbilityModifierProperty(2));
+        const result = creature.getters.getInnateProperties;
+        result.pop();
+        expect(creature.state.properties).toHaveLength(1);
+    });
+
+    it('returns all innate properties', () => {
+        creature.state.properties.push(makeAbilityModifierProperty(2));
+        creature.state.properties.push(makeRegenProperty());
+        expect(creature.getters.getInnateProperties).toHaveLength(2);
+    });
+});
+
+describe('getActiveProperties', () => {
+    let creature: Creature;
+
+    beforeEach(() => {
+        creature = new Creature('test');
+    });
+
+    it('returns empty array when there are no properties', () => {
+        expect(creature.getters.getActiveProperties).toEqual([]);
+    });
+
+    it('returns properties that have a registered program', () => {
+        creature.state.properties.push(makeRegenProperty());
+        expect(creature.getters.getActiveProperties).toHaveLength(1);
+    });
+
+    it('filters out properties with no registered program', () => {
+        // PROPERTY_ABILITY_MODIFIER has no registered program
+        creature.state.properties.push(makeAbilityModifierProperty(2));
+        expect(creature.getters.getActiveProperties).toHaveLength(0);
+    });
+
+    it('includes equipment properties that have a registered program', () => {
+        const weapon = makeWeapon({
+            properties: [makeRegenProperty()],
+        });
+        creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
+        expect(creature.getters.getActiveProperties).toHaveLength(1);
+    });
+
+    it('combines innate and equipment active properties', () => {
+        creature.state.properties.push(makeRegenProperty());
+        const weapon = makeWeapon({ properties: [makeRegenProperty()] });
+        creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
+        expect(creature.getters.getActiveProperties).toHaveLength(2);
+    });
+});
+
+describe('getEquipmentSlotProperties', () => {
+    let creature: Creature;
+
+    beforeEach(() => {
+        creature = new Creature('test');
+    });
+
+    it('returns empty object when no items are equipped', () => {
+        expect(creature.getters.getEquipmentSlotProperties).toEqual({});
+    });
+
+    it('returns properties from weapon in offensive slot', () => {
+        const prop = makeAbilityModifierProperty(2);
+        const weapon = makeWeapon({ properties: [prop] });
+        creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
+        const slotProps = creature.getters.getEquipmentSlotProperties;
+        expect(slotProps[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE]).toHaveLength(1);
+    });
+
+    it('returns empty entry for slot with item but no properties', () => {
+        creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = makeWeapon();
+        const slotProps = creature.getters.getEquipmentSlotProperties;
+        expect(slotProps[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE]).toBeUndefined();
+    });
+
+    it('includes temporary properties with duration > 0', () => {
+        const weapon = makeWeapon({
+            temporaryProperties: [
+                {
+                    id: 'tp-1',
+                    duration: 3,
+                    tag: 'test',
+                    property: makeAbilityModifierProperty(1),
+                },
+            ],
+        });
+        creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
+        const slotProps = creature.getters.getEquipmentSlotProperties;
+        expect(slotProps[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE]).toHaveLength(1);
+    });
+
+    it('excludes temporary properties with duration of 0', () => {
+        const weapon = makeWeapon({
+            temporaryProperties: [
+                {
+                    id: 'tp-expired',
+                    duration: 0,
+                    tag: 'test',
+                    property: makeAbilityModifierProperty(1),
+                },
+            ],
+        });
+        creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
+        const slotProps = creature.getters.getEquipmentSlotProperties;
+        expect(slotProps[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE]).toBeUndefined();
+    });
+});
+
+describe('getEquipmentProperties', () => {
+    let creature: Creature;
+
+    beforeEach(() => {
+        creature = new Creature('test');
+    });
+
+    it('returns empty array when no items are equipped', () => {
+        expect(creature.getters.getEquipmentProperties).toEqual([]);
+    });
+
+    it('returns properties from a single equipped weapon', () => {
+        const weapon = makeWeapon({ properties: [makeAbilityModifierProperty(2)] });
+        creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
+        expect(creature.getters.getEquipmentProperties).toHaveLength(1);
+    });
+
+    it('flattens properties from multiple slots', () => {
+        creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = makeWeapon({
+            properties: [makeAbilityModifierProperty(2)],
+        });
+        // Put a regen property directly via innate to ensure slot properties are separate
+        creature.state.properties.push(makeAbilityModifierProperty(1));
+        // Equipment properties should not include innate ones
+        expect(creature.getters.getEquipmentProperties).toHaveLength(1);
+    });
+});

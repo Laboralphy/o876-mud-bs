@@ -2,10 +2,15 @@ import { buildStore } from './store';
 import { GetterOutput } from '@laboralphy/reactor';
 import { GetterReturnFunctions } from './store/define-getters';
 import { State } from './store/state';
-import { CONSTS } from './consts';
 import { Attack } from './Attack';
 import { Dice } from './libs/dice';
 import { Property } from './properties/schemas';
+import { clamp } from './libs/clamp';
+import { propertyPrograms } from './properties/programs';
+import { effectPrograms } from './effects/programs';
+import { IProgram } from './interfaces/IProgram';
+import { Effect } from './effects/schemas';
+import { DamageType } from './schemas/enums/DamageType';
 
 export class Creature {
     private readonly _store = buildStore();
@@ -23,48 +28,118 @@ export class Creature {
         return this._store.state;
     }
 
+    private _iterateThroughPropertiesAndEffects(
+        propCallback: (prop: Property, prog: IProgram<Property>) => void,
+        effCallback: (effect: Effect, prog: IProgram<Effect>) => void
+    ): void {
+        for (const prop of this.getters.getActiveProperties) {
+            propCallback(prop, propertyPrograms.get(prop.type)!);
+        }
+        for (const effect of this.getters.getActiveEffects) {
+            effCallback(effect, effectPrograms.get(effect.type)!);
+        }
+    }
+
     /**
      * Each turn this method is called to reflect Creature's elapsing time
      */
-    triggerMutateEvent() {}
+    triggerMutateEvent() {
+        // get all creature properties
+        // for each prop, check if a mutate program is registered
+        // run mutate program if registered
+        this._iterateThroughPropertiesAndEffects(
+            (prop, propProg) => {
+                if (propProg.mutate) {
+                    propProg.mutate(prop, this);
+                }
+            },
+            (effect, effProg) => {
+                if (effProg.mutate) {
+                    effProg.mutate(effect, this);
+                }
+            }
+        );
+    }
 
     /**
      * This method is called whenever the creature is delivering an attack to its target
      */
-    triggerAttackEvent(attack: Attack) {}
+    triggerAttackEvent(attack: Attack) {
+        this._iterateThroughPropertiesAndEffects(
+            (prop, propProg) => {
+                if (propProg.attack) {
+                    propProg.attack(prop, attack);
+                }
+            },
+            (effect, effProg) => {
+                if (effProg.attack) {
+                    effProg.attack(effect, attack);
+                }
+            }
+        );
+    }
 
     /**
      * This method is called whenever the creature is attacked, attack being either miss or hit
      */
-    triggerAttackedEvent(attack: Attack) {}
+    triggerAttackedEvent(attack: Attack) {
+        this._iterateThroughPropertiesAndEffects(
+            (prop, propProg) => {
+                if (propProg.attacked) {
+                    propProg.attacked(prop, attack);
+                }
+            },
+            (effect, effProg) => {
+                if (effProg.attacked) {
+                    effProg.attacked(effect, attack);
+                }
+            }
+        );
+    }
 
     /**
      * This method is called whenever the creature is damaged
      */
-    triggerDamagedEvent() {}
-
-    /**
-     * Return the creature maximum hitpoints
-     */
-    getHitPoints(): number {
-        return this._hitpoints;
+    triggerDamagedEvent(amount: number, damageType: DamageType, source: Creature | undefined) {
+        this._iterateThroughPropertiesAndEffects(
+            (prop, propProg) => {
+                if (propProg.damaged) {
+                    propProg.damaged(prop, amount, damageType, this, source);
+                }
+            },
+            (effect, effProg) => {
+                if (effProg.damaged) {
+                    effProg.damaged(effect, amount, damageType, this, source);
+                }
+            }
+        );
     }
 
     /**
-     * Sets the new amount of hitpoints a creature has.
-     * This value is clamped between 0 and max hitpoints
-     * @param value
+     * This method is called whenever the creature is inflicting damage to its target
      */
-    setHitPoints(value: number) {
-        this._hitpoints = Math.max(0, Math.min(value, this.getters.getMaxHitPoints));
+    triggerDamageEvent(amount: number, damageType: DamageType, target: Creature) {
+        this._iterateThroughPropertiesAndEffects(
+            (prop, propProg) => {
+                if (propProg.damage) {
+                    propProg.damage(prop, amount, damageType, this, target);
+                }
+            },
+            (effect, effProg) => {
+                if (effProg.damage) {
+                    effProg.damage(effect, amount, damageType, this, target);
+                }
+            }
+        );
     }
 
-    /**
-     * Modifies hitpoints, but not below 0 or above max hitpoints
-     * @param delta amount of hitpoints added (if positive) or subtracted (if negative)
-     */
-    modifyHitPoints(delta: number): void {
-        this.setHitPoints(this.getHitPoints() + delta);
+    get hitPoints(): number {
+        return clamp(this._hitpoints, 0, this.getters.getMaxHitPoints);
+    }
+
+    /** Clamped between 0 and max hitpoints */
+    set hitPoints(value: number) {
+        this._hitpoints = clamp(value, 0, this.getters.getMaxHitPoints);
     }
 
     /**

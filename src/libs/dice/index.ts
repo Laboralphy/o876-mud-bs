@@ -1,3 +1,5 @@
+import { clamp } from '../clamp';
+
 export const REGEX_XDY = /^\s*([-+]?)\s*(\d+)\s*[Dd]\s*(\d+)\s*(([-+])\s*(\d+))?\s*$/;
 const REGEX_NUM = /^([-+]?)\s*(\d+)\s*$/;
 
@@ -18,7 +20,7 @@ export class Dice {
      */
     cheat(value: number) {
         this.debug = true;
-        this.forceValue = Math.max(0, Math.min(1, value));
+        this.forceValue = clamp(value, 0, 1);
     }
 
     /**

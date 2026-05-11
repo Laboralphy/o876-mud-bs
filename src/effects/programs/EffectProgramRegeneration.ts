@@ -1,15 +1,15 @@
 import { Creature } from '../../Creature';
-import { PropertyRegeneration } from '../schemas/regeneration';
+import { EffectRegeneration } from '../schemas/regeneration';
 import { DamageType } from '../../schemas/enums/DamageType';
 import { IProgram } from '../../interfaces/IProgram';
 
-export class PropertyProgramRegeneration implements IProgram<PropertyRegeneration> {
+export class EffectProgramRegeneration implements IProgram<EffectRegeneration> {
     /**
      * each call, the creature is being healed, unless the hp fraction is above a threshold
      * @param prop
      * @param creature
      */
-    mutate(prop: PropertyRegeneration, creature: Creature): void {
+    mutate(prop: EffectRegeneration, creature: Creature): void {
         const dice = creature.dice;
         // amp, // regen amplitude
         // vulnerabilities, // liste of damage types the creature is vulnerable to
@@ -34,10 +34,10 @@ export class PropertyProgramRegeneration implements IProgram<PropertyRegeneratio
     }
 
     /**
-     * If damaged by a damage type present in the vulnerability, the shutdown property is increased
+     * If damaged by a damage type present in the vulnerability, the shutdown effect is increased
      * instead of the hitpoints
      */
-    damaged?(prop: PropertyRegeneration, amount: number, damageType: DamageType): void {
+    damaged?(prop: EffectRegeneration, amount: number, damageType: DamageType): void {
         const vulnerabilities = prop.vulnerabilities;
         if (vulnerabilities && vulnerabilities.includes(damageType)) {
             prop.shutdown += amount;

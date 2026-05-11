@@ -3,8 +3,7 @@ import { CONSTS } from '../../consts';
 import { Ability } from '../../schemas/enums/Ability';
 
 /**
- * The abilities base values, without any bonus
- * @param state
+ * The ability bonus (for each ability) is computed by adding properties and effects.
  */
 export const getAbilityBonusValues = (state: State): Record<Ability, number> => {
     return {
