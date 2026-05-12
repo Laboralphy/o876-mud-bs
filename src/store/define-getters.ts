@@ -9,7 +9,6 @@ import { getArmorClass } from './getters/getArmorClass';
 import { getDefensiveSlots } from './getters/getDefensiveSlots';
 import { getEffectSet } from './getters/getEffectSet';
 import { getEffects } from './getters/getEffects';
-import { getEnvironments } from './getters/getEnvironments';
 import { getEquipmentProperties } from './getters/getEquipmentProperties';
 import { getEquipmentSlotProperties } from './getters/getEquipmentSlotProperties';
 import { getInnateProperties } from './getters/getInnateProperties';
@@ -31,7 +30,6 @@ export type GetterReturnFunctions = {
     getDefensiveSlots: typeof getDefensiveSlots;
     getEffectSet: typeof getEffectSet;
     getEffects: typeof getEffects;
-    getEnvironments: typeof getEnvironments;
     getEquipmentProperties: typeof getEquipmentProperties;
     getEquipmentSlotProperties: typeof getEquipmentSlotProperties;
     getInnateProperties: typeof getInnateProperties;
@@ -56,7 +54,6 @@ export const Getters = {
     getDefensiveSlots,
     getEffectSet,
     getEffects,
-    getEnvironments,
     getEquipmentProperties,
     getEquipmentSlotProperties,
     getInnateProperties,

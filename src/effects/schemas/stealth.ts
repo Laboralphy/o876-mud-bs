@@ -1,9 +1,7 @@
 import z from 'zod';
 import { CONSTS } from '../../consts';
+import { BaseEffectSchema } from '../../schemas/BaseEffect';
 
-/**
- * Makes the creature able to see in dark environments
- */
-export const EffectStealth = z.strictObject({
+export const EffectStealth = BaseEffectSchema.extend({
     type: z.literal(CONSTS.EFFECT_STEALTH),
 });

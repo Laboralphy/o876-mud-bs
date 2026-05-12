@@ -16,12 +16,14 @@ import { PropertyType } from './schemas/enums/PropertyType';
 import { EffectType } from './schemas/enums/EffectType';
 import { CreatureVisibility } from './schemas/enums/CreatureVisibility';
 import { CONSTS } from './consts';
+import type { Location } from './libs/locations/Location';
 
 export class Creature {
     private readonly _store = buildStore();
     public readonly dice = new Dice();
 
     private _hitpoints: number = 1;
+    public location: Location | null = null;
 
     constructor(public readonly id: string) {}
 
@@ -206,11 +208,10 @@ export class Creature {
         const mg = this.getters;
         const tg = oTarget.getters;
         const myEffects = mg.getEffectSet;
-        const myProps = mg.getPropertySet;
-        const myEnv = mg.getEnvironments;
         const targetEffects = tg.getEffectSet;
-        const targetProps = tg.getPropertySet;
-        if (myEffects.has(CONSTS.EFFECT_BLINDNESS) || myEnv.has(CONSTS.ENVIRONMENT_FOG)) {
+        const bFog = this.location?.environments.has(CONSTS.ENVIRONMENT_FOG) ?? false;
+
+        if (myEffects.has(CONSTS.EFFECT_BLINDNESS) || bFog) {
             // Blinded creatures, or creature in fog cannot see target
             return CONSTS.CREATURE_VISIBILITY_BLINDED;
         }
@@ -225,23 +226,44 @@ export class Creature {
             // Stealth effect prevents target detection
             return CONSTS.CREATURE_VISIBILITY_HIDDEN;
         }
-        const bInDarkness = mg.getEnvironments.has(CONSTS.ENVIRONMENT_DARKNESS);
-        if (
-            bInDarkness &&
-            !myEffects.has(CONSTS.EFFECT_DARKVISION) &&
-            !myProps.has(CONSTS.PROPERTY_DARKVISION)
-        ) {
-            // if environment is dark, the creature cannot detect target
-            // unless:
-            // one of the two creatures has light source
-            // the creature has darkvision effect or property
-            return myProps.has(CONSTS.PROPERTY_LIGHT) ||
-                targetProps.has(CONSTS.PROPERTY_LIGHT) ||
-                myEffects.has(CONSTS.EFFECT_LIGHT) ||
-                targetEffects.has(CONSTS.EFFECT_LIGHT)
-                ? CONSTS.CREATURE_VISIBILITY_VISIBLE
-                : CONSTS.CREATURE_VISIBILITY_DARKNESS;
+        return this.isInBrightLocation()
+            ? CONSTS.CREATURE_VISIBILITY_VISIBLE
+            : CONSTS.CREATURE_VISIBILITY_DARKNESS;
+    }
+
+    /**
+     * Return true if this creature is using a light source enlightening surroundings
+     */
+    isWieldingLight(): boolean {
+        const mg = this.getters;
+        const myEffects = mg.getEffectSet;
+        const myProps = mg.getPropertySet;
+        return myEffects.has(CONSTS.EFFECT_LIGHT) || myProps.has(CONSTS.PROPERTY_LIGHT);
+    }
+
+    /**
+     * Return true if this creature is able to see in this room
+     * That means, if this creature is
+     * - not in a fog room
+     * - not in a dark room
+     * - in a dark room with a creature wielding light
+     */
+    isInBrightLocation(): boolean {
+        const location = this.location;
+        if (!location) {
+            return false;
         }
-        return CONSTS.CREATURE_VISIBILITY_VISIBLE;
+        if (location.environments.has(CONSTS.ENVIRONMENT_FOG)) {
+            return false;
+        }
+        if (location.environments.has(CONSTS.ENVIRONMENT_DARKNESS)) {
+            for (const creature of location.creatures) {
+                if (creature.isWieldingLight()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return true;
     }
 }
