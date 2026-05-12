@@ -11,5 +11,3 @@ export const PropertySchemaRegeneration = z.strictObject({
     shutdown: z.number().int().optional().default(0), // This is a working property, if > 0, regeneration will stop until this value is soaked down
     threshold: z.number().optional().default(0), // Above this value (hp/hpmax) the regeneration won't work
 });
-
-export type PropertyRegeneration = z.infer<typeof PropertySchemaRegeneration>;

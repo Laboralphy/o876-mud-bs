@@ -1,8 +1,8 @@
 import z from 'zod';
 import { CONSTS } from '../../consts';
 import { DamageTypeSchema } from '../../schemas/enums/DamageType';
-import { AttackTypeSchema } from '../../schemas/enums/AttackType';
 import { SpecieSchema } from '../../schemas/enums/Specie';
+import { AttackTypeSchema } from '../../schemas/enums/AttackType';
 
 /**
  * Armor class modifier

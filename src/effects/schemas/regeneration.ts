@@ -12,5 +12,3 @@ export const EffectRegenerationSchema = BaseEffectSchema.extend({
     shutdown: z.number().int().optional().default(0),
     threshold: z.number().int().optional().default(1),
 });
-
-export type EffectRegeneration = z.infer<typeof EffectRegenerationSchema>;

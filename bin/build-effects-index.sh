@@ -79,10 +79,11 @@ generateEffectProgramIndex() {
     echo "import { CONSTS } from '../../consts';"
     echo "import { IProgram } from '../../interfaces/IProgram';"
     echo "import { Effect } from '../schemas';"
+    echo "import { EffectType } from '../../schemas/enums/EffectType';"
     echo ""
     iterateFiles ts "$program_folder" cmdEffectProgramImport
     echo ""
-    echo "export const effectPrograms = new Map<string, IProgram<Effect>>(["
+    echo "export const effectPrograms = new Map<EffectType, IProgram<Effect>>(["
     iterateFiles ts "$program_folder" cmdEffectProgramClassRegister
     echo "]);"
 }

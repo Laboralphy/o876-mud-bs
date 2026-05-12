@@ -32,6 +32,15 @@ export function buildStore(): ReactiveStore<State, GetterReturnFunctions> {
             [CONSTS.EQUIPMENT_SLOT_NATURAL_WEAPON_3]: null,
         },
         selectedOffensiveSlot: CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE,
+        armorClass: 0,
+        environments: {
+            [CONSTS.ENVIRONMENT_DARKNESS]: false,
+            [CONSTS.ENVIRONMENT_FOG]: false,
+            [CONSTS.ENVIRONMENT_RAIN]: false,
+            [CONSTS.ENVIRONMENT_UNDERWATER]: false,
+            [CONSTS.ENVIRONMENT_WIND]: false,
+            [CONSTS.ENVIRONMENT_DIFFICULT_TERRAIN]: false,
+        },
     });
     return new ReactiveStore(state, Getters);
 }

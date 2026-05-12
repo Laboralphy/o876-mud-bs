@@ -35,7 +35,7 @@ export function getEquipmentSlotProperties(
     const ds = getters.getDefensiveSlots;
     const os = getters.getOffensiveSlots;
     const aSlots: EquipmentSlot[] = [...ds, ...os];
-    const oProperties: Record<EquipmentSlot, Property[]> = {};
+    const oProperties = {} as Record<EquipmentSlot, Property[]>;
     const eq = state.equipment;
     aSlots.forEach((slot) => {
         const oItem: Item | null = eq[slot];

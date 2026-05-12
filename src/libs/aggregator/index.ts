@@ -123,9 +123,10 @@ export function aggregateProperties(
                 return prop;
             }
         });
-    if (oFunctions?.forEach) {
+    const ffe = oFunctions?.forEach;
+    if (ffe) {
         // Applies a forEach function to all properties
-        aFilteredProperties.forEach(oFunctions.forEach);
+        aFilteredProperties.forEach(ffe);
     }
     const oDiscriminator: Record<string, AggregatorAccumulator> = {};
     if (typeof oFunctions?.discriminator === 'function') {
@@ -192,9 +193,10 @@ export function aggregateEffects(
                 return eff;
             }
         });
-    if (oFunctions?.forEach) {
+    const ffe = oFunctions?.forEach;
+    if (ffe) {
         // Applies a forEach function to all properties
-        aFilteredEffects.forEach(oFunctions.forEach);
+        aFilteredEffects.forEach(ffe);
     }
     const oDiscriminator: Record<string, AggregatorAccumulator> = {};
     if (typeof oFunctions?.discriminator === 'function') {
@@ -292,8 +294,10 @@ export function aggregate(
     options: AggregateOptions,
     getters: GetterReturnType
 ): AggregatorResult {
-    const effTypes = types.filter((t) => EffectTypeSchema.safeParse(t).success);
-    const propTypes = types.filter((t) => PropertyTypeSchema.safeParse(t).success);
+    const effTypes = types.filter((t) => EffectTypeSchema.safeParse(t).success) as EffectType[];
+    const propTypes = types.filter(
+        (t) => PropertyTypeSchema.safeParse(t).success
+    ) as PropertyType[];
     const propOptions = {
         excludeInnate: options.excludeInnate ?? false,
         restrictSlots: options.restrictSlots ?? [],

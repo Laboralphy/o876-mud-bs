@@ -121,25 +121,33 @@ describe('getArmorClass', () => {
         creature = new Creature('test');
     });
 
-    it('returns base AC when sense modifier is 0', () => {
-        // SENSE=10 → modifier=0 → AC = 8 + 0 + 0 = 8
-        expect(creature.getters.getArmorClass).toBe(VARS.ARMOR_CLASS_BASE_VALUE);
+    it('returns base AC when all modifiers are 0', () => {
+        // SENSE=10, BODY=10 → modifiers=0 → AC = 8 + 0 + 0 = 8
+        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE);
     });
 
     it('increases with positive sense modifier', () => {
-        // SENSE=14 → modifier=2 → AC = 8 + 2 + 1 = 11
+        // SENSE=14 → modifier=2 → AC = 8 + 2 + floor(0/2) = 10
         creature.state.abilities[CONSTS.ABILITY_SENSE] = 14;
-        expect(creature.getters.getArmorClass).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 2 + 1);
+        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 2);
     });
 
     it('decreases with negative sense modifier', () => {
-        // SENSE=8 → modifier=-1 → AC = 8 + (-1) + floor(-0.5) = 8 - 1 - 1 = 6
+        // SENSE=8 → modifier=-1 → AC = 8 + (-1) + floor(0/2) = 7
         creature.state.abilities[CONSTS.ABILITY_SENSE] = 8;
-        expect(creature.getters.getArmorClass).toBe(VARS.ARMOR_CLASS_BASE_VALUE - 1 - 1);
+        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE - 1);
     });
 
-    it('is not affected by body ability', () => {
-        creature.state.abilities[CONSTS.ABILITY_BODY] = 20;
-        expect(creature.getters.getArmorClass).toBe(VARS.ARMOR_CLASS_BASE_VALUE);
+    it('adds half body modifier', () => {
+        // BODY=14 → modifier=2 → AC = 8 + 0 + floor(2/2) = 9
+        creature.state.abilities[CONSTS.ABILITY_BODY] = 14;
+        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 1);
+    });
+
+    it('combines sense and body contributions', () => {
+        // SENSE=14 → +2, BODY=14 → floor(2/2)=1 → AC = 8 + 2 + 1 = 11
+        creature.state.abilities[CONSTS.ABILITY_SENSE] = 14;
+        creature.state.abilities[CONSTS.ABILITY_BODY] = 14;
+        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 2 + 1);
     });
 });

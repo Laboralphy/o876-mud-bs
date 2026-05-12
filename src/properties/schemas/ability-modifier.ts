@@ -7,5 +7,3 @@ export const PropertySchemaAbilityModifier = z.strictObject({
     amp: z.number().int(), // ability modifier
     ability: AbilitySchema, // what ability is modified
 });
-
-export type PropertyAbilityModifier = z.infer<typeof PropertySchemaAbilityModifier>;

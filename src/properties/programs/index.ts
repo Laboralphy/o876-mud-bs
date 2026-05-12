@@ -1,9 +1,10 @@
 import { CONSTS } from '../../consts';
 import { IProgram } from '../../interfaces/IProgram';
 import { Property } from '../schemas';
+import { PropertyType } from '../../schemas/enums/PropertyType';
 
 import { PropertyProgramRegeneration } from './PropertyProgramRegeneration';
 
-export const propertyPrograms = new Map<string, IProgram<Property>>([
+export const propertyPrograms = new Map<PropertyType, IProgram<Property>>([
     [CONSTS.PROPERTY_REGENERATION, new PropertyProgramRegeneration()],
 ]);

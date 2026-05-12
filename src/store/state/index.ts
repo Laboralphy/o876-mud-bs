@@ -4,6 +4,7 @@ import { PropertySchema } from '../../properties/schemas';
 import { EffectSchema } from '../../effects/schemas';
 import { EquipmentSchema } from '../../schemas/Equipment';
 import { EquipmentSlotSchema } from '../../schemas/enums/EquipmentSlot';
+import { EnvironmentSchema } from '../../schemas/enums/Environment';
 
 export const StateSchema = z.object({
     abilities: z.object({
@@ -16,6 +17,8 @@ export const StateSchema = z.object({
     effects: z.array(EffectSchema),
     equipment: EquipmentSchema,
     selectedOffensiveSlot: EquipmentSlotSchema,
+    armorClass: z.number().int(), // Natural armor class
+    environments: z.record(EnvironmentSchema, z.boolean().default(false)),
 });
 
 export type State = z.infer<typeof StateSchema>;

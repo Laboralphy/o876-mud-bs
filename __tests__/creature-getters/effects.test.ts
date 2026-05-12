@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Creature } from '../../src/Creature';
-import { makeEffect, makeRegenEffect } from './helpers';
+import { makeEffect, makeRegenEffect } from '../helpers/helpers';
 
 describe('getEffects', () => {
     let creature: Creature;

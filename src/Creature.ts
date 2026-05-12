@@ -4,13 +4,18 @@ import { GetterReturnFunctions } from './store/define-getters';
 import { State } from './store/state';
 import { Attack } from './Attack';
 import { Dice } from './libs/dice';
-import { Property } from './properties/schemas';
+import { Property, PropertySchema } from './properties/schemas';
 import { clamp } from './libs/clamp';
 import { propertyPrograms } from './properties/programs';
 import { effectPrograms } from './effects/programs';
 import { IProgram } from './interfaces/IProgram';
 import { Effect } from './effects/schemas';
 import { DamageType } from './schemas/enums/DamageType';
+import { aggregate, AggregateOptions } from './libs/aggregator';
+import { PropertyType } from './schemas/enums/PropertyType';
+import { EffectType } from './schemas/enums/EffectType';
+import { CreatureVisibility } from './schemas/enums/CreatureVisibility';
+import { CONSTS } from './consts';
 
 export class Creature {
     private readonly _store = buildStore();
@@ -27,6 +32,12 @@ export class Creature {
     get state(): State {
         return this._store.state;
     }
+
+    // ▗▖   ▗▖   ▄▖                     ▄▖
+    // ▐▌   ▄▖  ▟▙▖▗▛▜▖    ▗▛▀ ▐▌▐▌▗▛▀  ▐▌ ▗▛▜▖
+    // ▐▌   ▐▌  ▐▌ ▐▛▀▘    ▐▌  ▝▙▟▌▐▌   ▐▌ ▐▛▀▘
+    // ▝▀▀▘ ▀▀  ▝▘  ▀▀      ▀▀ ▗▄▛  ▀▀  ▀▀  ▀▀
+    // Life cycle
 
     private _iterateThroughPropertiesAndEffects(
         propCallback: (prop: Property, prog: IProgram<Property>) => void,
@@ -143,11 +154,33 @@ export class Creature {
     }
 
     /**
+     * Will aggregate properties and return sum, min, max, and count
+     * @param types - Types of properties or effects to aggregate.
+     * @param options - Options to filter the properties to aggregate.
+     * @returns An object containing aggregated values. @see AggregatorResult
+     */
+    aggregate(types: (EffectType | PropertyType)[], options: AggregateOptions) {
+        return aggregate(types, options, this.getters);
+    }
+
+    // ▗▄▄▖  ▄▖  ▄▖         ▗▖                                          ▗▖
+    // ▐▙▄  ▟▙▖ ▟▙▖▗▛▜▖▗▛▀ ▝▜▛▘    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
+    // ▐▌   ▐▌  ▐▌ ▐▛▀▘▐▌   ▐▌     ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
+    // ▝▀▀▘ ▝▘  ▝▘  ▀▀  ▀▀   ▀▘    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
+    // Effect management
+
+    // ▗▄▄                      ▗▖                                              ▗▖
+    // ▐▌▐▌▐▛▜▖▗▛▜▖▐▛▜▖▗▛▜▖▐▛▜▖▝▜▛▘▐▌▐▌    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
+    // ▐▛▀ ▐▌  ▐▌▐▌▐▙▟▘▐▛▀▘▐▌   ▐▌ ▝▙▟▌    ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
+    // ▝▘  ▝▘   ▀▀ ▐▌   ▀▀ ▝▘    ▀▘▗▄▛     ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
+    // Property management
+
+    /**
      * adds a new innate property
      * @param property
      */
     addInnateProperty(property: Property): void {
-        this.state.properties.push(property);
+        this.state.properties.push(PropertySchema.parse(property));
     }
 
     /**
@@ -159,5 +192,56 @@ export class Creature {
         if (i >= 0) {
             this.state.properties.splice(i, 1);
         }
+    }
+
+    /**
+     * Returns true if this creature can detect its target
+     * @param oTarget {Creature}
+     * @return {string} CREATURE_VISIBILITY_*
+     */
+    getCreatureVisibility(oTarget: Creature): CreatureVisibility {
+        if (oTarget === this) {
+            return CONSTS.CREATURE_VISIBILITY_VISIBLE;
+        }
+        const mg = this.getters;
+        const tg = oTarget.getters;
+        const myEffects = mg.getEffectSet;
+        const myProps = mg.getPropertySet;
+        const myEnv = mg.getEnvironments;
+        const targetEffects = tg.getEffectSet;
+        const targetProps = tg.getPropertySet;
+        if (myEffects.has(CONSTS.EFFECT_BLINDNESS) || myEnv.has(CONSTS.ENVIRONMENT_FOG)) {
+            // Blinded creatures, or creature in fog cannot see target
+            return CONSTS.CREATURE_VISIBILITY_BLINDED;
+        }
+        if (
+            targetEffects.has(CONSTS.EFFECT_INVISIBILITY) &&
+            !myEffects.has(CONSTS.EFFECT_SEE_INVISIBILITY)
+        ) {
+            // Invisibility effect prevents target detection unless creature has see invisibility effect
+            return CONSTS.CREATURE_VISIBILITY_INVISIBLE;
+        }
+        if (targetEffects.has(CONSTS.EFFECT_STEALTH)) {
+            // Stealth effect prevents target detection
+            return CONSTS.CREATURE_VISIBILITY_HIDDEN;
+        }
+        const bInDarkness = mg.getEnvironments.has(CONSTS.ENVIRONMENT_DARKNESS);
+        if (
+            bInDarkness &&
+            !myEffects.has(CONSTS.EFFECT_DARKVISION) &&
+            !myProps.has(CONSTS.PROPERTY_DARKVISION)
+        ) {
+            // if environment is dark, the creature cannot detect target
+            // unless:
+            // one of the two creatures has light source
+            // the creature has darkvision effect or property
+            return myProps.has(CONSTS.PROPERTY_LIGHT) ||
+                targetProps.has(CONSTS.PROPERTY_LIGHT) ||
+                myEffects.has(CONSTS.EFFECT_LIGHT) ||
+                targetEffects.has(CONSTS.EFFECT_LIGHT)
+                ? CONSTS.CREATURE_VISIBILITY_VISIBLE
+                : CONSTS.CREATURE_VISIBILITY_DARKNESS;
+        }
+        return CONSTS.CREATURE_VISIBILITY_VISIBLE;
     }
 }

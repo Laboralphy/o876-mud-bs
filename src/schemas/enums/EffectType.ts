@@ -7,7 +7,13 @@ export const EffectTypeSchema = z
     .enum([
         CONSTS.EFFECT_ABILITY_MODIFIER,
         CONSTS.EFFECT_ARMOR_CLASS_MODIFIER,
+        CONSTS.EFFECT_BLINDNESS,
+        CONSTS.EFFECT_DARKVISION,
+        CONSTS.EFFECT_INVISIBILITY,
+        CONSTS.EFFECT_LIGHT,
         CONSTS.EFFECT_REGENERATION,
+        CONSTS.EFFECT_SEE_INVISIBILITY,
+        CONSTS.EFFECT_STEALTH,
     ])
     .describe('fields.effectType');
 

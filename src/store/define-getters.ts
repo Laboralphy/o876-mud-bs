@@ -7,12 +7,15 @@ import { getActiveEffects } from './getters/getActiveEffects';
 import { getActiveProperties } from './getters/getActiveProperties';
 import { getArmorClass } from './getters/getArmorClass';
 import { getDefensiveSlots } from './getters/getDefensiveSlots';
+import { getEffectSet } from './getters/getEffectSet';
 import { getEffects } from './getters/getEffects';
+import { getEnvironments } from './getters/getEnvironments';
 import { getEquipmentProperties } from './getters/getEquipmentProperties';
 import { getEquipmentSlotProperties } from './getters/getEquipmentSlotProperties';
 import { getInnateProperties } from './getters/getInnateProperties';
 import { getMaxHitPoints } from './getters/getMaxHitPoints';
 import { getOffensiveSlots } from './getters/getOffensiveSlots';
+import { getPropertySet } from './getters/getPropertySet';
 import { getSelectedWeaponAttributeSet } from './getters/getSelectedWeaponAttributeSet';
 import { isRangedWeaponLoaded } from './getters/isRangedWeaponLoaded';
 import { isWieldingShield } from './getters/isWieldingShield';
@@ -26,12 +29,15 @@ export type GetterReturnFunctions = {
     getActiveProperties: typeof getActiveProperties;
     getArmorClass: typeof getArmorClass;
     getDefensiveSlots: typeof getDefensiveSlots;
+    getEffectSet: typeof getEffectSet;
     getEffects: typeof getEffects;
+    getEnvironments: typeof getEnvironments;
     getEquipmentProperties: typeof getEquipmentProperties;
     getEquipmentSlotProperties: typeof getEquipmentSlotProperties;
     getInnateProperties: typeof getInnateProperties;
     getMaxHitPoints: typeof getMaxHitPoints;
     getOffensiveSlots: typeof getOffensiveSlots;
+    getPropertySet: typeof getPropertySet;
     getSelectedWeaponAttributeSet: typeof getSelectedWeaponAttributeSet;
     isRangedWeaponLoaded: typeof isRangedWeaponLoaded;
     isWieldingShield: typeof isWieldingShield;
@@ -48,12 +54,15 @@ export const Getters = {
     getActiveProperties,
     getArmorClass,
     getDefensiveSlots,
+    getEffectSet,
     getEffects,
+    getEnvironments,
     getEquipmentProperties,
     getEquipmentSlotProperties,
     getInnateProperties,
     getMaxHitPoints,
     getOffensiveSlots,
+    getPropertySet,
     getSelectedWeaponAttributeSet,
     isRangedWeaponLoaded,
     isWieldingShield,

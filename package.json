@@ -15,7 +15,7 @@
         "build-data": "./bin/build-data.sh"
     },
     "devDependencies": {
-        "@types/node": "^25.6.0",
+        "@types/node": "^25.7.0",
         "eslint": "^10.2.0",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-prettier": "^5.5.5",

@@ -7,6 +7,8 @@ export const PropertyTypeSchema = z
     .enum([
         CONSTS.PROPERTY_ABILITY_MODIFIER,
         CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER,
+        CONSTS.PROPERTY_DARKVISION,
+        CONSTS.PROPERTY_LIGHT,
         CONSTS.PROPERTY_REGENERATION,
     ])
     .describe('fields.propertyType');

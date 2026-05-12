@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { CONSTS } from '../../src/consts';
-import { makeWeapon, makeAmmo, makeShield } from './helpers';
+import { makeWeapon, makeAmmo, makeShield } from '../helpers/helpers';
 
 describe('isRangedWeaponLoaded', () => {
     let creature: Creature;

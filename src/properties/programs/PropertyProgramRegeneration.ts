@@ -1,34 +1,33 @@
+import { z } from 'zod';
 import { Creature } from '../../Creature';
-import { PropertyRegeneration } from '../schemas/regeneration';
 import { DamageType } from '../../schemas/enums/DamageType';
 import { IProgram } from '../../interfaces/IProgram';
+import { Property } from '../schemas';
+import { PropertySchemaRegeneration } from '../schemas/regeneration';
 
-export class PropertyProgramRegeneration implements IProgram<PropertyRegeneration> {
+type PropertyRegeneration = z.infer<typeof PropertySchemaRegeneration>;
+
+export class PropertyProgramRegeneration implements IProgram<Property> {
     /**
      * each call, the creature is being healed, unless the hp fraction is above a threshold
      * @param prop
      * @param creature
      */
-    mutate(prop: PropertyRegeneration, creature: Creature): void {
+    mutate(prop: Property, creature: Creature): void {
+        const p = prop as PropertyRegeneration;
         const dice = creature.dice;
-        // amp, // regen amplitude
-        // vulnerabilities, // liste of damage types the creature is vulnerable to
-        // useBodyModifier, // should i use body modifier to increase amount
-        // shutdown, // number of hitpoint to soak up before regenerating again
-        // threshold // Above this value, no regeneration
-        let amount: number = dice.roll(prop.amp);
-        if (prop.shutdown > amount) {
-            prop.shutdown -= amount;
+        let amount: number = dice.roll(p.amp);
+        if (p.shutdown > amount) {
+            p.shutdown -= amount;
             return;
         }
-        if (prop.shutdown > 0) {
-            amount -= prop.shutdown;
-            prop.shutdown = 0;
+        if (p.shutdown > 0) {
+            amount -= p.shutdown;
+            p.shutdown = 0;
         }
         const hpmax = creature.getters.getMaxHitPoints;
         const hp = creature.hitPoints;
-        const frac = hp / hpmax;
-        if (amount > 0 && frac < prop.threshold) {
+        if (amount > 0 && hp / hpmax < p.threshold) {
             creature.hitPoints += amount;
         }
     }
@@ -37,10 +36,10 @@ export class PropertyProgramRegeneration implements IProgram<PropertyRegeneratio
      * If damaged by a damage type present in the vulnerability, the shutdown property is increased
      * instead of the hitpoints
      */
-    damaged?(prop: PropertyRegeneration, amount: number, damageType: DamageType): void {
-        const vulnerabilities = prop.vulnerabilities;
-        if (vulnerabilities && vulnerabilities.includes(damageType)) {
-            prop.shutdown += amount;
+    damaged?(prop: Property, amount: number, damageType: DamageType): void {
+        const p = prop as PropertyRegeneration;
+        if (p.vulnerabilities?.includes(damageType)) {
+            p.shutdown += amount;
         }
     }
 }

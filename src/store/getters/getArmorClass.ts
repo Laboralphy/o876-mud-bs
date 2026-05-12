@@ -3,9 +3,77 @@ import { GetterReturnType } from '../define-getters';
 import { VARS } from '../../vars';
 import { Ability } from '../../schemas/enums/Ability';
 import { CONSTS } from '../../consts';
+import { aggregate } from '../../libs/aggregator';
+import { AttackType } from '../../schemas/enums/AttackType';
+import { Specie } from '../../schemas/enums/Specie';
+import { DamageType } from '../../schemas/enums/DamageType';
 
-export function getArmorClass(state: State, getters: GetterReturnType): number {
+export type ArmorClassStruct = {
+    base: number;
+    attackTypes: Map<AttackType, number>;
+    species: Map<Specie, number>;
+    damageTypes: Map<DamageType, number>;
+};
+
+function incRegistry<T extends AttackType | Specie | DamageType>(
+    registry: Map<T, number>,
+    key: T,
+    value: number
+) {
+    const re = registry.get(key) ?? 0;
+    registry.set(key, re + value);
+}
+
+export function getArmorClass(state: State, getters: GetterReturnType): ArmorClassStruct {
     const acbv = VARS.ARMOR_CLASS_BASE_VALUE;
     const am: Record<Ability, number> = getters.getAbilityModifiers;
-    return acbv + am[CONSTS.ABILITY_SENSE] + Math.floor(am[CONSTS.ABILITY_SENSE] / 2);
+    const acAbilities = acbv + am[CONSTS.ABILITY_SENSE] + Math.floor(am[CONSTS.ABILITY_BODY] / 2);
+    const acNatural = state.armorClass;
+    const acAttackTypes = new Map<AttackType, number>();
+    const acSpecies = new Map<Specie, number>();
+    const acDamageTypes = new Map<DamageType, number>();
+    aggregate(
+        [CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER, CONSTS.EFFECT_ARMOR_CLASS_MODIFIER],
+        {
+            effects: {
+                forEach: (effect) => {
+                    if (effect.type === CONSTS.EFFECT_ARMOR_CLASS_MODIFIER) {
+                        const amp = effect.amp;
+                        if (effect.attackType) {
+                            incRegistry(acAttackTypes, effect.attackType, amp);
+                        }
+                        if (effect.specie) {
+                            incRegistry(acSpecies, effect.specie, amp);
+                        }
+                        if (effect.damageType) {
+                            incRegistry(acDamageTypes, effect.damageType, amp);
+                        }
+                    }
+                },
+            },
+            properties: {
+                forEach: (property) => {
+                    if (property.type === CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER) {
+                        const amp = property.amp;
+                        if (property.attackType) {
+                            incRegistry(acAttackTypes, property.attackType, amp);
+                        }
+                        if (property.specie) {
+                            incRegistry(acSpecies, property.specie, amp);
+                        }
+                        if (property.damageType) {
+                            incRegistry(acDamageTypes, property.damageType, amp);
+                        }
+                    }
+                },
+            },
+        },
+        getters
+    );
+    return {
+        base: acNatural + acAbilities,
+        attackTypes: acAttackTypes,
+        species: acSpecies,
+        damageTypes: acDamageTypes,
+    };
 }

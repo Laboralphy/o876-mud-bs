@@ -5,7 +5,7 @@ import { GetterReturnType } from '../define-getters';
 
 export function getOffensiveSlots(state: State, getters: GetterReturnType): EquipmentSlot[] {
     const sOffensiveSlot = state.selectedOffensiveSlot;
-    const aSlots = [sOffensiveSlot];
+    const aSlots: EquipmentSlot[] = [sOffensiveSlot];
     if (sOffensiveSlot === CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED && getters.isRangedWeaponLoaded) {
         aSlots.push(CONSTS.EQUIPMENT_SLOT_AMMO);
     }

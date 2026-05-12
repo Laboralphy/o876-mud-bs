@@ -79,10 +79,11 @@ generatePropertyProgramIndex() {
     echo "import { CONSTS } from '../../consts';"
     echo "import { IProgram } from '../../interfaces/IProgram';"
     echo "import { Property } from '../schemas';"
+    echo "import { PropertyType } from '../../schemas/enums/PropertyType';"
     echo ""
     iterateFiles ts "$program_folder" cmdProgramImport
     echo ""
-    echo "export const propertyPrograms = new Map<string, IProgram<Property>>(["
+    echo "export const propertyPrograms = new Map<PropertyType, IProgram<Property>>(["
     iterateFiles ts "$program_folder" cmdProgramClassRegister
     echo "]);"
 }

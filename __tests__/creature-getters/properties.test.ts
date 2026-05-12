@@ -1,11 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { CONSTS } from '../../src/consts';
-import {
-    makeWeapon,
-    makeRegenProperty,
-    makeAbilityModifierProperty,
-} from './helpers';
+import { makeWeapon, makeRegenProperty, makeAbilityModifierProperty } from '../helpers/helpers';
 
 describe('getInnateProperties', () => {
     let creature: Creature;

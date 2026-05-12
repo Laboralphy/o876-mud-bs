@@ -9,7 +9,7 @@ import { GetterReturnType } from '../define-getters';
  * including whether a two-handed weapon is wielded.
  */
 export function getDefensiveSlots(state: State, getters: GetterReturnType): EquipmentSlot[] {
-    const aSlots: string[] = [
+    const aSlots: EquipmentSlot[] = [
         CONSTS.EQUIPMENT_SLOT_HEAD,
         CONSTS.EQUIPMENT_SLOT_NECK,
         CONSTS.EQUIPMENT_SLOT_CHEST,

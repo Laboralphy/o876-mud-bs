@@ -7,7 +7,6 @@ export const AttackTypeSchema = z
     .enum([
         CONSTS.ATTACK_TYPE_MELEE,
         CONSTS.ATTACK_TYPE_RANGED,
-        CONSTS.ATTACK_TYPE_HOMING,
     ])
     .describe('fields.attackType');
 

@@ -5,7 +5,6 @@ import { CONSTS } from '../../consts';
 
 export const EquipmentSlotSchema = z
     .enum([
-        CONSTS.EQUIPMENT_SLOT_INVALID,
         CONSTS.EQUIPMENT_SLOT_HEAD,
         CONSTS.EQUIPMENT_SLOT_NECK,
         CONSTS.EQUIPMENT_SLOT_CHEST,
