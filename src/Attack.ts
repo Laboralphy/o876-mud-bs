@@ -33,12 +33,20 @@ export class Attack {
     public lethal: boolean = false; // true when the target is killed during the attack
     public failed: boolean = false; // The attack failed
     public failure: string = ''; // reason why attack failed
-    public visibility: CreatureVisibility = CONSTS.CREATURE_VISIBILITY_VISIBLE; // Target visibility
+    public targetVisibility: CreatureVisibility = CONSTS.CREATURE_VISIBILITY_VISIBLE; // Target visibility
+    public attackerVisibility: CreatureVisibility = CONSTS.CREATURE_VISIBILITY_VISIBLE; // Target visibility
 
     constructor(
         public readonly attacker: Creature,
         public readonly target: Creature
-    ) {}
+    ) {
+        this.targetVisibility = this.attacker.getCreatureVisibility(this.target);
+        this.attackerVisibility = this.target.getCreatureVisibility(this.attacker);
+    }
+
+    get id(): string {
+        return this._id;
+    }
 
     set attackBonus(value: number) {
         this.diceRoll.modifier = value;
@@ -50,5 +58,20 @@ export class Attack {
 
     get roll(): number {
         return this.diceRoll.roll;
+    }
+
+    run() {
+        if (
+            this.targetVisibility !== CONSTS.CREATURE_VISIBILITY_VISIBLE &&
+            this.attackerVisibility === CONSTS.CREATURE_VISIBILITY_VISIBLE
+        ) {
+            // target has 50% chance avoiding attack because of visibility
+            // if both creature cannot see target, no maluses apply
+            const d = new DiceRoll('1d100');
+            if (d.roll < 50) {
+                this.failed = true;
+                this.failure = CONSTS.ATTACK_FAILURE_VISIBILITY;
+            }
+        }
     }
 }

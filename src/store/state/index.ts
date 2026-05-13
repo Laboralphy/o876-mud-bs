@@ -18,7 +18,6 @@ export const StateSchema = z.object({
     equipment: EquipmentSchema,
     selectedOffensiveSlot: EquipmentSlotSchema,
     armorClass: z.number().int(), // Natural armor class
-    environments: z.record(EnvironmentSchema, z.boolean().default(false)),
 });
 
 export type State = z.infer<typeof StateSchema>;

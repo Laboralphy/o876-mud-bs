@@ -4,7 +4,7 @@ import { GetterReturnType } from '../define-getters';
 import { Ability } from '../../schemas/enums/Ability';
 
 function mod(stat: number): number {
-    return Math.floor((stat - 10) / 2);
+    return Math.floor(stat / 2) - 5;
 }
 
 /**

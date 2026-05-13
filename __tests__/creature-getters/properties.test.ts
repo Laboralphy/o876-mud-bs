@@ -130,6 +130,37 @@ describe('getEquipmentSlotProperties', () => {
     });
 });
 
+describe('removeInnateProperty', () => {
+    it('removes the matching property and leaves the rest intact', () => {
+        const creature = new Creature('test');
+
+        creature.addInnateProperty(makeAbilityModifierProperty(2));
+        creature.addInnateProperty(makeAbilityModifierProperty(4));
+        creature.addInnateProperty({ type: CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER, amp: 3 });
+
+        // Grab the stored reference for the ability modifier we want to remove
+        const toRemove = creature.state.properties.find(
+            (p) => p.type === CONSTS.PROPERTY_ABILITY_MODIFIER
+        )!;
+        creature.removeInnateProperty(toRemove);
+
+        expect(creature.state.properties).toHaveLength(2);
+        expect(creature.state.properties.some((p) => p === toRemove)).toBe(false);
+        expect(creature.state.properties.filter((p) => p.type === CONSTS.PROPERTY_ABILITY_MODIFIER)).toHaveLength(1);
+        expect(creature.state.properties.some((p) => p.type === CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER)).toBe(true);
+    });
+
+    it('does nothing when the property is not in the list', () => {
+        const creature = new Creature('test');
+        creature.addInnateProperty(makeAbilityModifierProperty(2));
+
+        const stranger = makeAbilityModifierProperty(2); // different object, not stored
+        creature.removeInnateProperty(stranger);
+
+        expect(creature.state.properties).toHaveLength(1);
+    });
+});
+
 describe('getEquipmentProperties', () => {
     let creature: Creature;
 
