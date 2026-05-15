@@ -3,10 +3,10 @@ import { getAbilities } from './getters/getAbilities';
 import { getAbilityBaseValues } from './getters/getAbilityBaseValues';
 import { getAbilityBonusValues } from './getters/getAbilityBonusValues';
 import { getAbilityModifiers } from './getters/getAbilityModifiers';
-import { getCrossedAbilityModifiers } from './getters/getCrossedAbilityModifiers';
 import { getActiveEffects } from './getters/getActiveEffects';
 import { getActiveProperties } from './getters/getActiveProperties';
 import { getArmorClass } from './getters/getArmorClass';
+import { getCrossedAbilityModifiers } from './getters/getCrossedAbilityModifiers';
 import { getDefensiveSlots } from './getters/getDefensiveSlots';
 import { getEffectSet } from './getters/getEffectSet';
 import { getEffects } from './getters/getEffects';
@@ -25,10 +25,10 @@ export type GetterReturnFunctions = {
     getAbilityBaseValues: typeof getAbilityBaseValues;
     getAbilityBonusValues: typeof getAbilityBonusValues;
     getAbilityModifiers: typeof getAbilityModifiers;
-    getCrossedAbilityModifiers: typeof getCrossedAbilityModifiers;
     getActiveEffects: typeof getActiveEffects;
     getActiveProperties: typeof getActiveProperties;
     getArmorClass: typeof getArmorClass;
+    getCrossedAbilityModifiers: typeof getCrossedAbilityModifiers;
     getDefensiveSlots: typeof getDefensiveSlots;
     getEffectSet: typeof getEffectSet;
     getEffects: typeof getEffects;
@@ -50,10 +50,10 @@ export const Getters = {
     getAbilityBaseValues,
     getAbilityBonusValues,
     getAbilityModifiers,
-    getCrossedAbilityModifiers,
     getActiveEffects,
     getActiveProperties,
     getArmorClass,
+    getCrossedAbilityModifiers,
     getDefensiveSlots,
     getEffectSet,
     getEffects,

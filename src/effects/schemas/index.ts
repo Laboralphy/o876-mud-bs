@@ -10,15 +10,15 @@ import { EffectDamageImmunity } from './damage-immunity';
 import { EffectDamageModifier } from './damage-modifier';
 import { EffectDamageReduction } from './damage-reduction';
 import { EffectDamageResistance } from './damage-resistance';
-import { EffectDamageVulnerability } from './damage-vulnerability';
 import { EffectDamage } from './damage';
+import { EffectDamageVulnerability } from './damage-vulnerability';
 import { EffectDarkvision } from './darkvision';
 import { EffectDisease } from './disease';
 import { EffectExtraHitpoints } from './extra-hitpoints';
 import { EffectFear } from './fear';
-import { EffectHeal } from './heal';
 import { EffectHealingFactor } from './healing-factor';
 import { EffectHealingModifier } from './healing-modifier';
+import { EffectHeal } from './heal';
 import { EffectInvisibility } from './invisibility';
 import { EffectLight } from './light';
 import { EffectParalysis } from './paralysis';
@@ -43,15 +43,15 @@ export const EffectSchema = z.discriminatedUnion('type', [
     EffectDamageModifier,
     EffectDamageReduction,
     EffectDamageResistance,
-    EffectDamageVulnerability,
     EffectDamage,
+    EffectDamageVulnerability,
     EffectDarkvision,
     EffectDisease,
     EffectExtraHitpoints,
     EffectFear,
-    EffectHeal,
     EffectHealingFactor,
     EffectHealingModifier,
+    EffectHeal,
     EffectInvisibility,
     EffectLight,
     EffectParalysis,

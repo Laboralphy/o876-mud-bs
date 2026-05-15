@@ -2,6 +2,9 @@
 
 script_folder=$(dirname "$(realpath "$0")")
 
+echo "generating skill constants"
+$script_folder/build-skill-consts.sh
+
 echo "generating property schema index, and property type index."
 $script_folder/build-properties-index.sh
 

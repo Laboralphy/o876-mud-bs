@@ -47,6 +47,7 @@ generateFile EquipItemOutcome equip-item-outcomes
 generateFile EquipmentSlot equipment-slots
 generateFile Proficiency proficiencies
 generateFile PropertyType property-types
+generateFile Skill skills
 generateFile Specie species
 generateFile ThreatType threat-types
 generateFile WeaponAttribute weapon-attributes
