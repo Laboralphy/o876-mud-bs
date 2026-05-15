@@ -10,18 +10,20 @@ import { EffectDamageImmunity } from './damage-immunity';
 import { EffectDamageModifier } from './damage-modifier';
 import { EffectDamageReduction } from './damage-reduction';
 import { EffectDamageResistance } from './damage-resistance';
-import { EffectDamage } from './damage';
 import { EffectDamageVulnerability } from './damage-vulnerability';
+import { EffectDamage } from './damage';
 import { EffectDarkvision } from './darkvision';
+import { EffectDisease } from './disease';
 import { EffectExtraHitpoints } from './extra-hitpoints';
 import { EffectFear } from './fear';
+import { EffectHeal } from './heal';
 import { EffectHealingFactor } from './healing-factor';
 import { EffectHealingModifier } from './healing-modifier';
-import { EffectHeal } from './heal';
 import { EffectInvisibility } from './invisibility';
 import { EffectLight } from './light';
 import { EffectParalysis } from './paralysis';
 import { EffectPetrification } from './petrification';
+import { EffectPoison } from './poison';
 import { EffectRegenerationSchema } from './regeneration';
 import { EffectSeeInvisibility } from './see-invisibility';
 import { EffectSkillModifier } from './skill-modifier';
@@ -41,18 +43,20 @@ export const EffectSchema = z.discriminatedUnion('type', [
     EffectDamageModifier,
     EffectDamageReduction,
     EffectDamageResistance,
-    EffectDamage,
     EffectDamageVulnerability,
+    EffectDamage,
     EffectDarkvision,
+    EffectDisease,
     EffectExtraHitpoints,
     EffectFear,
+    EffectHeal,
     EffectHealingFactor,
     EffectHealingModifier,
-    EffectHeal,
     EffectInvisibility,
     EffectLight,
     EffectParalysis,
     EffectPetrification,
+    EffectPoison,
     EffectRegenerationSchema,
     EffectSeeInvisibility,
     EffectSkillModifier,

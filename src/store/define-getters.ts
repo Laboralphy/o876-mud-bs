@@ -3,6 +3,7 @@ import { getAbilities } from './getters/getAbilities';
 import { getAbilityBaseValues } from './getters/getAbilityBaseValues';
 import { getAbilityBonusValues } from './getters/getAbilityBonusValues';
 import { getAbilityModifiers } from './getters/getAbilityModifiers';
+import { getCrossedAbilityModifiers } from './getters/getCrossedAbilityModifiers';
 import { getActiveEffects } from './getters/getActiveEffects';
 import { getActiveProperties } from './getters/getActiveProperties';
 import { getArmorClass } from './getters/getArmorClass';
@@ -24,6 +25,7 @@ export type GetterReturnFunctions = {
     getAbilityBaseValues: typeof getAbilityBaseValues;
     getAbilityBonusValues: typeof getAbilityBonusValues;
     getAbilityModifiers: typeof getAbilityModifiers;
+    getCrossedAbilityModifiers: typeof getCrossedAbilityModifiers;
     getActiveEffects: typeof getActiveEffects;
     getActiveProperties: typeof getActiveProperties;
     getArmorClass: typeof getArmorClass;
@@ -48,6 +50,7 @@ export const Getters = {
     getAbilityBaseValues,
     getAbilityBonusValues,
     getAbilityModifiers,
+    getCrossedAbilityModifiers,
     getActiveEffects,
     getActiveProperties,
     getArmorClass,

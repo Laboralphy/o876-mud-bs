@@ -38,6 +38,7 @@ generateFile AmmoType ammo-types
 generateFile AttackType attack-types
 generateFile CreatureVisibility creature-visibility
 generateFile DamageType damage-types
+generateFile Disease diseases
 generateFile EffectType effect-types
 generateFile EffectSubtype effect-subtypes
 generateFile EntityType entity-types
@@ -47,5 +48,6 @@ generateFile EquipmentSlot equipment-slots
 generateFile Proficiency proficiencies
 generateFile PropertyType property-types
 generateFile Specie species
+generateFile ThreatType threat-types
 generateFile WeaponAttribute weapon-attributes
 generateFile WeaponSize weapon-sizes
