@@ -114,11 +114,11 @@ export function aggregateProperties(
                 aTypeSet.has(ip.type) && (oFunctions?.filter ? oFunctions.filter(ip) : true)
         )
         .map((prop: Property): Property => {
-            if ('amp' in prop) {
-                return {
-                    ...prop,
-                    amp: oFunctions?.ampMapper ? oFunctions.ampMapper(prop) : dice.roll(prop.amp),
-                };
+            if ('amp' in prop.data) {
+                const mappedAmp = oFunctions?.ampMapper
+                    ? oFunctions.ampMapper(prop)
+                    : dice.roll((prop.data as any).amp);
+                return { ...prop, data: { ...prop.data, amp: mappedAmp } } as Property;
             } else {
                 return prop;
             }
@@ -133,7 +133,7 @@ export function aggregateProperties(
         aFilteredProperties.forEach((pe: Property) => {
             if (typeof oFunctions?.discriminator === 'function') {
                 const sd = getDiscriminatorRegistry(oDiscriminator, oFunctions.discriminator(pe));
-                const amp: number = 'amp' in pe && typeof pe.amp === 'number' ? pe.amp : 0;
+                const amp: number = 'amp' in pe.data && typeof (pe.data as any).amp === 'number' ? (pe.data as any).amp : 0;
                 sd.max = Math.max(sd.max, amp);
                 sd.min = Math.min(sd.min, amp);
                 sd.sum += amp;
@@ -145,12 +145,11 @@ export function aggregateProperties(
         nMin = Infinity,
         nMax = -Infinity;
     aFilteredProperties.forEach((pe: Property) => {
-        if ('amp' in pe) {
-            if (typeof pe.amp === 'number') {
-                nAccumulator += pe.amp;
-                nMax = Math.max(nMax, pe.amp);
-                nMin = Math.min(nMin, pe.amp);
-            }
+        if ('amp' in pe.data && typeof (pe.data as any).amp === 'number') {
+            const amp = (pe.data as any).amp as number;
+            nAccumulator += amp;
+            nMax = Math.max(nMax, amp);
+            nMin = Math.min(nMin, amp);
         }
     });
     return {
@@ -184,11 +183,11 @@ export function aggregateEffects(
                 aTypeSet.has(eff.type) && (oFunctions?.filter ? oFunctions.filter(eff) : true)
         )
         .map((eff: Effect): Effect => {
-            if ('amp' in eff) {
-                return {
-                    ...eff,
-                    amp: oFunctions?.ampMapper ? oFunctions.ampMapper(eff) : eff.amp,
-                } as Effect;
+            if ('amp' in eff.data) {
+                const mappedAmp = oFunctions?.ampMapper
+                    ? oFunctions.ampMapper(eff)
+                    : (eff.data as any).amp;
+                return { ...eff, data: { ...eff.data, amp: mappedAmp } } as Effect;
             } else {
                 return eff;
             }
@@ -203,7 +202,7 @@ export function aggregateEffects(
         aFilteredEffects.forEach((eff: Effect) => {
             if (typeof oFunctions?.discriminator === 'function') {
                 const sd = getDiscriminatorRegistry(oDiscriminator, oFunctions.discriminator(eff));
-                const amp: number = 'amp' in eff && typeof eff.amp === 'number' ? eff.amp : 0;
+                const amp: number = 'amp' in eff.data && typeof (eff.data as any).amp === 'number' ? (eff.data as any).amp : 0;
                 sd.max = Math.max(sd.max, amp);
                 sd.min = Math.min(sd.min, amp);
                 sd.sum += amp;
@@ -215,12 +214,11 @@ export function aggregateEffects(
         nMin = Infinity,
         nMax = -Infinity;
     aFilteredEffects.forEach((eff: Effect) => {
-        if ('amp' in eff) {
-            if (typeof eff.amp === 'number') {
-                nAccumulator += eff.amp;
-                nMax = Math.max(nMax, eff.amp);
-                nMin = Math.min(nMin, eff.amp);
-            }
+        if ('amp' in eff.data && typeof (eff.data as any).amp === 'number') {
+            const amp = (eff.data as any).amp as number;
+            nAccumulator += amp;
+            nMax = Math.max(nMax, amp);
+            nMin = Math.min(nMin, amp);
         }
     });
     return {

@@ -4,7 +4,6 @@ import { PropertySchema } from '../../properties/schemas';
 import { EffectSchema } from '../../effects/schemas';
 import { EquipmentSchema } from '../../schemas/Equipment';
 import { EquipmentSlotSchema } from '../../schemas/enums/EquipmentSlot';
-import { EnvironmentSchema } from '../../schemas/enums/Environment';
 
 export const StateSchema = z.object({
     abilities: z.object({

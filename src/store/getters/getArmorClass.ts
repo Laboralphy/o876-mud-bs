@@ -38,15 +38,15 @@ export function getArmorClass(state: State, getters: GetterReturnType): ArmorCla
             effects: {
                 forEach: (effect) => {
                     if (effect.type === CONSTS.EFFECT_ARMOR_CLASS_MODIFIER) {
-                        const amp = effect.amp;
-                        if (effect.attackType) {
-                            incRegistry(acAttackTypes, effect.attackType, amp);
+                        const amp = effect.data.amp;
+                        if (effect.data.attackType) {
+                            incRegistry(acAttackTypes, effect.data.attackType, amp);
                         }
-                        if (effect.specie) {
-                            incRegistry(acSpecies, effect.specie, amp);
+                        if (effect.data.specie) {
+                            incRegistry(acSpecies, effect.data.specie, amp);
                         }
-                        if (effect.damageType) {
-                            incRegistry(acDamageTypes, effect.damageType, amp);
+                        if (effect.data.damageType) {
+                            incRegistry(acDamageTypes, effect.data.damageType, amp);
                         }
                     }
                 },
@@ -54,15 +54,15 @@ export function getArmorClass(state: State, getters: GetterReturnType): ArmorCla
             properties: {
                 forEach: (property) => {
                     if (property.type === CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER) {
-                        const amp = property.amp;
-                        if (property.attackType) {
-                            incRegistry(acAttackTypes, property.attackType, amp);
+                        const amp = property.data.amp;
+                        if (property.data.attackType) {
+                            incRegistry(acAttackTypes, property.data.attackType, amp);
                         }
-                        if (property.specie) {
-                            incRegistry(acSpecies, property.specie, amp);
+                        if (property.data.specie) {
+                            incRegistry(acSpecies, property.data.specie, amp);
                         }
-                        if (property.damageType) {
-                            incRegistry(acDamageTypes, property.damageType, amp);
+                        if (property.data.damageType) {
+                            incRegistry(acDamageTypes, property.data.damageType, amp);
                         }
                     }
                 },

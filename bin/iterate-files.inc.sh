@@ -20,3 +20,18 @@ iterateFiles() {
         fi
     done
 }
+
+# Like iterateFiles but recurses into sub-folders.
+# Passes the base folder as a 3rd argument to the command so callbacks can
+# compute relative paths with: ${file#$3/}
+iterateFilesRecursive() {
+    local sExtension="$1"
+    local sIteratingFolder="$2"
+    local sCommand="$3"
+    local bFirst=1
+    local sThisFile=""
+    while IFS= read -r sThisFile; do
+        $sCommand "$sThisFile" "$bFirst" "$sIteratingFolder"
+        bFirst=0
+    done < <(find "$sIteratingFolder" -name "*.$sExtension" -not -name "index.$sExtension" | sort)
+}

@@ -1,8 +1,11 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { CONSTS } from '../../src/consts';
+import { PropertyBuilder } from '../../src/builders/PropertyBuilder';
+import { DamageType } from '../../src/schemas/enums/DamageType';
+import { PropertyDefinition } from '../../src/properties/schemas';
 
-function makeRegenProperty(vulnerabilities: string[]) {
+function makeRegenProperty(vulnerabilities: DamageType[]): PropertyDefinition {
     return {
         type: CONSTS.PROPERTY_REGENERATION,
         amp: 1,
@@ -10,12 +13,12 @@ function makeRegenProperty(vulnerabilities: string[]) {
         useBodyModifier: false,
         shutdown: 0,
         threshold: 1,
-    } as const;
+    };
 }
 
 function getShutdown(creature: Creature): number {
-    const prop = creature.state.properties.find(p => p.type === CONSTS.PROPERTY_REGENERATION);
-    return prop?.shutdown ?? 0;
+    const prop = creature.state.properties.find((p) => p.type === CONSTS.PROPERTY_REGENERATION);
+    return prop?.data.shutdown ?? 0;
 }
 
 describe('PropertyProgramRegeneration - mutate', () => {
@@ -50,12 +53,12 @@ describe('PropertyProgramRegeneration - mutate', () => {
             shutdown: 0,
             threshold: 0.5,
         });
-        creature.hitPoints = 10;
+        creature.hitPoints = 1;
         for (let i = 0; i < 100; i++) {
             creature.triggerMutateEvent();
         }
-        expect(creature.getters.getMaxHitPoints).toBe(100);
-        expect(creature.hitPoints).toBe(50);
+        expect(creature.getters.getMaxHitPoints).toBe(20);
+        expect(creature.hitPoints).toBe(10);
     });
 
     it('stops regenerating once hitPoints reaches the threshold fraction of max - variable amp', () => {
@@ -74,9 +77,9 @@ describe('PropertyProgramRegeneration - mutate', () => {
         for (let i = 0; i < 100; i++) {
             creature.triggerMutateEvent();
         }
-        expect(creature.getters.getMaxHitPoints).toBe(100);
+        expect(creature.getters.getMaxHitPoints).toBe(20);
         const hpAtStop = creature.hitPoints;
-        expect(hpAtStop).toBeGreaterThanOrEqual(50); // threshold was crossed
+        expect(hpAtStop).toBeGreaterThanOrEqual(10); // threshold was crossed
         // Further ticks must not increase HP (regen stopped above threshold)
         creature.triggerMutateEvent();
         creature.triggerMutateEvent();

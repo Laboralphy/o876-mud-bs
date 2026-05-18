@@ -1,7 +1,13 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { CONSTS } from '../../src/consts';
-import { makeWeapon, makeRegenProperty, makeAbilityModifierProperty } from '../helpers/helpers';
+import { PropertyBuilder } from '../../src/builders/PropertyBuilder';
+import {
+    makeWeapon,
+    makeRegenProperty,
+    makeAbilityModifierProperty,
+    makeArmorClassModifierProperty,
+} from '../helpers/helpers';
 
 describe('getInnateProperties', () => {
     let creature: Creature;
@@ -58,7 +64,7 @@ describe('getActiveProperties', () => {
 
     it('includes equipment properties that have a registered program', () => {
         const weapon = makeWeapon({
-            properties: [makeRegenProperty()],
+            properties: [makeRegenProperty().data],
         });
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
         expect(creature.getters.getActiveProperties).toHaveLength(1);
@@ -66,7 +72,7 @@ describe('getActiveProperties', () => {
 
     it('combines innate and equipment active properties', () => {
         creature.state.properties.push(makeRegenProperty());
-        const weapon = makeWeapon({ properties: [makeRegenProperty()] });
+        const weapon = makeWeapon({ properties: [makeRegenProperty().data] });
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
         expect(creature.getters.getActiveProperties).toHaveLength(2);
     });
@@ -85,7 +91,7 @@ describe('getEquipmentSlotProperties', () => {
 
     it('returns properties from weapon in offensive slot', () => {
         const prop = makeAbilityModifierProperty(2);
-        const weapon = makeWeapon({ properties: [prop] });
+        const weapon = makeWeapon({ properties: [prop.data] });
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
         const slotProps = creature.getters.getEquipmentSlotProperties;
         expect(slotProps[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE]).toHaveLength(1);
@@ -98,32 +104,16 @@ describe('getEquipmentSlotProperties', () => {
     });
 
     it('includes temporary properties with duration > 0', () => {
-        const weapon = makeWeapon({
-            temporaryProperties: [
-                {
-                    id: 'tp-1',
-                    duration: 3,
-                    tag: 'test',
-                    property: makeAbilityModifierProperty(1),
-                },
-            ],
-        });
+        const weapon = makeWeapon();
+        weapon.properties = [PropertyBuilder.buildProperty(makeAbilityModifierProperty(1).data, 3)];
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
         const slotProps = creature.getters.getEquipmentSlotProperties;
         expect(slotProps[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE]).toHaveLength(1);
     });
 
     it('excludes temporary properties with duration of 0', () => {
-        const weapon = makeWeapon({
-            temporaryProperties: [
-                {
-                    id: 'tp-expired',
-                    duration: 0,
-                    tag: 'test',
-                    property: makeAbilityModifierProperty(1),
-                },
-            ],
-        });
+        const weapon = makeWeapon();
+        weapon.properties = [PropertyBuilder.buildProperty(makeAbilityModifierProperty(1).data, 0)];
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
         const slotProps = creature.getters.getEquipmentSlotProperties;
         expect(slotProps[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE]).toBeUndefined();
@@ -134,9 +124,9 @@ describe('removeInnateProperty', () => {
     it('removes the matching property and leaves the rest intact', () => {
         const creature = new Creature('test');
 
-        creature.addInnateProperty(makeAbilityModifierProperty(2));
-        creature.addInnateProperty(makeAbilityModifierProperty(4));
-        creature.addInnateProperty({ type: CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER, amp: 3 });
+        creature.addInnateProperty(makeAbilityModifierProperty(2).data);
+        creature.addInnateProperty(makeAbilityModifierProperty(4).data);
+        creature.addInnateProperty(makeArmorClassModifierProperty(3).data);
 
         // Grab the stored reference for the ability modifier we want to remove
         const toRemove = creature.state.properties.find(
@@ -146,13 +136,17 @@ describe('removeInnateProperty', () => {
 
         expect(creature.state.properties).toHaveLength(2);
         expect(creature.state.properties.some((p) => p === toRemove)).toBe(false);
-        expect(creature.state.properties.filter((p) => p.type === CONSTS.PROPERTY_ABILITY_MODIFIER)).toHaveLength(1);
-        expect(creature.state.properties.some((p) => p.type === CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER)).toBe(true);
+        expect(
+            creature.state.properties.filter((p) => p.type === CONSTS.PROPERTY_ABILITY_MODIFIER)
+        ).toHaveLength(1);
+        expect(
+            creature.state.properties.some((p) => p.type === CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER)
+        ).toBe(true);
     });
 
     it('does nothing when the property is not in the list', () => {
         const creature = new Creature('test');
-        creature.addInnateProperty(makeAbilityModifierProperty(2));
+        creature.addInnateProperty(makeAbilityModifierProperty(2).data);
 
         const stranger = makeAbilityModifierProperty(2); // different object, not stored
         creature.removeInnateProperty(stranger);
@@ -173,14 +167,14 @@ describe('getEquipmentProperties', () => {
     });
 
     it('returns properties from a single equipped weapon', () => {
-        const weapon = makeWeapon({ properties: [makeAbilityModifierProperty(2)] });
+        const weapon = makeWeapon({ properties: [makeAbilityModifierProperty(2).data] });
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
         expect(creature.getters.getEquipmentProperties).toHaveLength(1);
     });
 
     it('flattens properties from multiple slots', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = makeWeapon({
-            properties: [makeAbilityModifierProperty(2)],
+            properties: [makeAbilityModifierProperty(2).data],
         });
         // Put a regen property directly via innate to ensure slot properties are separate
         creature.state.properties.push(makeAbilityModifierProperty(1));

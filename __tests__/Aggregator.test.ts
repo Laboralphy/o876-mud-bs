@@ -5,9 +5,10 @@ import { PropertyType } from '../src/schemas/enums/PropertyType';
 import { EquipmentSlot } from '../src/schemas/enums/EquipmentSlot';
 import { Ability } from '../src/schemas/enums/Ability';
 import { Effect } from '../src/effects/schemas';
+import { makeAbilityModifierProperty, makeRegenProperty } from './helpers/helpers';
 
 function makeAbilityModifier(amp: number, ability: Ability = 'ABILITY_BODY' as Ability): Property {
-    return { type: 'PROPERTY_ABILITY_MODIFIER', amp, ability };
+    return makeAbilityModifierProperty(amp, ability);
 }
 
 function makeGetters(
@@ -75,14 +76,7 @@ describe('aggregateProperties', () => {
         it('ignores properties not in aWantedProperties', () => {
             const getters = makeGetters([
                 makeAbilityModifier(5),
-                {
-                    type: 'PROPERTY_REGENERATION',
-                    amp: 3,
-                    vulnerabilities: [],
-                    useBodyModifier: false,
-                    shutdown: 0,
-                    threshold: 0,
-                },
+                makeRegenProperty(3),
             ]);
             const result = aggregateProperties(
                 ['PROPERTY_ABILITY_MODIFIER'],
@@ -197,7 +191,11 @@ describe('aggregateProperties', () => {
             const result = aggregateProperties(
                 WANTED,
                 getters,
-                { filter: (p: Property) => 'ability' in p && p.ability === 'ABILITY_BODY' },
+                {
+                    filter: (p: Property) =>
+                        p.type === 'PROPERTY_ABILITY_MODIFIER' &&
+                        p.data.ability === 'ABILITY_BODY',
+                },
                 NO_OPTIONS
             );
             expect(result.count).toBe(1);
@@ -237,7 +235,7 @@ describe('aggregateProperties', () => {
                 getters,
                 {
                     ampMapper: (p: Property) =>
-                        'amp' in p && typeof p.amp === 'number' ? p.amp * 3 : 0,
+                        p.type === 'PROPERTY_ABILITY_MODIFIER' ? p.data.amp * 3 : 0,
                 },
                 NO_OPTIONS
             );
@@ -269,7 +267,8 @@ describe('aggregateProperties', () => {
                 WANTED,
                 getters,
                 {
-                    filter: (p: Property) => 'amp' in p && typeof p.amp === 'number' && p.amp > 5,
+                    filter: (p: Property) =>
+                        p.type === 'PROPERTY_ABILITY_MODIFIER' && p.data.amp > 5,
                     forEach: (p: Property) => {
                         visited.push(p);
                     },
@@ -277,7 +276,9 @@ describe('aggregateProperties', () => {
                 NO_OPTIONS
             );
             expect(visited).toHaveLength(1);
-            expect('amp' in visited[0] && visited[0].amp).toBe(7);
+            expect(
+                visited[0].type === 'PROPERTY_ABILITY_MODIFIER' && visited[0].data.amp
+            ).toBe(7);
         });
     });
 
@@ -291,7 +292,10 @@ describe('aggregateProperties', () => {
             const result = aggregateProperties(
                 WANTED,
                 getters,
-                { discriminator: (p: Property) => ('ability' in p ? p.ability : 'unknown') },
+                {
+                    discriminator: (p: Property) =>
+                        p.type === 'PROPERTY_ABILITY_MODIFIER' ? p.data.ability : 'unknown',
+                },
                 NO_OPTIONS
             );
             expect(result.discriminator['ABILITY_BODY'].sum).toBe(8);
@@ -318,7 +322,10 @@ describe('aggregateProperties', () => {
             const result = aggregateProperties(
                 WANTED,
                 getters,
-                { discriminator: (p: Property) => ('ability' in p ? p.ability : 'unknown') },
+                {
+                    discriminator: (p: Property) =>
+                        p.type === 'PROPERTY_ABILITY_MODIFIER' ? p.data.ability : 'unknown',
+                },
                 NO_OPTIONS
             );
             expect(result.sum).toBe(10);

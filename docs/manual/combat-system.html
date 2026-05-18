@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Combat System — Reference Document</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+  <div class="page-inner">
+
+    <header class="doc-header">
+      <div class="doc-title">Combat System</div>
+      <div class="doc-subtitle">Reference Document — Revision I</div>
+    </header>
+
+    <!-- SECTION I: ABILITIES -->
+    <section class="section">
+      <h2 class="section-title"><span class="roman">I.</span> The Four Abilities</h2>
+
+      <p class="intro-text">
+        Every creature is defined by four fundamental abilities, consolidating classic attributes into a coherent, non-redundant set. Each ability covers a precise domain of capability — physical, perceptive, intellectual, or social.
+      </p>
+
+      <div class="stat-grid">
+
+        <div class="stat-card" data-abbr="BODY">
+          <div class="stat-name">Body</div>
+          <div class="stat-desc">
+            Raw physical power, endurance, and resilience. Determines the ability to strike, absorb damage, and survive bodily hardship.
+          </div>
+          <div class="stat-examples">
+            Merged: Strength + Constitution (D&amp;D 5e)
+          </div>
+        </div>
+
+        <div class="stat-card" data-abbr="SENSES">
+          <div class="stat-name">Senses</div>
+          <div class="stat-desc">
+            Sensory acuity, coordination, and quickness. Governs ranged attack accuracy, threat detection, and reaction speed.
+          </div>
+          <div class="stat-examples">
+            Merged: Dexterity + Perception (D&amp;D 5e)
+          </div>
+        </div>
+
+        <div class="stat-card" data-abbr="MIND">
+          <div class="stat-name">Mind</div>
+          <div class="stat-desc">
+            Analytical capacity, memory, and the ability to manipulate occult or technological forces. Underpins magical abilities and complex systems.
+          </div>
+          <div class="stat-examples">
+            Merged: Intelligence + Wisdom (D&amp;D 5e)
+          </div>
+        </div>
+
+        <div class="stat-card" data-abbr="PRESENCE">
+          <div class="stat-name">Presence</div>
+          <div class="stat-desc">
+            Magnetism, authority, and force of will. Influences social interactions, resistance to domination effects, and certain martial disciplines rooted in intimidation.
+          </div>
+          <div class="stat-examples">
+            Merged: Charisma + Willpower (D&amp;D 5e)
+          </div>
+        </div>
+
+      </div>
+
+      <div class="range-box">
+        <div>
+          <span class="rb-label">Value range</span>
+          <span class="rb-value">1 — 20</span>
+        </div>
+        <div>
+          <span class="rb-label">Average human value</span>
+          <span class="rb-value">10 — 11</span>
+        </div>
+        <div class="rb-note">
+          A score of 10 represents the human norm. Below 6 indicates a notable deficiency; above 16 indicates a remarkable aptitude.
+        </div>
+      </div>
+
+      <div class="formula-block">
+        <div class="formula-label">Modifier formula</div>
+        modifier = floor( ability / 2) - 5<br><br>
+        Resulting range: −4 (score 1–2) → +5 (score 20)
+      </div>
+
+      <table class="mod-table">
+        <thead>
+          <tr>
+            <th>Score</th>
+            <th>2–3</th>
+            <th>4–5</th>
+            <th>6–7</th>
+            <th>8–9</th>
+            <th>10-11</th>
+            <th>12–13</th>
+            <th>14–15</th>
+            <th>16–17</th>
+            <th>18–19</th>
+            <th>20</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Mod.</strong></td>
+            <td>−4</td>
+            <td>−3</td>
+            <td>−2</td>
+            <td>−1</td>
+            <td class="highlight-row">0</td>
+            <td>+1</td>
+            <td>+2</td>
+            <td>+3</td>
+            <td>+4</td>
+            <td>+5</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="design-note">
+        <strong>Design Note</strong>
+        Reducing to four abilities eliminates frequent redundancies between Strength/Constitution and Intelligence/Wisdom/Charisma.
+          It also simplifies character creation without impoverishing archetypes: a warrior can distinguish themselves through high Presence (intimidation, troop morale) without encroaching on a marginal sixth statistic.
+      </div>
+
+    </section>
+
+    <div class="ornament">— ✦ —</div>
+
+    <!-- SECTION II: NO EXPERIENCE LEVEL -->
+    <section class="section">
+      <h2 class="section-title"><span class="roman">II.</span> No Experience Level</h2>
+
+      <p class="intro-text">
+        Characters in this system carry no experience level. Every creature — player or otherwise — is defined solely by its four abilities and whatever effects, skills, or equipment it currently holds. There is no numerical tier that separates a newcomer from a veteran.
+      </p>
+
+      <p class="body-text">
+        This is a deliberate departure from traditional role-playing games, where a rising level number gates access to power, content, and meaningful cooperation. Here, a newly arrived character can stand alongside a long-established one: different in build and focus, but never locked out of the same encounter, the same negotiation, or the same expedition.
+      </p>
+
+      <div class="design-note">
+        <strong>Design Intent</strong>
+        Removing levels shifts the primary reward of play away from individual power accumulation and toward collective achievement. Exploration retains its danger because the world does not scale to the party — a hostile region stays hostile regardless of how long one has played. Cooperation gains value because no single character can grow powerful enough to render the others redundant. The incentive is always to go further together, not to grind higher alone.
+      </div>
+
+    </section>
+
+    <div class="ornament">— ✦ —</div>
+
+    <!-- SECTION III: DERIVED STATISTICS -->
+    <section class="section">
+      <h2 class="section-title"><span class="roman">III.</span> Derived Statistics</h2>
+
+      <p class="intro-text">
+        The following values are computed directly from the four core abilities. They require no additional input and apply to every creature uniformly.
+      </p>
+
+      <div class="derived-stat">
+        <div class="derived-stat-name">Max Hit Points</div>
+        <div class="derived-stat-body">
+          <p class="derived-stat-desc">
+            Represents total survivability — the amount of damage a creature can absorb before falling. Anchored entirely in physical mass and endurance, it scales linearly with Body.
+          </p>
+          <div class="derived-stat-formula">max_hp = 20 + Body_modifier × 8</div>
+          <div class="derived-stat-range">
+            Body 1–2 (mod −4) → 4 hp &ensp;·&ensp; Body 10–11 (mod 0) → 20 hp &ensp;·&ensp; Body 20 (mod +5) → 60 hp
+          </div>
+        </div>
+      </div>
+
+      <div class="derived-stat">
+        <div class="derived-stat-name">Base Armor Class</div>
+        <div class="derived-stat-body">
+          <p class="derived-stat-desc">
+            The baseline difficulty to land a hit on an unarmored creature. Awareness and reflexes (Senses) are the dominant factor; raw toughness and mass (Body) contribute a secondary cushion. Equipment and effects may raise this further.
+          </p>
+          <div class="derived-stat-formula">base_ac = 8 + Senses_modifier + floor(Body_modifier / 2)</div>
+          <div class="derived-stat-range">
+            Average human (Senses 10, Body 10) → AC 8 &ensp;·&ensp; Senses 20, Body 20 → AC 15
+          </div>
+        </div>
+      </div>
+
+      <div class="derived-stat">
+        <div class="derived-stat-name">Attack Bonus</div>
+        <div class="derived-stat-body">
+          <p class="derived-stat-desc">
+            Added to the attack roll to determine whether a hit lands. Melee attacks draw on raw physical force; ranged attacks demand steady hands and sharp eyes. Both are expressed as simple ability modifiers — no proficiency tier, no level scaling.
+          </p>
+          <div class="derived-stat-formula">melee_attack_bonus &nbsp;= Body_modifier<br>ranged_attack_bonus = Senses_modifier</div>
+          <div class="derived-stat-range">
+            Range: −4 (ability 1–2) → +5 (ability 20) &ensp;·&ensp; Average human: +0
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <div class="ornament">— ✦ —</div>
+
+    <footer class="doc-footer">
+      Combat System · Revision I
+    </footer>
+
+  </div>
+</div>
+</body>
+</html>

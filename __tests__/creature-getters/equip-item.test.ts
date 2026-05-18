@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { CONSTS } from '../../src/consts';
-import { makeWeapon } from '../helpers/helpers';
+import { makeWeapon, makeCursedPropertyDefinition } from '../helpers/helpers';
 
 describe('equipment', () => {
     let creature: Creature;
@@ -60,14 +60,14 @@ describe('equipment', () => {
         });
 
         it('returns CURSED_SLOT and keeps the item equipped when item is cursed', () => {
-            const cursed = makeWeapon({ id: 'cursed', properties: [{ type: CONSTS.PROPERTY_CURSED }] });
+            const cursed = makeWeapon({ id: 'cursed', properties: [makeCursedPropertyDefinition()] });
             creature.equipItem(cursed);
             expect(creature.unequipItem(cursed)).toBe(CONSTS.EQUIP_ITEM_FAILURE_REASON_CURSED_SLOT);
             expect(creature.findEquippedItemSlot(cursed)).toBe(CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE);
         });
 
         it('emits EVENT_CREATURE_REMOVE_ITEM_FAILED when item is cursed', () => {
-            const cursed = makeWeapon({ id: 'cursed', properties: [{ type: CONSTS.PROPERTY_CURSED }] });
+            const cursed = makeWeapon({ id: 'cursed', properties: [makeCursedPropertyDefinition()] });
             creature.equipItem(cursed);
             const listener = vi.fn();
             creature.events.on(CONSTS.EVENT_CREATURE_REMOVE_ITEM_FAILED, listener);
@@ -132,7 +132,7 @@ describe('equipment', () => {
         });
 
         it('returns CURSED_SLOT and emits failed event when the occupied slot holds a cursed item', () => {
-            const cursed = makeWeapon({ id: 'cursed', properties: [{ type: CONSTS.PROPERTY_CURSED }] });
+            const cursed = makeWeapon({ id: 'cursed', properties: [makeCursedPropertyDefinition()] });
             const newSword = makeWeapon({ id: 'new' });
             creature.equipItem(cursed);
             const listener = vi.fn();

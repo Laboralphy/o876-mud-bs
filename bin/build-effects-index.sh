@@ -10,14 +10,28 @@ source "$script_folder/iterate-files.inc.sh"
 cmdExtractEffectConst() {
     local this_file="$1"
     local bFirst="$2"
+    local base_folder="$3"
     local effect_name="$(grep -oP 'export const \K\S+' $this_file)"
-    local this_basefile_nots="$(basename $this_file .ts)"
-    echo "import { $effect_name } from './$this_basefile_nots';"
+    local relative="${this_file#$base_folder/}"
+    local relative_nots="${relative%.ts}"
+    echo "import { $effect_name } from './$relative_nots';"
 }
 
-cmdEffectSchemaDiscUnion() {
+cmdEffectDefinitionDiscUnion() {
     local effect_name="$(grep -oP 'export const \K\S+' $1)"
     echo "    $effect_name,"
+}
+
+cmdEffectPairedSchema() {
+    local this_file="$1"
+    local effect_name="$(grep -oP 'export const \K\S+' $this_file)"
+    local consts_key="$(grep -oP "type: z\.literal\(CONSTS\.\K[^)']+" $this_file)"
+    echo "const _Wrapped${effect_name} = BaseEffectSchema.extend({ type: z.literal(CONSTS.${consts_key}), data: ${effect_name} });"
+}
+
+cmdEffectWrappedDiscUnion() {
+    local effect_name="$(grep -oP 'export const \K\S+' $1)"
+    echo "    _Wrapped${effect_name},"
 }
 
 cmdEffectConstIndex() {
@@ -33,25 +47,29 @@ cmdEffectConstIndex() {
 }
 
 generateEffectSchemaIndex() {
-    # Import Zod
     echo "import z from 'zod';"
-    # All effect import
-    iterateFiles ts "$target_folder" cmdExtractEffectConst
+    echo "import { CONSTS } from '../../consts';"
+    echo "import { BaseEffectSchema } from '../../schemas/BaseEffect';"
+    iterateFilesRecursive ts "$target_folder" cmdExtractEffectConst
     echo ""
-    # Generating Index schema
-    echo "export const EffectSchema = z.discriminatedUnion('type', ["
-    # Add all effect schema in this discriminated union
-    iterateFiles ts "$target_folder" cmdEffectSchemaDiscUnion
-    # Closing union
+    echo "export const EffectDefinitionSchema = z.discriminatedUnion('type', ["
+    iterateFilesRecursive ts "$target_folder" cmdEffectDefinitionDiscUnion
     echo "]);"
     echo ""
-    # Exporting EffectSchema
+    echo "export type EffectDefinition = z.infer<typeof EffectDefinitionSchema>;"
+    echo ""
+    iterateFilesRecursive ts "$target_folder" cmdEffectPairedSchema
+    echo ""
+    echo "export const EffectSchema = z.discriminatedUnion('type', ["
+    iterateFilesRecursive ts "$target_folder" cmdEffectWrappedDiscUnion
+    echo "]);"
+    echo ""
     echo "export type Effect = z.infer<typeof EffectSchema>;"
 }
 
 generateEffectTypeIndex() {
     echo "{"
-    iterateFiles ts "$target_folder" cmdEffectConstIndex
+    iterateFilesRecursive ts "$target_folder" cmdEffectConstIndex
     echo ""
     echo "}"
 }

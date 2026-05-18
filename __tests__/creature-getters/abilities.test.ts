@@ -87,21 +87,21 @@ describe('getMaxHitPoints', () => {
 
     it('returns base + body*hpPerBody at default score of 10', () => {
         expect(creature.getters.getMaxHitPoints).toBe(
-            10 * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE
+            0 * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE
         );
     });
 
     it('increases with higher body score', () => {
         creature.state.abilities[CONSTS.ABILITY_BODY] = 18;
         expect(creature.getters.getMaxHitPoints).toBe(
-            18 * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE
+            4 * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE
         );
     });
 
     it('decreases with lower body score', () => {
-        creature.state.abilities[CONSTS.ABILITY_BODY] = 4;
+        creature.state.abilities[CONSTS.ABILITY_BODY] = 16;
         expect(creature.getters.getMaxHitPoints).toBe(
-            4 * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE
+            3 * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE
         );
     });
 
@@ -109,7 +109,7 @@ describe('getMaxHitPoints', () => {
         creature.state.abilities[CONSTS.ABILITY_SENSE] = 20;
         creature.state.abilities[CONSTS.ABILITY_MIND] = 20;
         expect(creature.getters.getMaxHitPoints).toBe(
-            10 * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE
+            0 * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE
         );
     });
 });

@@ -15,8 +15,8 @@ describe('hitPoints', () => {
         });
 
         it('reflects the value after assignment', () => {
-            creature.hitPoints = 50;
-            expect(creature.hitPoints).toBe(50);
+            creature.hitPoints = 15;
+            expect(creature.hitPoints).toBe(15);
         });
     });
 
@@ -52,7 +52,7 @@ describe('hitPoints', () => {
         it('getter clamps to new max when body ability decreases after hitpoints were set', () => {
             creature.state.abilities[CONSTS.ABILITY_BODY] = 20;
             creature.hitPoints = creature.getters.getMaxHitPoints; // set to full HP
-            creature.state.abilities[CONSTS.ABILITY_BODY] = 4;    // max drops
+            creature.state.abilities[CONSTS.ABILITY_BODY] = 4; // max drops
             expect(creature.hitPoints).toBe(creature.getters.getMaxHitPoints);
         });
 

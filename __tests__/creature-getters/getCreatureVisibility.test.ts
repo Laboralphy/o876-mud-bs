@@ -2,10 +2,12 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { LocationRegistry } from '../../src/libs/locations/LocationRegistry';
 import { CONSTS } from '../../src/consts';
-import { makeEffect } from '../helpers/helpers';
+import { makeAbilityModifierEffect } from '../helpers/helpers';
 
 function pushEffect(creature: Creature, type: string) {
-    creature.state.effects.push(makeEffect({ type } as Parameters<typeof makeEffect>[0]));
+    creature.state.effects.push(
+        makeAbilityModifierEffect({ type } as Parameters<typeof makeAbilityModifierEffect>[0])
+    );
 }
 
 describe('getCreatureVisibility', () => {

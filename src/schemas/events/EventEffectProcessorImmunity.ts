@@ -1,6 +1,6 @@
 import z from 'zod';
 import { Creature } from '../../Creature';
-import { EffectSchema } from '../../effects';
+import { EffectSchema } from '../../effects/schemas';
 
 /**
  * This schema validates immunity interrogation

@@ -1,11 +1,11 @@
 import z from 'zod';
 import { CONSTS } from '../consts';
 import { EquipmentSlotSchema } from './enums/EquipmentSlot';
-import { PropertySchema } from '../properties/schemas';
+import { PropertyDefinitionSchema } from '../properties/schemas';
 
 export const GearBlueprintSchema = z.strictObject({
     entityType: z.literal(CONSTS.ENTITY_TYPE_ITEM).describe('fields.entityType'),
-    properties: z.array(PropertySchema),
+    properties: z.array(PropertyDefinitionSchema),
     weight: z.number().min(0).describe('fields.weight'),
     itemType: z
         .union([

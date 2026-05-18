@@ -5,11 +5,11 @@ import { ProficiencySchema } from './enums/Proficiency';
 import { DamageTypeSchema } from './enums/DamageType';
 import { WeaponSizeSchema } from './enums/WeaponSize';
 import { AmmoTypeSchema } from './enums/AmmoType';
-import { PropertySchema } from '../properties/schemas';
+import { PropertyDefinitionSchema } from '../properties/schemas';
 
 export const WeaponBlueprintSchema = z.object({
     entityType: z.literal(CONSTS.ENTITY_TYPE_ITEM).describe('fields.entityType'),
-    properties: z.array(PropertySchema),
+    properties: z.array(PropertyDefinitionSchema),
     weight: z.number().min(0).describe('fields.weight'),
     itemType: z.literal(CONSTS.ITEM_TYPE_WEAPON).describe('fields.itemType'),
     damages: z.string().describe('fields.damages'),

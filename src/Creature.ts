@@ -4,7 +4,8 @@ import { GetterReturnFunctions } from './store/define-getters';
 import { State } from './store/state';
 import { Attack } from './Attack';
 import { Dice } from './libs/dice';
-import { Property, PropertySchema } from './properties/schemas';
+import { Property, PropertyDefinition } from './properties/schemas';
+import { PropertyBuilder } from './builders/PropertyBuilder';
 import { clamp } from './libs/clamp';
 import { propertyPrograms } from './properties/programs';
 import { effectPrograms } from './effects/programs';
@@ -194,8 +195,8 @@ export class Creature {
      * adds a new innate property
      * @param property
      */
-    addInnateProperty(property: Property): void {
-        this.state.properties.push(PropertySchema.parse(property));
+    addInnateProperty(property: PropertyDefinition): void {
+        this.state.properties.push(PropertyBuilder.buildProperty(property));
     }
 
     /**
@@ -264,7 +265,10 @@ export class Creature {
 
     hasDarkvision(): boolean {
         const mg = this.getters;
-        return mg.getEffectSet.has(CONSTS.EFFECT_DARKVISION) || mg.getPropertySet.has(CONSTS.PROPERTY_DARKVISION);
+        return (
+            mg.getEffectSet.has(CONSTS.EFFECT_DARKVISION) ||
+            mg.getPropertySet.has(CONSTS.PROPERTY_DARKVISION)
+        );
     }
 
     /**

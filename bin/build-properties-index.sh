@@ -12,14 +12,28 @@ source "$script_folder/iterate-files.inc.sh"
 cmdExtractPropertyConst() {
     local this_file="$1"
     local bFirst="$2"
+    local base_folder="$3"
     local property_name="$(grep -oP 'export const \K\S+' $this_file)"
-    local this_basefile_nots="$(basename $this_file .ts)"
-    echo "import { $property_name } from './$this_basefile_nots';"
+    local relative="${this_file#$base_folder/}"
+    local relative_nots="${relative%.ts}"
+    echo "import { $property_name } from './$relative_nots';"
 }
 
-cmdPropertySchemaDiscUnion() {
+cmdPropertyDefinitionDiscUnion() {
     local property_name="$(grep -oP 'export const \K\S+' $1)"
     echo "    $property_name,"
+}
+
+cmdPropertyPairedSchema() {
+    local this_file="$1"
+    local property_name="$(grep -oP 'export const \K\S+' $this_file)"
+    local consts_key="$(grep -oP "type: z\.literal\(CONSTS\.\K[^)']+" $this_file)"
+    echo "const _Wrapped${property_name} = BasePropertySchema.extend({ type: z.literal(CONSTS.${consts_key}), data: ${property_name} });"
+}
+
+cmdPropertyWrappedDiscUnion() {
+    local property_name="$(grep -oP 'export const \K\S+' $1)"
+    echo "    _Wrapped${property_name},"
 }
 
 cmdPropertyConstIndex() {
@@ -35,25 +49,29 @@ cmdPropertyConstIndex() {
 }
 
 generatePropertySchemaIndex() {
-    # Import Zod
     echo "import z from 'zod';"
-    # All property import
-    iterateFiles ts "$target_folder" cmdExtractPropertyConst
+    echo "import { CONSTS } from '../../consts';"
+    echo "import { BasePropertySchema } from '../../schemas/BaseProperty';"
+    iterateFilesRecursive ts "$target_folder" cmdExtractPropertyConst
     echo ""
-    # Generating Index schema
-    echo "export const PropertySchema = z.discriminatedUnion('type', ["
-    # Add all property schema in this discriminated union
-    iterateFiles ts "$target_folder" cmdPropertySchemaDiscUnion
-    # Closing union
+    echo "export const PropertyDefinitionSchema = z.discriminatedUnion('type', ["
+    iterateFilesRecursive ts "$target_folder" cmdPropertyDefinitionDiscUnion
     echo "]);"
     echo ""
-    # Exporting PropertySchema
+    echo "export type PropertyDefinition = z.infer<typeof PropertyDefinitionSchema>;"
+    echo ""
+    iterateFilesRecursive ts "$target_folder" cmdPropertyPairedSchema
+    echo ""
+    echo "export const PropertySchema = z.discriminatedUnion('type', ["
+    iterateFilesRecursive ts "$target_folder" cmdPropertyWrappedDiscUnion
+    echo "]);"
+    echo ""
     echo "export type Property = z.infer<typeof PropertySchema>;"
 }
 
 generatePropertyTypeIndex() {
     echo "{"
-    iterateFiles ts "$target_folder" cmdPropertyConstIndex
+    iterateFilesRecursive ts "$target_folder" cmdPropertyConstIndex
     echo ""
     echo "}"
 }

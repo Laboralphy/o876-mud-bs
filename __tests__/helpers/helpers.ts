@@ -1,56 +1,63 @@
 import { CONSTS } from '../../src/consts';
 import { Item } from '../../src/schemas/Item';
 import { Effect } from '../../src/effects/schemas';
-import { Property } from '../../src/properties/schemas';
+import { Property, PropertyDefinition } from '../../src/properties/schemas';
+import { PropertyBuilder } from '../../src/builders/PropertyBuilder';
+import { ItemBuilder } from '../../src/builders/ItemBuilder';
+import { WeaponBlueprint, WeaponBlueprintSchema } from '../../src/schemas/WeaponBlueprint';
+import { AmmoBlueprintSchema } from '../../src/schemas/AmmoBlueprint';
+import { ShieldBlueprintSchema } from '../../src/schemas/ShieldBlueprint';
 
-type DeepPartial<T> = { [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K] };
-
-export function makeWeapon(overrides: DeepPartial<Item> = {}): Item {
-    return {
-        id: 'weapon-1',
-        entityType: CONSTS.ENTITY_TYPE_ITEM,
-        itemType: CONSTS.ITEM_TYPE_WEAPON,
-        damages: '1d8',
-        damageType: CONSTS.DAMAGE_TYPE_SLASHING,
-        proficiency: CONSTS.PROFICIENCY_WEAPON_SIMPLE,
-        attributes: [],
-        size: CONSTS.WEAPON_SIZE_MEDIUM,
-        equipmentSlots: [CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE],
-        properties: [],
-        temporaryProperties: [],
-        weight: 1,
-        ...overrides,
-    } as Item;
+export function makeWeapon(overrides: Partial<WeaponBlueprint> & { id?: string } = {}): Item {
+    const { id = 'weapon-1', ...blueprintOverrides } = overrides;
+    return ItemBuilder.buildItem(
+        WeaponBlueprintSchema.parse({
+            entityType: CONSTS.ENTITY_TYPE_ITEM,
+            itemType: CONSTS.ITEM_TYPE_WEAPON,
+            damages: '1d8',
+            damageType: CONSTS.DAMAGE_TYPE_SLASHING,
+            proficiency: CONSTS.PROFICIENCY_WEAPON_SIMPLE,
+            attributes: [],
+            size: CONSTS.WEAPON_SIZE_MEDIUM,
+            equipmentSlots: [CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE],
+            properties: [],
+            weight: 1,
+            ...blueprintOverrides,
+        }),
+        id
+    );
 }
 
 export function makeAmmo(ammoType = CONSTS.AMMO_TYPE_ARROW): Item {
-    return {
-        id: 'ammo-1',
-        entityType: CONSTS.ENTITY_TYPE_ITEM,
-        itemType: CONSTS.ITEM_TYPE_AMMO,
-        ammoType,
-        equipmentSlots: [CONSTS.EQUIPMENT_SLOT_AMMO],
-        properties: [],
-        temporaryProperties: [],
-        weight: 0.1,
-    } as Item;
+    return ItemBuilder.buildItem(
+        AmmoBlueprintSchema.parse({
+            entityType: CONSTS.ENTITY_TYPE_ITEM,
+            itemType: CONSTS.ITEM_TYPE_AMMO,
+            ammoType,
+            equipmentSlots: [CONSTS.EQUIPMENT_SLOT_AMMO],
+            properties: [],
+            weight: 0.1,
+        }),
+        'ammo-1'
+    );
 }
 
 export function makeShield(): Item {
-    return {
-        id: 'shield-1',
-        entityType: CONSTS.ENTITY_TYPE_ITEM,
-        itemType: CONSTS.ITEM_TYPE_SHIELD,
-        armorClass: 2,
-        proficiency: CONSTS.PROFICIENCY_ARMOR_LIGHT,
-        equipmentSlots: [CONSTS.EQUIPMENT_SLOT_SHIELD],
-        properties: [],
-        temporaryProperties: [],
-        weight: 2,
-    } as Item;
+    return ItemBuilder.buildItem(
+        ShieldBlueprintSchema.parse({
+            entityType: CONSTS.ENTITY_TYPE_ITEM,
+            itemType: CONSTS.ITEM_TYPE_SHIELD,
+            armorClass: 2,
+            proficiency: CONSTS.PROFICIENCY_ARMOR_LIGHT,
+            equipmentSlots: [CONSTS.EQUIPMENT_SLOT_SHIELD],
+            properties: [],
+            weight: 2,
+        }),
+        'shield-1'
+    );
 }
 
-export function makeEffect(overrides: Partial<Effect> = {}): Effect {
+export function makeAbilityModifierEffect(overrides: Partial<Effect> = {}): Effect {
     return {
         id: 'eff-1',
         type: CONSTS.EFFECT_ABILITY_MODIFIER,
@@ -60,8 +67,10 @@ export function makeEffect(overrides: Partial<Effect> = {}): Effect {
         source: 'creature-2',
         siblings: [],
         tag: 'test',
-        amp: 2,
-        ability: CONSTS.ABILITY_BODY,
+        data: {
+            amp: 2,
+            ability: CONSTS.ABILITY_BODY,
+        },
         ...overrides,
     } as Effect;
 }
@@ -76,31 +85,44 @@ export function makeRegenEffect(overrides: Partial<Effect> = {}): Effect {
         source: 'creature-2',
         siblings: [],
         tag: 'regen',
-        amp: 3,
-        vulnerabilities: [],
-        useConstitutionModifier: false,
-        shutdown: 0,
-        threshold: 1,
+        data: {
+            type: CONSTS.EFFECT_REGENERATION,
+            amp: 3,
+            vulnerabilities: [],
+            useConstitutionModifier: false,
+            shutdown: 0,
+            threshold: 1,
+        },
         ...overrides,
     } as Effect;
 }
 
-export function makeRegenProperty(overrides: Partial<Property> = {}): Property {
-    return {
+export function makeRegenProperty(amp: number = 2): Property {
+    return PropertyBuilder.buildProperty({
         type: CONSTS.PROPERTY_REGENERATION,
-        amp: 2,
-        vulnerabilities: [],
-        useBodyModifier: false,
         shutdown: 0,
+        amp,
         threshold: 0,
-        ...overrides,
-    } as Property;
+        useBodyModifier: false,
+        vulnerabilities: [],
+    });
 }
 
 export function makeAbilityModifierProperty(amp = 2, ability = CONSTS.ABILITY_BODY): Property {
-    return {
+    return PropertyBuilder.buildProperty({
         type: CONSTS.PROPERTY_ABILITY_MODIFIER,
         amp,
         ability,
-    } as Property;
+    });
+}
+
+export function makeArmorClassModifierProperty(amp = 1): Property {
+    return PropertyBuilder.buildProperty({
+        type: CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER,
+        amp,
+    });
+}
+
+export function makeCursedPropertyDefinition(): PropertyDefinition {
+    return { type: CONSTS.PROPERTY_CURSED };
 }

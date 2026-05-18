@@ -14,6 +14,6 @@ export const BaseEffectSchema = z.object({
     duration: z.number().int().min(0), // effect duration in turns
     target: z.string(), // reference to the target creature
     source: z.string(), // reference to the source creature (the one that cast the effect)
-    siblings: z.array(z.string()), // reference to the sibling effects, one effect dispelled will dispel all its siblings
+    siblings: z.array(z.string()), // in reference to the sibling effects, one effect dispelled will dispel all its siblings
     tag: z.string(), // effects of the same tag cannot stack
 });

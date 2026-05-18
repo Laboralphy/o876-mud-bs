@@ -7,6 +7,6 @@ import { VARS } from '../../vars';
  * Return the maximum hit points
  */
 export const getMaxHitPoints = (state: State, getters: GetterReturnType) => {
-    const abilities = getters.getAbilities;
+    const abilities = getters.getAbilityModifiers;
     return abilities[CONSTS.ABILITY_BODY] * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE;
 };

@@ -3,7 +3,7 @@ import { Creature } from '../../Creature';
 import { DamageType } from '../../schemas/enums/DamageType';
 import { IProgram } from '../../interfaces/IProgram';
 import { Effect } from '../schemas';
-import { EffectRegenerationSchema } from '../schemas/regeneration';
+import { EffectRegenerationSchema } from '../schemas/healing/regeneration';
 
 type EffectRegeneration = z.infer<typeof EffectRegenerationSchema>;
 
@@ -14,7 +14,7 @@ export class EffectProgramRegeneration implements IProgram<Effect> {
      * @param creature
      */
     mutate(prop: Effect, creature: Creature): void {
-        const p = prop as EffectRegeneration;
+        const p = prop.data as EffectRegeneration;
         const dice = creature.dice;
         let amount: number = dice.roll(p.amp);
         if (p.shutdown > amount) {
@@ -37,7 +37,7 @@ export class EffectProgramRegeneration implements IProgram<Effect> {
      * instead of the hitpoints
      */
     damaged?(prop: Effect, amount: number, damageType: DamageType): void {
-        const p = prop as EffectRegeneration;
+        const p = prop.data as EffectRegeneration;
         if (p.vulnerabilities?.includes(damageType)) {
             p.shutdown += amount;
         }

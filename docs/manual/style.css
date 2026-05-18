@@ -1,0 +1,387 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+
+:root {
+    --ink: #1a1510;
+    --parchment: #f0e8d5;
+    --parchment-dark: #e0d4b8;
+    --rust: #8b3a1a;
+    --rust-light: #c0541e;
+    --gold: #b8900a;
+    --gold-light: #d4aa2a;
+    --shadow: rgba(26,21,16,0.18);
+    --rule: #c8b48a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background: #2a1f14;
+    font-family: 'Crimson Pro', Georgia, serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background-image:
+        radial-gradient(ellipse at 20% 10%, #3d2a14 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 90%, #1a1008 0%, transparent 60%);
+}
+
+.page {
+    max-width: 820px;
+    margin: 0 auto;
+    background: var(--parchment);
+    border: 2px solid var(--gold);
+    box-shadow:
+        0 0 0 6px #2a1f14,
+        0 0 0 8px var(--gold),
+        0 20px 60px rgba(0,0,0,0.7),
+        inset 0 0 80px rgba(200,180,130,0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.page-inner {
+    padding: 3rem 3.5rem;
+    position: relative;
+}
+
+/* HEADER */
+.doc-header {
+    text-align: center;
+    border-bottom: 2px solid var(--rule);
+    padding-bottom: 1.8rem;
+    margin-bottom: 2.2rem;
+    position: relative;
+}
+
+.doc-header::after {
+    content: '✦';
+    position: absolute;
+    bottom: -0.7rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--parchment);
+    padding: 0 0.6rem;
+    color: var(--gold);
+    font-size: 1rem;
+}
+
+.doc-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.7rem;
+    font-weight: 900;
+    color: var(--rust);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    text-shadow: 1px 1px 0 rgba(200,180,100,0.3);
+}
+
+.doc-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+}
+
+/* SECTION */
+.section {
+    margin-bottom: 2.4rem;
+}
+
+.section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--rust);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.35rem;
+    margin-bottom: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.section-title .roman {
+    color: var(--gold);
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+/* INTRO TEXT */
+.intro-text {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: #2e2418;
+    font-style: italic;
+    margin-bottom: 1.8rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--rule);
+}
+
+/* STAT CARDS */
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-bottom: 1.8rem;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #f8f0de 60%, #ede0c4);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--rust);
+    padding: 1.1rem 1.2rem 1rem;
+    position: relative;
+    box-shadow: 2px 3px 10px var(--shadow);
+}
+
+.stat-card::before {
+    content: attr(data-abbr);
+    position: absolute;
+    top: 0.6rem;
+    right: 0.9rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+}
+
+.stat-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--rust);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+}
+
+.stat-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #3a2c1a;
+}
+
+.stat-examples {
+    margin-top: 0.55rem;
+    font-size: 0.85rem;
+    color: var(--rust-light);
+    font-style: italic;
+    line-height: 1.5;
+}
+
+/* RANGE BOX */
+.range-box {
+    background: #2a1f14;
+    color: var(--parchment);
+    padding: 1rem 1.4rem;
+    border: 1px solid var(--gold);
+    margin: 1.6rem 0;
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.range-box .rb-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.range-box .rb-value {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--parchment);
+}
+
+.range-box .rb-note {
+    font-size: 0.88rem;
+    color: #c8b48a;
+    font-style: italic;
+    flex: 1;
+    min-width: 180px;
+}
+
+/* FORMULA BLOCK */
+.formula-block {
+    background: #f8f0de;
+    border: 1px dashed var(--rule);
+    padding: 0.9rem 1.2rem;
+    margin: 1.4rem 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.92rem;
+    color: var(--rust);
+}
+
+.formula-block .formula-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+    font-style: normal;
+}
+
+/* DESIGN NOTE */
+.design-note {
+    background: rgba(139,58,26,0.06);
+    border-left: 4px solid var(--rust-light);
+    padding: 0.85rem 1.1rem;
+    margin: 1.4rem 0;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: #3a2c1a;
+}
+
+.design-note strong {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--rust);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+/* TABLE */
+.mod-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2rem 0;
+    font-size: 0.9rem;
+}
+
+.mod-table th {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    color: var(--parchment);
+    background: var(--rust);
+    padding: 0.45rem 0.8rem;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.mod-table td {
+    padding: 0.35rem 0.8rem;
+    text-align: center;
+    border-bottom: 1px solid var(--rule);
+    color: #2e2418;
+}
+
+.mod-table tr:nth-child(even) td {
+    background: rgba(200,180,130,0.12);
+}
+
+.mod-table .highlight-row td {
+    background: rgba(139,58,26,0.1);
+    font-weight: 600;
+    color: var(--rust);
+}
+
+/* BODY TEXT */
+.body-text {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: #2e2418;
+    margin-bottom: 1.2rem;
+}
+
+/* DERIVED STAT BLOCKS */
+.derived-stat {
+    border: 1px solid var(--rule);
+    margin-bottom: 1.4rem;
+    box-shadow: 2px 3px 10px var(--shadow);
+    overflow: hidden;
+}
+
+.derived-stat-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--parchment);
+    background: var(--rust);
+    padding: 0.45rem 1.1rem;
+}
+
+.derived-stat-body {
+    padding: 0.9rem 1.1rem 0.85rem;
+    background: #f8f0de;
+}
+
+.derived-stat-desc {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #3a2c1a;
+    margin-bottom: 0.7rem;
+}
+
+.derived-stat-formula {
+    font-family: 'Courier New', monospace;
+    font-size: 0.92rem;
+    color: var(--rust);
+    background: rgba(200,180,130,0.25);
+    border-left: 3px solid var(--gold);
+    padding: 0.45rem 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.derived-stat-range {
+    font-size: 0.82rem;
+    color: var(--rust-light);
+    font-style: italic;
+}
+
+/* FOOTER */
+.doc-footer {
+    text-align: center;
+    border-top: 1px solid var(--rule);
+    padding-top: 1rem;
+    margin-top: 2.5rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    opacity: 0.6;
+    text-transform: uppercase;
+}
+
+/* ORNAMENT */
+.ornament {
+    text-align: center;
+    color: var(--gold);
+    font-size: 1.1rem;
+    letter-spacing: 0.4em;
+    margin: 1.5rem 0;
+    opacity: 0.5;
+}
+
+@media (max-width: 600px) {
+    .page-inner { padding: 2rem 1.5rem; }
+    .stat-grid { grid-template-columns: 1fr; }
+    .doc-title { font-size: 1.3rem; }
+}
