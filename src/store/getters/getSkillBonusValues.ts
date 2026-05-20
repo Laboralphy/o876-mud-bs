@@ -18,11 +18,11 @@ export const getSkillBonusValues = (
         {
             effects: {
                 discriminator: (pe: Effect) =>
-                    pe.data.type === CONSTS.EFFECT_SKILL_MODIFIER ? pe.data.skill : '',
+                    pe.type === CONSTS.EFFECT_SKILL_MODIFIER ? pe.data.skill : '',
             },
             properties: {
                 discriminator: (pe: Property) =>
-                    pe.data.type === CONSTS.PROPERTY_SKILL_MODIFIER ? pe.data.skill : '',
+                    pe.type === CONSTS.PROPERTY_SKILL_MODIFIER ? pe.data.skill : '',
             },
         },
         getters

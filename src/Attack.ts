@@ -67,8 +67,8 @@ export class Attack {
         ) {
             // target has 50% chance avoiding attack because of visibility
             // if both creature cannot see target, no maluses apply
-            const d = new DiceRoll('1d100');
-            if (d.roll < 50) {
+            const d = new DiceRoll('1d100', 0, 50);
+            if (!d.success) {
                 this.failed = true;
                 this.failure = CONSTS.ATTACK_FAILURE_VISIBILITY;
             }

@@ -6,6 +6,7 @@ import { getAbilityModifiers } from './getters/getAbilityModifiers';
 import { getActiveEffects } from './getters/getActiveEffects';
 import { getActiveProperties } from './getters/getActiveProperties';
 import { getArmorClass } from './getters/getArmorClass';
+import { getAttackBonus } from './getters/getAttackBonus';
 import { getDefensiveSlots } from './getters/getDefensiveSlots';
 import { getEffectSet } from './getters/getEffectSet';
 import { getEffects } from './getters/getEffects';
@@ -19,6 +20,7 @@ import { getResistanceValues } from './getters/getResistanceValues';
 import { getSelectedWeaponAttributeSet } from './getters/getSelectedWeaponAttributeSet';
 import { getSkillBonusValues } from './getters/getSkillBonusValues';
 import { getSkillValues } from './getters/getSkillValues';
+import { getThreatResistanceBonus } from './getters/getThreatResistanceBonus';
 import { isRangedWeaponLoaded } from './getters/isRangedWeaponLoaded';
 import { isWieldingShield } from './getters/isWieldingShield';
 import { isWieldingTwoHandedWeapon } from './getters/isWieldingTwoHandedWeapon';
@@ -30,6 +32,7 @@ export type GetterReturnFunctions = {
     getActiveEffects: typeof getActiveEffects;
     getActiveProperties: typeof getActiveProperties;
     getArmorClass: typeof getArmorClass;
+    getAttackBonus: typeof getAttackBonus;
     getDefensiveSlots: typeof getDefensiveSlots;
     getEffectSet: typeof getEffectSet;
     getEffects: typeof getEffects;
@@ -43,6 +46,7 @@ export type GetterReturnFunctions = {
     getSelectedWeaponAttributeSet: typeof getSelectedWeaponAttributeSet;
     getSkillBonusValues: typeof getSkillBonusValues;
     getSkillValues: typeof getSkillValues;
+    getThreatResistanceBonus: typeof getThreatResistanceBonus;
     isRangedWeaponLoaded: typeof isRangedWeaponLoaded;
     isWieldingShield: typeof isWieldingShield;
     isWieldingTwoHandedWeapon: typeof isWieldingTwoHandedWeapon;
@@ -57,6 +61,7 @@ export const Getters = {
     getActiveEffects,
     getActiveProperties,
     getArmorClass,
+    getAttackBonus,
     getDefensiveSlots,
     getEffectSet,
     getEffects,
@@ -70,6 +75,7 @@ export const Getters = {
     getSelectedWeaponAttributeSet,
     getSkillBonusValues,
     getSkillValues,
+    getThreatResistanceBonus,
     isRangedWeaponLoaded,
     isWieldingShield,
     isWieldingTwoHandedWeapon,

@@ -1,16 +1,20 @@
 import { Dice } from './libs/dice';
 
+const dice = new Dice();
+
 /**
  * Represents a single dice roll session, handling formulas, modifiers,
  */
 export class DiceRoll {
     readonly #roll: number = 0;
-    readonly #dice = new Dice();
     readonly #formula: string = '1d20';
-    #modifier: number = 0;
+    #modifier: number;
+    readonly #dc: number;
 
-    constructor(formula: string) {
+    constructor(formula: string, modifier: number = 0, dc: number = 0) {
         this.#formula = formula;
+        this.#modifier = modifier;
+        this.#dc = dc;
         this.#roll = this.doRoll();
     }
 
@@ -19,7 +23,7 @@ export class DiceRoll {
      * @returns {number} The result of the dice roll.
      */
     doRoll(): number {
-        return this.#dice.roll(this.#formula);
+        return dice.roll(this.#formula);
     }
 
     /**
@@ -55,5 +59,9 @@ export class DiceRoll {
      */
     get total(): number {
         return this.roll + this.#modifier;
+    }
+
+    get success(): boolean {
+        return this.total >= this.#dc;
     }
 }

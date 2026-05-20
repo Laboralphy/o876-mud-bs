@@ -19,6 +19,7 @@ import { PropertyAbilityResistanceModifier } from './modifiers/ability-resistanc
 import { PropertyArmorClassModifier } from './modifiers/armor-class-modifier';
 import { PropertyAttackModifier } from './modifiers/attack-modifier';
 import { PropertyExtraHitpoints } from './modifiers/extra-hitpoints';
+import { PropertyResistThreat } from './modifiers/resist-threat';
 import { PropertySkillModifier } from './modifiers/skill-modifier';
 import { PropertyDarkvision } from './visibility/darkvision';
 import { PropertyLight } from './visibility/light';
@@ -42,6 +43,7 @@ export const PropertyDefinitionSchema = z.discriminatedUnion('type', [
     PropertyArmorClassModifier,
     PropertyAttackModifier,
     PropertyExtraHitpoints,
+    PropertyResistThreat,
     PropertySkillModifier,
     PropertyDarkvision,
     PropertyLight,
@@ -67,6 +69,7 @@ const _WrappedPropertyAbilityResistanceModifier = BasePropertySchema.extend({ ty
 const _WrappedPropertyArmorClassModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER), data: PropertyArmorClassModifier });
 const _WrappedPropertyAttackModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_ATTACK_MODIFIER), data: PropertyAttackModifier });
 const _WrappedPropertyExtraHitpoints = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_EXTRA_HITPOINTS), data: PropertyExtraHitpoints });
+const _WrappedPropertyResistThreat = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_RESIST_THREAT), data: PropertyResistThreat });
 const _WrappedPropertySkillModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_SKILL_MODIFIER), data: PropertySkillModifier });
 const _WrappedPropertyDarkvision = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_DARKVISION), data: PropertyDarkvision });
 const _WrappedPropertyLight = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_LIGHT), data: PropertyLight });
@@ -90,6 +93,7 @@ export const PropertySchema = z.discriminatedUnion('type', [
     _WrappedPropertyArmorClassModifier,
     _WrappedPropertyAttackModifier,
     _WrappedPropertyExtraHitpoints,
+    _WrappedPropertyResistThreat,
     _WrappedPropertySkillModifier,
     _WrappedPropertyDarkvision,
     _WrappedPropertyLight,

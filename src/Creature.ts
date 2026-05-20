@@ -29,6 +29,8 @@ import { EventCreatureEquipItem } from './schemas/events/EventCreatureEquipItem'
 import { generateUniqueId } from './libs/unique-id';
 import { Skill } from './schemas/enums/Skill';
 import { DiceRoll } from './DiceRoll';
+import { Ability } from './schemas/enums/Ability';
+import { ThreatType } from './schemas/enums/ThreatType';
 
 export class Creature {
     private readonly _store = buildStore();
@@ -486,8 +488,13 @@ export class Creature {
     // Rolls and checks
 
     checkSkill(skill: Skill, dc: number): boolean {
-        const d = new DiceRoll('1d20');
-        d.modifier = this.getters.getSkillValues[skill];
-        return d.total >= dc;
+        const d = new DiceRoll('1d20', this.getters.getSkillValues[skill], dc);
+        return d.success;
+    }
+
+    checkResistance(ability: Ability, dc: number, threat: ThreatType | false = false): boolean {
+        const t = threat !== false ? (this.getters.getThreatResistanceBonus[threat] ?? 0) : 0;
+        const d = new DiceRoll('1d20', this.getters.getAbilityModifiers[ability] + t, dc);
+        return d.success;
     }
 }

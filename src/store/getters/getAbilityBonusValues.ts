@@ -18,11 +18,11 @@ export const getAbilityBonusValues = (
         {
             effects: {
                 discriminator: (pe: Effect) =>
-                    pe.data.type === CONSTS.EFFECT_ABILITY_MODIFIER ? pe.data.ability : '',
+                    pe.type === CONSTS.EFFECT_ABILITY_MODIFIER ? pe.data.ability : '',
             },
             properties: {
                 discriminator: (pe: Property) =>
-                    pe.data.type === CONSTS.PROPERTY_ABILITY_MODIFIER ? pe.data.ability : '',
+                    pe.type === CONSTS.PROPERTY_ABILITY_MODIFIER ? pe.data.ability : '',
             },
         },
         getters
