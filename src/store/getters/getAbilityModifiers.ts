@@ -19,7 +19,7 @@ export const getAbilityModifiers = (
     const abilities = getters.getAbilities;
     return {
         [CONSTS.ABILITY_BODY]: mod(abilities[CONSTS.ABILITY_BODY]),
-        [CONSTS.ABILITY_SENSE]: mod(abilities[CONSTS.ABILITY_SENSE]),
+        [CONSTS.ABILITY_SENSES]: mod(abilities[CONSTS.ABILITY_SENSES]),
         [CONSTS.ABILITY_MIND]: mod(abilities[CONSTS.ABILITY_MIND]),
         [CONSTS.ABILITY_PRESENCE]: mod(abilities[CONSTS.ABILITY_PRESENCE]),
     };

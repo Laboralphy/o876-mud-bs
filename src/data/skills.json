@@ -1,17 +1,69 @@
 {
-    "SKILL_ATHLETICS": "ABILITY_BODY",
-    "SKILL_DISCIPLINE": "ABILITY_BODY",
-    "SKILL_SURVIVAL": "ABILITY_BODY",
+    "SKILL_ATHLETICS": {
+        "ability": "ABILITY_BODY",
+        "description": "Raw physical power applied to movement — climbing, swimming, jumping, and forcing barriers. Some locations are unreachable without it."
+    },
+    "SKILL_DISCIPLINE": {
+        "ability": "ABILITY_BODY",
+        "description": "The capacity to endure pain, stun, exhaustion, and hunger — and to keep functioning anyway. Not the absence of suffering, but the refusal to let it decide."
+    },
+    "SKILL_SURVIVAL": {
+        "ability": "ABILITY_BODY",
+        "description": "Staying alive in hostile environments through practical knowledge: foraging, shelter, first aid, and reading the land."
+    },
+    "SKILL_MARTIAL_EXPERTISE": {
+        "ability": "ABILITY_BODY",
+        "description": "Advanced physical combat techniques — not hitting harder, but hitting smarter. Where raw Body determines force, Martial Expertise determines whether that force is applied with precision and timing."
+    },
 
-    "SKILL_ACROBATICS": "ABILITY_SENSE",
-    "SKILL_PERCEPTION": "ABILITY_SENSE",
-    "SKILL_STEALTH": "ABILITY_SENSE",
+    "SKILL_ACROBATICS": {
+        "ability": "ABILITY_SENSES",
+        "description": "Precise movement through difficult space — vaulting, tumbling, balancing, landing without injury. Where Athletics is about power, Acrobatics is about control."
+    },
+    "SKILL_STEALTH": {
+        "ability": "ABILITY_SENSES",
+        "description": "Moving without being seen or heard. Timing footsteps to background noise, pressing into shadows, controlling breathing."
+    },
+    "SKILL_PERCEPTION": {
+        "ability": "ABILITY_SENSES",
+        "description": "Noticing what is out of place before knowing why. Perception is the skill that tells you something is wrong."
+    },
+    "SKILL_SLEIGHT_OF_HAND": {
+        "ability": "ABILITY_SENSES",
+        "description": "Fine motor control applied with intent: picking locks, disarming traps, palming objects. Where Perception notices, Sleight of Hand acts — quietly and without leaving obvious evidence."
+    },
 
-    "SKILL_INVESTIGATION": "ABILITY_MIND",
-    "SKILL_ARCANA": "ABILITY_MIND",
-    "SKILL_TECHNOLOGY": "ABILITY_MIND",
+    "SKILL_ARCANA": {
+        "ability": "ABILITY_MIND",
+        "description": "Understanding magic as a system — its rules, its history, its failures. Magic is a language, and this skill is literacy."
+    },
+    "SKILL_TECHNOLOGY": {
+        "ability": "ABILITY_MIND",
+        "description": "Understanding machines and the principles behind them — from clockwork mechanisms to advanced computers and security networks."
+    },
+    "SKILL_INVESTIGATION": {
+        "ability": "ABILITY_MIND",
+        "description": "Active, methodical searching for information — crime scenes, cross-referenced accounts. Where Perception notices that something is wrong, Investigation finds out why. It can also be used to uncover hidden information or inconsistencies in records."
+    },
+    "SKILL_ALCHEMY": {
+        "ability": "ABILITY_MIND",
+        "description": "Understanding the chemical and biological properties of substances, and how to combine, refine, or extract them into new forms."
+    },
 
-    "SKILL_PERSUASION": "ABILITY_PRESENCE",
-    "SKILL_HAGGLE": "ABILITY_PRESENCE",
-    "SKILL_FAITH": "ABILITY_PRESENCE"
+    "SKILL_PERSUASION": {
+        "ability": "ABILITY_PRESENCE",
+        "description": "Changing minds through reasoned argument. Unlike Deception it works best when you are telling the truth. The most durable agreements are made through Persuasion."
+    },
+    "SKILL_FAITH": {
+        "ability": "ABILITY_PRESENCE",
+        "description": "Absolute conviction in something larger than the self. The mechanical effect is real regardless of whether the object of faith deserves it."
+    },
+    "SKILL_HAGGLE": {
+        "ability": "ABILITY_PRESENCE",
+        "description": "The art of negotiation, valuation, and trade. Understanding what something is worth, what the other party wants, and where the deal becomes unprofitable."
+    },
+    "SKILL_AURA": {
+        "ability": "ABILITY_PRESENCE",
+        "description": "The projection of presence, will, and dominance. Every creature can feel a sufficiently fierce aura — in the weight of a voice, the stillness before violence."
+    }
 }

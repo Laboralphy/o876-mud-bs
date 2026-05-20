@@ -123,6 +123,14 @@ export function makeArmorClassModifierProperty(amp = 1): Property {
     });
 }
 
+export function makeSkillModifierProperty(amp = 1, skill = CONSTS.SKILL_ATHLETICS): Property {
+    return PropertyBuilder.buildProperty({
+        type: CONSTS.PROPERTY_SKILL_MODIFIER,
+        amp,
+        skill,
+    });
+}
+
 export function makeCursedPropertyDefinition(): PropertyDefinition {
     return { type: CONSTS.PROPERTY_CURSED };
 }

@@ -6,7 +6,7 @@ import { CONSTS } from '../../consts';
 export const AbilitySchema = z
     .enum([
         CONSTS.ABILITY_BODY,
-        CONSTS.ABILITY_SENSE,
+        CONSTS.ABILITY_SENSES,
         CONSTS.ABILITY_MIND,
         CONSTS.ABILITY_PRESENCE,
     ])

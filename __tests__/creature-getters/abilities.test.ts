@@ -13,7 +13,7 @@ describe('getAbilities', () => {
     it('returns base ability values when there are no bonuses', () => {
         const abilities = creature.getters.getAbilities;
         expect(abilities[CONSTS.ABILITY_BODY]).toBe(10);
-        expect(abilities[CONSTS.ABILITY_SENSE]).toBe(10);
+        expect(abilities[CONSTS.ABILITY_SENSES]).toBe(10);
         expect(abilities[CONSTS.ABILITY_MIND]).toBe(10);
         expect(abilities[CONSTS.ABILITY_PRESENCE]).toBe(10);
     });
@@ -25,10 +25,10 @@ describe('getAbilities', () => {
 
     it('each ability is independent', () => {
         creature.state.abilities[CONSTS.ABILITY_BODY] = 8;
-        creature.state.abilities[CONSTS.ABILITY_SENSE] = 14;
+        creature.state.abilities[CONSTS.ABILITY_SENSES] = 14;
         const abilities = creature.getters.getAbilities;
         expect(abilities[CONSTS.ABILITY_BODY]).toBe(8);
-        expect(abilities[CONSTS.ABILITY_SENSE]).toBe(14);
+        expect(abilities[CONSTS.ABILITY_SENSES]).toBe(14);
         expect(abilities[CONSTS.ABILITY_MIND]).toBe(10);
         expect(abilities[CONSTS.ABILITY_PRESENCE]).toBe(10);
     });
@@ -67,12 +67,12 @@ describe('getAbilityModifiers', () => {
 
     it('computes all abilities independently', () => {
         creature.state.abilities[CONSTS.ABILITY_BODY] = 12;
-        creature.state.abilities[CONSTS.ABILITY_SENSE] = 8;
+        creature.state.abilities[CONSTS.ABILITY_SENSES] = 8;
         creature.state.abilities[CONSTS.ABILITY_MIND] = 20;
         creature.state.abilities[CONSTS.ABILITY_PRESENCE] = 10;
         const mods = creature.getters.getAbilityModifiers;
         expect(mods[CONSTS.ABILITY_BODY]).toBe(1);
-        expect(mods[CONSTS.ABILITY_SENSE]).toBe(-1);
+        expect(mods[CONSTS.ABILITY_SENSES]).toBe(-1);
         expect(mods[CONSTS.ABILITY_MIND]).toBe(5);
         expect(mods[CONSTS.ABILITY_PRESENCE]).toBe(0);
     });
@@ -106,7 +106,7 @@ describe('getMaxHitPoints', () => {
     });
 
     it('is not affected by other abilities', () => {
-        creature.state.abilities[CONSTS.ABILITY_SENSE] = 20;
+        creature.state.abilities[CONSTS.ABILITY_SENSES] = 20;
         creature.state.abilities[CONSTS.ABILITY_MIND] = 20;
         expect(creature.getters.getMaxHitPoints).toBe(
             0 * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE
@@ -122,19 +122,19 @@ describe('getArmorClass', () => {
     });
 
     it('returns base AC when all modifiers are 0', () => {
-        // SENSE=10, BODY=10 → modifiers=0 → AC = 8 + 0 + 0 = 8
+        // SENSES=10, BODY=10 → modifiers=0 → AC = 8 + 0 + 0 = 8
         expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE);
     });
 
     it('increases with positive sense modifier', () => {
-        // SENSE=14 → modifier=2 → AC = 8 + 2 + floor(0/2) = 10
-        creature.state.abilities[CONSTS.ABILITY_SENSE] = 14;
+        // SENSES=14 → modifier=2 → AC = 8 + 2 + floor(0/2) = 10
+        creature.state.abilities[CONSTS.ABILITY_SENSES] = 14;
         expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 2);
     });
 
     it('decreases with negative sense modifier', () => {
-        // SENSE=8 → modifier=-1 → AC = 8 + (-1) + floor(0/2) = 7
-        creature.state.abilities[CONSTS.ABILITY_SENSE] = 8;
+        // SENSES=8 → modifier=-1 → AC = 8 + (-1) + floor(0/2) = 7
+        creature.state.abilities[CONSTS.ABILITY_SENSES] = 8;
         expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE - 1);
     });
 
@@ -145,8 +145,8 @@ describe('getArmorClass', () => {
     });
 
     it('combines sense and body contributions', () => {
-        // SENSE=14 → +2, BODY=14 → floor(2/2)=1 → AC = 8 + 2 + 1 = 11
-        creature.state.abilities[CONSTS.ABILITY_SENSE] = 14;
+        // SENSES=14 → +2, BODY=14 → floor(2/2)=1 → AC = 8 + 2 + 1 = 11
+        creature.state.abilities[CONSTS.ABILITY_SENSES] = 14;
         creature.state.abilities[CONSTS.ABILITY_BODY] = 14;
         expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 2 + 1);
     });

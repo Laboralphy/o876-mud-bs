@@ -4,11 +4,12 @@ import { PropertySchema } from '../../properties/schemas';
 import { EffectSchema } from '../../effects/schemas';
 import { EquipmentSchema } from '../../schemas/Equipment';
 import { EquipmentSlotSchema } from '../../schemas/enums/EquipmentSlot';
+import { SkillSchema } from '../../schemas/enums/Skill';
 
 export const StateSchema = z.object({
     abilities: z.object({
         [CONSTS.ABILITY_BODY]: z.number().int().min(0),
-        [CONSTS.ABILITY_SENSE]: z.number().int().min(0),
+        [CONSTS.ABILITY_SENSES]: z.number().int().min(0),
         [CONSTS.ABILITY_MIND]: z.number().int().min(0),
         [CONSTS.ABILITY_PRESENCE]: z.number().int().min(0),
     }),

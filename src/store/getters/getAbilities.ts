@@ -11,7 +11,7 @@ export const getAbilities = (state: State, getters: GetterReturnType): Record<Ab
     const bv = getters.getAbilityBonusValues;
     return {
         [CONSTS.ABILITY_BODY]: state.abilities[CONSTS.ABILITY_BODY] + bv[CONSTS.ABILITY_BODY],
-        [CONSTS.ABILITY_SENSE]: state.abilities[CONSTS.ABILITY_SENSE] + bv[CONSTS.ABILITY_SENSE],
+        [CONSTS.ABILITY_SENSES]: state.abilities[CONSTS.ABILITY_SENSES] + bv[CONSTS.ABILITY_SENSES],
         [CONSTS.ABILITY_MIND]: state.abilities[CONSTS.ABILITY_MIND] + bv[CONSTS.ABILITY_MIND],
         [CONSTS.ABILITY_PRESENCE]:
             state.abilities[CONSTS.ABILITY_PRESENCE] + bv[CONSTS.ABILITY_PRESENCE],

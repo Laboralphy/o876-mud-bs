@@ -37,8 +37,8 @@ is built on. When it fails, nothing else matters.
 
 | Stat | Formula |
 |---|---|
-| **Armor Class** | `8 + mod(SENSE) + floor(mod(BODY) / 2) + natural_armor` |
-| **Finesse Attack** | `max(mod(BODY), mod(SENSE))` *(melee weapons with the Finesse attribute)* |
+| **Armor Class** | `8 + mod(SENSES) + floor(mod(BODY) / 2) + natural_armor` |
+| **Finesse Attack** | `max(mod(BODY), mod(SENSES))` *(melee weapons with the Finesse attribute)* |
 
 ### Skills (primary)
 
@@ -62,7 +62,7 @@ is built on. When it fails, nothing else matters.
 
 ---
 
-## SENSE
+## SENSES
 
 The processing speed of the nervous system — how quickly and accurately the creature perceives and responds to the
 world. Reflexes, spatial awareness, precision of movement. Not the raw power to act, but the accuracy of the signal
@@ -72,9 +72,9 @@ between reality and response. A creature with high Sense doesn't just notice mor
 
 | Stat | Formula |
 |---|---|
-| **Armor Class** | `8 + mod(SENSE) + floor(mod(BODY) / 2) + natural_armor` |
-| **Reflex Save** | `d20 + mod(SENSE) + floor(mod(SENSE) / 2)` |
-| **Finesse Attack** | `max(mod(BODY), mod(SENSE))` *(melee weapons with the Finesse attribute)* |
+| **Armor Class** | `8 + mod(SENSES) + floor(mod(BODY) / 2) + natural_armor` |
+| **Reflex Save** | `d20 + mod(SENSES) + floor(mod(SENSES) / 2)` |
+| **Finesse Attack** | `max(mod(BODY), mod(SENSES))` *(melee weapons with the Finesse attribute)* |
 
 ### Skills (primary)
 
@@ -168,10 +168,10 @@ hidden. Others feel it before they understand it.
 | Ability | Derived Stats | Primary Skills | Secondary Skills |
 |---|---|---|---|
 | BODY | Hit Points, Vigor Save | 8 | 6 |
-| SENSE | Armor Class, Reflex Save, Finesse Attack | 8 | 6 |
+| SENSES | Armor Class, Reflex Save, Finesse Attack | 8 | 6 |
 | MIND | — | 8 | 6 |
 | PRESENCE | — | 8 | 6 |
 
 **Every ability drives exactly 8 skills as primary and 6 as secondary.**
-BODY and SENSE are the only abilities that directly shape combat stats (HP and AC).
+BODY and SENSES are the only abilities that directly shape combat stats (HP and AC).
 MIND and PRESENCE operate exclusively through skill performance.

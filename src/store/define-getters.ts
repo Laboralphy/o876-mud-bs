@@ -15,7 +15,10 @@ import { getInnateProperties } from './getters/getInnateProperties';
 import { getMaxHitPoints } from './getters/getMaxHitPoints';
 import { getOffensiveSlots } from './getters/getOffensiveSlots';
 import { getPropertySet } from './getters/getPropertySet';
+import { getResistanceValues } from './getters/getResistanceValues';
 import { getSelectedWeaponAttributeSet } from './getters/getSelectedWeaponAttributeSet';
+import { getSkillBonusValues } from './getters/getSkillBonusValues';
+import { getSkillValues } from './getters/getSkillValues';
 import { isRangedWeaponLoaded } from './getters/isRangedWeaponLoaded';
 import { isWieldingShield } from './getters/isWieldingShield';
 import { isWieldingTwoHandedWeapon } from './getters/isWieldingTwoHandedWeapon';
@@ -36,7 +39,10 @@ export type GetterReturnFunctions = {
     getMaxHitPoints: typeof getMaxHitPoints;
     getOffensiveSlots: typeof getOffensiveSlots;
     getPropertySet: typeof getPropertySet;
+    getResistanceValues: typeof getResistanceValues;
     getSelectedWeaponAttributeSet: typeof getSelectedWeaponAttributeSet;
+    getSkillBonusValues: typeof getSkillBonusValues;
+    getSkillValues: typeof getSkillValues;
     isRangedWeaponLoaded: typeof isRangedWeaponLoaded;
     isWieldingShield: typeof isWieldingShield;
     isWieldingTwoHandedWeapon: typeof isWieldingTwoHandedWeapon;
@@ -60,7 +66,10 @@ export const Getters = {
     getMaxHitPoints,
     getOffensiveSlots,
     getPropertySet,
+    getResistanceValues,
     getSelectedWeaponAttributeSet,
+    getSkillBonusValues,
+    getSkillValues,
     isRangedWeaponLoaded,
     isWieldingShield,
     isWieldingTwoHandedWeapon,

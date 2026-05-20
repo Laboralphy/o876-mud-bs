@@ -27,7 +27,7 @@ function incRegistry<T extends AttackType | Specie | DamageType>(
 export function getArmorClass(state: State, getters: GetterReturnType): ArmorClassStruct {
     const acbv = VARS.ARMOR_CLASS_BASE_VALUE;
     const am: Record<Ability, number> = getters.getAbilityModifiers;
-    const acAbilities = acbv + am[CONSTS.ABILITY_SENSE] + Math.floor(am[CONSTS.ABILITY_BODY] / 2);
+    const acAbilities = acbv + am[CONSTS.ABILITY_SENSES] + Math.floor(am[CONSTS.ABILITY_BODY] / 2);
     const acNatural = state.armorClass;
     const acAttackTypes = new Map<AttackType, number>();
     const acSpecies = new Map<Specie, number>();

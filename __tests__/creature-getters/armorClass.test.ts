@@ -28,12 +28,12 @@ describe('getArmorClass - base', () => {
     });
 
     it('returns base AC from abilities alone at default scores', () => {
-        // SENSE=10 → mod=0, BODY=10 → mod=0 → base = ARMOR_CLASS_BASE_VALUE
+        // SENSES=10 → mod=0, BODY=10 → mod=0 → base = ARMOR_CLASS_BASE_VALUE
         expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE);
     });
 
     it('adds sense modifier to base', () => {
-        creature.state.abilities[CONSTS.ABILITY_SENSE] = 14; // mod=+2
+        creature.state.abilities[CONSTS.ABILITY_SENSES] = 14; // mod=+2
         expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 2);
     });
 
@@ -48,7 +48,7 @@ describe('getArmorClass - base', () => {
     });
 
     it('combines ability modifiers and natural armor in base', () => {
-        creature.state.abilities[CONSTS.ABILITY_SENSE] = 14; // +2
+        creature.state.abilities[CONSTS.ABILITY_SENSES] = 14; // +2
         creature.state.abilities[CONSTS.ABILITY_BODY] = 16; // mod=+3 → floor(3/2)=1
         creature.state.armorClass = 2;
         expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 2 + 1 + 2);

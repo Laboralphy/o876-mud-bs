@@ -1,4 +1,3 @@
-import { randomUUID } from 'node:crypto';
 import { Item } from './schemas/Item';
 import { DiceRoll } from './DiceRoll';
 import { DamageType } from './schemas/enums/DamageType';
@@ -6,6 +5,7 @@ import { CONSTS } from './consts';
 import { AttackType } from './schemas/enums/AttackType';
 import { Creature } from './Creature';
 import { CreatureVisibility } from './schemas/enums/CreatureVisibility';
+import { generateUniqueId } from './libs/unique-id';
 
 export type Damage = {
     amount: number;
@@ -13,7 +13,7 @@ export type Damage = {
 };
 
 export class Attack {
-    private readonly _id = randomUUID();
+    private readonly _id = generateUniqueId();
     public readonly damages: Damage[] = []; // List of dealt damages with amount and type,
     public readonly diceRoll: DiceRoll = new DiceRoll('1d20');
     public weapon: Item | null = null; // weapon used

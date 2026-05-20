@@ -8,7 +8,7 @@ import { Ability } from '../../schemas/enums/Ability';
 export const getAbilityBaseValues = (state: State): Record<Ability, number> => {
     return {
         [CONSTS.ABILITY_BODY]: state.abilities[CONSTS.ABILITY_BODY],
-        [CONSTS.ABILITY_SENSE]: state.abilities[CONSTS.ABILITY_SENSE],
+        [CONSTS.ABILITY_SENSES]: state.abilities[CONSTS.ABILITY_SENSES],
         [CONSTS.ABILITY_MIND]: state.abilities[CONSTS.ABILITY_MIND],
         [CONSTS.ABILITY_PRESENCE]: state.abilities[CONSTS.ABILITY_PRESENCE],
     };

@@ -12,7 +12,7 @@ describe('getAbilityBaseValues', () => {
     it('returns default value of 10 for all abilities', () => {
         expect(creature.getters.getAbilityBaseValues).toEqual({
             [CONSTS.ABILITY_BODY]: 10,
-            [CONSTS.ABILITY_SENSE]: 10,
+            [CONSTS.ABILITY_SENSES]: 10,
             [CONSTS.ABILITY_MIND]: 10,
             [CONSTS.ABILITY_PRESENCE]: 10,
         });
@@ -22,7 +22,7 @@ describe('getAbilityBaseValues', () => {
         creature.state.abilities[CONSTS.ABILITY_BODY] = 18;
         expect(creature.getters.getAbilityBaseValues).toEqual({
             [CONSTS.ABILITY_BODY]: 18,
-            [CONSTS.ABILITY_SENSE]: 10,
+            [CONSTS.ABILITY_SENSES]: 10,
             [CONSTS.ABILITY_MIND]: 10,
             [CONSTS.ABILITY_PRESENCE]: 10,
         });
@@ -30,12 +30,12 @@ describe('getAbilityBaseValues', () => {
 
     it('reflects independently modified abilities', () => {
         creature.state.abilities[CONSTS.ABILITY_BODY] = 8;
-        creature.state.abilities[CONSTS.ABILITY_SENSE] = 14;
+        creature.state.abilities[CONSTS.ABILITY_SENSES] = 14;
         creature.state.abilities[CONSTS.ABILITY_MIND] = 16;
         creature.state.abilities[CONSTS.ABILITY_PRESENCE] = 12;
         expect(creature.getters.getAbilityBaseValues).toEqual({
             [CONSTS.ABILITY_BODY]: 8,
-            [CONSTS.ABILITY_SENSE]: 14,
+            [CONSTS.ABILITY_SENSES]: 14,
             [CONSTS.ABILITY_MIND]: 16,
             [CONSTS.ABILITY_PRESENCE]: 12,
         });

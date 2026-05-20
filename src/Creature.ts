@@ -26,6 +26,9 @@ import { EventCreatureRemoveItemFailed } from './schemas/events/EventCreatureRem
 import { EventCreatureRemoveItem } from './schemas/events/EventCreatureRemoveItem';
 import { EventCreatureEquipItemFailed } from './schemas/events/EventCreatureEquipItemFailed';
 import { EventCreatureEquipItem } from './schemas/events/EventCreatureEquipItem';
+import { generateUniqueId } from './libs/unique-id';
+import { Skill } from './schemas/enums/Skill';
+import { DiceRoll } from './DiceRoll';
 
 export class Creature {
     private readonly _store = buildStore();
@@ -35,7 +38,7 @@ export class Creature {
     public location: Location | null = null;
     public readonly events = new EventEmitter();
 
-    constructor(public readonly id: string) {}
+    constructor(public readonly id: string = generateUniqueId()) {}
 
     get getters(): GetterOutput<GetterReturnFunctions> {
         return this._store.getters;
@@ -159,6 +162,11 @@ export class Creature {
             }
         );
     }
+
+    // ▗▖▗▖ ▗▖  ▗▖      ▄▖                   ▗▖         ▗▖ ▗▖               ▗▖       ▗▖ ▗▖          ▗▖
+    // ▐▌▐▌ ▄▖ ▝▜▛▘ ▀▜▖ ▐▌ ▗▛▀▘     ▀▜▖▐▛▜▖ ▄▟▌    ▗▛▜▖▝▜▛▘▐▙▄ ▗▛▜▖▐▛▜▖     ▄▖ ▐▛▜▖ ▄▟▌ ▄▖ ▗▛▀  ▀▜▖▝▜▛▘▗▛▜▖▐▛▜▖▗▛▀▘
+    // ▝▙▟▘ ▐▌  ▐▌ ▗▛▜▌ ▐▌  ▀▜▖    ▗▛▜▌▐▌▐▌▐▌▐▌    ▐▌▐▌ ▐▌ ▐▌▐▌▐▛▀▘▐▌       ▐▌ ▐▌▐▌▐▌▐▌ ▐▌ ▐▌  ▗▛▜▌ ▐▌ ▐▌▐▌▐▌   ▀▜▖
+    //  ▝▘  ▀▀   ▀▘ ▀▀▘ ▀▀ ▝▀▀      ▀▀▘▝▘▝▘ ▀▀▘     ▀▀   ▀▘▝▘▝▘ ▀▀ ▝▘       ▀▀ ▝▘▝▘ ▀▀▘ ▀▀  ▀▀  ▀▀▘  ▀▘ ▀▀ ▝▘  ▝▀▀
 
     get hitPoints(): number {
         return clamp(this._hitpoints, 0, this.getters.getMaxHitPoints);
@@ -469,5 +477,17 @@ export class Creature {
                 equippedItem: null,
             };
         }
+    }
+
+    // ▗▄▄      ▄▖  ▄▖                   ▗▖        ▗▖          ▗▖
+    // ▐▌▐▌▗▛▜▖ ▐▌  ▐▌ ▗▛▀▘     ▀▜▖▐▛▜▖ ▄▟▌    ▗▛▀ ▐▙▄ ▗▛▜▖▗▛▀ ▐▌▄ ▗▛▀▘
+    // ▐▛█ ▐▌▐▌ ▐▌  ▐▌  ▀▜▖    ▗▛▜▌▐▌▐▌▐▌▐▌    ▐▌  ▐▌▐▌▐▛▀▘▐▌  ▐▛▙  ▀▜▖
+    // ▝▘▝▘ ▀▀  ▀▀  ▀▀ ▝▀▀      ▀▀▘▝▘▝▘ ▀▀▘     ▀▀ ▝▘▝▘ ▀▀  ▀▀ ▝▘▝▘▝▀▀
+    // Rolls and checks
+
+    checkSkill(skill: Skill, dc: number): boolean {
+        const d = new DiceRoll('1d20');
+        d.modifier = this.getters.getSkillValues[skill];
+        return d.total >= dc;
     }
 }
