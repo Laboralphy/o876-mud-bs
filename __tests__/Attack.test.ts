@@ -5,7 +5,13 @@ import { CONSTS } from '../src/consts';
 import { Dice } from '../src/libs/dice';
 import { PropertyBuilder } from '../src/builders/PropertyBuilder';
 import { LocationRegistry } from '../src/libs/locations/LocationRegistry';
-import { makeWeapon, makeShield } from './helpers/helpers';
+import { makeWeapon, makeShield, makeAbilityModifierEffect } from './helpers/helpers';
+
+function pushEffect(creature: Creature, type: string) {
+    creature.state.effects.push(
+        makeAbilityModifierEffect({ type } as Parameters<typeof makeAbilityModifierEffect>[0])
+    );
+}
 
 // All Dice instances share the same prototype, so spying on it intercepts both the
 // module-level dice inside DiceRoll (attack roll) and creature.dice (damage roll).
@@ -29,14 +35,46 @@ describe('Attack', () => {
         vi.restoreAllMocks();
     });
 
-    // ─── constructor ──────────────────────────────────────────────────────────
+    // ─── initVisibility ───────────────────────────────────────────────────────
 
-    describe('constructor', () => {
-        it('sets visibility from both creatures perspectives on creation', () => {
-            vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(10);
+    describe('initVisibility', () => {
+        it('both visible when no visibility effects are active', () => {
             const attack = new Attack(attacker, target);
+            attack.initVisibility();
             expect(attack.targetVisibility).toBe(CONSTS.CREATURE_VISIBILITY_VISIBLE);
             expect(attack.attackerVisibility).toBe(CONSTS.CREATURE_VISIBILITY_VISIBLE);
+        });
+
+        it('target is hidden when stealth effect is active and the skill check succeeds', () => {
+            // Attack constructor pre-rolls 1d20 for diceRoll; skill check needs 2 more rolls
+            // roll order: [Attack.diceRoll, attacker STEALTH, target PERCEPTION]
+            vi.spyOn(Dice.prototype, 'roll')
+                .mockReturnValueOnce(10)  // Attack.diceRoll (consumed by constructor)
+                .mockReturnValueOnce(15)  // attacker's STEALTH check
+                .mockReturnValueOnce(5);  // target's PERCEPTION check → 15 >= 5 → HIDDEN
+            pushEffect(target, CONSTS.EFFECT_STEALTH);
+            const attack = new Attack(attacker, target);
+            attack.initVisibility();
+            expect(attack.targetVisibility).toBe(CONSTS.CREATURE_VISIBILITY_HIDDEN);
+        });
+
+        it('target is visible when stealth effect is active but the skill check fails', () => {
+            // roll order: [Attack.diceRoll, attacker STEALTH, target PERCEPTION]
+            vi.spyOn(Dice.prototype, 'roll')
+                .mockReturnValueOnce(10)  // Attack.diceRoll (consumed by constructor)
+                .mockReturnValueOnce(3)   // attacker's STEALTH check
+                .mockReturnValueOnce(15); // target's PERCEPTION check → 3 < 15 → VISIBLE
+            pushEffect(target, CONSTS.EFFECT_STEALTH);
+            const attack = new Attack(attacker, target);
+            attack.initVisibility();
+            expect(attack.targetVisibility).toBe(CONSTS.CREATURE_VISIBILITY_VISIBLE);
+        });
+
+        it('targetVisibility is BLINDED when attacker has EFFECT_BLINDNESS', () => {
+            pushEffect(attacker, CONSTS.EFFECT_BLINDNESS);
+            const attack = new Attack(attacker, target);
+            attack.initVisibility();
+            expect(attack.targetVisibility).toBe(CONSTS.CREATURE_VISIBILITY_BLINDED);
         });
     });
 
