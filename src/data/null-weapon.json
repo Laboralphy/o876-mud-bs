@@ -1,0 +1,16 @@
+{
+    "entityType": "ENTITY_TYPE_ITEM",
+    "properties": [],
+    "weight": 0,
+    "itemType": "ITEM_TYPE_WEAPON",
+    "damages": "1d2",
+    "damageType": "DAMAGE_TYPE_CRUSHING",
+    "proficiency": "PROFICIENCY_WEAPON_SIMPLE",
+    "attributes": [],
+    "size": "WEAPON_SIZE_SMALL",
+    "equipmentSlots": [
+        "EQUIPMENT_SLOT_NATURAL_WEAPON_1",
+        "EQUIPMENT_SLOT_NATURAL_WEAPON_2",
+        "EQUIPMENT_SLOT_NATURAL_WEAPON_3"
+    ]
+}

@@ -1,8 +1,15 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { LocationRegistry } from '../../src/libs/locations/LocationRegistry';
 import { CONSTS } from '../../src/consts';
+import { Dice } from '../../src/libs/dice';
 import { makeAbilityModifierEffect } from '../helpers/helpers';
+
+// For stealth tests: mock so the stealthy creature always wins the skill contest
+// (first roll = observer's stealth check, second = target's perception check)
+function mockStealthWins() {
+    vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(15).mockReturnValueOnce(5);
+}
 
 function pushEffect(creature: Creature, type: string) {
     creature.state.effects.push(
@@ -23,6 +30,10 @@ describe('getCreatureVisibility', () => {
         const room = registry.defineLocation('room');
         room.addCreature(observer);
         room.addCreature(target);
+    });
+
+    afterEach(() => {
+        vi.restoreAllMocks();
     });
 
     it('returns VISIBLE when target is self', () => {
@@ -77,11 +88,13 @@ describe('getCreatureVisibility', () => {
     // ── Stealth ────────────────────────────────────────────────────────────────
 
     it('returns HIDDEN when target has EFFECT_STEALTH', () => {
+        mockStealthWins();
         pushEffect(target, CONSTS.EFFECT_STEALTH);
         expect(observer.getCreatureVisibility(target)).toBe(CONSTS.CREATURE_VISIBILITY_HIDDEN);
     });
 
     it('stealth on target still hides when observer has SEE_INVISIBILITY (no invisibility involved)', () => {
+        mockStealthWins();
         pushEffect(target, CONSTS.EFFECT_STEALTH);
         pushEffect(observer, CONSTS.EFFECT_SEE_INVISIBILITY);
         expect(observer.getCreatureVisibility(target)).toBe(CONSTS.CREATURE_VISIBILITY_HIDDEN);
@@ -139,6 +152,7 @@ describe('getCreatureVisibility', () => {
     });
 
     it('SEE_INVISIBILITY lets STEALTH through when target has both effects', () => {
+        mockStealthWins();
         pushEffect(target, CONSTS.EFFECT_INVISIBILITY);
         pushEffect(target, CONSTS.EFFECT_STEALTH);
         pushEffect(observer, CONSTS.EFFECT_SEE_INVISIBILITY);

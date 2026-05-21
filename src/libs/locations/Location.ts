@@ -22,4 +22,12 @@ export class Location {
     get creatures(): Set<Creature> {
         return this._creatures;
     }
+
+    /**
+     * Returns all creatures in the same group as the specified creature
+     * @param creature
+     */
+    getGroupmateCreatures(creature: Creature): Creature[] {
+        return [...this._creatures].filter((c) => c.group === creature.group);
+    }
 }

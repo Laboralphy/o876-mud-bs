@@ -10,7 +10,7 @@ import { clamp } from './libs/clamp';
 import { propertyPrograms } from './properties/programs';
 import { effectPrograms } from './effects/programs';
 import { IProgram } from './interfaces/IProgram';
-import { Effect } from './effects/schemas';
+import { Effect, EffectDefinition, EffectSchema } from './effects/schemas';
 import { DamageType } from './schemas/enums/DamageType';
 import { aggregate, AggregateOptions } from './libs/aggregator';
 import { PropertyType } from './schemas/enums/PropertyType';
@@ -26,11 +26,17 @@ import { EventCreatureRemoveItemFailed } from './schemas/events/EventCreatureRem
 import { EventCreatureRemoveItem } from './schemas/events/EventCreatureRemoveItem';
 import { EventCreatureEquipItemFailed } from './schemas/events/EventCreatureEquipItemFailed';
 import { EventCreatureEquipItem } from './schemas/events/EventCreatureEquipItem';
+import { EventCreatureCheckSkill } from './schemas/events/EventCreatureCheckSkill';
+import { EventCreatureCheckResistance } from './schemas/events/EventCreatureCheckResistance';
 import { generateUniqueId } from './libs/unique-id';
 import { Skill } from './schemas/enums/Skill';
 import { DiceRoll } from './DiceRoll';
 import { Ability } from './schemas/enums/Ability';
 import { ThreatType } from './schemas/enums/ThreatType';
+import { randomUUID } from 'node:crypto';
+import { EffectSubtype } from './schemas/enums/EffectSubtype';
+import { EventEffectProcessorImmunity } from './schemas/events/EventEffectProcessorImmunity';
+import { EventEffectProcessorCreatureEffect } from './schemas/events/EventEffectProcessorCreatureEffect';
 
 export class Creature {
     private readonly _store = buildStore();
@@ -39,6 +45,7 @@ export class Creature {
     private _hitpoints: number = 1;
     public location: Location | null = null;
     public readonly events = new EventEmitter();
+    public group: number = 0; // Creature of the same group can be affected by Area Of Effect spells
 
     constructor(public readonly id: string = generateUniqueId()) {}
 
@@ -195,6 +202,213 @@ export class Creature {
     // ▝▀▀▘ ▝▘  ▝▘  ▀▀  ▀▀   ▀▘    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
     // Effect management
 
+    /**
+     * Apply an effect to the creature.
+     * The effect will be added to the creature's effects list.
+     * The effect will be triggered each round.
+     * The effect will be removed from the creature's effects list when it expires.
+     * @param effectDefinition - The definition of the effect to apply.
+     * @param source - The source of the effect.
+     * @param duration - The duration of the effect in rounds.
+     * @param subtype - The subtype of the effect.
+     * @param tag - A tag to identify the effect.
+     * @returns The newly created effect.
+     * The newly created effect may be modified to adding siblings, setting effect subtype, etc.
+     * See EffectSchema for more details.
+     */
+    applyEffect(
+        effectDefinition: EffectDefinition,
+        source: Creature,
+        duration: number,
+        subtype: EffectSubtype = CONSTS.EFFECT_SUBTYPE_MAGICAL,
+        tag: string = ''
+    ): Effect {
+        const effect: Effect = EffectSchema.parse({
+            ...effectDefinition,
+            id: randomUUID(),
+            source: source.id,
+            target: this.id,
+            duration,
+            subtype,
+            tag,
+            siblings: [],
+        });
+        let immune: boolean = false;
+        this.emit<EventEffectProcessorImmunity>(CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_IMMUNITY, {
+            creature: this,
+            effect,
+            immune: () => {
+                immune = true;
+            },
+        });
+        if (!immune) {
+            this.state.effects.push(effect);
+            this.emit<EventEffectProcessorCreatureEffect>(
+                CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_APPLIED,
+                {
+                    creature: this,
+                    effect,
+                }
+            );
+        }
+        return effect;
+    }
+
+    /**
+     * Apply an effect group to the creature.
+     * For all effect definition specified, the corresponding effect will be created and added to the creature's effects
+     * list unless the creature is immune to the effect.
+     *
+     * @param effectDefinitions - The definitions of all effects in the groupe.
+     * @param source - The source of the effect.
+     * @param duration - The duration of the effect in rounds.
+     * @param subtype - The subtype of the effect.
+     * @param tag - A tag to identify the effect.
+     */
+    applyEffectGroup(
+        effectDefinitions: EffectDefinition[],
+        source: Creature,
+        duration: number,
+        subtype: EffectSubtype = CONSTS.EFFECT_SUBTYPE_MAGICAL,
+        tag: string = ''
+    ): Effect[] {
+        const aEffectIds: string[] = [];
+        const aEffects: Effect[] = [];
+        for (const effectDefinition of effectDefinitions) {
+            const effect: Effect = EffectSchema.parse({
+                ...effectDefinition,
+                id: randomUUID(),
+                source: source.id,
+                target: this.id,
+                duration,
+                subtype,
+                tag,
+                siblings: aEffectIds,
+            });
+            let immune: boolean = false;
+            this.emit<EventEffectProcessorImmunity>(CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_IMMUNITY, {
+                creature: this,
+                effect,
+                immune: () => {
+                    immune = true;
+                },
+            });
+            if (!immune) {
+                aEffectIds.push(effect.id);
+                aEffects.push(effect);
+                this.state.effects.push(effect);
+                this.emit<EventEffectProcessorCreatureEffect>(
+                    CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_APPLIED,
+                    {
+                        creature: this,
+                        effect,
+                    }
+                );
+            }
+        }
+        return aEffects;
+    }
+
+    /**
+     * Remove an effect from the creature's effects list.
+     * If the effect is not found in the creature's effects list, exit.
+     * @param effect - The effect to remove from the creature's effects list.
+     * @param bIgnoreSiblings - If true, the effect will be removed, but its siblings will not be removed.
+     * If false (default value), the effect and its siblings will be removed.
+     */
+    removeEffect(effect: Effect, bIgnoreSiblings: boolean = false) {
+        const effIndex = this.state.effects.findIndex((eff: Effect) => eff.id === effect.id);
+        if (effIndex >= 0) {
+            // effect was found in the effects list
+            const effect = this.state.effects[effIndex];
+            if (!bIgnoreSiblings) {
+                // remove siblings
+                effect.siblings.forEach((siblingId: string) => {
+                    const sibling = this.findEffectById(siblingId);
+                    if (sibling) {
+                        // Remove this sibling, but ignore the sibling's siblings
+                        this.removeEffect(sibling, true);
+                    }
+                });
+                // all siblings have been removed, remove the effect itself
+                this.removeEffect(effect, true);
+                return;
+            }
+            this.emit<EventEffectProcessorCreatureEffect>(
+                CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_DISPOSED,
+                {
+                    creature: this,
+                    effect,
+                }
+            );
+            this.state.effects.splice(effIndex, 1);
+        }
+    }
+
+    /**
+     * Get an effect from the creature's effects list.
+     * If the effect is not found in the creature's effects list, returns undefined.
+     * The effect is the Reactive Version of the effect. That means that modifying effect will trigger reactive systeme
+     * Thus this function is private.
+     * This function works as a sort of type guard.
+     * The "Effect" management function set should not throw error when dealing with incorrect effect,
+     * to act like NWN : when trying to dispel an effect that does not exist, nothing happens.
+     * @param idEffect {string} - The id of the effect to retrieve.
+     * @return The instance of the effect with the specified id, or undefined if not found.
+     */
+    private findEffectById(idEffect: string): Effect | undefined {
+        const effIndex = this.state.effects.findIndex((eff: Effect) => eff.id === idEffect);
+        return effIndex >= 0 ? this.state.effects[effIndex] : undefined;
+    }
+
+    /**
+     * Set the duration of an effect.
+     * If the effect is not found in the creature's effects list, exit.
+     * @param effect - The effect to modify.
+     * @param duration - The new duration of the effect.
+     */
+    setEffectDuration(effect: Effect, duration: number) {
+        const effFound = this.findEffectById(effect.id);
+        if (effFound) {
+            effFound.duration = duration;
+        }
+    }
+
+    /**
+     * Decrease each effect duration by 1.
+     * Effects that expire will be removed from the creature's effects list.
+     * This method should be called each round.
+     */
+    depleteEffects() {
+        for (const effect of this.state.effects) {
+            --effect.duration;
+        }
+        this.removeDeadEffects();
+    }
+
+    /**
+     * Dispel an effect. Actually set the duration of the effect to 0.
+     * The effect will be removed from the creature's effects list.'
+     * @param effect - effect to be dispelled
+     */
+    dispelEffect(effect: Effect) {
+        this.setEffectDuration(effect, 0);
+    }
+
+    /**
+     * Removes all effects with expired duration from the creature's state.
+     * Iterates backwards through the effects array to safely remove effects whose duration has reached or fallen below 0.
+     */
+    removeDeadEffects() {
+        let i = this.state.effects.length - 1;
+        while (i >= 0) {
+            if (this.state.effects[i].duration <= 0) {
+                this.removeEffect(this.state.effects[i], true);
+            }
+            --i;
+        }
+    }
+
     // ▗▄▄                      ▗▖                                              ▗▖
     // ▐▌▐▌▐▛▜▖▗▛▜▖▐▛▜▖▗▛▜▖▐▛▜▖▝▜▛▘▐▌▐▌    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
     // ▐▛▀ ▐▌  ▐▌▐▌▐▙▟▘▐▛▀▘▐▌   ▐▌ ▝▙▟▌    ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
@@ -252,7 +466,9 @@ export class Creature {
         }
         if (targetEffects.has(CONSTS.EFFECT_STEALTH)) {
             // Stealth effect prevents target detection
-            return CONSTS.CREATURE_VISIBILITY_HIDDEN;
+            return this.checkSkillAgainst(CONSTS.SKILL_STEALTH, oTarget, CONSTS.SKILL_PERCEPTION)
+                ? CONSTS.CREATURE_VISIBILITY_HIDDEN
+                : CONSTS.CREATURE_VISIBILITY_VISIBLE;
         }
         if (this.isInBrightLocation()) {
             return CONSTS.CREATURE_VISIBILITY_VISIBLE;
@@ -487,14 +703,50 @@ export class Creature {
     // ▝▘▝▘ ▀▀  ▀▀  ▀▀ ▝▀▀      ▀▀▘▝▘▝▘ ▀▀▘     ▀▀ ▝▘▝▘ ▀▀  ▀▀ ▝▘▝▘▝▀▀
     // Rolls and checks
 
+    rollSkill(skill: Skill): DiceRoll {
+        return new DiceRoll('1d20', this.getters.getSkillValues[skill]);
+    }
+
+    checkSkillAgainst(skill: Skill, adversary: Creature, advSkill: Skill) {
+        const meDice = this.rollSkill(skill);
+        const advDice = adversary.rollSkill(advSkill);
+        const success = meDice.total >= advDice.total;
+        this.emit<EventCreatureCheckSkill>(CONSTS.EVENT_CREATURE_SKILL_CHECK, {
+            creature: this,
+            skill,
+            dc: advDice.total,
+            success,
+        });
+        adversary.emit<EventCreatureCheckSkill>(CONSTS.EVENT_CREATURE_SKILL_CHECK, {
+            creature: adversary,
+            skill: advSkill,
+            dc: meDice.total + 1,
+            success: advDice.total >= meDice.total + 1,
+        });
+        return success;
+    }
+
     checkSkill(skill: Skill, dc: number): boolean {
         const d = new DiceRoll('1d20', this.getters.getSkillValues[skill], dc);
+        this.emit<EventCreatureCheckSkill>(CONSTS.EVENT_CREATURE_SKILL_CHECK, {
+            creature: this,
+            skill,
+            dc,
+            success: d.success,
+        });
         return d.success;
     }
 
     checkResistance(ability: Ability, dc: number, threat: ThreatType | false = false): boolean {
         const t = threat !== false ? (this.getters.getThreatResistanceBonus[threat] ?? 0) : 0;
         const d = new DiceRoll('1d20', this.getters.getAbilityModifiers[ability] + t, dc);
+        this.emit<EventCreatureCheckResistance>(CONSTS.EVENT_CREATURE_RESISTANCE_CHECK, {
+            creature: this,
+            ability,
+            dc,
+            ...(threat !== false && { threat }),
+            success: d.success,
+        });
         return d.success;
     }
 }

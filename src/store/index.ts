@@ -33,6 +33,7 @@ export function buildStore(): ReactiveStore<State, GetterReturnFunctions> {
         },
         selectedOffensiveSlot: CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE,
         armorClass: 0,
+        specie: CONSTS.SPECIE_HUMANOID,
     });
     return new ReactiveStore(state, Getters);
 }

@@ -17,9 +17,12 @@ import { getMaxHitPoints } from './getters/getMaxHitPoints';
 import { getOffensiveSlots } from './getters/getOffensiveSlots';
 import { getPropertySet } from './getters/getPropertySet';
 import { getResistanceValues } from './getters/getResistanceValues';
+import { getSelectedWeaponAmmo } from './getters/getSelectedWeaponAmmo';
 import { getSelectedWeaponAttributeSet } from './getters/getSelectedWeaponAttributeSet';
+import { getSelectedWeapon } from './getters/getSelectedWeapon';
 import { getSkillBonusValues } from './getters/getSkillBonusValues';
 import { getSkillValues } from './getters/getSkillValues';
+import { getSpecie } from './getters/getSpecie';
 import { getThreatResistanceBonus } from './getters/getThreatResistanceBonus';
 import { isRangedWeaponLoaded } from './getters/isRangedWeaponLoaded';
 import { isWieldingShield } from './getters/isWieldingShield';
@@ -43,9 +46,12 @@ export type GetterReturnFunctions = {
     getOffensiveSlots: typeof getOffensiveSlots;
     getPropertySet: typeof getPropertySet;
     getResistanceValues: typeof getResistanceValues;
+    getSelectedWeaponAmmo: typeof getSelectedWeaponAmmo;
     getSelectedWeaponAttributeSet: typeof getSelectedWeaponAttributeSet;
+    getSelectedWeapon: typeof getSelectedWeapon;
     getSkillBonusValues: typeof getSkillBonusValues;
     getSkillValues: typeof getSkillValues;
+    getSpecie: typeof getSpecie;
     getThreatResistanceBonus: typeof getThreatResistanceBonus;
     isRangedWeaponLoaded: typeof isRangedWeaponLoaded;
     isWieldingShield: typeof isWieldingShield;
@@ -72,9 +78,12 @@ export const Getters = {
     getOffensiveSlots,
     getPropertySet,
     getResistanceValues,
+    getSelectedWeaponAmmo,
     getSelectedWeaponAttributeSet,
+    getSelectedWeapon,
     getSkillBonusValues,
     getSkillValues,
+    getSpecie,
     getThreatResistanceBonus,
     isRangedWeaponLoaded,
     isWieldingShield,

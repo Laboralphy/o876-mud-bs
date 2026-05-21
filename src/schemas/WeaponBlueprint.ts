@@ -14,6 +14,7 @@ export const WeaponBlueprintSchema = z.object({
     itemType: z.literal(CONSTS.ITEM_TYPE_WEAPON).describe('fields.itemType'),
     damages: z.string().describe('fields.damages'),
     damageType: DamageTypeSchema.describe('fields.damageType'),
+    altDamageType: DamageTypeSchema.optional().describe('fields.altDamageType'),
     proficiency: ProficiencySchema.describe('fields.proficiency'),
     attributes: z.array(WeaponAttributeSchema).describe('fields.weaponAttributes'),
     size: WeaponSizeSchema.describe('fields.size'),

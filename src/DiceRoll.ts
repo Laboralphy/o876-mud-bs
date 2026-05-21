@@ -64,4 +64,8 @@ export class DiceRoll {
     get success(): boolean {
         return this.total >= this.#dc;
     }
+
+    get dc(): number {
+        return this.#dc;
+    }
 }

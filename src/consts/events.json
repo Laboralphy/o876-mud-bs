@@ -9,6 +9,7 @@
   "EVENT_CREATURE_HEAL": "creature.heal",
   "EVENT_CREATURE_DAMAGED": "creature.damaged",
   "EVENT_CREATURE_SKILL_CHECK": "creature.skill-check",
+  "EVENT_CREATURE_RESISTANCE_CHECK": "creature.resistance-check",
   "EVENT_CREATURE_ABILITY_CHECK": "creature.ability-check",
   "EVENT_CREATURE_EQUIP_ITEM": "creature.equip-item",
   "EVENT_CREATURE_REMOVE_ITEM": "creature.remove-item",
