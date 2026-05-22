@@ -4,6 +4,8 @@ import { CONSTS } from '../../consts';
 import { aggregate } from '../../libs/aggregator';
 import { DamageType } from '../../schemas/enums/DamageType';
 import { VARS } from '../../vars';
+import { Effect } from '../../effects/schemas';
+import { Property } from '../../properties/schemas';
 
 export type DamageMitigationEntry = {
     reduction: number;
@@ -14,8 +16,12 @@ export type DamageMitigationEntry = {
 };
 
 const dtDiscriminator = {
-    effects: { discriminator: (e: { data: { damageType?: string } }) => e.data.damageType ?? '' },
-    properties: { discriminator: (p: { data: { damageType?: string } }) => p.data.damageType ?? '' },
+    effects: {
+        discriminator: (e: Effect) => ('damageType' in e.data ? (e.data.damageType ?? '') : ''),
+    },
+    properties: {
+        discriminator: (p: Property) => ('damageType' in p.data ? (p.data.damageType ?? '') : ''),
+    },
 };
 
 export function getDamageMitigation(
@@ -64,15 +70,21 @@ export function getDamageMitigation(
             case 'i':
             case 'ir':
             case 'iv':
-            case 'irv':
+            case 'irv': {
                 factor = VARS.DAMAGE_FACTOR_IMMUNITY;
                 break;
-            case 'r':
+            }
+            case 'r': {
                 factor = VARS.DAMAGE_FACTOR_RESISTANCE;
                 break;
-            case 'v':
+            }
+            case 'v': {
                 factor = VARS.DAMAGE_FACTOR_VULNERABILITY;
                 break;
+            }
+            default: {
+                break;
+            }
         }
         result.set(dt as DamageType, {
             reduction: oReduction.discriminator[dt]?.sum ?? 0,

@@ -17,7 +17,7 @@ import { PropertyType } from './schemas/enums/PropertyType';
 import { EffectType } from './schemas/enums/EffectType';
 import { CreatureVisibility } from './schemas/enums/CreatureVisibility';
 import { CONSTS } from './consts';
-import type { Location } from './libs/locations';
+import { Location, LocationRegistry } from './libs/locations';
 import { Item } from './schemas/Item';
 import { EquipmentSlot } from './schemas/enums/EquipmentSlot';
 import EventEmitter from 'node:events';
@@ -44,6 +44,7 @@ export class Creature {
 
     private _hitpoints: number = 1;
     public location: Location | null = null;
+    public registry: LocationRegistry | null = null;
     public readonly events = new EventEmitter();
     public group: number = 0; // Creature of the same group can be affected by Area Of Effect spells
 
@@ -65,6 +66,11 @@ export class Creature {
 
     emit<T>(event: string, payload: T): boolean {
         return this.events.emit(event, payload);
+    }
+
+    process() {
+        this.triggerMutateEvent();
+        this.depleteEffects();
     }
 
     private _iterateThroughPropertiesAndEffects(
@@ -89,12 +95,12 @@ export class Creature {
         this._iterateThroughPropertiesAndEffects(
             (prop, propProg) => {
                 if (propProg.mutate) {
-                    propProg.mutate(prop, this);
+                    propProg.mutate(prop, this, undefined);
                 }
             },
             (effect, effProg) => {
                 if (effProg.mutate) {
-                    effProg.mutate(effect, this);
+                    effProg.mutate(effect, this, this.registry?.getCreature(effect.source));
                 }
             }
         );
@@ -224,7 +230,8 @@ export class Creature {
         tag: string = ''
     ): Effect {
         const effect: Effect = EffectSchema.parse({
-            ...effectDefinition,
+            type: effectDefinition.type,
+            data: effectDefinition,
             id: randomUUID(),
             source: source.id,
             target: this.id,
@@ -250,6 +257,10 @@ export class Creature {
                     effect,
                 }
             );
+            const prog = effectPrograms.get(effect.type);
+            if (prog?.apply) {
+                prog.apply(effect, this, source);
+            }
         }
         return effect;
     }
@@ -276,7 +287,8 @@ export class Creature {
         const aEffects: Effect[] = [];
         for (const effectDefinition of effectDefinitions) {
             const effect: Effect = EffectSchema.parse({
-                ...effectDefinition,
+                type: effectDefinition.type,
+                data: effectDefinition,
                 id: randomUUID(),
                 source: source.id,
                 target: this.id,
@@ -334,6 +346,7 @@ export class Creature {
                 this.removeEffect(effect, true);
                 return;
             }
+            const source = this.registry?.getCreature(effect.source);
             this.emit<EventEffectProcessorCreatureEffect>(
                 CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_DISPOSED,
                 {
@@ -341,6 +354,10 @@ export class Creature {
                     effect,
                 }
             );
+            const prog = effectPrograms.get(effect.type);
+            if (prog?.dispose) {
+                prog.dispose(effect, this, source);
+            }
             this.state.effects.splice(effIndex, 1);
         }
     }

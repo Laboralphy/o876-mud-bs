@@ -8,8 +8,9 @@ export interface IProgram<T> {
      * Applies on properties and effects
      * @param propOrEffect the property or effect.
      * @param creature creture holding this property of effect
+     * @param source the creature that caused the effect to be applied
      */
-    mutate?(propOrEffect: T, creature: Creature): void;
+    mutate?(propOrEffect: T, creature: Creature, source: Creature | undefined): void;
 
     /**
      * This method is invoked when the creature attacks its target.
@@ -66,14 +67,16 @@ export interface IProgram<T> {
      * This method applies only to effects, not properties.
      * @param propOrEffect
      * @param creature
+     * @param source
      */
-    apply?(propOrEffect: T, creature: Creature): void;
+    apply?(propOrEffect: T, creature: Creature, source: Creature): void;
 
     /**
      * This method is invoked when an effect is removed from a creature.
      * This method applies only to effects, not properties.
      * @param propOrEffect
      * @param creature
+     * @param source
      */
-    dispose?(propOrEffect: T, creature: Creature): void;
+    dispose?(propOrEffect: T, creature: Creature, source: Creature | undefined): void;
 }

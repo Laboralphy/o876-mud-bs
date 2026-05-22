@@ -154,6 +154,58 @@ describe('LocationRegistry', () => {
             expect(room1.creatures.has(creature)).toBe(false);
             expect(creature.location).toBeNull();
         });
+
+        it('registers creature in the creature map when moved to a valid location', () => {
+            registry.moveCreature(creature, 'room-1');
+            expect(registry.getCreature(creature.id)).toBe(creature);
+        });
+
+        it('sets creature.registry to this registry when moved to a valid location', () => {
+            registry.moveCreature(creature, 'room-1');
+            expect(creature.registry).toBe(registry);
+        });
+
+        it('keeps creature registered when moving between two valid locations', () => {
+            registry.moveCreature(creature, 'room-1');
+            registry.moveCreature(creature, 'room-2');
+            expect(registry.getCreature(creature.id)).toBe(creature);
+            expect(creature.registry).toBe(registry);
+        });
+
+        it('unregisters creature when moved to limbo (unknown location)', () => {
+            registry.moveCreature(creature, 'room-1');
+            registry.moveCreature(creature, 'limbo');
+            expect(registry.getCreature(creature.id)).toBeUndefined();
+        });
+
+        it('sets creature.registry to null when moved to limbo', () => {
+            registry.moveCreature(creature, 'room-1');
+            registry.moveCreature(creature, 'limbo');
+            expect(creature.registry).toBeNull();
+        });
+    });
+
+    describe('getCreature', () => {
+        it('returns undefined for an unknown id', () => {
+            expect(registry.getCreature('nobody')).toBeUndefined();
+        });
+
+        it('returns the creature instance by id after registration', () => {
+            const creature = new Creature('c1');
+            registry.defineLocation('room-1');
+            registry.moveCreature(creature, 'room-1');
+            expect(registry.getCreature('c1')).toBe(creature);
+        });
+
+        it('can look up multiple creatures independently', () => {
+            const c1 = new Creature('c1');
+            const c2 = new Creature('c2');
+            registry.defineLocation('room-1');
+            registry.moveCreature(c1, 'room-1');
+            registry.moveCreature(c2, 'room-1');
+            expect(registry.getCreature('c1')).toBe(c1);
+            expect(registry.getCreature('c2')).toBe(c2);
+        });
     });
 });
 

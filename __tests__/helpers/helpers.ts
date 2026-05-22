@@ -7,6 +7,7 @@ import { ItemBuilder } from '../../src/builders/ItemBuilder';
 import { WeaponBlueprint, WeaponBlueprintSchema } from '../../src/schemas/WeaponBlueprint';
 import { AmmoBlueprintSchema } from '../../src/schemas/AmmoBlueprint';
 import { ShieldBlueprintSchema } from '../../src/schemas/ShieldBlueprint';
+import { Ability } from '../../src/schemas/enums/Ability';
 
 export function makeWeapon(overrides: Partial<WeaponBlueprint> & { id?: string } = {}): Item {
     const { id = 'weapon-1', ...blueprintOverrides } = overrides;
@@ -108,7 +109,10 @@ export function makeRegenProperty(amp: string = '2d1'): Property {
     });
 }
 
-export function makeAbilityModifierProperty(amp = 2, ability = CONSTS.ABILITY_BODY): Property {
+export function makeAbilityModifierProperty(
+    amp = 2,
+    ability: Ability = CONSTS.ABILITY_BODY
+): Property {
     return PropertyBuilder.buildProperty({
         type: CONSTS.PROPERTY_ABILITY_MODIFIER,
         amp,
