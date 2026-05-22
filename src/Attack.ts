@@ -208,6 +208,13 @@ export class Attack {
     }
 
     run() {
+        // Charmed attacker cannot attack its charmer
+        if (this.attacker.getters.getCharmerSet.has(this.target.id)) {
+            this.failed = true;
+            this.failure = CONSTS.ATTACK_FAILURE_CHARMED;
+            return;
+        }
+
         // Visibility miss: target has 50% chance to avoid if only the attacker is impaired.
         // If both are impaired, no miss chance applies.
         this.computeVisibility();

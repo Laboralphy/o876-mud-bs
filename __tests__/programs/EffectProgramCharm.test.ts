@@ -1,14 +1,17 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { Creature } from '../../src/Creature';
+import { Attack } from '../../src/Attack';
 import { CONSTS } from '../../src/consts';
 
 describe('EffectProgramCharm', () => {
-    let attacker: Creature;
+    let charmer: Creature;
     let target: Creature;
+    let thirdParty: Creature;
 
     beforeEach(() => {
-        attacker = new Creature('attacker');
+        charmer = new Creature('charmer');
         target = new Creature('target');
+        thirdParty = new Creature('third-party');
         target.hitPoints = 20;
     });
 
@@ -19,44 +22,34 @@ describe('EffectProgramCharm', () => {
             subtype: CONSTS.EFFECT_SUBTYPE_MAGICAL,
             duration,
             target: target.id,
-            source: attacker.id,
+            source: charmer.id,
             siblings: [],
             tag: '',
             data: { type: CONSTS.EFFECT_CHARM, dc },
         });
     }
 
-    it('removes charm when aura check succeeds on damage (dc = 1)', () => {
+    it('removes charm when aura check succeeds and attacker is the charm source (dc = 1)', () => {
         applyCharm(1);
-        expect(target.state.effects.some((e) => e.type === CONSTS.EFFECT_CHARM)).toBe(true);
-
-        target.applyEffect(
-            { type: CONSTS.EFFECT_DAMAGE, damageType: CONSTS.DAMAGE_TYPE_SLASHING, amp: 3 },
-            attacker, 0
-        );
-
+        target.triggerAttackedEvent(new Attack(charmer, target));
         expect(target.state.effects.some((e) => e.type === CONSTS.EFFECT_CHARM)).toBe(false);
     });
 
-    it('keeps charm when aura check fails on damage (dc = 21)', () => {
+    it('keeps charm when aura check fails and attacker is the charm source (dc = 21)', () => {
         applyCharm(21);
-
-        target.applyEffect(
-            { type: CONSTS.EFFECT_DAMAGE, damageType: CONSTS.DAMAGE_TYPE_SLASHING, amp: 3 },
-            attacker, 0
-        );
-
+        target.triggerAttackedEvent(new Attack(charmer, target));
         expect(target.state.effects.some((e) => e.type === CONSTS.EFFECT_CHARM)).toBe(true);
     });
 
-    it('does not check resistance when dc is 0', () => {
+    it('does not check aura when dc is 0', () => {
         applyCharm(0);
+        target.triggerAttackedEvent(new Attack(charmer, target));
+        expect(target.state.effects.some((e) => e.type === CONSTS.EFFECT_CHARM)).toBe(true);
+    });
 
-        target.applyEffect(
-            { type: CONSTS.EFFECT_DAMAGE, damageType: CONSTS.DAMAGE_TYPE_SLASHING, amp: 3 },
-            attacker, 0
-        );
-
+    it('does not check aura when attacker is not the charm source', () => {
+        applyCharm(1);
+        target.triggerAttackedEvent(new Attack(thirdParty, target));
         expect(target.state.effects.some((e) => e.type === CONSTS.EFFECT_CHARM)).toBe(true);
     });
 });

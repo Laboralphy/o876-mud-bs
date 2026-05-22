@@ -630,5 +630,44 @@ describe('Attack', () => {
             expect(attack.critical).toBe(true);
             expect(attack.damages[0].amount).toBe(8); // 4 × 2
         });
+
+        it('fails immediately with ATTACK_FAILURE_CHARMED when attacker is charmed by target', () => {
+            attacker.state.effects.push({
+                id: 'charm-1',
+                type: CONSTS.EFFECT_CHARM,
+                subtype: CONSTS.EFFECT_SUBTYPE_MAGICAL,
+                duration: 10,
+                target: attacker.id,
+                source: target.id,
+                siblings: [],
+                tag: '',
+                data: { type: CONSTS.EFFECT_CHARM },
+            });
+            const attack = new Attack(attacker, target);
+            attack.init();
+            attack.run();
+            expect(attack.failed).toBe(true);
+            expect(attack.failure).toBe(CONSTS.ATTACK_FAILURE_CHARMED);
+            expect(attack.damages).toHaveLength(0);
+        });
+
+        it('does not block attack when charmed by a different creature', () => {
+            attacker.state.effects.push({
+                id: 'charm-1',
+                type: CONSTS.EFFECT_CHARM,
+                subtype: CONSTS.EFFECT_SUBTYPE_MAGICAL,
+                duration: 10,
+                target: attacker.id,
+                source: 'some-other-creature',
+                siblings: [],
+                tag: '',
+                data: { type: CONSTS.EFFECT_CHARM },
+            });
+            vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(15);
+            const attack = new Attack(attacker, target);
+            attack.init();
+            attack.run();
+            expect(attack.failed).toBe(false);
+        });
     });
 });

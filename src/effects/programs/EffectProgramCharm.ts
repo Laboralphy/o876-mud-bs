@@ -1,21 +1,14 @@
 import { IProgram } from '../../interfaces/IProgram';
 import { Effect } from '../schemas';
-import { Creature } from '../../Creature';
 import { CONSTS } from '../../consts';
-import { DamageType } from '../../schemas/enums/DamageType';
+import { Attack } from '../../Attack';
 
 export class EffectProgramCharm implements IProgram<Effect> {
-    damaged(
-        effect: Effect,
-        amount: number,
-        damageType: DamageType,
-        creature: Creature,
-        source: Creature | undefined
-    ): void {
-        if (effect.type === CONSTS.EFFECT_CHARM) {
+    attacked(effect: Effect, attack: Attack): void {
+        if (effect.type === CONSTS.EFFECT_CHARM && attack.attacker.id === effect.source) {
             const dc = effect.data.dc ?? 0;
-            if (dc > 0 && creature.checkSkill(CONSTS.SKILL_AURA, dc)) {
-                creature.removeEffect(effect);
+            if (dc > 0 && attack.target.checkSkill(CONSTS.SKILL_AURA, dc)) {
+                attack.target.removeEffect(effect);
             }
         }
     }
