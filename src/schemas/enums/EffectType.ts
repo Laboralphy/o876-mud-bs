@@ -6,7 +6,6 @@ import { CONSTS } from '../../consts';
 export const EffectTypeSchema = z
     .enum([
         CONSTS.EFFECT_DAMAGE_IMMUNITY,
-        CONSTS.EFFECT_DAMAGE_MODIFIER,
         CONSTS.EFFECT_DAMAGE_REDUCTION,
         CONSTS.EFFECT_DAMAGE_RESISTANCE,
         CONSTS.EFFECT_DAMAGE,
