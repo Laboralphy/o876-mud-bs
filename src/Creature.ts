@@ -465,10 +465,7 @@ export class Creature {
             return CONSTS.CREATURE_VISIBILITY_INVISIBLE;
         }
         if (targetEffects.has(CONSTS.EFFECT_STEALTH)) {
-            // Stealth effect prevents target detection
-            return this.checkSkillAgainst(CONSTS.SKILL_STEALTH, oTarget, CONSTS.SKILL_PERCEPTION)
-                ? CONSTS.CREATURE_VISIBILITY_HIDDEN
-                : CONSTS.CREATURE_VISIBILITY_VISIBLE;
+            return CONSTS.CREATURE_VISIBILITY_HIDDEN;
         }
         if (this.isInBrightLocation()) {
             return CONSTS.CREATURE_VISIBILITY_VISIBLE;
