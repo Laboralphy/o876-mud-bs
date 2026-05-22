@@ -29,7 +29,6 @@ import { getSelectedWeapon } from './getters/getSelectedWeapon';
 import { getSkillBonusValues } from './getters/getSkillBonusValues';
 import { getSkillValues } from './getters/getSkillValues';
 import { getSpecie } from './getters/getSpecie';
-import { getThreatResistanceBonus } from './getters/getThreatResistanceBonus';
 import { isRangedWeaponLoaded } from './getters/isRangedWeaponLoaded';
 import { isWieldingShield } from './getters/isWieldingShield';
 import { isWieldingTwoHandedWeapon } from './getters/isWieldingTwoHandedWeapon';
@@ -64,7 +63,6 @@ export type GetterReturnFunctions = {
     getSkillBonusValues: typeof getSkillBonusValues;
     getSkillValues: typeof getSkillValues;
     getSpecie: typeof getSpecie;
-    getThreatResistanceBonus: typeof getThreatResistanceBonus;
     isRangedWeaponLoaded: typeof isRangedWeaponLoaded;
     isWieldingShield: typeof isWieldingShield;
     isWieldingTwoHandedWeapon: typeof isWieldingTwoHandedWeapon;
@@ -102,7 +100,6 @@ export const Getters = {
     getSkillBonusValues,
     getSkillValues,
     getSpecie,
-    getThreatResistanceBonus,
     isRangedWeaponLoaded,
     isWieldingShield,
     isWieldingTwoHandedWeapon,

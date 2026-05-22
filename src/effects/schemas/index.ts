@@ -16,7 +16,6 @@ import { EffectAbilityResistanceModifier } from './modifiers/ability-resistance-
 import { EffectArmorClassModifier } from './modifiers/armor-class-modifier';
 import { EffectAttackModifier } from './modifiers/attack-modifier';
 import { EffectExtraHitpoints } from './modifiers/extra-hitpoints';
-import { EffectResistThreat } from './modifiers/resist-threat';
 import { EffectSkillModifier } from './modifiers/skill-modifier';
 import { EffectSpeedFactor } from './modifiers/speed-factor';
 import { EffectCharm } from './status/charm';
@@ -50,7 +49,6 @@ export const EffectDefinitionSchema = z.discriminatedUnion('type', [
     EffectArmorClassModifier,
     EffectAttackModifier,
     EffectExtraHitpoints,
-    EffectResistThreat,
     EffectSkillModifier,
     EffectSpeedFactor,
     EffectCharm,
@@ -86,7 +84,6 @@ const _WrappedEffectAbilityResistanceModifier = BaseEffectSchema.extend({ type: 
 const _WrappedEffectArmorClassModifier = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_ARMOR_CLASS_MODIFIER), data: EffectArmorClassModifier });
 const _WrappedEffectAttackModifier = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_ATTACK_MODIFIER), data: EffectAttackModifier });
 const _WrappedEffectExtraHitpoints = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_EXTRA_HITPOINTS), data: EffectExtraHitpoints });
-const _WrappedEffectResistThreat = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_RESIST_THREAT), data: EffectResistThreat });
 const _WrappedEffectSkillModifier = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_SKILL_MODIFIER), data: EffectSkillModifier });
 const _WrappedEffectSpeedFactor = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_SPEED_FACTOR), data: EffectSpeedFactor });
 const _WrappedEffectCharm = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_CHARM), data: EffectCharm });
@@ -120,7 +117,6 @@ export const EffectSchema = z.discriminatedUnion('type', [
     _WrappedEffectArmorClassModifier,
     _WrappedEffectAttackModifier,
     _WrappedEffectExtraHitpoints,
-    _WrappedEffectResistThreat,
     _WrappedEffectSkillModifier,
     _WrappedEffectSpeedFactor,
     _WrappedEffectCharm,

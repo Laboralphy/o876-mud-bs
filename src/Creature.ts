@@ -32,7 +32,6 @@ import { generateUniqueId } from './libs/unique-id';
 import { Skill } from './schemas/enums/Skill';
 import { DiceRoll } from './DiceRoll';
 import { Ability } from './schemas/enums/Ability';
-import { ThreatType } from './schemas/enums/ThreatType';
 import { randomUUID } from 'node:crypto';
 import { EffectSubtype } from './schemas/enums/EffectSubtype';
 import { EventEffectProcessorImmunity } from './schemas/events/EventEffectProcessorImmunity';
@@ -751,14 +750,12 @@ export class Creature {
         return d.success;
     }
 
-    checkResistance(ability: Ability, dc: number, threat: ThreatType | false = false): boolean {
-        const t = threat !== false ? (this.getters.getThreatResistanceBonus[threat] ?? 0) : 0;
-        const d = new DiceRoll('1d20', this.getters.getAbilityModifiers[ability] + t, dc);
+    checkResistance(ability: Ability, dc: number): boolean {
+        const d = new DiceRoll('1d20', this.getters.getAbilityModifiers[ability], dc);
         this.emit<EventCreatureCheckResistance>(CONSTS.EVENT_CREATURE_RESISTANCE_CHECK, {
             creature: this,
             ability,
             dc,
-            ...(threat !== false && { threat }),
             success: d.success,
         });
         return d.success;
