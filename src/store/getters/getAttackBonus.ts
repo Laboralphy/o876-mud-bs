@@ -8,26 +8,18 @@ import { Specie } from '../../schemas/enums/Specie';
 
 export type AttackBonusStruct = {
     base: number;
-    attackTypes: Map<AttackType, number>;
-    species: Map<Specie, number>;
+    attackTypes: Partial<Record<AttackType, number>>;
+    species: Partial<Record<Specie, number>>;
 };
-
-function incRegistry<T extends AttackType | Specie>(
-    registry: Map<T, number>,
-    key: T,
-    value: number
-) {
-    registry.set(key, (registry.get(key) ?? 0) + value);
-}
 
 export function getAttackBonus(state: State, getters: GetterReturnType): AttackBonusStruct {
     const am: Record<Ability, number> = getters.getAbilityModifiers;
     let base = 0;
-    const attackTypes = new Map<AttackType, number>([
-        [CONSTS.ATTACK_TYPE_MELEE, am[CONSTS.ABILITY_BODY]],
-        [CONSTS.ATTACK_TYPE_RANGED, am[CONSTS.ABILITY_SENSES]],
-    ]);
-    const species = new Map<Specie, number>();
+    const attackTypes: Partial<Record<AttackType, number>> = {
+        [CONSTS.ATTACK_TYPE_MELEE]: am[CONSTS.ABILITY_BODY],
+        [CONSTS.ATTACK_TYPE_RANGED]: am[CONSTS.ABILITY_SENSES],
+    };
+    const species: Partial<Record<Specie, number>> = {};
     aggregate(
         [CONSTS.PROPERTY_ATTACK_MODIFIER, CONSTS.EFFECT_ATTACK_MODIFIER],
         {
@@ -36,9 +28,11 @@ export function getAttackBonus(state: State, getters: GetterReturnType): AttackB
                     if (effect.type === CONSTS.EFFECT_ATTACK_MODIFIER) {
                         const amp = effect.data.amp;
                         if (effect.data.attackType) {
-                            incRegistry(attackTypes, effect.data.attackType, amp);
+                            const k = effect.data.attackType;
+                            attackTypes[k] = (attackTypes[k] ?? 0) + amp;
                         } else if (effect.data.specie) {
-                            incRegistry(species, effect.data.specie, amp);
+                            const k = effect.data.specie;
+                            species[k] = (species[k] ?? 0) + amp;
                         } else {
                             base += amp;
                         }
@@ -50,9 +44,11 @@ export function getAttackBonus(state: State, getters: GetterReturnType): AttackB
                     if (property.type === CONSTS.PROPERTY_ATTACK_MODIFIER) {
                         const amp = property.data.amp;
                         if (property.data.attackType) {
-                            incRegistry(attackTypes, property.data.attackType, amp);
+                            const k = property.data.attackType;
+                            attackTypes[k] = (attackTypes[k] ?? 0) + amp;
                         } else if (property.data.specie) {
-                            incRegistry(species, property.data.specie, amp);
+                            const k = property.data.specie;
+                            species[k] = (species[k] ?? 0) + amp;
                         } else {
                             base += amp;
                         }

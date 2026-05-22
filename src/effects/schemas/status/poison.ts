@@ -3,5 +3,5 @@ import { CONSTS } from '../../../consts';
 export const EffectPoison = z.strictObject({
     type: z.literal(CONSTS.EFFECT_POISON),
     amp: z.number().int(),
-    dc: z.number().int().min(0).optional().default(0),
+    dc: z.number().int().min(0).optional(),
 });

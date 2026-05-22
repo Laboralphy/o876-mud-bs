@@ -127,7 +127,21 @@ export function makeArmorClassModifierProperty(amp = 1): Property {
     });
 }
 
-export function makeSkillModifierProperty(amp = 1, skill = CONSTS.SKILL_ATHLETICS): Property {
+export function makeAbilityResistanceModifierProperty(
+    amp = 2,
+    ability: Ability = CONSTS.ABILITY_BODY
+): Property {
+    return PropertyBuilder.buildProperty({
+        type: CONSTS.PROPERTY_ABILITY_RESISTANCE_MODIFIER,
+        amp,
+        ability,
+    });
+}
+
+export function makeSkillModifierProperty(
+    amp = 1,
+    skill: Skill = CONSTS.SKILL_ATHLETICS
+): Property {
     return PropertyBuilder.buildProperty({
         type: CONSTS.PROPERTY_SKILL_MODIFIER,
         amp,

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { CONSTS } from '../../src/consts';
-import { makeSkillModifierProperty, makeAbilityModifierProperty } from '../helpers/helpers';
+import { makeSkillModifierProperty, makeAbilityResistanceModifierProperty } from '../helpers/helpers';
 
 describe('getResistanceValues', () => {
     let creature: Creature;
@@ -31,22 +31,22 @@ describe('getResistanceValues', () => {
         expect(values[CONSTS.ABILITY_PRESENCE]).toBe(0);
     });
 
-    it('adds a skill bonus to the resistance of its governing ability', () => {
+    it('adds a resistance modifier to its governing ability resistance', () => {
         creature.state.abilities[CONSTS.ABILITY_BODY] = 14; // mod +2
-        creature.state.properties.push(makeSkillModifierProperty(3, CONSTS.SKILL_ATHLETICS));
+        creature.state.properties.push(makeAbilityResistanceModifierProperty(3, CONSTS.ABILITY_BODY));
         expect(creature.getters.getResistanceValues[CONSTS.ABILITY_BODY]).toBe(5); // 2 + 3
     });
 
-    it('sums all skill bonuses for the same ability', () => {
-        creature.state.properties.push(makeSkillModifierProperty(2, CONSTS.SKILL_ATHLETICS));
-        creature.state.properties.push(makeSkillModifierProperty(1, CONSTS.SKILL_DISCIPLINE));
-        creature.state.properties.push(makeSkillModifierProperty(3, CONSTS.SKILL_SURVIVAL));
+    it('sums all resistance modifiers for the same ability', () => {
+        creature.state.properties.push(makeAbilityResistanceModifierProperty(2, CONSTS.ABILITY_BODY));
+        creature.state.properties.push(makeAbilityResistanceModifierProperty(1, CONSTS.ABILITY_BODY));
+        creature.state.properties.push(makeAbilityResistanceModifierProperty(3, CONSTS.ABILITY_BODY));
         expect(creature.getters.getResistanceValues[CONSTS.ABILITY_BODY]).toBe(6); // 0 + 2 + 1 + 3
     });
 
-    it('routes skill bonuses to the correct ability only', () => {
-        creature.state.properties.push(makeSkillModifierProperty(4, CONSTS.SKILL_STEALTH));   // Senses
-        creature.state.properties.push(makeSkillModifierProperty(2, CONSTS.SKILL_ARCANA));    // Mind
+    it('routes resistance modifiers to the correct ability only', () => {
+        creature.state.properties.push(makeAbilityResistanceModifierProperty(4, CONSTS.ABILITY_SENSES));
+        creature.state.properties.push(makeAbilityResistanceModifierProperty(2, CONSTS.ABILITY_MIND));
         const values = creature.getters.getResistanceValues;
         expect(values[CONSTS.ABILITY_BODY]).toBe(0);
         expect(values[CONSTS.ABILITY_SENSES]).toBe(4);
@@ -54,19 +54,16 @@ describe('getResistanceValues', () => {
         expect(values[CONSTS.ABILITY_PRESENCE]).toBe(0);
     });
 
-    it('combines ability modifier and skill bonuses across all four abilities', () => {
-        creature.state.abilities[CONSTS.ABILITY_BODY] = 12;     // mod +1
-        creature.state.abilities[CONSTS.ABILITY_SENSES] = 14;   // mod +2
-        creature.state.abilities[CONSTS.ABILITY_MIND] = 8;      // mod −1
+    it('combines ability modifiers across all four abilities', () => {
+        creature.state.abilities[CONSTS.ABILITY_BODY] = 12; // mod +1
+        creature.state.abilities[CONSTS.ABILITY_SENSES] = 14; // mod +2
+        creature.state.abilities[CONSTS.ABILITY_MIND] = 8; // mod −1
         creature.state.abilities[CONSTS.ABILITY_PRESENCE] = 16; // mod +3
-        creature.state.properties.push(makeSkillModifierProperty(2, CONSTS.SKILL_ATHLETICS));
-        creature.state.properties.push(makeSkillModifierProperty(1, CONSTS.SKILL_PERCEPTION));
-        creature.state.properties.push(makeSkillModifierProperty(3, CONSTS.SKILL_FAITH));
         const values = creature.getters.getResistanceValues;
-        expect(values[CONSTS.ABILITY_BODY]).toBe(3);      // 1 + 2
-        expect(values[CONSTS.ABILITY_SENSES]).toBe(3);    // 2 + 1
-        expect(values[CONSTS.ABILITY_MIND]).toBe(-1);     // −1 + 0
-        expect(values[CONSTS.ABILITY_PRESENCE]).toBe(6);  // 3 + 3
+        expect(values[CONSTS.ABILITY_BODY]).toBe(1);
+        expect(values[CONSTS.ABILITY_SENSES]).toBe(2);
+        expect(values[CONSTS.ABILITY_MIND]).toBe(-1);
+        expect(values[CONSTS.ABILITY_PRESENCE]).toBe(3);
     });
 
     it('reflects a negative ability modifier', () => {
@@ -74,10 +71,9 @@ describe('getResistanceValues', () => {
         expect(creature.getters.getResistanceValues[CONSTS.ABILITY_MIND]).toBe(-2);
     });
 
-    it('a skill bonus does not offset resistance if routed to a different ability', () => {
+    it('a skill bonus does not offset resistance to the corresponding ability', () => {
         creature.state.abilities[CONSTS.ABILITY_BODY] = 6; // mod −2
         creature.state.properties.push(makeSkillModifierProperty(5, CONSTS.SKILL_ARCANA)); // Mind skill
-        expect(creature.getters.getResistanceValues[CONSTS.ABILITY_BODY]).toBe(-2);
-        expect(creature.getters.getResistanceValues[CONSTS.ABILITY_MIND]).toBe(5);
+        expect(creature.getters.getResistanceValues[CONSTS.ABILITY_MIND]).toBe(0);
     });
 });

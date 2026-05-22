@@ -9,4 +9,5 @@ import { CONSTS } from '../../../consts';
  */
 export const EffectCharm = z.strictObject({
     type: z.literal(CONSTS.EFFECT_CHARM),
+    dc: z.number().int().min(0).optional(),
 });

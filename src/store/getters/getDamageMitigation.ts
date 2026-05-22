@@ -27,7 +27,7 @@ const dtDiscriminator = {
 export function getDamageMitigation(
     state: State,
     getters: GetterReturnType
-): Map<DamageType, DamageMitigationEntry> {
+): Partial<Record<DamageType, DamageMitigationEntry>> {
     const oReduction = aggregate(
         [CONSTS.EFFECT_DAMAGE_REDUCTION, CONSTS.PROPERTY_DAMAGE_REDUCTION],
         dtDiscriminator,
@@ -56,7 +56,7 @@ export function getDamageMitigation(
         ...Object.keys(oImmunity.discriminator),
     ]);
 
-    const result = new Map<DamageType, DamageMitigationEntry>();
+    const result: Partial<Record<DamageType, DamageMitigationEntry>> = {};
 
     for (const dt of allDamageTypes) {
         const immunity = (oImmunity.discriminator[dt]?.count ?? 0) > 0;
@@ -86,13 +86,13 @@ export function getDamageMitigation(
                 break;
             }
         }
-        result.set(dt as DamageType, {
+        result[dt as DamageType] = {
             reduction: oReduction.discriminator[dt]?.sum ?? 0,
             factor,
             resistance,
             vulnerability,
             immunity,
-        });
+        };
     }
 
     return result;

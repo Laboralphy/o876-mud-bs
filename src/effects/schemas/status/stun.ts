@@ -6,4 +6,5 @@ import { CONSTS } from '../../../consts';
  */
 export const EffectStun = z.strictObject({
     type: z.literal(CONSTS.EFFECT_STUN),
+    dc: z.number().int().min(0).optional(),
 });

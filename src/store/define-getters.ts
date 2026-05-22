@@ -1,4 +1,7 @@
 import { GetterOutput } from '@laboralphy/reactor';
+import { canAct } from './getters/canAct';
+import { canFight } from './getters/canFight';
+import { canMove } from './getters/canMove';
 import { getAbilities } from './getters/getAbilities';
 import { getAbilityBaseValues } from './getters/getAbilityBaseValues';
 import { getAbilityBonusValues } from './getters/getAbilityBonusValues';
@@ -8,12 +11,12 @@ import { getActiveProperties } from './getters/getActiveProperties';
 import { getArmorClass } from './getters/getArmorClass';
 import { getAttackBonus } from './getters/getAttackBonus';
 import { getDamageMitigation } from './getters/getDamageMitigation';
-import { getHealingFactor } from './getters/getHealingFactor';
 import { getDefensiveSlots } from './getters/getDefensiveSlots';
 import { getEffectSet } from './getters/getEffectSet';
 import { getEffects } from './getters/getEffects';
 import { getEquipmentProperties } from './getters/getEquipmentProperties';
 import { getEquipmentSlotProperties } from './getters/getEquipmentSlotProperties';
+import { getHealingFactor } from './getters/getHealingFactor';
 import { getInnateProperties } from './getters/getInnateProperties';
 import { getMaxHitPoints } from './getters/getMaxHitPoints';
 import { getOffensiveSlots } from './getters/getOffensiveSlots';
@@ -30,6 +33,9 @@ import { isRangedWeaponLoaded } from './getters/isRangedWeaponLoaded';
 import { isWieldingShield } from './getters/isWieldingShield';
 import { isWieldingTwoHandedWeapon } from './getters/isWieldingTwoHandedWeapon';
 export type GetterReturnFunctions = {
+    canAct: typeof canAct;
+    canFight: typeof canFight;
+    canMove: typeof canMove;
     getAbilities: typeof getAbilities;
     getAbilityBaseValues: typeof getAbilityBaseValues;
     getAbilityBonusValues: typeof getAbilityBonusValues;
@@ -39,12 +45,12 @@ export type GetterReturnFunctions = {
     getArmorClass: typeof getArmorClass;
     getAttackBonus: typeof getAttackBonus;
     getDamageMitigation: typeof getDamageMitigation;
-    getHealingFactor: typeof getHealingFactor;
     getDefensiveSlots: typeof getDefensiveSlots;
     getEffectSet: typeof getEffectSet;
     getEffects: typeof getEffects;
     getEquipmentProperties: typeof getEquipmentProperties;
     getEquipmentSlotProperties: typeof getEquipmentSlotProperties;
+    getHealingFactor: typeof getHealingFactor;
     getInnateProperties: typeof getInnateProperties;
     getMaxHitPoints: typeof getMaxHitPoints;
     getOffensiveSlots: typeof getOffensiveSlots;
@@ -64,6 +70,9 @@ export type GetterReturnFunctions = {
 
 export type GetterReturnType = GetterOutput<GetterReturnFunctions>;
 export const Getters = {
+    canAct,
+    canFight,
+    canMove,
     getAbilities,
     getAbilityBaseValues,
     getAbilityBonusValues,
@@ -73,12 +82,12 @@ export const Getters = {
     getArmorClass,
     getAttackBonus,
     getDamageMitigation,
-    getHealingFactor,
     getDefensiveSlots,
     getEffectSet,
     getEffects,
     getEquipmentProperties,
     getEquipmentSlotProperties,
+    getHealingFactor,
     getInnateProperties,
     getMaxHitPoints,
     getOffensiveSlots,

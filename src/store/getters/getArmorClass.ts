@@ -10,28 +10,19 @@ import { DamageType } from '../../schemas/enums/DamageType';
 
 export type ArmorClassStruct = {
     base: number;
-    attackTypes: Map<AttackType, number>;
-    species: Map<Specie, number>;
-    damageTypes: Map<DamageType, number>;
+    attackTypes: Partial<Record<AttackType, number>>;
+    species: Partial<Record<Specie, number>>;
+    damageTypes: Partial<Record<DamageType, number>>;
 };
-
-function incRegistry<T extends AttackType | Specie | DamageType>(
-    registry: Map<T, number>,
-    key: T,
-    value: number
-) {
-    const re = registry.get(key) ?? 0;
-    registry.set(key, re + value);
-}
 
 export function getArmorClass(state: State, getters: GetterReturnType): ArmorClassStruct {
     const acbv = VARS.ARMOR_CLASS_BASE_VALUE;
     const am: Record<Ability, number> = getters.getAbilityModifiers;
     const acAbilities = acbv + am[CONSTS.ABILITY_SENSES] + Math.floor(am[CONSTS.ABILITY_BODY] / 2);
     const acNatural = state.armorClass;
-    const acAttackTypes = new Map<AttackType, number>();
-    const acSpecies = new Map<Specie, number>();
-    const acDamageTypes = new Map<DamageType, number>();
+    const acAttackTypes: Partial<Record<AttackType, number>> = {};
+    const acSpecies: Partial<Record<Specie, number>> = {};
+    const acDamageTypes: Partial<Record<DamageType, number>> = {};
     aggregate(
         [CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER, CONSTS.EFFECT_ARMOR_CLASS_MODIFIER],
         {
@@ -40,13 +31,16 @@ export function getArmorClass(state: State, getters: GetterReturnType): ArmorCla
                     if (effect.type === CONSTS.EFFECT_ARMOR_CLASS_MODIFIER) {
                         const amp = effect.data.amp;
                         if (effect.data.attackType) {
-                            incRegistry(acAttackTypes, effect.data.attackType, amp);
+                            const k = effect.data.attackType;
+                            acAttackTypes[k] = (acAttackTypes[k] ?? 0) + amp;
                         }
                         if (effect.data.specie) {
-                            incRegistry(acSpecies, effect.data.specie, amp);
+                            const k = effect.data.specie;
+                            acSpecies[k] = (acSpecies[k] ?? 0) + amp;
                         }
                         if (effect.data.damageType) {
-                            incRegistry(acDamageTypes, effect.data.damageType, amp);
+                            const k = effect.data.damageType;
+                            acDamageTypes[k] = (acDamageTypes[k] ?? 0) + amp;
                         }
                     }
                 },
@@ -56,13 +50,16 @@ export function getArmorClass(state: State, getters: GetterReturnType): ArmorCla
                     if (property.type === CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER) {
                         const amp = property.data.amp;
                         if (property.data.attackType) {
-                            incRegistry(acAttackTypes, property.data.attackType, amp);
+                            const k = property.data.attackType;
+                            acAttackTypes[k] = (acAttackTypes[k] ?? 0) + amp;
                         }
                         if (property.data.specie) {
-                            incRegistry(acSpecies, property.data.specie, amp);
+                            const k = property.data.specie;
+                            acSpecies[k] = (acSpecies[k] ?? 0) + amp;
                         }
                         if (property.data.damageType) {
-                            incRegistry(acDamageTypes, property.data.damageType, amp);
+                            const k = property.data.damageType;
+                            acDamageTypes[k] = (acDamageTypes[k] ?? 0) + amp;
                         }
                     }
                 },

@@ -8,4 +8,5 @@ import { CONSTS } from '../../../consts';
  */
 export const EffectFear = z.strictObject({
     type: z.literal(CONSTS.EFFECT_FEAR),
+    dc: z.number().int().min(0).optional(),
 });

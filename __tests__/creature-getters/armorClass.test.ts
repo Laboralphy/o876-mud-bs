@@ -62,32 +62,32 @@ describe('getArmorClass - attackTypes', () => {
         creature = new Creature('test');
     });
 
-    it('returns an empty map when there are no AC modifier properties', () => {
-        expect(creature.getters.getArmorClass.attackTypes.size).toBe(0);
+    it('returns an empty record when there are no AC modifier properties', () => {
+        expect(Object.keys(creature.getters.getArmorClass.attackTypes).length).toBe(0);
     });
 
     it('records a melee AC bonus from an innate property', () => {
         addAC(creature, 3, { attackType: CONSTS.ATTACK_TYPE_MELEE });
-        expect(creature.getters.getArmorClass.attackTypes.get(CONSTS.ATTACK_TYPE_MELEE)).toBe(3);
+        expect(creature.getters.getArmorClass.attackTypes[CONSTS.ATTACK_TYPE_MELEE]).toBe(3);
     });
 
     it('records a ranged AC bonus from an innate property', () => {
         addAC(creature, 2, { attackType: CONSTS.ATTACK_TYPE_RANGED });
-        expect(creature.getters.getArmorClass.attackTypes.get(CONSTS.ATTACK_TYPE_RANGED)).toBe(2);
+        expect(creature.getters.getArmorClass.attackTypes[CONSTS.ATTACK_TYPE_RANGED]).toBe(2);
     });
 
     it('stacks multiple properties of the same attack type', () => {
         addAC(creature, 2, { attackType: CONSTS.ATTACK_TYPE_MELEE });
         addAC(creature, 3, { attackType: CONSTS.ATTACK_TYPE_MELEE });
-        expect(creature.getters.getArmorClass.attackTypes.get(CONSTS.ATTACK_TYPE_MELEE)).toBe(5);
+        expect(creature.getters.getArmorClass.attackTypes[CONSTS.ATTACK_TYPE_MELEE]).toBe(5);
     });
 
     it('tracks different attack types independently', () => {
         addAC(creature, 4, { attackType: CONSTS.ATTACK_TYPE_MELEE });
         addAC(creature, 1, { attackType: CONSTS.ATTACK_TYPE_RANGED });
         const ac = creature.getters.getArmorClass;
-        expect(ac.attackTypes.get(CONSTS.ATTACK_TYPE_MELEE)).toBe(4);
-        expect(ac.attackTypes.get(CONSTS.ATTACK_TYPE_RANGED)).toBe(1);
+        expect(ac.attackTypes[CONSTS.ATTACK_TYPE_MELEE]).toBe(4);
+        expect(ac.attackTypes[CONSTS.ATTACK_TYPE_RANGED]).toBe(1);
     });
 });
 
@@ -98,27 +98,27 @@ describe('getArmorClass - damageTypes', () => {
         creature = new Creature('test');
     });
 
-    it('returns an empty map when there are no AC modifier properties', () => {
-        expect(creature.getters.getArmorClass.damageTypes.size).toBe(0);
+    it('returns an empty record when there are no AC modifier properties', () => {
+        expect(Object.keys(creature.getters.getArmorClass.damageTypes).length).toBe(0);
     });
 
     it('records a thermal damage AC bonus', () => {
         addAC(creature, 5, { damageType: CONSTS.DAMAGE_TYPE_THERMAL });
-        expect(creature.getters.getArmorClass.damageTypes.get(CONSTS.DAMAGE_TYPE_THERMAL)).toBe(5);
+        expect(creature.getters.getArmorClass.damageTypes[CONSTS.DAMAGE_TYPE_THERMAL]).toBe(5);
     });
 
     it('stacks multiple properties of the same damage type', () => {
         addAC(creature, 2, { damageType: CONSTS.DAMAGE_TYPE_ELECTRIC });
         addAC(creature, 3, { damageType: CONSTS.DAMAGE_TYPE_ELECTRIC });
-        expect(creature.getters.getArmorClass.damageTypes.get(CONSTS.DAMAGE_TYPE_ELECTRIC)).toBe(5);
+        expect(creature.getters.getArmorClass.damageTypes[CONSTS.DAMAGE_TYPE_ELECTRIC]).toBe(5);
     });
 
     it('tracks different damage types independently', () => {
         addAC(creature, 3, { damageType: CONSTS.DAMAGE_TYPE_THERMAL });
         addAC(creature, 2, { damageType: CONSTS.DAMAGE_TYPE_CRYOGENIC });
         const ac = creature.getters.getArmorClass;
-        expect(ac.damageTypes.get(CONSTS.DAMAGE_TYPE_THERMAL)).toBe(3);
-        expect(ac.damageTypes.get(CONSTS.DAMAGE_TYPE_CRYOGENIC)).toBe(2);
+        expect(ac.damageTypes[CONSTS.DAMAGE_TYPE_THERMAL]).toBe(3);
+        expect(ac.damageTypes[CONSTS.DAMAGE_TYPE_CRYOGENIC]).toBe(2);
     });
 });
 
@@ -129,27 +129,27 @@ describe('getArmorClass - species', () => {
         creature = new Creature('test');
     });
 
-    it('returns an empty map when there are no AC modifier properties', () => {
-        expect(creature.getters.getArmorClass.species.size).toBe(0);
+    it('returns an empty record when there are no AC modifier properties', () => {
+        expect(Object.keys(creature.getters.getArmorClass.species).length).toBe(0);
     });
 
     it('records an AC bonus against a specific specie', () => {
         addAC(creature, 4, { specie: CONSTS.SPECIE_DRAGON });
-        expect(creature.getters.getArmorClass.species.get(CONSTS.SPECIE_DRAGON)).toBe(4);
+        expect(creature.getters.getArmorClass.species[CONSTS.SPECIE_DRAGON]).toBe(4);
     });
 
     it('stacks multiple properties against the same specie', () => {
         addAC(creature, 2, { specie: CONSTS.SPECIE_UNDEAD });
         addAC(creature, 3, { specie: CONSTS.SPECIE_UNDEAD });
-        expect(creature.getters.getArmorClass.species.get(CONSTS.SPECIE_UNDEAD)).toBe(5);
+        expect(creature.getters.getArmorClass.species[CONSTS.SPECIE_UNDEAD]).toBe(5);
     });
 
     it('tracks bonuses against different species independently', () => {
         addAC(creature, 3, { specie: CONSTS.SPECIE_DRAGON });
         addAC(creature, 1, { specie: CONSTS.SPECIE_HUMANOID });
         const ac = creature.getters.getArmorClass;
-        expect(ac.species.get(CONSTS.SPECIE_DRAGON)).toBe(3);
-        expect(ac.species.get(CONSTS.SPECIE_HUMANOID)).toBe(1);
+        expect(ac.species[CONSTS.SPECIE_DRAGON]).toBe(3);
+        expect(ac.species[CONSTS.SPECIE_HUMANOID]).toBe(1);
     });
 });
 
@@ -172,8 +172,8 @@ describe('getArmorClass - mixed properties', () => {
         addAC(creature, 3, { damageType: CONSTS.DAMAGE_TYPE_ELECTRIC });
         addAC(creature, 2, { specie: CONSTS.SPECIE_FIEND });
         const ac = creature.getters.getArmorClass;
-        expect(ac.attackTypes.get(CONSTS.ATTACK_TYPE_MELEE)).toBe(4);
-        expect(ac.damageTypes.get(CONSTS.DAMAGE_TYPE_ELECTRIC)).toBe(3);
-        expect(ac.species.get(CONSTS.SPECIE_FIEND)).toBe(2);
+        expect(ac.attackTypes[CONSTS.ATTACK_TYPE_MELEE]).toBe(4);
+        expect(ac.damageTypes[CONSTS.DAMAGE_TYPE_ELECTRIC]).toBe(3);
+        expect(ac.species[CONSTS.SPECIE_FIEND]).toBe(2);
     });
 });

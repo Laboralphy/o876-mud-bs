@@ -6,7 +6,7 @@ import { DamageType } from '../../schemas/enums/DamageType';
 
 export class EffectProgramDamage implements IProgram<Effect> {
     private _deal(damageType: DamageType, amp: number, creature: Creature, source: Creature | undefined): void {
-        const entry = creature.getters.getDamageMitigation.get(damageType);
+        const entry = creature.getters.getDamageMitigation[damageType];
         const reduction = entry?.reduction ?? 0;
         const factor = entry?.factor ?? 1;
         const amount = Math.max(0, Math.floor((amp - reduction) * factor));

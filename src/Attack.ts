@@ -120,15 +120,15 @@ export class Attack {
         } else {
             weaponDamageTypes.push(CONSTS.DAMAGE_TYPE_CRUSHING);
         }
-        const acBonusAttackType: number = ac.attackTypes.get(this.attackType) ?? 0;
-        const acBonusSpecie: number = ac.species.get(specie) ?? 0;
+        const acBonusAttackType: number = ac.attackTypes[this.attackType] ?? 0;
+        const acBonusSpecie: number = ac.species[specie] ?? 0;
         let acBonusDamageType: number;
         if (weaponDamageTypes.length === 1) {
-            acBonusDamageType = ac.damageTypes.get(weaponDamageTypes[0]) ?? 0;
+            acBonusDamageType = ac.damageTypes[weaponDamageTypes[0]] ?? 0;
         } else {
             // Hybrid weapon: attacker exploits whichever damage type the defender resists least
-            const dt1 = ac.damageTypes.get(weaponDamageTypes[0]) ?? 0;
-            const dt2 = ac.damageTypes.get(weaponDamageTypes[1]) ?? 0;
+            const dt1 = ac.damageTypes[weaponDamageTypes[0]] ?? 0;
+            const dt2 = ac.damageTypes[weaponDamageTypes[1]] ?? 0;
             acBonusDamageType = Math.min(dt1, dt2);
         }
         this.ac = ac.base + acBonusAttackType + acBonusSpecie + acBonusDamageType;
@@ -177,13 +177,13 @@ export class Attack {
         let typeBonus: number;
         if (this.finesse && this.attackType === CONSTS.ATTACK_TYPE_MELEE) {
             typeBonus = Math.max(
-                ab.attackTypes.get(CONSTS.ATTACK_TYPE_MELEE) ?? 0,
-                ab.attackTypes.get(CONSTS.ATTACK_TYPE_RANGED) ?? 0
+                ab.attackTypes[CONSTS.ATTACK_TYPE_MELEE] ?? 0,
+                ab.attackTypes[CONSTS.ATTACK_TYPE_RANGED] ?? 0
             );
         } else {
-            typeBonus = ab.attackTypes.get(this.attackType) ?? 0;
+            typeBonus = ab.attackTypes[this.attackType] ?? 0;
         }
-        this.attackBonus = ab.base + typeBonus + (ab.species.get(targetSpecie) ?? 0);
+        this.attackBonus = ab.base + typeBonus + (ab.species[targetSpecie] ?? 0);
     }
 
     computeDamages() {
