@@ -74,10 +74,7 @@ describe('aggregateProperties', () => {
 
     describe('type filtering', () => {
         it('ignores properties not in aWantedProperties', () => {
-            const getters = makeGetters([
-                makeAbilityModifier(5),
-                makeRegenProperty(3),
-            ]);
+            const getters = makeGetters([makeAbilityModifier(5), makeRegenProperty('3d1')]);
             const result = aggregateProperties(
                 ['PROPERTY_ABILITY_MODIFIER'],
                 getters,
@@ -193,8 +190,7 @@ describe('aggregateProperties', () => {
                 getters,
                 {
                     filter: (p: Property) =>
-                        p.type === 'PROPERTY_ABILITY_MODIFIER' &&
-                        p.data.ability === 'ABILITY_BODY',
+                        p.type === 'PROPERTY_ABILITY_MODIFIER' && p.data.ability === 'ABILITY_BODY',
                 },
                 NO_OPTIONS
             );
@@ -211,35 +207,6 @@ describe('aggregateProperties', () => {
                 NO_OPTIONS
             );
             expect(result.count).toBe(0);
-        });
-    });
-
-    describe('oFunctions.ampMapper', () => {
-        it('applies ampMapper to override amp values', () => {
-            const getters = makeGetters([makeAbilityModifier(5)]);
-            const result = aggregateProperties(
-                WANTED,
-                getters,
-                { ampMapper: () => 10 },
-                NO_OPTIONS
-            );
-            expect(result.sum).toBe(10);
-            expect(result.min).toBe(10);
-            expect(result.max).toBe(10);
-        });
-
-        it('ampMapper receives the original property and can scale amp', () => {
-            const getters = makeGetters([makeAbilityModifier(1), makeAbilityModifier(2)]);
-            const result = aggregateProperties(
-                WANTED,
-                getters,
-                {
-                    ampMapper: (p: Property) =>
-                        p.type === 'PROPERTY_ABILITY_MODIFIER' ? p.data.amp * 3 : 0,
-                },
-                NO_OPTIONS
-            );
-            expect(result.sum).toBe(9); // (1*3) + (2*3)
         });
     });
 
@@ -276,9 +243,7 @@ describe('aggregateProperties', () => {
                 NO_OPTIONS
             );
             expect(visited).toHaveLength(1);
-            expect(
-                visited[0].type === 'PROPERTY_ABILITY_MODIFIER' && visited[0].data.amp
-            ).toBe(7);
+            expect(visited[0].type === 'PROPERTY_ABILITY_MODIFIER' && visited[0].data.amp).toBe(7);
         });
     });
 

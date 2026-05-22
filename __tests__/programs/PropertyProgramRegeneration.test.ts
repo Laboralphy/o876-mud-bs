@@ -8,7 +8,7 @@ import { PropertyDefinition } from '../../src/properties/schemas';
 function makeRegenProperty(vulnerabilities: DamageType[]): PropertyDefinition {
     return {
         type: CONSTS.PROPERTY_REGENERATION,
-        amp: 1,
+        amp: '1d1',
         vulnerabilities,
         useBodyModifier: false,
         shutdown: 0,
@@ -32,7 +32,7 @@ describe('PropertyProgramRegeneration - mutate', () => {
         // default max HP = body(10) * 8 + 20 = 100
         creature.addInnateProperty({
             type: CONSTS.PROPERTY_REGENERATION,
-            amp: 1,
+            amp: '1d1',
             vulnerabilities: [],
             useBodyModifier: false,
             shutdown: 0,
@@ -47,7 +47,7 @@ describe('PropertyProgramRegeneration - mutate', () => {
         // max HP = 100, threshold = 0.5 → regeneration stops when hp/max >= 0.5 (i.e. at 50)
         creature.addInnateProperty({
             type: CONSTS.PROPERTY_REGENERATION,
-            amp: 1,
+            amp: '1d1',
             vulnerabilities: [],
             useBodyModifier: false,
             shutdown: 0,
