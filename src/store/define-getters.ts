@@ -8,6 +8,7 @@ import { getActiveProperties } from './getters/getActiveProperties';
 import { getArmorClass } from './getters/getArmorClass';
 import { getAttackBonus } from './getters/getAttackBonus';
 import { getDamageMitigation } from './getters/getDamageMitigation';
+import { getHealingFactor } from './getters/getHealingFactor';
 import { getDefensiveSlots } from './getters/getDefensiveSlots';
 import { getEffectSet } from './getters/getEffectSet';
 import { getEffects } from './getters/getEffects';
@@ -38,6 +39,7 @@ export type GetterReturnFunctions = {
     getArmorClass: typeof getArmorClass;
     getAttackBonus: typeof getAttackBonus;
     getDamageMitigation: typeof getDamageMitigation;
+    getHealingFactor: typeof getHealingFactor;
     getDefensiveSlots: typeof getDefensiveSlots;
     getEffectSet: typeof getEffectSet;
     getEffects: typeof getEffects;
@@ -71,6 +73,7 @@ export const Getters = {
     getArmorClass,
     getAttackBonus,
     getDamageMitigation,
+    getHealingFactor,
     getDefensiveSlots,
     getEffectSet,
     getEffects,
