@@ -3,6 +3,7 @@ import { Effect } from '../schemas';
 import { Creature } from '../../Creature';
 import { CONSTS } from '../../consts';
 import { DamageType } from '../../schemas/enums/DamageType';
+import { getResistingSkill } from '../../libs/get-resisting-skill';
 
 export class EffectProgramRoot implements IProgram<Effect> {
     damaged(
@@ -14,7 +15,8 @@ export class EffectProgramRoot implements IProgram<Effect> {
     ): void {
         if (effect.type === CONSTS.EFFECT_ROOT) {
             const dc = effect.data.dc ?? 0;
-            if (dc > 0 && creature.checkSkill(CONSTS.SKILL_ACROBATICS, dc)) {
+            const skill = getResistingSkill(effect.type);
+            if (dc > 0 && skill && creature.checkSkill(skill, dc)) {
                 creature.removeEffect(effect);
             }
         }
