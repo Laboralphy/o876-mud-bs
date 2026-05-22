@@ -3,9 +3,7 @@ import { Creature } from '../../Creature';
 import { DamageType } from '../../schemas/enums/DamageType';
 import { IProgram } from '../../interfaces/IProgram';
 import { Effect } from '../schemas';
-import { EffectRegenerationSchema } from '../schemas/healing/regeneration';
-
-type EffectRegeneration = z.infer<typeof EffectRegenerationSchema>;
+import { CONSTS } from '../../consts';
 
 export class EffectProgramRegeneration implements IProgram<Effect> {
     /**
@@ -14,21 +12,23 @@ export class EffectProgramRegeneration implements IProgram<Effect> {
      * @param creature
      */
     mutate(prop: Effect, creature: Creature): void {
-        const p = prop.data as EffectRegeneration;
-        const dice = creature.dice;
-        let amount: number = dice.roll(p.amp);
-        if (p.shutdown > amount) {
-            p.shutdown -= amount;
-            return;
-        }
-        if (p.shutdown > 0) {
-            amount -= p.shutdown;
-            p.shutdown = 0;
-        }
-        const hpmax = creature.getters.getMaxHitPoints;
-        const hp = creature.hitPoints;
-        if (amount > 0 && hp / hpmax < p.threshold) {
-            creature.hitPoints += amount;
+        if (prop.type === CONSTS.EFFECT_REGENERATION) {
+            const p = prop.data;
+            const dice = creature.dice;
+            let amount: number = dice.roll(p.amp);
+            if (p.shutdown > amount) {
+                p.shutdown -= amount;
+                return;
+            }
+            if (p.shutdown > 0) {
+                amount -= p.shutdown;
+                p.shutdown = 0;
+            }
+            const hpmax = creature.getters.getMaxHitPoints;
+            const hp = creature.hitPoints;
+            if (amount > 0 && hp / hpmax < p.threshold) {
+                creature.hitPoints += amount;
+            }
         }
     }
 
@@ -36,10 +36,12 @@ export class EffectProgramRegeneration implements IProgram<Effect> {
      * If damaged by a damage type present in the vulnerability, the shutdown effect is increased
      * instead of the hitpoints
      */
-    damaged?(prop: Effect, amount: number, damageType: DamageType): void {
-        const p = prop.data as EffectRegeneration;
-        if (p.vulnerabilities?.includes(damageType)) {
-            p.shutdown += amount;
+    damaged(prop: Effect, amount: number, damageType: DamageType): void {
+        if (prop.type === CONSTS.EFFECT_REGENERATION) {
+            const p = prop.data;
+            if (p.vulnerabilities?.includes(damageType)) {
+                p.shutdown += amount;
+            }
         }
     }
 }

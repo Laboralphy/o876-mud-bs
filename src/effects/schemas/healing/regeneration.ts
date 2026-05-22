@@ -1,11 +1,10 @@
 import { CONSTS } from '../../../consts';
 import z from 'zod';
-import { AmpExpressionSchema } from '../../../schemas/AmpExpression';
 import { DamageTypeSchema } from '../../../schemas/enums/DamageType';
 
-export const EffectRegenerationSchema = z.strictObject({
+export const EffectRegeneration = z.strictObject({
     type: z.literal(CONSTS.EFFECT_REGENERATION),
-    amp: AmpExpressionSchema,
+    amp: z.number().int(),
     vulnerabilities: z.array(DamageTypeSchema).optional(),
     useConstitutionModifier: z.boolean().optional().default(false),
     shutdown: z.number().int().optional().default(0),
