@@ -8,7 +8,6 @@ import { Effect } from '../../effects/schemas';
 
 export interface AggregatorFunc<T> {
     filter?(pe: T): boolean;
-    ampMapper?(pe: T): number;
     discriminator?(pe: T): string;
     forEach?(pe: T): void;
 }
@@ -56,6 +55,16 @@ export interface IAggregatorGetters {
     get getEquipmentProperties(): Property[];
     get getEquipmentSlotProperties(): Record<string, Property[]>;
     get getEffects(): Effect[];
+}
+
+function resolveEffectAmp(data: object): number {
+    return 'amp' in data && typeof data.amp === 'number' ? data.amp : 0;
+}
+
+function resolvePropertyAmp(data: object): number {
+    return 'amp' in data && (typeof data.amp === 'string' || typeof data.amp === 'number')
+        ? dice.roll(data.amp)
+        : 0;
 }
 
 /**
@@ -108,21 +117,18 @@ export function aggregateProperties(
         aStartingProperties.push(...getters.getEquipmentProperties);
     }
     // At this point, aStartingProperties contains all properties to be aggregated
-    const aFilteredProperties: Property[] = aStartingProperties
-        .filter(
-            (ip: Property): boolean =>
-                aTypeSet.has(ip.type) && (oFunctions?.filter ? oFunctions.filter(ip) : true)
-        )
-        .map((prop: Property): Property => {
-            if ('amp' in prop.data) {
-                const mappedAmp = oFunctions?.ampMapper
-                    ? oFunctions.ampMapper(prop)
-                    : dice.roll((prop.data as any).amp);
-                return { ...prop, data: { ...prop.data, amp: mappedAmp } } as Property;
-            } else {
-                return prop;
-            }
-        });
+    const aFilteredProperties: Property[] = aStartingProperties.filter(
+        (ip: Property): boolean =>
+            aTypeSet.has(ip.type) && (oFunctions?.filter ? oFunctions.filter(ip) : true)
+    );
+    // .map((prop: Property): Property => {
+    //     if ('amp' in prop.data) {
+    //         const amp = resolveAmp(prop.data);
+    //         return { ...prop, data: { ...prop.data, amp } } as Property;
+    //     } else {
+    //         return prop;
+    //     }
+    // });
     const ffe = oFunctions?.forEach;
     if (ffe) {
         // Applies a forEach function to all properties
@@ -131,9 +137,10 @@ export function aggregateProperties(
     const oDiscriminator: Record<string, AggregatorAccumulator> = {};
     if (typeof oFunctions?.discriminator === 'function') {
         aFilteredProperties.forEach((pe: Property) => {
+            // play discriminator function
             if (typeof oFunctions?.discriminator === 'function') {
+                const amp = resolvePropertyAmp(pe.data);
                 const sd = getDiscriminatorRegistry(oDiscriminator, oFunctions.discriminator(pe));
-                const amp: number = 'amp' in pe.data && typeof (pe.data as any).amp === 'number' ? (pe.data as any).amp : 0;
                 sd.max = Math.max(sd.max, amp);
                 sd.min = Math.min(sd.min, amp);
                 sd.sum += amp;
@@ -145,12 +152,10 @@ export function aggregateProperties(
         nMin = Infinity,
         nMax = -Infinity;
     aFilteredProperties.forEach((pe: Property) => {
-        if ('amp' in pe.data && typeof (pe.data as any).amp === 'number') {
-            const amp = (pe.data as any).amp as number;
-            nAccumulator += amp;
-            nMax = Math.max(nMax, amp);
-            nMin = Math.min(nMin, amp);
-        }
+        const amp = resolvePropertyAmp(pe.data);
+        nAccumulator += amp;
+        nMax = Math.max(nMax, amp);
+        nMin = Math.min(nMin, amp);
     });
     return {
         sum: nAccumulator,
@@ -168,7 +173,7 @@ export function aggregateProperties(
  *
  * @param aWantedEffects array of wanted effect types to include in the aggregation
  * @param getters reference to store getters
- * @param oFunctions set of filter/transform functions (filter, ampMapper, discriminator, forEach)
+ * @param oFunctions set of filter/transform functions (filter, discriminator, forEach)
  * @returns the sum, min, max, and count of matching effect amps, plus a discriminator registry
  */
 export function aggregateEffects(
@@ -177,21 +182,17 @@ export function aggregateEffects(
     oFunctions: AggregatorFunc<Effect>
 ): AggregatorResult {
     const aTypeSet = new Set<EffectType>(aWantedEffects);
-    const aFilteredEffects: Effect[] = getters.getEffects
-        .filter(
-            (eff: Effect): boolean =>
-                aTypeSet.has(eff.type) && (oFunctions?.filter ? oFunctions.filter(eff) : true)
-        )
-        .map((eff: Effect): Effect => {
-            if ('amp' in eff.data) {
-                const mappedAmp = oFunctions?.ampMapper
-                    ? oFunctions.ampMapper(eff)
-                    : (eff.data as any).amp;
-                return { ...eff, data: { ...eff.data, amp: mappedAmp } } as Effect;
-            } else {
-                return eff;
-            }
-        });
+    const aFilteredEffects: Effect[] = getters.getEffects.filter(
+        (eff: Effect): boolean =>
+            aTypeSet.has(eff.type) && (oFunctions?.filter ? oFunctions.filter(eff) : true)
+    );
+    // .map((eff: Effect): Effect => {
+    //     if ('amp' in eff.data) {
+    //         return { ...eff, data: { ...eff.data, amp: resolveEffectAmp(eff.data) } } as Effect;
+    //     } else {
+    //         return eff;
+    //     }
+    // });
     const ffe = oFunctions?.forEach;
     if (ffe) {
         // Applies a forEach function to all properties
@@ -202,7 +203,7 @@ export function aggregateEffects(
         aFilteredEffects.forEach((eff: Effect) => {
             if (typeof oFunctions?.discriminator === 'function') {
                 const sd = getDiscriminatorRegistry(oDiscriminator, oFunctions.discriminator(eff));
-                const amp: number = 'amp' in eff.data && typeof (eff.data as any).amp === 'number' ? (eff.data as any).amp : 0;
+                const amp: number = resolveEffectAmp(eff.data);
                 sd.max = Math.max(sd.max, amp);
                 sd.min = Math.min(sd.min, amp);
                 sd.sum += amp;
@@ -214,12 +215,10 @@ export function aggregateEffects(
         nMin = Infinity,
         nMax = -Infinity;
     aFilteredEffects.forEach((eff: Effect) => {
-        if ('amp' in eff.data && typeof (eff.data as any).amp === 'number') {
-            const amp = (eff.data as any).amp as number;
-            nAccumulator += amp;
-            nMax = Math.max(nMax, amp);
-            nMin = Math.min(nMin, amp);
-        }
+        const amp = resolveEffectAmp(eff.data);
+        nAccumulator += amp;
+        nMax = Math.max(nMax, amp);
+        nMin = Math.min(nMin, amp);
     });
     return {
         sum: nAccumulator,
