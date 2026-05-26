@@ -23,12 +23,13 @@ import { getMaxHitPoints } from './getters/getMaxHitPoints';
 import { getOffensiveSlots } from './getters/getOffensiveSlots';
 import { getPropertySet } from './getters/getPropertySet';
 import { getResistanceValues } from './getters/getResistanceValues';
+import { getSelectedWeapon } from './getters/getSelectedWeapon';
 import { getSelectedWeaponAmmo } from './getters/getSelectedWeaponAmmo';
 import { getSelectedWeaponAttributeSet } from './getters/getSelectedWeaponAttributeSet';
-import { getSelectedWeapon } from './getters/getSelectedWeapon';
+import { getSize } from './getters/getSize';
+import { getSpeed } from './getters/getSpeed';
 import { getSkillBonusValues } from './getters/getSkillBonusValues';
 import { getSkillValues } from './getters/getSkillValues';
-import { getSize } from './getters/getSize';
 import { getSpecie } from './getters/getSpecie';
 import { isRangedWeaponLoaded } from './getters/isRangedWeaponLoaded';
 import { isWieldingShield } from './getters/isWieldingShield';
@@ -58,12 +59,13 @@ export type GetterReturnFunctions = {
     getOffensiveSlots: typeof getOffensiveSlots;
     getPropertySet: typeof getPropertySet;
     getResistanceValues: typeof getResistanceValues;
+    getSelectedWeapon: typeof getSelectedWeapon;
     getSelectedWeaponAmmo: typeof getSelectedWeaponAmmo;
     getSelectedWeaponAttributeSet: typeof getSelectedWeaponAttributeSet;
-    getSelectedWeapon: typeof getSelectedWeapon;
+    getSize: typeof getSize;
+    getSpeed: typeof getSpeed;
     getSkillBonusValues: typeof getSkillBonusValues;
     getSkillValues: typeof getSkillValues;
-    getSize: typeof getSize;
     getSpecie: typeof getSpecie;
     isRangedWeaponLoaded: typeof isRangedWeaponLoaded;
     isWieldingShield: typeof isWieldingShield;
@@ -96,12 +98,13 @@ export const Getters = {
     getOffensiveSlots,
     getPropertySet,
     getResistanceValues,
+    getSelectedWeapon,
     getSelectedWeaponAmmo,
     getSelectedWeaponAttributeSet,
-    getSelectedWeapon,
+    getSize,
+    getSpeed,
     getSkillBonusValues,
     getSkillValues,
-    getSize,
     getSpecie,
     isRangedWeaponLoaded,
     isWieldingShield,

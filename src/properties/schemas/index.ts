@@ -20,6 +20,7 @@ import { PropertyArmorClassModifier } from './modifiers/armor-class-modifier';
 import { PropertyAttackModifier } from './modifiers/attack-modifier';
 import { PropertyExtraHitpoints } from './modifiers/extra-hitpoints';
 import { PropertySkillModifier } from './modifiers/skill-modifier';
+import { PropertySpeedFactor } from './modifiers/speed-factor';
 import { PropertyDarkvision } from './visibility/darkvision';
 import { PropertyLight } from './visibility/light';
 
@@ -43,6 +44,7 @@ export const PropertyDefinitionSchema = z.discriminatedUnion('type', [
     PropertyAttackModifier,
     PropertyExtraHitpoints,
     PropertySkillModifier,
+    PropertySpeedFactor,
     PropertyDarkvision,
     PropertyLight,
 ]);
@@ -68,6 +70,7 @@ const _WrappedPropertyArmorClassModifier = BasePropertySchema.extend({ type: z.l
 const _WrappedPropertyAttackModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_ATTACK_MODIFIER), data: PropertyAttackModifier });
 const _WrappedPropertyExtraHitpoints = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_EXTRA_HITPOINTS), data: PropertyExtraHitpoints });
 const _WrappedPropertySkillModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_SKILL_MODIFIER), data: PropertySkillModifier });
+const _WrappedPropertySpeedFactor = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_SPEED_FACTOR), data: PropertySpeedFactor });
 const _WrappedPropertyDarkvision = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_DARKVISION), data: PropertyDarkvision });
 const _WrappedPropertyLight = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_LIGHT), data: PropertyLight });
 
@@ -91,6 +94,7 @@ export const PropertySchema = z.discriminatedUnion('type', [
     _WrappedPropertyAttackModifier,
     _WrappedPropertyExtraHitpoints,
     _WrappedPropertySkillModifier,
+    _WrappedPropertySpeedFactor,
     _WrappedPropertyDarkvision,
     _WrappedPropertyLight,
 ]);
