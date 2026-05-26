@@ -10,9 +10,9 @@ import { getActiveEffects } from './getters/getActiveEffects';
 import { getActiveProperties } from './getters/getActiveProperties';
 import { getArmorClass } from './getters/getArmorClass';
 import { getAttackBonus } from './getters/getAttackBonus';
+import { getCharmerSet } from './getters/getCharmerSet';
 import { getDamageMitigation } from './getters/getDamageMitigation';
 import { getDefensiveSlots } from './getters/getDefensiveSlots';
-import { getCharmerSet } from './getters/getCharmerSet';
 import { getEffectSet } from './getters/getEffectSet';
 import { getEffects } from './getters/getEffects';
 import { getEquipmentProperties } from './getters/getEquipmentProperties';
@@ -23,9 +23,9 @@ import { getMaxHitPoints } from './getters/getMaxHitPoints';
 import { getOffensiveSlots } from './getters/getOffensiveSlots';
 import { getPropertySet } from './getters/getPropertySet';
 import { getResistanceValues } from './getters/getResistanceValues';
+import { getSelectedWeapon } from './getters/getSelectedWeapon';
 import { getSelectedWeaponAmmo } from './getters/getSelectedWeaponAmmo';
 import { getSelectedWeaponAttributeSet } from './getters/getSelectedWeaponAttributeSet';
-import { getSelectedWeapon } from './getters/getSelectedWeapon';
 import { getSkillBonusValues } from './getters/getSkillBonusValues';
 import { getSkillValues } from './getters/getSkillValues';
 import { getSpecie } from './getters/getSpecie';
@@ -44,9 +44,9 @@ export type GetterReturnFunctions = {
     getActiveProperties: typeof getActiveProperties;
     getArmorClass: typeof getArmorClass;
     getAttackBonus: typeof getAttackBonus;
+    getCharmerSet: typeof getCharmerSet;
     getDamageMitigation: typeof getDamageMitigation;
     getDefensiveSlots: typeof getDefensiveSlots;
-    getCharmerSet: typeof getCharmerSet;
     getEffectSet: typeof getEffectSet;
     getEffects: typeof getEffects;
     getEquipmentProperties: typeof getEquipmentProperties;
@@ -57,9 +57,9 @@ export type GetterReturnFunctions = {
     getOffensiveSlots: typeof getOffensiveSlots;
     getPropertySet: typeof getPropertySet;
     getResistanceValues: typeof getResistanceValues;
+    getSelectedWeapon: typeof getSelectedWeapon;
     getSelectedWeaponAmmo: typeof getSelectedWeaponAmmo;
     getSelectedWeaponAttributeSet: typeof getSelectedWeaponAttributeSet;
-    getSelectedWeapon: typeof getSelectedWeapon;
     getSkillBonusValues: typeof getSkillBonusValues;
     getSkillValues: typeof getSkillValues;
     getSpecie: typeof getSpecie;
@@ -81,9 +81,9 @@ export const Getters = {
     getActiveProperties,
     getArmorClass,
     getAttackBonus,
+    getCharmerSet,
     getDamageMitigation,
     getDefensiveSlots,
-    getCharmerSet,
     getEffectSet,
     getEffects,
     getEquipmentProperties,
@@ -94,9 +94,9 @@ export const Getters = {
     getOffensiveSlots,
     getPropertySet,
     getResistanceValues,
+    getSelectedWeapon,
     getSelectedWeaponAmmo,
     getSelectedWeaponAttributeSet,
-    getSelectedWeapon,
     getSkillBonusValues,
     getSkillValues,
     getSpecie,

@@ -1,4 +1,4 @@
-import { Item, ItemSchema } from './schemas/Item';
+import { Item } from './schemas/Item';
 import { DiceRoll } from './DiceRoll';
 import { DamageType } from './schemas/enums/DamageType';
 import { CONSTS } from './consts';
@@ -96,12 +96,24 @@ export class Attack {
         this.targetVisibility = this.attacker.getCreatureVisibility(this.target);
         this.attackerVisibility = this.target.getCreatureVisibility(this.attacker);
         if (this.targetVisibility === CONSTS.CREATURE_VISIBILITY_HIDDEN) {
-            if (!this.attacker.checkSkillAgainst(CONSTS.SKILL_STEALTH, this.target, CONSTS.SKILL_PERCEPTION)) {
+            if (
+                !this.attacker.checkSkillAgainst(
+                    CONSTS.SKILL_STEALTH,
+                    this.target,
+                    CONSTS.SKILL_PERCEPTION
+                )
+            ) {
                 this.targetVisibility = CONSTS.CREATURE_VISIBILITY_VISIBLE;
             }
         }
         if (this.attackerVisibility === CONSTS.CREATURE_VISIBILITY_HIDDEN) {
-            if (!this.target.checkSkillAgainst(CONSTS.SKILL_STEALTH, this.attacker, CONSTS.SKILL_PERCEPTION)) {
+            if (
+                !this.target.checkSkillAgainst(
+                    CONSTS.SKILL_STEALTH,
+                    this.attacker,
+                    CONSTS.SKILL_PERCEPTION
+                )
+            ) {
                 this.attackerVisibility = CONSTS.CREATURE_VISIBILITY_VISIBLE;
             }
         }

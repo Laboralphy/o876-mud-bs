@@ -32,7 +32,7 @@
     },
     "SKILL_PERCEPTION": {
         "ability": "ABILITY_SENSES",
-        "resistance": null,
+        "resistance": "EFFECT_BLINDNESS",
         "description": "Noticing what is out of place before knowing why. Perception is the skill that tells you something is wrong."
     },
     "SKILL_SLEIGHT_OF_HAND": {

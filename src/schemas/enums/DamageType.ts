@@ -12,6 +12,8 @@ export const DamageTypeSchema = z
         CONSTS.DAMAGE_TYPE_CRYOGENIC,
         CONSTS.DAMAGE_TYPE_CHEMICAL,
         CONSTS.DAMAGE_TYPE_ELECTRIC,
+        CONSTS.DAMAGE_TYPE_NECROTIC,
+        CONSTS.DAMAGE_TYPE_RADIANT,
     ])
     .describe('fields.damageType');
 
