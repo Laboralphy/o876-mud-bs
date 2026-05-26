@@ -8,6 +8,7 @@ export class LocationRegistry {
 
     defineLocation(id: string, environments: Environment[] = []): Location {
         const location = new Location(id);
+        location.registry = this;
         for (const env of environments) {
             location.environments.add(env);
         }
@@ -40,10 +41,8 @@ export class LocationRegistry {
         if (newLocation) {
             newLocation.addCreature(creature);
             this._creatures.set(creature.id, creature);
-            creature.registry = this;
         } else {
             this._creatures.delete(creature.id);
-            creature.registry = null;
         }
     }
 }

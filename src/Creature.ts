@@ -43,7 +43,10 @@ export class Creature {
 
     private _hitpoints: number = 1;
     public location: Location | null = null;
-    public registry: LocationRegistry | null = null;
+
+    get registry(): LocationRegistry | null {
+        return this.location?.registry ?? null;
+    }
     public readonly events = new EventEmitter();
     public group: number = 0; // Creature of the same group can be affected by Area Of Effect spells
 

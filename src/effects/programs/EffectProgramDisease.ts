@@ -3,6 +3,7 @@ import { Effect } from '../schemas';
 import { Creature } from '../../Creature';
 import { CONSTS } from '../../consts';
 import { VARS } from '../../vars';
+import { getResistingSkill } from '../../libs/get-resisting-skill';
 import DISEASES from '../../data/diseases';
 import { DamageType } from '../../schemas/enums/DamageType';
 
@@ -59,7 +60,7 @@ export class EffectProgramDisease implements IProgram<Effect> {
             stage.conveyedEffects,
             source,
             LARGE_DURATION,
-            CONSTS.EFFECT_SUBTYPE_MAGICAL,
+            effect.subtype,
             this._stageTag(disease.tag, stage.tag)
         );
     }
@@ -87,7 +88,7 @@ export class EffectProgramDisease implements IProgram<Effect> {
         if (data.timer >= data.amp) {
             if (
                 stage.resistance &&
-                creature.checkSkill(CONSTS.SKILL_SURVIVAL, data.dc ?? disease.dc)
+                creature.checkSkill(getResistingSkill(CONSTS.EFFECT_DISEASE)!, data.dc ?? disease.dc)
             ) {
                 creature.removeEffect(effect, false);
                 return;
@@ -106,7 +107,7 @@ export class EffectProgramDisease implements IProgram<Effect> {
                     nextStage.conveyedEffects,
                     source ?? creature,
                     LARGE_DURATION,
-                    CONSTS.EFFECT_SUBTYPE_MAGICAL,
+                    effect.subtype,
                     this._stageTag(disease.tag, nextStage.tag)
                 );
             }

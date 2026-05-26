@@ -189,10 +189,16 @@ describe('EffectProgramDisease', () => {
 
         it('progresses through all four stages with repeated failures', () => {
             applyRatSickness(21);
+            expect(diseaseEffect()?.data.stage).toBe(0);
             // stage 0 NAUSEA → 1 FEVER → 2 DELIRIUM → 3 CRISIS
-            setNearExpiry(); target.process(); // 0→1
-            setNearExpiry(); target.process(); // 1→2
-            setNearExpiry(); target.process(); // 2→3
+            setNearExpiry();
+            target.process(); // 0→1
+            expect(diseaseEffect()?.data.stage).toBe(1);
+            setNearExpiry();
+            target.process(); // 1→2
+            expect(diseaseEffect()?.data.stage).toBe(2);
+            setNearExpiry();
+            target.process(); // 2→3
             expect(diseaseEffect()?.data.stage).toBe(3);
         });
     });

@@ -1,9 +1,11 @@
 import { Creature } from '../../Creature';
 import { Environment } from '../../schemas/enums/Environment';
+import type { LocationRegistry } from './LocationRegistry';
 
 export class Location {
     private readonly _creatures = new Set<Creature>();
     public readonly environments = new Set<Environment>();
+    public registry: LocationRegistry | null = null;
 
     constructor(public readonly id: string) {}
 

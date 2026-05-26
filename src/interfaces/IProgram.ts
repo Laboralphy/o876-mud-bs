@@ -79,4 +79,12 @@ export interface IProgram<T> {
      * @param source
      */
     dispose?(propOrEffect: T, creature: Creature, source: Creature | undefined): void;
+
+    /**
+     * Called when the source of an effect is dead and will be removed from the system shortly.
+     * @param propOfEffect
+     * @param creature
+     * @param source
+     */
+    sourceDead?(propOfEffect: T, creature: Creature, source: Creature | undefined): void;
 }
