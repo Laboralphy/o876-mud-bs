@@ -20,4 +20,7 @@ $script_folder/build-enum-schemas.sh
 echo "generating getter index."
 $script_folder/build-getters-index.sh
 
+echo "generating disease index."
+$script_folder/build-disease-index.sh
+
 echo "done."

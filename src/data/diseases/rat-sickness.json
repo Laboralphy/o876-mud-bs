@@ -1,0 +1,127 @@
+{
+    "tag": "RAT_SICKNESS",
+    "dc": 11,
+    "stages": [
+        {
+            "tag": "NAUSEA",
+            "duration": "1d2",
+            "resistance": true,
+            "conveyedEffects": [
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -1,
+                    "ability": "ABILITY_BODY"
+                },
+                {
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -2,
+                    "skill": "SKILL_DISCIPLINE"
+                }
+            ]
+        },
+        {
+            "tag": "FEVER",
+            "duration": "1d3",
+            "resistance": true,
+            "conveyedEffects": [
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -2,
+                    "ability": "ABILITY_BODY"
+                },
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -2,
+                    "ability": "ABILITY_MIND"
+                },
+                {
+                    "type": "EFFECT_SPEED_FACTOR",
+                    "amp": 0.75
+                },
+                {
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -2,
+                    "skill": "SKILL_DISCIPLINE"
+                },
+                {
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -2,
+                    "skill": "SKILL_PERCEPTION"
+                }
+            ]
+        },
+        {
+            "tag": "DELIRIUM",
+            "duration": "1d3",
+            "resistance": true,
+            "conveyedEffects": [
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -4,
+                    "ability": "ABILITY_BODY"
+                },
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -4,
+                    "ability": "ABILITY_MIND"
+                },
+                {
+                    "type": "EFFECT_SPEED_FACTOR",
+                    "amp": 0.5
+                },
+                {
+                    "type": "EFFECT_BLINDNESS"
+                },
+                {
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -4,
+                    "skill": "SKILL_DISCIPLINE"
+                },
+                {
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -4,
+                    "skill": "SKILL_PERCEPTION"
+                }
+            ]
+        },
+        {
+            "tag": "CRISIS",
+            "duration": "1d3",
+            "resistance": true,
+            "conveyedEffects": [
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -6,
+                    "ability": "ABILITY_BODY"
+                },
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -6,
+                    "ability": "ABILITY_MIND"
+                },
+                {
+                    "type": "EFFECT_SPEED_FACTOR",
+                    "amp": 0.5
+                },
+                {
+                    "type": "EFFECT_BLINDNESS"
+                },
+                {
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -4,
+                    "skill": "SKILL_DISCIPLINE"
+                },
+                {
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -4,
+                    "skill": "SKILL_PERCEPTION"
+                }
+            ],
+            "damages": {
+                "amount": "1d4",
+                "damageType": "DAMAGE_TYPE_NECROTIC",
+                "periodicity": 1
+            }
+        }
+    ]
+}

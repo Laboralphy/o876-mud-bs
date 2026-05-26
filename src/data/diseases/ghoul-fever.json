@@ -1,0 +1,132 @@
+{
+    "tag": "DISEASE_GHOUL_FEVER",
+    "dc": 14,
+    "stages": [
+        {
+            "tag": "PALLOR",
+            "duration": "1d2",
+            "resistance": true,
+            "conveyedEffects": [
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -2,
+                    "ability": "ABILITY_BODY"
+                },
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -2,
+                    "ability": "ABILITY_PRESENCE"
+                }
+            ]
+        },
+        {
+            "tag": "CRAVING",
+            "duration": "1d3",
+            "resistance": true,
+            "conveyedEffects": [
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -4,
+                    "ability": "ABILITY_BODY"
+                },
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -2,
+                    "ability": "ABILITY_PRESENCE"
+                },
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -2,
+                    "ability": "ABILITY_MIND"
+                },
+                {
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -4,
+                    "skill": "SKILL_DISCIPLINE"
+                },
+                {
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -3,
+                    "skill": "SKILL_PERSUASION"
+                }
+            ]
+        },
+        {
+            "tag": "NECROSIS",
+            "duration": "1d3",
+            "resistance": false,
+            "conveyedEffects": [
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -6,
+                    "ability": "ABILITY_BODY"
+                },
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -2,
+                    "ability": "ABILITY_PRESENCE"
+                },
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -4,
+                    "ability": "ABILITY_MIND"
+                },
+                {
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -6,
+                    "skill": "SKILL_DISCIPLINE"
+                },
+                {
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -3,
+                    "skill": "SKILL_PERSUASION"
+                },
+                {
+                    "type": "EFFECT_SPEED_FACTOR",
+                    "amp": 0.5
+                }
+            ]
+        },
+        {
+            "tag": "TRANSFORMATION",
+            "duration": "1d3",
+            "resistance": false,
+            "conveyedEffects": [
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -8,
+                    "ability": "ABILITY_BODY"
+                },
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -2,
+                    "ability": "ABILITY_PRESENCE"
+                },
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -4,
+                    "ability": "ABILITY_MIND"
+                },
+                {
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -6,
+                    "skill": "SKILL_DISCIPLINE"
+                },
+                {
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -3,
+                    "skill": "SKILL_PERSUASION"
+                },
+                {
+                    "type": "EFFECT_SPEED_FACTOR",
+                    "amp": 0.5
+                }
+            ],
+            "damages": {
+                "amount": "1d6",
+                "damageType": "DAMAGE_TYPE_NECROTIC",
+                "periodicity": 1
+            }
+        }
+    ]
+}

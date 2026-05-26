@@ -1,0 +1,95 @@
+{
+    "tag": "MUMMY_ROT",
+    "dc": 16,
+    "stages": [
+        {
+            "tag": "DRYING",
+            "duration": "1d3",
+            "resistance": true,
+            "conveyedEffects": [
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -1,
+                    "ability": "ABILITY_BODY"
+                },
+                {
+                    "type": "EFFECT_HEALING_FACTOR",
+                    "amp": 0.5
+                }
+            ]
+        },
+        {
+            "tag": "DESSICATION",
+            "duration": "1d4",
+            "resistance": false,
+            "conveyedEffects": [
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -3,
+                    "ability": "ABILITY_BODY"
+                },
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -2,
+                    "ability": "ABILITY_SENSES"
+                },
+                {
+                    "type": "EFFECT_HEALING_FACTOR",
+                    "amp": 0
+                }
+            ]
+        },
+        {
+            "tag": "CORRUPTION",
+            "duration": "1d4",
+            "resistance": false,
+            "conveyedEffects": [
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -6,
+                    "ability": "ABILITY_BODY"
+                },
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -4,
+                    "ability": "ABILITY_SENSES"
+                },
+                {
+                    "type": "EFFECT_HEALING_FACTOR",
+                    "amp": 0
+                }
+            ],
+            "damages": {
+                "amount": "1d8",
+                "damageType": "DAMAGE_TYPE_NECROTIC",
+                "periodicity": 1
+            }
+        },
+        {
+            "tag": "FINAL_ROT",
+            "duration": "1d4",
+            "resistance": false,
+            "conveyedEffects": [
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -10,
+                    "ability": "ABILITY_BODY"
+                },
+                {
+                    "type": "EFFECT_ABILITY_MODIFIER",
+                    "amp": -4,
+                    "ability": "ABILITY_SENSES"
+                },
+                {
+                    "type": "EFFECT_HEALING_FACTOR",
+                    "amp": 0
+                }
+            ],
+            "damages": {
+                "amount": "2d8",
+                "damageType": "DAMAGE_TYPE_NECROTIC",
+                "periodicity": 1
+            }
+        }
+    ]
+}

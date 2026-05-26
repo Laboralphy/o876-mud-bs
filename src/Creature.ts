@@ -67,6 +67,10 @@ export class Creature {
         return this.events.emit(event, payload);
     }
 
+    /**
+     * Effects are mutated and their duration are decreased
+     * Dead effect are removed as a side effect.
+     */
     process() {
         this.triggerMutateEvent();
         this.depleteEffects();
@@ -248,7 +252,9 @@ export class Creature {
             },
         });
         if (!immune) {
-            this.state.effects.push(effect);
+            if (duration > 0) {
+                this.state.effects.push(effect);
+            }
             this.emit<EventEffectProcessorCreatureEffect>(
                 CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_APPLIED,
                 {
