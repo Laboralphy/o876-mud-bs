@@ -1,0 +1,26 @@
+{
+    "CREATURE_SIZE_TINY": {
+        "base": 10,
+        "perBody": 4
+    },
+    "CREATURE_SIZE_SMALL": {
+        "base": 15,
+        "perBody": 6
+    },
+    "CREATURE_SIZE_MEDIUM": {
+        "base": 20,
+        "perBody": 8
+    },
+    "CREATURE_SIZE_LARGE": {
+        "base": 30,
+        "perBody": 10
+    },
+    "CREATURE_SIZE_HUGE": {
+        "base": 40,
+        "perBody": 12
+    },
+    "CREATURE_SIZE_GARGANTUAN": {
+        "base": 50,
+        "perBody": 16
+    }
+}

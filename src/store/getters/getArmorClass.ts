@@ -1,6 +1,6 @@
 import { State } from '../state';
 import { GetterReturnType } from '../define-getters';
-import { VARS } from '../../vars';
+import BASE_ARMOR_CLASS from '../../data/creature-base-armor-class.json';
 import { Ability } from '../../schemas/enums/Ability';
 import { CONSTS } from '../../consts';
 import { aggregate } from '../../libs/aggregator';
@@ -16,7 +16,7 @@ export type ArmorClassStruct = {
 };
 
 export function getArmorClass(state: State, getters: GetterReturnType): ArmorClassStruct {
-    const acbv = VARS.ARMOR_CLASS_BASE_VALUE;
+    const acbv = BASE_ARMOR_CLASS[getters.getSize];
     const am: Record<Ability, number> = getters.getAbilityModifiers;
     const acAbilities = acbv + am[CONSTS.ABILITY_SENSES] + Math.floor(am[CONSTS.ABILITY_BODY] / 2);
     const acNatural = state.armorClass;

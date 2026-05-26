@@ -1,12 +1,10 @@
 import { State } from '../state';
 import { GetterReturnType } from '../define-getters';
 import { CONSTS } from '../../consts';
-import { VARS } from '../../vars';
+import BASE_HIT_POINTS from '../../data/creature-base-hit-points.json';
 
-/**
- * Return the maximum hit points
- */
 export const getMaxHitPoints = (state: State, getters: GetterReturnType) => {
     const abilities = getters.getAbilityModifiers;
-    return abilities[CONSTS.ABILITY_BODY] * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE;
+    const { base, perBody } = BASE_HIT_POINTS[getters.getSize];
+    return abilities[CONSTS.ABILITY_BODY] * perBody + base;
 };

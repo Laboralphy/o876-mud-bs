@@ -8,17 +8,11 @@ Derived stats are computed from ability scores. All formulas are reactive — th
 
 All derived stats start from ability modifiers, not raw scores.
 
-```
-modifier = floor(score / 2) - 5
-```
-
 | Score | 1 | 2 | 4 | 6 | 8 | 10 | 12 | 14 | 16 | 18 | 20 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Modifier | −5 | −4 | −3 | −2 | −1 | 0 | +1 | +2 | +3 | +4 | +5 |
 
 The default score for every ability is **10** (modifier 0).
-
-The effective score used in all formulas is `base score + bonus`, where the bonus accumulates from `PROPERTY_ABILITY_MODIFIER` and `EFFECT_ABILITY_MODIFIER` keyed by ability type.
 
 ---
 

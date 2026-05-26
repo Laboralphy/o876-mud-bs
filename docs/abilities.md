@@ -2,12 +2,11 @@
 
 There are four core abilities. Each has a raw score (default 10) and a derived modifier.
 
-**Modifier formula:** `mod(score) = floor(score / 2) - 5`
-
 | Score | Modifier |
 |-------|----------|
-| 1-2   | -4       |
-| 3-4   | -3       |
+| 1     | -5       |
+| 2-3   | -4       |
+| 4-5   | -3       |
 | 6-7   | -2       |
 | 8-9   | -1       |
 | 10-11 | 0        |

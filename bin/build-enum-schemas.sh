@@ -37,6 +37,7 @@ generateFile Ability abilities
 generateFile AmmoType ammo-types
 generateFile AttackType attack-types
 generateFile CreatureVisibility creature-visibility
+generateFile CreatureSize creature-sizes
 generateFile DamageType damage-types
 generateFile Disease diseases
 generateFile EffectType effect-types
@@ -49,6 +50,5 @@ generateFile Proficiency proficiencies
 generateFile PropertyType property-types
 generateFile Skill skills
 generateFile Specie species
-generateFile ThreatType threat-types
 generateFile WeaponAttribute weapon-attributes
 generateFile WeaponSize weapon-sizes

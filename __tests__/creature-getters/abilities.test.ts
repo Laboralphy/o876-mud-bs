@@ -1,7 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { CONSTS } from '../../src/consts';
-import { VARS } from '../../src/vars';
+import BASE_HIT_POINTS from '../../src/data/creature-base-hit-points.json';
+import BASE_ARMOR_CLASS from '../../src/data/creature-base-armor-class.json';
+import { CONSTS as _CONSTS } from '../../src/consts';
+const { base: HP_BASE, perBody: HP_PER_BODY } = BASE_HIT_POINTS[_CONSTS.CREATURE_SIZE_MEDIUM];
+const AC_BASE = BASE_ARMOR_CLASS[_CONSTS.CREATURE_SIZE_MEDIUM];
 
 describe('getAbilities', () => {
     let creature: Creature;
@@ -87,21 +91,21 @@ describe('getMaxHitPoints', () => {
 
     it('returns base + body*hpPerBody at default score of 10', () => {
         expect(creature.getters.getMaxHitPoints).toBe(
-            0 * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE
+            0 * HP_PER_BODY + HP_BASE
         );
     });
 
     it('increases with higher body score', () => {
         creature.state.abilities[CONSTS.ABILITY_BODY] = 18;
         expect(creature.getters.getMaxHitPoints).toBe(
-            4 * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE
+            4 * HP_PER_BODY + HP_BASE
         );
     });
 
     it('decreases with lower body score', () => {
         creature.state.abilities[CONSTS.ABILITY_BODY] = 16;
         expect(creature.getters.getMaxHitPoints).toBe(
-            3 * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE
+            3 * HP_PER_BODY + HP_BASE
         );
     });
 
@@ -109,7 +113,7 @@ describe('getMaxHitPoints', () => {
         creature.state.abilities[CONSTS.ABILITY_SENSES] = 20;
         creature.state.abilities[CONSTS.ABILITY_MIND] = 20;
         expect(creature.getters.getMaxHitPoints).toBe(
-            0 * VARS.HITPOINTS_PER_BODY + VARS.HITPOINTS_BASE_VALUE
+            0 * HP_PER_BODY + HP_BASE
         );
     });
 });
@@ -123,31 +127,31 @@ describe('getArmorClass', () => {
 
     it('returns base AC when all modifiers are 0', () => {
         // SENSES=10, BODY=10 → modifiers=0 → AC = 8 + 0 + 0 = 8
-        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE);
+        expect(creature.getters.getArmorClass.base).toBe(AC_BASE);
     });
 
     it('increases with positive sense modifier', () => {
         // SENSES=14 → modifier=2 → AC = 8 + 2 + floor(0/2) = 10
         creature.state.abilities[CONSTS.ABILITY_SENSES] = 14;
-        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 2);
+        expect(creature.getters.getArmorClass.base).toBe(AC_BASE + 2);
     });
 
     it('decreases with negative sense modifier', () => {
         // SENSES=8 → modifier=-1 → AC = 8 + (-1) + floor(0/2) = 7
         creature.state.abilities[CONSTS.ABILITY_SENSES] = 8;
-        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE - 1);
+        expect(creature.getters.getArmorClass.base).toBe(AC_BASE - 1);
     });
 
     it('adds half body modifier', () => {
         // BODY=14 → modifier=2 → AC = 8 + 0 + floor(2/2) = 9
         creature.state.abilities[CONSTS.ABILITY_BODY] = 14;
-        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 1);
+        expect(creature.getters.getArmorClass.base).toBe(AC_BASE + 1);
     });
 
     it('combines sense and body contributions', () => {
         // SENSES=14 → +2, BODY=14 → floor(2/2)=1 → AC = 8 + 2 + 1 = 11
         creature.state.abilities[CONSTS.ABILITY_SENSES] = 14;
         creature.state.abilities[CONSTS.ABILITY_BODY] = 14;
-        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 2 + 1);
+        expect(creature.getters.getArmorClass.base).toBe(AC_BASE + 2 + 1);
     });
 });

@@ -5,6 +5,7 @@ import { EffectSchema } from '../../effects/schemas';
 import { EquipmentSchema } from '../../schemas/Equipment';
 import { EquipmentSlotSchema } from '../../schemas/enums/EquipmentSlot';
 import { SpecieSchema } from '../../schemas/enums/Specie';
+import { CreatureSizeSchema } from '../../schemas/enums/CreatureSize';
 
 export const StateSchema = z.object({
     abilities: z.object({
@@ -19,6 +20,7 @@ export const StateSchema = z.object({
     selectedOffensiveSlot: EquipmentSlotSchema,
     armorClass: z.number().int(), // Natural armor class
     specie: SpecieSchema,
+    size: CreatureSizeSchema,
 });
 
 export type State = z.infer<typeof StateSchema>;

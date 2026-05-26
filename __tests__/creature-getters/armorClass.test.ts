@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { CONSTS } from '../../src/consts';
-import { VARS } from '../../src/vars';
+import BASE_ARMOR_CLASS from '../../src/data/creature-base-armor-class.json';
+const AC_BASE = BASE_ARMOR_CLASS[CONSTS.CREATURE_SIZE_MEDIUM];
 import { Property } from '../../src/properties/schemas';
 
 function addAC(
@@ -29,29 +30,29 @@ describe('getArmorClass - base', () => {
 
     it('returns base AC from abilities alone at default scores', () => {
         // SENSES=10 → mod=0, BODY=10 → mod=0 → base = ARMOR_CLASS_BASE_VALUE
-        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE);
+        expect(creature.getters.getArmorClass.base).toBe(AC_BASE);
     });
 
     it('adds sense modifier to base', () => {
         creature.state.abilities[CONSTS.ABILITY_SENSES] = 14; // mod=+2
-        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 2);
+        expect(creature.getters.getArmorClass.base).toBe(AC_BASE + 2);
     });
 
     it('adds half body modifier (floored) to base', () => {
         creature.state.abilities[CONSTS.ABILITY_BODY] = 14; // mod=+2 → floor(2/2)=1
-        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 1);
+        expect(creature.getters.getArmorClass.base).toBe(AC_BASE + 1);
     });
 
     it('adds natural armor class (state.armorClass) to base', () => {
         creature.state.armorClass = 3;
-        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 3);
+        expect(creature.getters.getArmorClass.base).toBe(AC_BASE + 3);
     });
 
     it('combines ability modifiers and natural armor in base', () => {
         creature.state.abilities[CONSTS.ABILITY_SENSES] = 14; // +2
         creature.state.abilities[CONSTS.ABILITY_BODY] = 16; // mod=+3 → floor(3/2)=1
         creature.state.armorClass = 2;
-        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE + 2 + 1 + 2);
+        expect(creature.getters.getArmorClass.base).toBe(AC_BASE + 2 + 1 + 2);
     });
 });
 
@@ -164,7 +165,7 @@ describe('getArmorClass - mixed properties', () => {
         addAC(creature, 5, { attackType: CONSTS.ATTACK_TYPE_MELEE });
         addAC(creature, 3, { damageType: CONSTS.DAMAGE_TYPE_THERMAL });
         addAC(creature, 2, { specie: CONSTS.SPECIE_BEAST });
-        expect(creature.getters.getArmorClass.base).toBe(VARS.ARMOR_CLASS_BASE_VALUE);
+        expect(creature.getters.getArmorClass.base).toBe(AC_BASE);
     });
 
     it('all three registries are populated independently from a mixed property set', () => {
