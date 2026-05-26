@@ -81,6 +81,12 @@ describe('EffectProgramDisease', () => {
         return target.state.effects.filter((e) => e.tag === tag);
     }
 
+    /** Fast-forward the disease timer to one tick before stage expiry. */
+    function setNearExpiry() {
+        const d = diseaseEffect()!;
+        d.data.timer = d.data.amp - 1;
+    }
+
     // ─── apply ────────────────────────────────────────────────────────────────
 
     describe('apply', () => {
@@ -138,7 +144,8 @@ describe('EffectProgramDisease', () => {
 
     describe('mutate — stage expiry with resistance: true', () => {
         it('removes the disease when the survival check succeeds (dc=1)', () => {
-            applyRatSickness(1); // amp=1; after 1 tick timer=1 >= amp=1 → cure
+            applyRatSickness(1);
+            setNearExpiry();
             target.process();
             expect(target.state.effects.some((e) => e.type === CONSTS.EFFECT_DISEASE)).toBe(false);
         });
@@ -146,24 +153,28 @@ describe('EffectProgramDisease', () => {
         it('removes the stage conveyed effects when the disease is cured', () => {
             applyRatSickness(1);
             expect(stageEffects('RAT_SICKNESS.NAUSEA').length).toBeGreaterThan(0);
+            setNearExpiry();
             target.process();
             expect(stageEffects('RAT_SICKNESS.NAUSEA').length).toBe(0);
         });
 
         it('advances to the next stage when the survival check fails (dc=21)', () => {
             applyRatSickness(21);
+            setNearExpiry();
             target.process();
             expect(diseaseEffect()?.data.stage).toBe(1);
         });
 
         it('removes old stage effects when advancing', () => {
             applyRatSickness(21);
+            setNearExpiry();
             target.process();
             expect(stageEffects('RAT_SICKNESS.NAUSEA').length).toBe(0);
         });
 
         it('applies new stage effects when advancing', () => {
             applyRatSickness(21);
+            setNearExpiry();
             target.process();
             // FEVER is stage 1 of RAT_SICKNESS
             expect(stageEffects('RAT_SICKNESS.FEVER').length).toBeGreaterThan(0);
@@ -171,6 +182,7 @@ describe('EffectProgramDisease', () => {
 
         it('resets the timer to 0 after stage transition', () => {
             applyRatSickness(21);
+            setNearExpiry();
             target.process();
             expect(diseaseEffect()?.data.timer).toBe(0);
         });
@@ -178,9 +190,9 @@ describe('EffectProgramDisease', () => {
         it('progresses through all four stages with repeated failures', () => {
             applyRatSickness(21);
             // stage 0 NAUSEA → 1 FEVER → 2 DELIRIUM → 3 CRISIS
-            target.process(); // 0→1
-            target.process(); // 1→2
-            target.process(); // 2→3
+            setNearExpiry(); target.process(); // 0→1
+            setNearExpiry(); target.process(); // 1→2
+            setNearExpiry(); target.process(); // 2→3
             expect(diseaseEffect()?.data.stage).toBe(3);
         });
     });

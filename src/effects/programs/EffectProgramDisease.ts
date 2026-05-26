@@ -2,6 +2,7 @@ import { IProgram } from '../../interfaces/IProgram';
 import { Effect } from '../schemas';
 import { Creature } from '../../Creature';
 import { CONSTS } from '../../consts';
+import { VARS } from '../../vars';
 import DISEASES from '../../data/diseases';
 import { DamageType } from '../../schemas/enums/DamageType';
 
@@ -53,7 +54,7 @@ export class EffectProgramDisease implements IProgram<Effect> {
         const stage = disease.stages[0];
         data.stage = 0;
         data.timer = 0;
-        data.amp = creature.dice.roll(stage.duration);
+        data.amp = creature.dice.roll(stage.duration) * VARS.DISEASE_STAGE_UNIT_ROUNDS;
         creature.applyEffectGroup(
             stage.conveyedEffects,
             source,
@@ -100,7 +101,7 @@ export class EffectProgramDisease implements IProgram<Effect> {
                 const nextStage = disease.stages[nextStageIndex];
                 data.stage = nextStageIndex;
                 data.timer = 0;
-                data.amp = creature.dice.roll(nextStage.duration);
+                data.amp = creature.dice.roll(nextStage.duration) * VARS.DISEASE_STAGE_UNIT_ROUNDS;
                 creature.applyEffectGroup(
                     nextStage.conveyedEffects,
                     source ?? creature,
