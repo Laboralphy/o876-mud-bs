@@ -46,6 +46,7 @@ generateFile EntityType entity-types
 generateFile Environment environments
 generateFile EquipItemOutcome equip-item-outcomes
 generateFile EquipmentSlot equipment-slots
+generateFile Immunity immunities
 generateFile Proficiency proficiencies
 generateFile PropertyType property-types
 generateFile Skill skills

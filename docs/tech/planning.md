@@ -3,14 +3,14 @@
 ## Features to be implemented
 
 - [x] Carefully select what effects/property to implement.
-- [ ] Design immunity according to selected effects.
+- [x] Design immunity according to selected effects.
 - [x] Implement effects/properties programs when needed.
 - [x] Design skills.
-- [ ] Design an external spreadsheet to store the data.
-- [ ] Create a batch to download spreadsheet data and generate blueprint files out of it.
 - [ ] Combat system. Create a combat instance, design the combat orchestration
 - [ ] Action system. How can action influence a combat.
 - [ ] Spellcasting system. Carefully select what kind of spells to implement.
+- [ ] Design an external spreadsheet to store the data.
+- [ ] Create a batch to download spreadsheet data and generate blueprint files out of it.
 
 ## Details
 

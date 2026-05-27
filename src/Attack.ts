@@ -6,7 +6,7 @@ import { AttackType } from './schemas/enums/AttackType';
 import { Creature } from './Creature';
 import { CreatureVisibility } from './schemas/enums/CreatureVisibility';
 import { generateUniqueId } from './libs/unique-id';
-import { isWeapon } from './store/type-guards';
+import { isAmmo, isWeapon } from './store/type-guards';
 import { Ability } from './schemas/enums/Ability';
 import { WeaponBlueprintSchema } from './schemas/WeaponBlueprint';
 import NULL_WEAPON_BLUEPRINT from './data/null-weapon.json';
@@ -17,7 +17,7 @@ export type Damage = {
     damageType: DamageType;
 };
 
-const NULL_WEAPON = ItemBuilder.buildItem(WeaponBlueprintSchema.parse(NULL_WEAPON_BLUEPRINT));
+const NULL_WEAPON: Item = ItemBuilder.buildItem(WeaponBlueprintSchema.parse(NULL_WEAPON_BLUEPRINT));
 
 export class Attack {
     private readonly _id = generateUniqueId();
@@ -30,6 +30,7 @@ export class Attack {
     public weapon: Item | null = null; // weapon used
     public ammo: Item | null = null; // ammo used
     public attackType: AttackType = CONSTS.ATTACK_TYPE_MELEE; // attack type (ranged, melee)
+    public damageType: DamageType = CONSTS.DAMAGE_TYPE_CRUSHING; // damage type used in this attack (useful for hybrid weapons)
     public range: number = 0; // maximum distance of attack (weapon)
 
     public distance: number = 0; // distance between attacker and target
@@ -70,7 +71,15 @@ export class Attack {
     initWeapon() {
         const weaponAttributes = this.attacker.getters.getSelectedWeaponAttributeSet;
         this.weapon = this.attacker.getters.getSelectedWeapon ?? NULL_WEAPON;
+        if (!isWeapon(this.weapon)) {
+            throw new TypeError('Selected weapon is not a valid weapon');
+        }
         this.ammo = this.attacker.getters.getSelectedWeaponAmmo;
+        if (isAmmo(this.ammo)) {
+            this.damageType = this.ammo.damageType;
+        } else {
+            this.damageType = this.weapon.damageType;
+        }
         if (weaponAttributes.has(CONSTS.WEAPON_ATTRIBUTE_RANGED)) {
             this.attackType = CONSTS.ATTACK_TYPE_RANGED;
             this.range = 100;
@@ -78,9 +87,7 @@ export class Attack {
             this.attackType = CONSTS.ATTACK_TYPE_MELEE;
             this.range = 5;
         }
-        if (this.weapon) {
-            this.finesse = weaponAttributes.has(CONSTS.WEAPON_ATTRIBUTE_FINESSE);
-        }
+        this.finesse = weaponAttributes.has(CONSTS.WEAPON_ATTRIBUTE_FINESSE);
     }
 
     initAbility() {
@@ -137,11 +144,18 @@ export class Attack {
         let acBonusDamageType: number;
         if (weaponDamageTypes.length === 1) {
             acBonusDamageType = ac.damageTypes[weaponDamageTypes[0]] ?? 0;
+            this.damageType = weaponDamageTypes[0];
         } else {
             // Hybrid weapon: attacker exploits whichever damage type the defender resists least
             const dt1 = ac.damageTypes[weaponDamageTypes[0]] ?? 0;
             const dt2 = ac.damageTypes[weaponDamageTypes[1]] ?? 0;
-            acBonusDamageType = Math.min(dt1, dt2);
+            if (dt1 <= dt2) {
+                this.damageType = weaponDamageTypes[0];
+                acBonusDamageType = dt1;
+            } else {
+                this.damageType = weaponDamageTypes[1];
+                acBonusDamageType = dt2;
+            }
         }
         this.ac = ac.base + acBonusAttackType + acBonusSpecie + acBonusDamageType;
     }
@@ -205,7 +219,7 @@ export class Attack {
         const weapon = this.weapon;
         if (isWeapon(weapon)) {
             const damageFormula = weapon.damages;
-            const damageType = weapon.damageType;
+            const damageType = this.damageType;
             let amount = this.attacker.dice.roll(damageFormula);
             if (this.attackType === CONSTS.ATTACK_TYPE_MELEE) {
                 amount += this.attacker.getters.getAbilityModifiers[CONSTS.ABILITY_BODY];

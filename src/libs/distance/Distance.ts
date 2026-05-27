@@ -4,7 +4,7 @@ export enum DISTANCE {
     FAR,
 }
 
-class Distance {
+export class Distance {
     static prev(distance: DISTANCE): DISTANCE {
         switch (distance) {
             case DISTANCE.MEDIUM:
@@ -49,7 +49,7 @@ class Distance {
         this._distance = value;
     }
 
-    static from(distance: DISTANCE): Distance {
+    static from(distance: DISTANCE = DISTANCE.CLOSE): Distance {
         return new Distance(distance);
     }
 
@@ -61,15 +61,15 @@ class Distance {
         this.value = Distance.prev(this.value);
     }
 
-    closer(d: Distance) {
-        return this.value < d.value;
+    closer(d: DISTANCE) {
+        return this.value < d;
     }
 
-    farther(d: Distance) {
-        return this.value > d.value;
+    farther(d: DISTANCE) {
+        return this.value > d;
     }
 
-    same(d: Distance) {
-        return this.value === d.value;
+    same(d: DISTANCE) {
+        return this.value === d;
     }
 }

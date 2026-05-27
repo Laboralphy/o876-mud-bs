@@ -38,6 +38,7 @@ export function makeAmmo(ammoType = CONSTS.AMMO_TYPE_ARROW): Item {
             equipmentSlots: [CONSTS.EQUIPMENT_SLOT_AMMO],
             properties: [],
             weight: 0.1,
+            damageType: CONSTS.DAMAGE_TYPE_PIERCING,
         }),
         'ammo-1'
     );
