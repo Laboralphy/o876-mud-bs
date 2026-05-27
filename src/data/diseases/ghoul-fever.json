@@ -82,8 +82,9 @@
                     "skill": "SKILL_PERSUASION"
                 },
                 {
-                    "type": "EFFECT_SPEED_FACTOR",
-                    "amp": 0.5
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -2,
+                    "skill": "SKILL_ACROBATICS"
                 }
             ]
         },
@@ -118,8 +119,9 @@
                     "skill": "SKILL_PERSUASION"
                 },
                 {
-                    "type": "EFFECT_SPEED_FACTOR",
-                    "amp": 0.5
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -2,
+                    "skill": "SKILL_ACROBATICS"
                 }
             ],
             "damages": {

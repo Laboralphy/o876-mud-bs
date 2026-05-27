@@ -35,8 +35,9 @@
                     "ability": "ABILITY_MIND"
                 },
                 {
-                    "type": "EFFECT_SPEED_FACTOR",
-                    "amp": 0.75
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -1,
+                    "skill": "SKILL_ACROBATICS"
                 },
                 {
                     "type": "EFFECT_SKILL_MODIFIER",
@@ -66,8 +67,9 @@
                     "ability": "ABILITY_MIND"
                 },
                 {
-                    "type": "EFFECT_SPEED_FACTOR",
-                    "amp": 0.5
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -2,
+                    "skill": "SKILL_ACROBATICS"
                 },
                 {
                     "type": "EFFECT_BLINDNESS"
@@ -100,8 +102,9 @@
                     "ability": "ABILITY_MIND"
                 },
                 {
-                    "type": "EFFECT_SPEED_FACTOR",
-                    "amp": 0.5
+                    "type": "EFFECT_SKILL_MODIFIER",
+                    "amp": -2,
+                    "skill": "SKILL_ACROBATICS"
                 },
                 {
                     "type": "EFFECT_BLINDNESS"

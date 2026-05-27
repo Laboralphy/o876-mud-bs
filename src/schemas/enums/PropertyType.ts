@@ -26,7 +26,6 @@ export const PropertyTypeSchema = z
         CONSTS.PROPERTY_SKILL_MODIFIER,
         CONSTS.PROPERTY_DARKVISION,
         CONSTS.PROPERTY_LIGHT,
-        CONSTS.PROPERTY_SPEED_FACTOR,
     ])
     .describe('fields.propertyType');
 

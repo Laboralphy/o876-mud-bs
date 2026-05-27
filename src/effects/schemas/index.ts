@@ -17,7 +17,6 @@ import { EffectArmorClassModifier } from './modifiers/armor-class-modifier';
 import { EffectAttackModifier } from './modifiers/attack-modifier';
 import { EffectExtraHitpoints } from './modifiers/extra-hitpoints';
 import { EffectSkillModifier } from './modifiers/skill-modifier';
-import { EffectSpeedFactor } from './modifiers/speed-factor';
 import { EffectCharm } from './status/charm';
 import { EffectDisease } from './status/disease';
 import { EffectFear } from './status/fear';
@@ -50,7 +49,6 @@ export const EffectDefinitionSchema = z.discriminatedUnion('type', [
     EffectAttackModifier,
     EffectExtraHitpoints,
     EffectSkillModifier,
-    EffectSpeedFactor,
     EffectCharm,
     EffectDisease,
     EffectFear,
@@ -85,7 +83,6 @@ const _WrappedEffectArmorClassModifier = BaseEffectSchema.extend({ type: z.liter
 const _WrappedEffectAttackModifier = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_ATTACK_MODIFIER), data: EffectAttackModifier });
 const _WrappedEffectExtraHitpoints = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_EXTRA_HITPOINTS), data: EffectExtraHitpoints });
 const _WrappedEffectSkillModifier = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_SKILL_MODIFIER), data: EffectSkillModifier });
-const _WrappedEffectSpeedFactor = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_SPEED_FACTOR), data: EffectSpeedFactor });
 const _WrappedEffectCharm = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_CHARM), data: EffectCharm });
 const _WrappedEffectDisease = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_DISEASE), data: EffectDisease });
 const _WrappedEffectFear = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_FEAR), data: EffectFear });
@@ -118,7 +115,6 @@ export const EffectSchema = z.discriminatedUnion('type', [
     _WrappedEffectAttackModifier,
     _WrappedEffectExtraHitpoints,
     _WrappedEffectSkillModifier,
-    _WrappedEffectSpeedFactor,
     _WrappedEffectCharm,
     _WrappedEffectDisease,
     _WrappedEffectFear,
