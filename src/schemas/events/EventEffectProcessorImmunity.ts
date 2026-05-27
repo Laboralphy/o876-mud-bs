@@ -10,7 +10,7 @@ export const EventEffectProcessorImmunitySchema = z.object({
     creature: z.instanceof(Creature),
     effect: EffectSchema,
     immune: z.function({
-        input: [],
+        input: [z.boolean()],
         output: z.void(),
     }),
 });

@@ -18,16 +18,16 @@ import { getEffects } from './getters/getEffects';
 import { getEquipmentProperties } from './getters/getEquipmentProperties';
 import { getEquipmentSlotProperties } from './getters/getEquipmentSlotProperties';
 import { getHealingFactor } from './getters/getHealingFactor';
+import { getImmunities } from './getters/getImmunities';
 import { getInnateProperties } from './getters/getInnateProperties';
 import { getMaxHitPoints } from './getters/getMaxHitPoints';
 import { getOffensiveSlots } from './getters/getOffensiveSlots';
 import { getPropertySet } from './getters/getPropertySet';
 import { getResistanceValues } from './getters/getResistanceValues';
-import { getSelectedWeapon } from './getters/getSelectedWeapon';
 import { getSelectedWeaponAmmo } from './getters/getSelectedWeaponAmmo';
 import { getSelectedWeaponAttributeSet } from './getters/getSelectedWeaponAttributeSet';
+import { getSelectedWeapon } from './getters/getSelectedWeapon';
 import { getSize } from './getters/getSize';
-import { getSpeed } from './getters/getSpeed';
 import { getSkillBonusValues } from './getters/getSkillBonusValues';
 import { getSkillValues } from './getters/getSkillValues';
 import { getSpecie } from './getters/getSpecie';
@@ -54,16 +54,16 @@ export type GetterReturnFunctions = {
     getEquipmentProperties: typeof getEquipmentProperties;
     getEquipmentSlotProperties: typeof getEquipmentSlotProperties;
     getHealingFactor: typeof getHealingFactor;
+    getImmunities: typeof getImmunities;
     getInnateProperties: typeof getInnateProperties;
     getMaxHitPoints: typeof getMaxHitPoints;
     getOffensiveSlots: typeof getOffensiveSlots;
     getPropertySet: typeof getPropertySet;
     getResistanceValues: typeof getResistanceValues;
-    getSelectedWeapon: typeof getSelectedWeapon;
     getSelectedWeaponAmmo: typeof getSelectedWeaponAmmo;
     getSelectedWeaponAttributeSet: typeof getSelectedWeaponAttributeSet;
+    getSelectedWeapon: typeof getSelectedWeapon;
     getSize: typeof getSize;
-    getSpeed: typeof getSpeed;
     getSkillBonusValues: typeof getSkillBonusValues;
     getSkillValues: typeof getSkillValues;
     getSpecie: typeof getSpecie;
@@ -93,16 +93,16 @@ export const Getters = {
     getEquipmentProperties,
     getEquipmentSlotProperties,
     getHealingFactor,
+    getImmunities,
     getInnateProperties,
     getMaxHitPoints,
     getOffensiveSlots,
     getPropertySet,
     getResistanceValues,
-    getSelectedWeapon,
     getSelectedWeaponAmmo,
     getSelectedWeaponAttributeSet,
+    getSelectedWeapon,
     getSize,
-    getSpeed,
     getSkillBonusValues,
     getSkillValues,
     getSpecie,

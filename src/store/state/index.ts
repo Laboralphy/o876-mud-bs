@@ -21,7 +21,6 @@ export const StateSchema = z.object({
     armorClass: z.number().int(), // Natural armor class
     specie: SpecieSchema,
     size: CreatureSizeSchema,
-    speed: z.number().int().min(0),
 });
 
 export type State = z.infer<typeof StateSchema>;

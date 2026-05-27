@@ -36,6 +36,7 @@ import { randomUUID } from 'node:crypto';
 import { EffectSubtype } from './schemas/enums/EffectSubtype';
 import { EventEffectProcessorImmunity } from './schemas/events/EventEffectProcessorImmunity';
 import { EventEffectProcessorCreatureEffect } from './schemas/events/EventEffectProcessorCreatureEffect';
+import { getImmunityRules } from './libs/get-immunity-rules';
 
 export class Creature {
     private readonly _store = buildStore();
@@ -246,12 +247,12 @@ export class Creature {
             tag,
             siblings: [],
         });
-        let immune: boolean = false;
+        let immune: boolean = getImmunityRules(effect, this.getters.getImmunities);
         this.emit<EventEffectProcessorImmunity>(CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_IMMUNITY, {
             creature: this,
             effect,
-            immune: () => {
-                immune = true;
+            immune: (b: boolean) => {
+                immune = b;
             },
         });
         if (!immune) {

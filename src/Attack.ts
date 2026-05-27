@@ -162,7 +162,10 @@ export class Attack {
         }
 
         // Critical: roll of 20 is an automatic hit
-        if (this.diceRoll.roll === 20) {
+        if (
+            this.diceRoll.roll === 20 &&
+            !this.target.getters.getImmunities[CONSTS.IMMUNITY_TYPE_CRITICAL_HIT]
+        ) {
             this.critical = true;
             this.hit = true;
         } else {
