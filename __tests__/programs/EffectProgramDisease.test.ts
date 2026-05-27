@@ -5,16 +5,19 @@ import { EffectDisease } from '../../src/effects/schemas/status/disease';
 
 const LONG_DURATION = Number.MAX_SAFE_INTEGER;
 
-// Default creature has no skill modifiers, so SKILL_SURVIVAL roll = 1d20 + 0.
-// dc=1  → 1d20 always >= 1 → survival check always succeeds → disease cured.
-// dc=21 → 1d20 max 20 < 21 → survival check always fails   → stage advances.
-//
 // target.dice.cheat(0): forces random() to 0, so any dice.roll formula returns
 // Math.trunc(0 * sides) + 1 = 1.  This gives deterministic stage duration and
 // damage rolls without touching the dice prototype.
 // The DiceRoll objects used internally by checkSkill use their own Dice instance
-// and are not affected by target.dice.cheat(), so dc=1/dc=21 remain the only
-// way to control survival outcomes.
+// and are not affected by target.dice.cheat().
+//
+// When applyRatSickness is used (not pushRatSicknessAtStage), the apply hook fires
+// and attaches NAUSEA conveyed effects, including EFFECT_ABILITY_MODIFIER(-1 BODY).
+// This drops the ABILITY_BODY modifier to -1, which feeds SKILL_SURVIVAL.
+// As a result checkSkill rolls 1d20 - 1, so:
+//   dc=0  → total min = 1-1 = 0 >= 0 → always succeeds → disease cured.
+//   dc=21 → total max = 20-1 = 19 < 21 → always fails  → stage advances.
+// Using dc=1 in this context would fail on a natural 1 (1/20 chance).
 
 describe('EffectProgramDisease', () => {
     let attacker: Creature;
@@ -143,15 +146,15 @@ describe('EffectProgramDisease', () => {
     // ─── mutate — resistance ──────────────────────────────────────────────────
 
     describe('mutate — stage expiry with resistance: true', () => {
-        it('removes the disease when the survival check succeeds (dc=1)', () => {
-            applyRatSickness(1);
+        it('removes the disease when the survival check succeeds (dc=0)', () => {
+            applyRatSickness(0);
             setNearExpiry();
             target.process();
             expect(target.state.effects.some((e) => e.type === CONSTS.EFFECT_DISEASE)).toBe(false);
         });
 
         it('removes the stage conveyed effects when the disease is cured', () => {
-            applyRatSickness(1);
+            applyRatSickness(0);
             expect(stageEffects('RAT_SICKNESS.NAUSEA').length).toBeGreaterThan(0);
             setNearExpiry();
             target.process();
