@@ -1,3 +1,4 @@
+import EventEmitter from 'node:events';
 import { Creature } from './Creature';
 import { Item } from './schemas/Item';
 import { PropertyBuilder } from './builders/PropertyBuilder';
@@ -23,6 +24,7 @@ import { EventCreatureCastSpell } from './schemas/events/EventCreatureCastSpell'
 import { EventCreatureAction } from './schemas/events/EventCreatureAction';
 
 export class Manager {
+    public readonly events = new EventEmitter();
     private _time: number = 0;
     private readonly _creatures = new Map<string, Creature>();
     private readonly _items = new Map<string, Item>();
@@ -31,6 +33,12 @@ export class Manager {
     private readonly _actionBlueprints = new Map<string, ActionBlueprint>();
     private readonly _itemOwnership = new Map<string, Creature>();
     private readonly _creatureCleanup = new Map<string, () => void>();
+
+    // ▗▄▄▖     ▗▖  ▗▖  ▗▖                          ▗▖  ▗▖
+    // ▐▙▄ ▐▛▜▖▝▜▛▘ ▄▖ ▝▜▛▘▐▌▐▌    ▗▛▀ ▐▛▜▖▗▛▜▖ ▀▜▖▝▜▛▘ ▄▖ ▗▛▜▖▐▛▜▖
+    // ▐▌  ▐▌▐▌ ▐▌  ▐▌  ▐▌ ▝▙▟▌    ▐▌  ▐▌  ▐▛▀▘▗▛▜▌ ▐▌  ▐▌ ▐▌▐▌▐▌▐▌
+    // ▝▀▀▘▝▘▝▘  ▀▘ ▀▀   ▀▘▗▄▛      ▀▀ ▝▘   ▀▀  ▀▀▘  ▀▘ ▀▀  ▀▀ ▝▘▝▘
+    // Entity creation
 
     createCreature(resref: string, id: string = ''): Creature {
         const creatureBlueprint = this._creatureBlueprints.get(resref);
@@ -71,6 +79,12 @@ export class Manager {
         return this.createItemFromBlueprint(rb, id);
     }
 
+    // ▗▄▄▖     ▗▖  ▗▖  ▗▖           ▗▖         ▗▖              ▗▖  ▗▖
+    // ▐▙▄ ▐▛▜▖▝▜▛▘ ▄▖ ▝▜▛▘▐▌▐▌     ▄▟▌▗▛▜▖▗▛▀▘▝▜▛▘▐▛▜▖▐▌▐▌▗▛▀ ▝▜▛▘ ▄▖ ▗▛▜▖▐▛▜▖
+    // ▐▌  ▐▌▐▌ ▐▌  ▐▌  ▐▌ ▝▙▟▌    ▐▌▐▌▐▛▀▘ ▀▜▖ ▐▌ ▐▌  ▐▌▐▌▐▌   ▐▌  ▐▌ ▐▌▐▌▐▌▐▌
+    // ▝▀▀▘▝▘▝▘  ▀▘ ▀▀   ▀▘▗▄▛      ▀▀▘ ▀▀ ▝▀▀   ▀▘▝▘   ▀▀▘ ▀▀   ▀▘ ▀▀  ▀▀ ▝▘▝▘
+    // Entity destruction
+
     destroyCreature(creature: Creature) {
         for (const item of Object.values(creature.state.equipment)) {
             if (item) {
@@ -81,6 +95,12 @@ export class Manager {
         this._creatureCleanup.delete(creature.id);
         this._creatures.delete(creature.id);
     }
+
+    // ▗▄▄▖     ▗▖  ▗▖  ▗▖           ▗▖      ▄▖ ▗▖      ▗▖  ▗▖  ▗▖
+    // ▐▙▄ ▐▛▜▖▝▜▛▘ ▄▖ ▝▜▛▘▐▌▐▌     ▄▟▌▗▛▜▖ ▟▙▖ ▄▖ ▐▛▜▖ ▄▖ ▝▜▛▘ ▄▖ ▗▛▜▖▐▛▜▖
+    // ▐▌  ▐▌▐▌ ▐▌  ▐▌  ▐▌ ▝▙▟▌    ▐▌▐▌▐▛▀▘ ▐▌  ▐▌ ▐▌▐▌ ▐▌  ▐▌  ▐▌ ▐▌▐▌▐▌▐▌
+    // ▝▀▀▘▝▘▝▘  ▀▘ ▀▀   ▀▘▗▄▛      ▀▀▘ ▀▀  ▝▘  ▀▀ ▝▘▝▘ ▀▀   ▀▘ ▀▀  ▀▀ ▝▘▝▘
+    // Entity definition
 
     defineCreature(resref: string, blueprint: CreatureBlueprint): void {
         this._creatureBlueprints.set(resref, blueprint);
@@ -101,6 +121,11 @@ export class Manager {
     getItemOwner(itemId: string): Creature | undefined {
         return this._itemOwnership.get(itemId);
     }
+
+    // ▗▄▄      ▗▖          ▗▖                  ▗▖ ▗▖        ▗▖
+    // ▐▌▐▌▐▛▜▖ ▄▖ ▐▌▐▌ ▀▜▖▝▜▛▘▗▛▜▖    ▐▙▟▙▗▛▜▖▝▜▛▘▐▙▄ ▗▛▜▖ ▄▟▌▗▛▀▘
+    // ▐▛▀ ▐▌   ▐▌ ▝▙▟▘▗▛▜▌ ▐▌ ▐▛▀▘    ▐▛▛█▐▛▀▘ ▐▌ ▐▌▐▌▐▌▐▌▐▌▐▌ ▀▜▖
+    // ▝▘  ▝▘   ▀▀  ▝▘  ▀▀▘  ▀▘ ▀▀     ▝▘ ▀ ▀▀   ▀▘▝▘▝▘ ▀▀  ▀▀▘▝▀▀
 
     private plugCreatureEvents(creature: Creature) {
         const ce = creature.events;
@@ -145,47 +170,83 @@ export class Manager {
         ); // not fired
     }
 
+    // ▗▄▄▖             ▗▖     ▗▖            ▗▖ ▄▖
+    // ▐▙▄ ▐▌▐▌▗▛▜▖▐▛▜▖▝▜▛▘    ▐▙▄  ▀▜▖▐▛▜▖ ▄▟▌ ▐▌ ▗▛▜▖▐▛▜▖▗▛▀▘
+    // ▐▌  ▝▙▟▘▐▛▀▘▐▌▐▌ ▐▌     ▐▌▐▌▗▛▜▌▐▌▐▌▐▌▐▌ ▐▌ ▐▛▀▘▐▌   ▀▜▖
+    // ▝▀▀▘ ▝▘  ▀▀ ▝▘▝▘  ▀▘    ▝▘▝▘ ▀▀▘▝▘▝▘ ▀▀▘ ▀▀  ▀▀ ▝▘  ▝▀▀
+
     // ─── effect events ────────────────────────────────────────────────────────
 
-    private _onEffectApplied(payload: EventEffectProcessorCreatureEffect): void {}
+    private _onEffectApplied(payload: EventEffectProcessorCreatureEffect): void {
+        this.events.emit(CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_APPLIED, payload);
+    }
 
-    private _onEffectDisposed(payload: EventEffectProcessorCreatureEffect): void {}
+    private _onEffectDisposed(payload: EventEffectProcessorCreatureEffect): void {
+        this.events.emit(CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_DISPOSED, payload);
+    }
 
-    private _onEffectImmunity(payload: EventEffectProcessorImmunity): void {}
+    private _onEffectImmunity(payload: EventEffectProcessorImmunity): void {
+        this.events.emit(CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_IMMUNITY, payload);
+    }
 
     // ─── equipment events ─────────────────────────────────────────────────────
 
     private _onEquipItem(payload: EventCreatureEquipItem): void {
         this._itemOwnership.set(payload.item.id, payload.creature);
+        this.events.emit(CONSTS.EVENT_CREATURE_EQUIP_ITEM, payload);
     }
 
     private _onRemoveItem(payload: EventCreatureRemoveItem): void {
         this._itemOwnership.delete(payload.item.id);
+        this.events.emit(CONSTS.EVENT_CREATURE_REMOVE_ITEM, payload);
     }
 
-    private _onEquipItemFailed(payload: EventCreatureEquipItemFailed): void {}
+    private _onEquipItemFailed(payload: EventCreatureEquipItemFailed): void {
+        this.events.emit(CONSTS.EVENT_CREATURE_EQUIP_ITEM_FAILED, payload);
+    }
 
-    private _onRemoveItemFailed(payload: EventCreatureRemoveItemFailed): void {}
+    private _onRemoveItemFailed(payload: EventCreatureRemoveItemFailed): void {
+        this.events.emit(CONSTS.EVENT_CREATURE_REMOVE_ITEM_FAILED, payload);
+    }
 
     // ─── check events ─────────────────────────────────────────────────────────
 
-    private _onSkillCheck(payload: EventCreatureCheckSkill): void {}
+    private _onSkillCheck(payload: EventCreatureCheckSkill): void {
+        this.events.emit(CONSTS.EVENT_CREATURE_SKILL_CHECK, payload);
+    }
 
-    private _onResistanceCheck(payload: EventCreatureCheckResistance): void {}
+    private _onResistanceCheck(payload: EventCreatureCheckResistance): void {
+        this.events.emit(CONSTS.EVENT_CREATURE_RESISTANCE_CHECK, payload);
+    }
 
     // ─── life events ──────────────────────────────────────────────────────────
 
-    private _onCreatureDamaged(payload: EventCreatureDamaged): void {}
+    private _onCreatureDamaged(payload: EventCreatureDamaged): void {
+        this.events.emit(CONSTS.EVENT_CREATURE_DAMAGED, payload);
+    }
 
-    private _onCreatureHeal(payload: EventCreatureHeal): void {}
+    private _onCreatureHeal(payload: EventCreatureHeal): void {
+        this.events.emit(CONSTS.EVENT_CREATURE_HEAL, payload);
+    }
 
-    private _onCreatureDeath(payload: EventCreatureDeath): void {}
+    private _onCreatureDeath(payload: EventCreatureDeath): void {
+        this.events.emit(CONSTS.EVENT_CREATURE_DEATH, payload);
+    }
 
     // ─── action/spell events ──────────────────────────────────────────────────
 
-    private _onCastSpell(payload: EventCreatureCastSpell): void {}
+    private _onCastSpell(payload: EventCreatureCastSpell): void {
+        this.events.emit(CONSTS.EVENT_CREATURE_CAST_SPELL, payload);
+    }
 
-    private _onCreatureAction(payload: EventCreatureAction): void {}
+    private _onCreatureAction(payload: EventCreatureAction): void {
+        this.events.emit(CONSTS.EVENT_CREATURE_ACTION, payload);
+    }
+
+    //  ▄▄              ▗▖          ▗▖ ▗▖   ▗▖
+    // ▐▌▝▘▐▛▜▖▗▛▜▖ ▀▜▖▝▜▛▘▗▛▜▖    ▝▜▛▘▐▙▄  ▄▖ ▐▛▜▖▗▛▜▌▗▛▀▘
+    // ▐▌▗▖▐▌  ▐▛▀▘▗▛▜▌ ▐▌ ▐▛▀▘     ▐▌ ▐▌▐▌ ▐▌ ▐▌▐▌▝▙▟▌ ▀▜▖
+    //  ▀▀ ▝▘   ▀▀  ▀▀▘  ▀▘ ▀▀       ▀▘▝▘▝▘ ▀▀ ▝▘▝▘▗▄▟▘▝▀▀
 
     private createItemFromBlueprint(itemBlueprint: ItemBlueprint, id: string = ''): Item {
         const item = ItemBuilder.buildItem(itemBlueprint, id === '' ? undefined : id);
