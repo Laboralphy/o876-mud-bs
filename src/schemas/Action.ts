@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { CooldownSchema } from './Cooldown';
+import { CooldownSchema } from '../libs/cooldown/Cooldown';
 
-export const ActionDefinition = z.strictObject({
+export const ActionBlueprintSchema = z.strictObject({
     id: z.string(),
     hostile: z.boolean(),
     script: z.string(),
@@ -9,9 +9,13 @@ export const ActionDefinition = z.strictObject({
     charges: z.number().int(),
 });
 
-export const ActionState = z.strictObject({
+export type ActionBlueprint = z.infer<typeof ActionBlueprintSchema>;
+
+export const ActionStateSchema = z.strictObject({
     id: z.string(),
     hostile: z.boolean(),
     script: z.string(),
     cooldown: CooldownSchema,
 });
+
+export type ActionState = z.infer<typeof ActionStateSchema>;

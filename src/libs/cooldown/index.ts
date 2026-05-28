@@ -1,7 +1,7 @@
 import { Cooldown, CooldownDefinition, CooldownDefinitionSchema, CooldownSchema } from './Cooldown';
 
 export class CooldownManager {
-    create(definition: CooldownDefinition): Cooldown {
+    static create(definition: CooldownDefinition): Cooldown {
         const { duration, charges } = CooldownDefinitionSchema.parse(definition);
         return CooldownSchema.parse({
             timers: [],
@@ -11,8 +11,7 @@ export class CooldownManager {
         });
     }
 
-    process(cd: Cooldown) {
-        // decrease all timers
+    static process(cd: Cooldown) {
         for (let i = 0, l = cd.timers.length; i < l; ++i) {
             --cd.timers[i];
         }
@@ -25,11 +24,10 @@ export class CooldownManager {
      * Will push a new timer in cooldown timers array, unless the cooldown is full
      * @param cd
      */
-    pushTimer(cd: Cooldown) {
+    static pushTimer(cd: Cooldown) {
         if (cd.timers.length >= cd.timerMaxCount) {
             return;
         }
-        const duration = cd.timerMaxValue;
-        cd.timers.push(duration);
+        cd.timers.push(cd.timerMaxValue);
     }
 }

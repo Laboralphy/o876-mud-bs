@@ -37,10 +37,12 @@ import { EffectSubtype } from './schemas/enums/EffectSubtype';
 import { EventEffectProcessorImmunity } from './schemas/events/EventEffectProcessorImmunity';
 import { EventEffectProcessorCreatureEffect } from './schemas/events/EventEffectProcessorCreatureEffect';
 import { getImmunityRules } from './libs/get-immunity-rules';
+import { CooldownManager } from './libs/cooldown';
 
 export class Creature {
     private readonly _store = buildStore();
     public readonly dice = new Dice();
+    public ref: string = '';
 
     private _hitpoints: number = 1;
     public location: Location | null = null;
@@ -165,6 +167,10 @@ export class Creature {
                 }
             }
         );
+        this.emit(CONSTS.EVENT_CREATURE_DAMAGED, { creature: this, amount, damageType, source });
+        if (this.hitPoints <= 0) {
+            this.emit(CONSTS.EVENT_CREATURE_DEATH, { creature: this, killer: source });
+        }
     }
 
     /**
@@ -572,9 +578,10 @@ export class Creature {
      * Remove the item from the equipment list.
      * If the item is not equipped, exit.
      * @param item - The item to remove from the equipment list.
+     * @param bypass - If true, bypasses the check for cursed items. Default is false.
      * @returns The outcome of the operation. @see constant group EQUI_ITEM_*
      */
-    unequipItem(item: Item): EquipItemOutcome {
+    unequipItem(item: Item, bypass: boolean = false): EquipItemOutcome {
         const slot = this.findEquippedItemSlot(item);
         // Check if item is really equipped
         if (!slot) {
@@ -586,8 +593,9 @@ export class Creature {
             });
             return CONSTS.EQUIP_ITEM_FAILURE_REASON_NOT_EQUIPPED;
         }
-        // Check if item is cursed
+        // Check if item is cursed (skipped when bypass is true)
         if (
+            !bypass &&
             this.aggregate([CONSTS.PROPERTY_CURSED], {
                 restrictSlots: [slot],
             }).count > 0
@@ -601,7 +609,7 @@ export class Creature {
             });
             return CONSTS.EQUIP_ITEM_FAILURE_REASON_CURSED_SLOT;
         }
-        // Item is equipped and not cursed: it can be safely removed
+        // Item is equipped and not cursed (or bypass): it can be safely removed
         this._store.state.equipment[slot] = null;
         this.emit<EventCreatureRemoveItem>(CONSTS.EVENT_CREATURE_REMOVE_ITEM, {
             creature: this,
@@ -769,5 +777,39 @@ export class Creature {
             success: d.success,
         });
         return d.success;
+    }
+
+    //  ▗▖      ▗▖  ▗▖
+    // ▗▛▜▖▗▛▀ ▝▜▛▘ ▄▖ ▗▛▜▖▐▛▜▖▗▛▀▘
+    // ▐▙▟▌▐▌   ▐▌  ▐▌ ▐▌▐▌▐▌▐▌ ▀▜▖
+    // ▝▘▝▘ ▀▀   ▀▘ ▀▀  ▀▀ ▝▘▝▘▝▀▀
+    // Actions
+
+    doAction(actionId: string, target: Creature | undefined) {
+        const action = this.getters.getActions.find((a) => a.id === actionId);
+        if (action) {
+            if (!action.ready) {
+                return {
+                    success: false,
+                    reason: 'ACTION_FAILED_NOT_READY',
+                };
+            }
+            CooldownManager.pushTimer(this.state.actions[actionId].cooldown);
+            this.emit(CONSTS.EVENT_CREATURE_ACTION, {
+                creature: this,
+                actionId,
+                script: action.script,
+                target,
+            });
+            return {
+                success: true,
+                reason: '',
+            };
+        } else {
+            return {
+                success: false,
+                reason: 'ACTION_FAILED_NOT_AVAILABLE',
+            };
+        }
     }
 }

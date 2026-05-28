@@ -1,4 +1,5 @@
 import { GetterOutput } from '@laboralphy/reactor';
+import { getActions } from './getters/getActions';
 import { canAct } from './getters/canAct';
 import { canFight } from './getters/canFight';
 import { canMove } from './getters/canMove';
@@ -35,6 +36,7 @@ import { isRangedWeaponLoaded } from './getters/isRangedWeaponLoaded';
 import { isWieldingShield } from './getters/isWieldingShield';
 import { isWieldingTwoHandedWeapon } from './getters/isWieldingTwoHandedWeapon';
 export type GetterReturnFunctions = {
+    getActions: typeof getActions;
     canAct: typeof canAct;
     canFight: typeof canFight;
     canMove: typeof canMove;
@@ -74,6 +76,7 @@ export type GetterReturnFunctions = {
 
 export type GetterReturnType = GetterOutput<GetterReturnFunctions>;
 export const Getters = {
+    getActions,
     canAct,
     canFight,
     canMove,
