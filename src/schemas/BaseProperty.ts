@@ -7,7 +7,5 @@ import { PropertyTypeSchema } from './enums/PropertyType';
 export const BasePropertySchema = z.object({
     id: z.string(),
     type: PropertyTypeSchema,
-    temporary: z.boolean().optional().default(false),
-    duration: z.number().int().min(0).optional().default(0),
     tag: z.string().optional().default(''),
 });

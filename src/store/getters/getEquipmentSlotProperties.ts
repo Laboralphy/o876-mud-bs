@@ -33,7 +33,7 @@ export function getEquipmentSlotProperties(
             addProperties(
                 slot,
                 oProperties,
-                oItem.properties.filter((p) => !p.temporary || p.duration > 0)
+                oItem.properties
             );
         }
     });

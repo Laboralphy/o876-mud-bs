@@ -6,5 +6,5 @@ import { Property } from '../../properties/schemas';
  * @returns Property[]
  */
 export function getInnateProperties(state: State): Property[] {
-    return state.properties.filter((prop) => !prop.temporary || prop.duration > 0);
+    return [...state.properties];
 }

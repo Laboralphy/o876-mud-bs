@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { CONSTS } from '../../src/consts';
-import { PropertyBuilder } from '../../src/builders/PropertyBuilder';
 import {
     makeWeapon,
     makeRegenProperty,
@@ -103,21 +102,6 @@ describe('getEquipmentSlotProperties', () => {
         expect(slotProps[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE]).toBeUndefined();
     });
 
-    it('includes temporary properties with duration > 0', () => {
-        const weapon = makeWeapon();
-        weapon.properties = [PropertyBuilder.buildProperty(makeAbilityModifierProperty(1).data, 3)];
-        creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
-        const slotProps = creature.getters.getEquipmentSlotProperties;
-        expect(slotProps[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE]).toHaveLength(1);
-    });
-
-    it('excludes temporary properties with duration of 0', () => {
-        const weapon = makeWeapon();
-        weapon.properties = [PropertyBuilder.buildProperty(makeAbilityModifierProperty(1).data, 0)];
-        creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
-        const slotProps = creature.getters.getEquipmentSlotProperties;
-        expect(slotProps[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE]).toBeUndefined();
-    });
 });
 
 describe('removeInnateProperty', () => {

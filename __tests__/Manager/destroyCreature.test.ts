@@ -14,7 +14,9 @@ describe('Manager.destroyCreature', () => {
     beforeEach(() => {
         manager = makeManager();
         creature = manager.createCreature(CREATURE_WITH_GEAR_RESREF);
-        equippedItems = Object.values(creature.state.equipment).filter((item): item is Item => item !== null);
+        equippedItems = Object.values(creature.state.equipment).filter(
+            (item): item is Item => item !== null
+        );
     });
 
     it('creature has equipment before destruction', () => {
@@ -68,5 +70,8 @@ describe('Manager.destroyCreature', () => {
         // unequipItem without bypass would fail — destroy must bypass
         manager.destroyCreature(creature);
         expect(manager.getItemOwner(cursedWeapon.id)).toBeUndefined();
+        expect(() => manager.getItem(cursedWeapon.id)).toThrow(
+            new ReferenceError(`item ${cursedWeapon.id} not found`)
+        );
     });
 });
