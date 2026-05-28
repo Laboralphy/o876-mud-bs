@@ -22,6 +22,7 @@ import { EventCreatureHeal } from './schemas/events/EventCreatureHeal';
 import { EventCreatureDeath } from './schemas/events/EventCreatureDeath';
 import { EventCreatureCastSpell } from './schemas/events/EventCreatureCastSpell';
 import { EventCreatureAction } from './schemas/events/EventCreatureAction';
+import { EquipItemOutcome } from './schemas/enums/EquipItemOutcome';
 
 export class Manager {
     public readonly events = new EventEmitter();
@@ -34,11 +35,11 @@ export class Manager {
     private readonly _itemOwnership = new Map<string, Creature>();
     private readonly _creatureCleanup = new Map<string, () => void>();
 
-    // ▗▄▄▖     ▗▖  ▗▖  ▗▖                          ▗▖  ▗▖
-    // ▐▙▄ ▐▛▜▖▝▜▛▘ ▄▖ ▝▜▛▘▐▌▐▌    ▗▛▀ ▐▛▜▖▗▛▜▖ ▀▜▖▝▜▛▘ ▄▖ ▗▛▜▖▐▛▜▖
-    // ▐▌  ▐▌▐▌ ▐▌  ▐▌  ▐▌ ▝▙▟▌    ▐▌  ▐▌  ▐▛▀▘▗▛▜▌ ▐▌  ▐▌ ▐▌▐▌▐▌▐▌
-    // ▝▀▀▘▝▘▝▘  ▀▘ ▀▀   ▀▘▗▄▛      ▀▀ ▝▘   ▀▀  ▀▀▘  ▀▘ ▀▀  ▀▀ ▝▘▝▘
-    // Entity creation
+    //  ▄▄              ▗▖                                                      ▗▖
+    // ▐▌▝▘▐▛▜▖▗▛▜▖ ▀▜▖▝▜▛▘▐▌▐▌▐▛▜▖▗▛▜▖    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
+    // ▐▌▗▖▐▌  ▐▛▀▘▗▛▜▌ ▐▌ ▐▌▐▌▐▌  ▐▛▀▘    ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
+    //  ▀▀ ▝▘   ▀▀  ▀▀▘  ▀▘ ▀▀▘▝▘   ▀▀     ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
+    // Creature management
 
     createCreature(resref: string, id: string = ''): Creature {
         const creatureBlueprint = this._creatureBlueprints.get(resref);
@@ -72,6 +73,49 @@ export class Manager {
         return creature;
     }
 
+    defineCreature(resref: string, blueprint: CreatureBlueprint): void {
+        this._creatureBlueprints.set(resref, blueprint);
+    }
+
+    destroyCreature(creature: Creature) {
+        for (const item of Object.values(creature.state.equipment)) {
+            if (item) {
+                creature.unequipItem(item, true);
+                this.destroyItem(item.id);
+            }
+        }
+        const cleanupFunction = this._creatureCleanup.get(creature.id);
+        if (cleanupFunction) {
+            cleanupFunction();
+            this._creatureCleanup.delete(creature.id);
+        }
+        this._creatures.delete(creature.id);
+    }
+
+    getCreature(id: string): Creature | undefined {
+        return this._creatures.get(id);
+    }
+
+    //  ▗▖      ▗▖  ▗▖                                                  ▗▖
+    // ▗▛▜▖▗▛▀ ▝▜▛▘ ▄▖ ▗▛▜▖▐▛▜▖    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
+    // ▐▙▟▌▐▌   ▐▌  ▐▌ ▐▌▐▌▐▌▐▌    ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
+    // ▝▘▝▘ ▀▀   ▀▘ ▀▀  ▀▀ ▝▘▝▘    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
+    // Action management
+
+    defineAction(actionBlueprint: ActionBlueprint) {
+        this._actionBlueprints.set(actionBlueprint.id, actionBlueprint);
+    }
+
+    // ▗▄▄▖ ▗▖                                                  ▗▖
+    //  ▐▌ ▝▜▛▘▗▛▜▖▐▙▟▙    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
+    //  ▐▌  ▐▌ ▐▛▀▘▐▛▛█    ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
+    // ▝▀▀▘  ▀▘ ▀▀ ▝▘ ▀    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
+    // Item management
+
+    defineItem(resref: string, blueprint: ItemBlueprint): void {
+        this._itemBlueprints.set(resref, blueprint);
+    }
+
     createItem(rb: ItemBlueprint | string, id: string = ''): Item {
         if (typeof rb === 'string') {
             return this.createItemFromResref(rb, id);
@@ -79,53 +123,45 @@ export class Manager {
         return this.createItemFromBlueprint(rb, id);
     }
 
-    // ▗▄▄▖     ▗▖  ▗▖  ▗▖           ▗▖         ▗▖              ▗▖  ▗▖
-    // ▐▙▄ ▐▛▜▖▝▜▛▘ ▄▖ ▝▜▛▘▐▌▐▌     ▄▟▌▗▛▜▖▗▛▀▘▝▜▛▘▐▛▜▖▐▌▐▌▗▛▀ ▝▜▛▘ ▄▖ ▗▛▜▖▐▛▜▖
-    // ▐▌  ▐▌▐▌ ▐▌  ▐▌  ▐▌ ▝▙▟▌    ▐▌▐▌▐▛▀▘ ▀▜▖ ▐▌ ▐▌  ▐▌▐▌▐▌   ▐▌  ▐▌ ▐▌▐▌▐▌▐▌
-    // ▝▀▀▘▝▘▝▘  ▀▘ ▀▀   ▀▘▗▄▛      ▀▀▘ ▀▀ ▝▀▀   ▀▘▝▘   ▀▀▘ ▀▀   ▀▘ ▀▀  ▀▀ ▝▘▝▘
-    // Entity destruction
-
-    destroyCreature(creature: Creature) {
-        for (const item of Object.values(creature.state.equipment)) {
-            if (item) {
-                creature.unequipItem(item, true);
-            }
-        }
-        this._creatureCleanup.get(creature.id)?.();
-        this._creatureCleanup.delete(creature.id);
-        this._creatures.delete(creature.id);
-    }
-
-    // ▗▄▄▖     ▗▖  ▗▖  ▗▖           ▗▖      ▄▖ ▗▖      ▗▖  ▗▖  ▗▖
-    // ▐▙▄ ▐▛▜▖▝▜▛▘ ▄▖ ▝▜▛▘▐▌▐▌     ▄▟▌▗▛▜▖ ▟▙▖ ▄▖ ▐▛▜▖ ▄▖ ▝▜▛▘ ▄▖ ▗▛▜▖▐▛▜▖
-    // ▐▌  ▐▌▐▌ ▐▌  ▐▌  ▐▌ ▝▙▟▌    ▐▌▐▌▐▛▀▘ ▐▌  ▐▌ ▐▌▐▌ ▐▌  ▐▌  ▐▌ ▐▌▐▌▐▌▐▌
-    // ▝▀▀▘▝▘▝▘  ▀▘ ▀▀   ▀▘▗▄▛      ▀▀▘ ▀▀  ▝▘  ▀▀ ▝▘▝▘ ▀▀   ▀▘ ▀▀  ▀▀ ▝▘▝▘
-    // Entity definition
-
-    defineCreature(resref: string, blueprint: CreatureBlueprint): void {
-        this._creatureBlueprints.set(resref, blueprint);
-    }
-
-    defineItem(resref: string, blueprint: ItemBlueprint): void {
-        this._itemBlueprints.set(resref, blueprint);
-    }
-
-    defineAction(actionBlueprint: ActionBlueprint) {
-        this._actionBlueprints.set(actionBlueprint.id, actionBlueprint);
-    }
-
-    getCreature(id: string): Creature | undefined {
-        return this._creatures.get(id);
-    }
-
     getItemOwner(itemId: string): Creature | undefined {
         return this._itemOwnership.get(itemId);
+    }
+
+    equipItem(creature: Creature, item: string): EquipItemOutcome {
+        const oItem = this.getItem(item);
+        const eqo = creature.equipItem(oItem);
+        return eqo.outcome;
+    }
+
+    unequipItem(creature: Creature, item: string): EquipItemOutcome {
+        const oItem = this.getItem(item);
+        return creature.unequipItem(oItem);
+    }
+
+    destroyItem(item: string) {
+        const oItem = this.getItem(item);
+        const oOwner = this.getItemOwner(item);
+        if (oOwner) {
+            oOwner.unequipItem(oItem, true);
+        }
+        this._itemOwnership.delete(item);
+        this._items.delete(item);
+    }
+
+    public getItem(itemId: string): Item {
+        const oItem = this._items.get(itemId);
+        if (oItem) {
+            return oItem;
+        } else {
+            throw new ReferenceError(`item ${itemId} not found`);
+        }
     }
 
     // ▗▄▄      ▗▖          ▗▖                  ▗▖ ▗▖        ▗▖
     // ▐▌▐▌▐▛▜▖ ▄▖ ▐▌▐▌ ▀▜▖▝▜▛▘▗▛▜▖    ▐▙▟▙▗▛▜▖▝▜▛▘▐▙▄ ▗▛▜▖ ▄▟▌▗▛▀▘
     // ▐▛▀ ▐▌   ▐▌ ▝▙▟▘▗▛▜▌ ▐▌ ▐▛▀▘    ▐▛▛█▐▛▀▘ ▐▌ ▐▌▐▌▐▌▐▌▐▌▐▌ ▀▜▖
     // ▝▘  ▝▘   ▀▀  ▝▘  ▀▀▘  ▀▘ ▀▀     ▝▘ ▀ ▀▀   ▀▘▝▘▝▘ ▀▀  ▀▀▘▝▀▀
+    // Private methods
 
     private plugCreatureEvents(creature: Creature) {
         const ce = creature.events;
