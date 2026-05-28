@@ -98,8 +98,8 @@ export class Manager {
         return this._creatures.get(id);
     }
 
-    getItemOwner(item: Item): Creature | undefined {
-        return this._itemOwnership.get(item.id);
+    getItemOwner(itemId: string): Creature | undefined {
+        return this._itemOwnership.get(itemId);
     }
 
     private plugCreatureEvents(creature: Creature) {

@@ -23,14 +23,14 @@ describe('Manager.destroyCreature', () => {
 
     it('all equipped items are registered in item ownership before destruction', () => {
         for (const item of equippedItems) {
-            expect(manager.getItemOwner(item)).toBe(creature);
+            expect(manager.getItemOwner(item.id)).toBe(creature);
         }
     });
 
     it('all item ownership entries are cleared after destruction', () => {
         manager.destroyCreature(creature);
         for (const item of equippedItems) {
-            expect(manager.getItemOwner(item)).toBeUndefined();
+            expect(manager.getItemOwner(item.id)).toBeUndefined();
         }
     });
 
@@ -67,6 +67,6 @@ describe('Manager.destroyCreature', () => {
         creature.equipItem(cursedWeapon);
         // unequipItem without bypass would fail — destroy must bypass
         manager.destroyCreature(creature);
-        expect(manager.getItemOwner(cursedWeapon)).toBeUndefined();
+        expect(manager.getItemOwner(cursedWeapon.id)).toBeUndefined();
     });
 });
