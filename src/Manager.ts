@@ -138,6 +138,31 @@ export class Manager {
         return creature.unequipItem(oItem);
     }
 
+    addItemProperty(item: string, property: PropertyDefinition): void {
+        const oItem = this.getItem(item);
+        const built = PropertyBuilder.buildProperty(property);
+        oItem.properties.push(built);
+        const oOwner = this.getItemOwner(item);
+        if (oOwner) {
+            const equippedItem = Object.values(oOwner.state.equipment).find((i) => i?.id === item);
+            if (equippedItem) {
+                equippedItem.properties.push(built);
+            }
+        }
+    }
+
+    removeItemProperty(item: string, propertyId: string): void {
+        const oItem = this.getItem(item);
+        oItem.properties = oItem.properties.filter((p) => p.id !== propertyId);
+        const oOwner = this.getItemOwner(item);
+        if (oOwner) {
+            const equippedItem = Object.values(oOwner.state.equipment).find((i) => i?.id === item);
+            if (equippedItem) {
+                equippedItem.properties = equippedItem.properties.filter((p) => p.id !== propertyId);
+            }
+        }
+    }
+
     destroyItem(item: string) {
         const oItem = this.getItem(item);
         const oOwner = this.getItemOwner(item);
