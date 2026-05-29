@@ -49,9 +49,9 @@ describe('Attack', () => {
             // Attack constructor pre-rolls 1d20 for diceRoll; skill check needs 2 more rolls
             // roll order: [Attack.diceRoll, attacker STEALTH, target PERCEPTION]
             vi.spyOn(Dice.prototype, 'roll')
-                .mockReturnValueOnce(10)  // Attack.diceRoll (consumed by constructor)
-                .mockReturnValueOnce(15)  // attacker's STEALTH check
-                .mockReturnValueOnce(5);  // target's PERCEPTION check → 15 >= 5 → HIDDEN
+                .mockReturnValueOnce(10) // Attack.diceRoll (consumed by constructor)
+                .mockReturnValueOnce(15) // attacker's STEALTH check
+                .mockReturnValueOnce(5); // target's PERCEPTION check → 15 >= 5 → HIDDEN
             pushEffect(target, CONSTS.EFFECT_STEALTH);
             const attack = new Attack(attacker, target);
             attack.initVisibility();
@@ -61,8 +61,8 @@ describe('Attack', () => {
         it('target is visible when stealth effect is active but the skill check fails', () => {
             // roll order: [Attack.diceRoll, attacker STEALTH, target PERCEPTION]
             vi.spyOn(Dice.prototype, 'roll')
-                .mockReturnValueOnce(10)  // Attack.diceRoll (consumed by constructor)
-                .mockReturnValueOnce(3)   // attacker's STEALTH check
+                .mockReturnValueOnce(10) // Attack.diceRoll (consumed by constructor)
+                .mockReturnValueOnce(3) // attacker's STEALTH check
                 .mockReturnValueOnce(15); // target's PERCEPTION check → 3 < 15 → VISIBLE
             pushEffect(target, CONSTS.EFFECT_STEALTH);
             const attack = new Attack(attacker, target);
@@ -101,24 +101,26 @@ describe('Attack', () => {
         });
 
         it('sets ranged attack type and range 100 for ranged weapon', () => {
-            attacker.equipItem(
-                makeWeapon({
-                    attributes: [CONSTS.WEAPON_ATTRIBUTE_RANGED],
-                    equipmentSlots: [CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED],
-                })
-            );
+            const weapon = makeWeapon({
+                attributes: [CONSTS.WEAPON_ATTRIBUTE_RANGED],
+                equipmentSlots: [CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED],
+            });
+            attacker.equipItem(weapon);
             attacker.state.selectedOffensiveSlot = CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED;
             vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(10);
             const attack = new Attack(attacker, target);
+            attack.weapon = weapon;
             attack.initWeapon();
             expect(attack.attackType).toBe(CONSTS.ATTACK_TYPE_RANGED);
             expect(attack.range).toBe(100);
         });
 
         it('sets finesse flag for a finesse weapon', () => {
-            attacker.equipItem(makeWeapon({ attributes: [CONSTS.WEAPON_ATTRIBUTE_FINESSE] }));
+            const weapon = makeWeapon({ attributes: [CONSTS.WEAPON_ATTRIBUTE_FINESSE] });
+            attacker.equipItem(weapon);
             vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(10);
             const attack = new Attack(attacker, target);
+            attack.weapon = weapon;
             attack.initWeapon();
             expect(attack.finesse).toBe(true);
         });
@@ -137,7 +139,7 @@ describe('Attack', () => {
 
         it('stays ABILITY_BODY even when senses is higher and finesse is false', () => {
             attacker.state.abilities[CONSTS.ABILITY_SENSES] = 16; // mod +3
-            attacker.state.abilities[CONSTS.ABILITY_BODY] = 10;   // mod  0
+            attacker.state.abilities[CONSTS.ABILITY_BODY] = 10; // mod  0
             vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(10);
             const attack = new Attack(attacker, target);
             attack.finesse = false;
@@ -148,7 +150,7 @@ describe('Attack', () => {
 
         it('switches to ABILITY_SENSES when finesse is true and senses modifier > body modifier', () => {
             attacker.state.abilities[CONSTS.ABILITY_SENSES] = 16; // mod +3
-            attacker.state.abilities[CONSTS.ABILITY_BODY] = 10;   // mod  0
+            attacker.state.abilities[CONSTS.ABILITY_BODY] = 10; // mod  0
             vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(10);
             const attack = new Attack(attacker, target);
             attack.finesse = true;
@@ -158,7 +160,7 @@ describe('Attack', () => {
         });
 
         it('keeps ABILITY_BODY when finesse is true but body modifier >= senses modifier', () => {
-            attacker.state.abilities[CONSTS.ABILITY_BODY] = 14;   // mod +2
+            attacker.state.abilities[CONSTS.ABILITY_BODY] = 14; // mod +2
             attacker.state.abilities[CONSTS.ABILITY_SENSES] = 10; // mod  0
             vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(10);
             const attack = new Attack(attacker, target);
@@ -221,7 +223,8 @@ describe('Attack', () => {
         });
 
         it('adds damage-type AC bonus for a single-type weapon', () => {
-            attacker.equipItem(makeWeapon({ damageType: CONSTS.DAMAGE_TYPE_SLASHING }));
+            const weapon = makeWeapon({ damageType: CONSTS.DAMAGE_TYPE_SLASHING });
+            attacker.equipItem(weapon);
             target.state.properties.push(
                 PropertyBuilder.buildProperty({
                     type: CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER,
@@ -231,18 +234,18 @@ describe('Attack', () => {
             );
             vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(10);
             const attack = new Attack(attacker, target);
+            attack.weapon = weapon;
             attack.initWeapon();
             attack.initTarget();
             expect(attack.ac).toBe(12); // 8 + 4
         });
 
         it('hybrid weapon exploits weaker defense — uses Math.min of two damage-type bonuses', () => {
-            attacker.equipItem(
-                makeWeapon({
-                    damageType: CONSTS.DAMAGE_TYPE_SLASHING,
-                    altDamageType: CONSTS.DAMAGE_TYPE_PIERCING,
-                })
-            );
+            const weapon = makeWeapon({
+                damageType: CONSTS.DAMAGE_TYPE_SLASHING,
+                altDamageType: CONSTS.DAMAGE_TYPE_PIERCING,
+            });
+            attacker.equipItem(weapon);
             target.state.properties.push(
                 PropertyBuilder.buildProperty({
                     type: CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER,
@@ -259,6 +262,7 @@ describe('Attack', () => {
             );
             vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(10);
             const attack = new Attack(attacker, target);
+            attack.weapon = weapon;
             attack.initWeapon();
             attack.initTarget();
             expect(attack.ac).toBe(9); // 8 + min(4, 1) = 8 + 1
@@ -310,7 +314,7 @@ describe('Attack', () => {
         });
 
         it('uses best of Body or Senses bonus for finesse melee attacks', () => {
-            attacker.state.abilities[CONSTS.ABILITY_BODY] = 10;   // mod  0
+            attacker.state.abilities[CONSTS.ABILITY_BODY] = 10; // mod  0
             attacker.state.abilities[CONSTS.ABILITY_SENSES] = 14; // mod +2
             vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(10);
             const attack = new Attack(attacker, target);
@@ -321,7 +325,7 @@ describe('Attack', () => {
         });
 
         it('finesse does not apply to ranged attacks', () => {
-            attacker.state.abilities[CONSTS.ABILITY_BODY] = 14;   // mod +2
+            attacker.state.abilities[CONSTS.ABILITY_BODY] = 14; // mod +2
             attacker.state.abilities[CONSTS.ABILITY_SENSES] = 10; // mod  0
             vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(10);
             const attack = new Attack(attacker, target);
@@ -449,13 +453,13 @@ describe('Attack', () => {
         });
 
         it('uses weapon damage formula and damage type', () => {
-            attacker.equipItem(
-                makeWeapon({ damages: '1d8', damageType: CONSTS.DAMAGE_TYPE_SLASHING })
-            );
+            const weapon = makeWeapon({ damages: '1d8', damageType: CONSTS.DAMAGE_TYPE_SLASHING });
+            attacker.equipItem(weapon);
             vi.spyOn(Dice.prototype, 'roll')
                 .mockReturnValueOnce(10) // 1d20
                 .mockReturnValueOnce(6); // 1d8
             const attack = new Attack(attacker, target);
+            attack.weapon = weapon;
             attack.initWeapon();
             attack.computeDamages();
             expect(attack.damages[0].amount).toBe(6);
@@ -554,18 +558,18 @@ describe('Attack', () => {
 
         it('does not add body modifier to ranged attacks', () => {
             attacker.state.abilities[CONSTS.ABILITY_BODY] = 16; // mod +3
-            attacker.equipItem(
-                makeWeapon({
-                    damages: '1d6',
-                    attributes: [CONSTS.WEAPON_ATTRIBUTE_RANGED],
-                    equipmentSlots: [CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED],
-                })
-            );
+            const weapon = makeWeapon({
+                damages: '1d6',
+                attributes: [CONSTS.WEAPON_ATTRIBUTE_RANGED],
+                equipmentSlots: [CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED],
+            });
+            attacker.equipItem(weapon);
             attacker.state.selectedOffensiveSlot = CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED;
             vi.spyOn(Dice.prototype, 'roll')
                 .mockReturnValueOnce(10) // 1d20
                 .mockReturnValueOnce(4); // 1d6
             const attack = new Attack(attacker, target);
+            attack.weapon = weapon;
             attack.initWeapon();
             attack.initAbility();
             attack.computeDamages();

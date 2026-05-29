@@ -19,7 +19,7 @@ describe('Manager — equipment events', () => {
     describe('EVENT_CREATURE_EQUIP_ITEM', () => {
         it('registers item ownership when a weapon is equipped', () => {
             creature.equipItem(weapon);
-            expect(manager.getItemOwner(weapon.id)).toBe(creature);
+            expect(manager.getItemOwner(weapon)).toBe(creature);
         });
 
         it('ownership is set to the correct creature when two creatures each equip their own weapon', () => {
@@ -27,8 +27,8 @@ describe('Manager — equipment events', () => {
             const otherWeapon = makeWeapon('other-sword');
             creature.equipItem(weapon);
             other.equipItem(otherWeapon);
-            expect(manager.getItemOwner(weapon.id)).toBe(creature);
-            expect(manager.getItemOwner(otherWeapon.id)).toBe(other);
+            expect(manager.getItemOwner(weapon)).toBe(creature);
+            expect(manager.getItemOwner(otherWeapon)).toBe(other);
         });
     });
 
@@ -36,7 +36,7 @@ describe('Manager — equipment events', () => {
         it('clears item ownership when the weapon is unequipped', () => {
             creature.equipItem(weapon);
             creature.unequipItem(weapon);
-            expect(manager.getItemOwner(weapon.id)).toBeUndefined();
+            expect(manager.getItemOwner(weapon)).toBeUndefined();
         });
 
         it('does not affect ownership of a different item when only one is removed', () => {
@@ -44,7 +44,7 @@ describe('Manager — equipment events', () => {
             creature.equipItem(weapon);
             // equip sword after weapon has been auto-removed from the melee slot by the new equip
             creature.unequipItem(sword); // sword never equipped — ownership must not be set
-            expect(manager.getItemOwner(weapon.id)).toBe(creature);
+            expect(manager.getItemOwner(weapon)).toBe(creature);
         });
     });
 

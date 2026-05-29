@@ -29,7 +29,7 @@ describe('cursed item', () => {
     });
 
     it('cursed sword is registered in item ownership after equip', () => {
-        expect(manager.getItemOwner(cursedSword.id)).toBe(bob);
+        expect(manager.getItemOwner(cursedSword)).toBe(bob);
     });
 
     it('unequipping without bypass returns a failure reason', () => {
@@ -45,6 +45,6 @@ describe('cursed item', () => {
 
     it('cursed sword remains registered in item ownership after failed unequip', () => {
         bob.unequipItem(cursedSword);
-        expect(manager.getItemOwner(cursedSword.id)).toBe(bob);
+        expect(manager.getItemOwner(cursedSword)).toBe(bob);
     });
 });

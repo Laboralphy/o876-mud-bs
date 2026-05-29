@@ -5,9 +5,11 @@ import { PropertyBuilder } from './builders/PropertyBuilder';
 import { ItemBlueprint } from './schemas/ItemBlueprint';
 import { CreatureBlueprint } from './schemas/CreatureBlueprint';
 import { ItemBuilder } from './builders/ItemBuilder';
-import { PropertyDefinition } from './properties/schemas';
+import { Property, PropertyDefinition } from './properties/schemas';
+import { Effect, EffectDefinition } from './effects/schemas';
 import { ActionBlueprint, ActionState, ActionStateSchema } from './schemas/Action';
 import { CooldownManager } from './libs/cooldown';
+import { deepClone } from './libs/deep-clone';
 import { CONSTS } from './consts';
 import { EventEffectProcessorCreatureEffect } from './schemas/events/EventEffectProcessorCreatureEffect';
 import { EventEffectProcessorImmunity } from './schemas/events/EventEffectProcessorImmunity';
@@ -23,6 +25,7 @@ import { EventCreatureDeath } from './schemas/events/EventCreatureDeath';
 import { EventCreatureCastSpell } from './schemas/events/EventCreatureCastSpell';
 import { EventCreatureAction } from './schemas/events/EventCreatureAction';
 import { EquipItemOutcome } from './schemas/enums/EquipItemOutcome';
+import { EffectSubtype } from './schemas/enums/EffectSubtype';
 
 export class Manager {
     public readonly events = new EventEmitter();
@@ -81,7 +84,7 @@ export class Manager {
         for (const item of Object.values(creature.state.equipment)) {
             if (item) {
                 creature.unequipItem(item, true);
-                this.destroyItem(item.id);
+                this.destroyItem(item);
             }
         }
         const cleanupFunction = this._creatureCleanup.get(creature.id);
@@ -94,6 +97,50 @@ export class Manager {
 
     getCreature(id: string): Creature | undefined {
         return this._creatures.get(id);
+    }
+
+    addCreatureInnateProperty(creature: Creature, property: PropertyDefinition): Property {
+        const built = PropertyBuilder.buildProperty(property);
+        creature.state.properties.push(built);
+        return built;
+    }
+
+    removeCreatureInnateProperty(creature: Creature, property: Property): void {
+        const propertyId = property.id;
+        const propFound: Property | undefined = creature.getters.getInnateProperties.find(
+            (p) => p.id === propertyId
+        );
+        if (propFound) {
+            creature.removeInnateProperty(propFound);
+        }
+    }
+
+    getCreatureInnateProperties(creature: Creature): Property[] {
+        return deepClone(creature.getters.getInnateProperties);
+    }
+
+    // ▗▄▄▖  ▄▖  ▄▖         ▗▖                                              ▗▖
+    // ▐▙▄  ▟▙▖ ▟▙▖▗▛▜▖▗▛▀ ▝▜▛▘    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
+    // ▐▌   ▐▌  ▐▌ ▐▛▀▘▐▌   ▐▌     ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▌  ▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
+    // ▝▀▀▘ ▝▘  ▝▘  ▀▀  ▀▀   ▀▘    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘  ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
+
+    getCreatureEffects(creature: Creature): Effect[] {
+        return deepClone(creature.getters.getEffects);
+    }
+
+    applyEffect(
+        creature: Creature,
+        effect: EffectDefinition,
+        source: Creature,
+        duration: number,
+        subtype: EffectSubtype = CONSTS.EFFECT_SUBTYPE_MAGICAL,
+        tag: string = ''
+    ): Effect {
+        return creature.applyEffect(effect, source, duration, subtype, tag);
+    }
+
+    removeCreatureEffect(creature: Creature, effect: Effect) {
+        creature.removeEffect(effect);
     }
 
     //  ▗▖      ▗▖  ▗▖                                                  ▗▖
@@ -123,54 +170,68 @@ export class Manager {
         return this.createItemFromBlueprint(rb, id);
     }
 
-    getItemOwner(itemId: string): Creature | undefined {
-        return this._itemOwnership.get(itemId);
+    getItemOwner(item: Item): Creature | undefined {
+        return this._itemOwnership.get(item.id);
     }
 
-    equipItem(creature: Creature, item: string): EquipItemOutcome {
-        const oItem = this.getItem(item);
+    equipItem(creature: Creature, item: Item): EquipItemOutcome {
+        const oItem = this._normalizeItem(item);
         const eqo = creature.equipItem(oItem);
         return eqo.outcome;
     }
 
-    unequipItem(creature: Creature, item: string): EquipItemOutcome {
-        const oItem = this.getItem(item);
+    unequipItem(creature: Creature, item: Item): EquipItemOutcome {
+        const oItem = this._normalizeItem(item);
         return creature.unequipItem(oItem);
     }
 
-    addItemProperty(item: string, property: PropertyDefinition): void {
-        const oItem = this.getItem(item);
+    addItemProperty(item: Item, property: PropertyDefinition): void {
+        const oItem = this._normalizeItem(item);
         const built = PropertyBuilder.buildProperty(property);
         oItem.properties.push(built);
-        const oOwner = this.getItemOwner(item);
+        const oOwner = this.getItemOwner(oItem);
         if (oOwner) {
-            const equippedItem = Object.values(oOwner.state.equipment).find((i) => i?.id === item);
+            const equippedItem = Object.values(oOwner.state.equipment).find(
+                (i) => i?.id === oItem.id
+            );
             if (equippedItem) {
                 equippedItem.properties.push(built);
             }
         }
     }
 
-    removeItemProperty(item: string, propertyId: string): void {
-        const oItem = this.getItem(item);
+    removeItemProperty(item: Item, property: Property): void {
+        const propertyId = property.id;
+        const oItem = this._normalizeItem(item);
         oItem.properties = oItem.properties.filter((p) => p.id !== propertyId);
-        const oOwner = this.getItemOwner(item);
+        const oOwner = this.getItemOwner(oItem);
         if (oOwner) {
-            const equippedItem = Object.values(oOwner.state.equipment).find((i) => i?.id === item);
+            const equippedItem = Object.values(oOwner.state.equipment).find(
+                (i) => i?.id === oItem.id
+            );
             if (equippedItem) {
-                equippedItem.properties = equippedItem.properties.filter((p) => p.id !== propertyId);
+                const propFoundIndex = equippedItem.properties.findIndex(
+                    (p) => p.id !== propertyId
+                );
+                if (propFoundIndex >= 0) {
+                    equippedItem.properties.splice(propFoundIndex, 1);
+                }
             }
         }
     }
 
-    destroyItem(item: string) {
-        const oItem = this.getItem(item);
-        const oOwner = this.getItemOwner(item);
+    getItemProperties(item: Item): Property[] {
+        return deepClone(this._normalizeItem(item).properties);
+    }
+
+    destroyItem(item: Item) {
+        const oItem = this._normalizeItem(item);
+        const oOwner = this.getItemOwner(oItem);
         if (oOwner) {
             oOwner.unequipItem(oItem, true);
         }
-        this._itemOwnership.delete(item);
-        this._items.delete(item);
+        this._itemOwnership.delete(oItem.id);
+        this._items.delete(oItem.id);
     }
 
     public getItem(itemId: string): Item {
@@ -180,6 +241,10 @@ export class Manager {
         } else {
             throw new ReferenceError(`item ${itemId} not found`);
         }
+    }
+
+    private _normalizeItem(item: Item): Item {
+        return this.getItem(item.id);
     }
 
     // ▗▄▄      ▗▖          ▗▖                  ▗▖ ▗▖        ▗▖

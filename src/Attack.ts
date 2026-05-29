@@ -69,25 +69,25 @@ export class Attack {
     }
 
     initWeapon() {
-        const weaponAttributes = this.attacker.getters.getSelectedWeaponAttributeSet;
-        this.weapon = this.attacker.getters.getSelectedWeapon ?? NULL_WEAPON;
         if (!isWeapon(this.weapon)) {
-            throw new TypeError('Selected weapon is not a valid weapon');
+            this.weapon = NULL_WEAPON;
         }
-        this.ammo = this.attacker.getters.getSelectedWeaponAmmo;
-        if (isAmmo(this.ammo)) {
-            this.damageType = this.ammo.damageType;
-        } else {
-            this.damageType = this.weapon.damageType;
+        if (isWeapon(this.weapon)) {
+            const weaponAttributes = new Set(this.weapon.attributes);
+            if (isAmmo(this.ammo)) {
+                this.damageType = this.ammo.damageType;
+            } else {
+                this.damageType = this.weapon.damageType;
+            }
+            if (weaponAttributes.has(CONSTS.WEAPON_ATTRIBUTE_RANGED)) {
+                this.attackType = CONSTS.ATTACK_TYPE_RANGED;
+                this.range = 100;
+            } else {
+                this.attackType = CONSTS.ATTACK_TYPE_MELEE;
+                this.range = 5;
+            }
+            this.finesse = weaponAttributes.has(CONSTS.WEAPON_ATTRIBUTE_FINESSE);
         }
-        if (weaponAttributes.has(CONSTS.WEAPON_ATTRIBUTE_RANGED)) {
-            this.attackType = CONSTS.ATTACK_TYPE_RANGED;
-            this.range = 100;
-        } else {
-            this.attackType = CONSTS.ATTACK_TYPE_MELEE;
-            this.range = 5;
-        }
-        this.finesse = weaponAttributes.has(CONSTS.WEAPON_ATTRIBUTE_FINESSE);
     }
 
     initAbility() {

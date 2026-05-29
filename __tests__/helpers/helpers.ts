@@ -8,6 +8,8 @@ import { WeaponBlueprint, WeaponBlueprintSchema } from '../../src/schemas/Weapon
 import { AmmoBlueprintSchema } from '../../src/schemas/AmmoBlueprint';
 import { ShieldBlueprintSchema } from '../../src/schemas/ShieldBlueprint';
 import { Ability } from '../../src/schemas/enums/Ability';
+import { Skill } from '../../src/schemas/enums/Skill';
+import { AmmoType } from '../../src/schemas/enums/AmmoType';
 
 export function makeWeapon(overrides: Partial<WeaponBlueprint> & { id?: string } = {}): Item {
     const { id = 'weapon-1', ...blueprintOverrides } = overrides;
@@ -29,7 +31,7 @@ export function makeWeapon(overrides: Partial<WeaponBlueprint> & { id?: string }
     );
 }
 
-export function makeAmmo(ammoType = CONSTS.AMMO_TYPE_ARROW): Item {
+export function makeAmmo(ammoType: AmmoType = CONSTS.AMMO_TYPE_ARROW): Item {
     return ItemBuilder.buildItem(
         AmmoBlueprintSchema.parse({
             entityType: CONSTS.ENTITY_TYPE_ITEM,
