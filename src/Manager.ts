@@ -396,6 +396,7 @@ export class Manager {
             id: actionBlueprint.id,
             hostile: actionBlueprint.hostile,
             script: actionBlueprint.script,
+            range: actionBlueprint.range,
             cooldown: CooldownManager.create({
                 duration: actionBlueprint.cooldown,
                 charges: actionBlueprint.charges,

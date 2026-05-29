@@ -236,6 +236,17 @@ export class Attack {
         }
     }
 
+    applyComputedDamages() {
+        for (const { amount, damageType } of this.damages) {
+            this.target.hitPoints -= amount;
+            this.target.triggerDamagedEvent(amount, damageType, this.attacker);
+            this.attacker.triggerDamageEvent(amount, damageType, this.target);
+        }
+        if (this.target.hitPoints <= 0) {
+            this.lethal = true;
+        }
+    }
+
     run() {
         // Charmed attacker cannot attack its charmer
         if (this.attacker.getters.getCharmerSet.has(this.target.id)) {
@@ -265,4 +276,5 @@ export class Attack {
             this.computeDamages();
         }
     }
+
 }
