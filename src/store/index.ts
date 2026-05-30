@@ -36,6 +36,8 @@ export function buildStore(): ReactiveStore<State, GetterReturnFunctions> {
         specie: CONSTS.SPECIE_HUMANOID,
         size: CONSTS.CREATURE_SIZE_MEDIUM,
         actions: {},
+        actionTaken: false,
+        bonusActionTaken: false,
     });
     return new ReactiveStore(state, Getters);
 }

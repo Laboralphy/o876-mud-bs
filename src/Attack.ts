@@ -52,22 +52,34 @@ export class Attack {
         public readonly target: Creature
     ) {}
 
+    /** Unique identifier for this attack instance. */
     get id(): string {
         return this._id;
     }
 
+    /** The flat bonus added to the d20 roll when resolving a hit. Proxies `diceRoll.modifier`. */
     set attackBonus(value: number) {
         this.diceRoll.modifier = value;
     }
 
+    /** The flat bonus added to the d20 roll when resolving a hit. Proxies `diceRoll.modifier`. */
     get attackBonus(): number {
         return this.diceRoll.modifier;
     }
 
+    /** The raw d20 result (before modifier). Proxies `diceRoll.roll`. */
     get roll(): number {
         return this.diceRoll.roll;
     }
 
+    /**
+     * Resolves the weapon to use for this attack.
+     * If `this.weapon` is not a valid weapon, falls back to the NULL_WEAPON (unarmed).
+     * Derives `damageType` (from ammo if present, otherwise from the weapon),
+     * `attackType` and `range` (melee vs ranged based on weapon attributes),
+     * and `finesse` flag.
+     * Must be called before `initAbility` and `initTarget`.
+     */
     initWeapon() {
         if (!isWeapon(this.weapon)) {
             this.weapon = NULL_WEAPON;
@@ -90,6 +102,12 @@ export class Attack {
         }
     }
 
+    /**
+     * Determines which ability drives the attack roll.
+     * For finesse weapons, picks whichever of BODY or SENSES gives the higher modifier.
+     * All other weapons always use BODY.
+     * Sets `offensiveAbility` and `offensiveAbilityModifier`.
+     */
     initAbility() {
         const am = this.attacker.getters.getAbilityModifiers;
         const senses = am[CONSTS.ABILITY_SENSES];
@@ -99,6 +117,13 @@ export class Attack {
         this.offensiveAbilityModifier = am[this.offensiveAbility];
     }
 
+    /**
+     * Resolves visibility from each combatant's perspective.
+     * A creature that is HIDDEN gets a stealth-vs-perception contest; if the
+     * observer wins, the hidden creature is treated as VISIBLE for this attack.
+     * The results are stored in `targetVisibility` and `attackerVisibility`
+     * and are later used by `computeVisibility` to apply miss-chance penalties.
+     */
     initVisibility() {
         this.targetVisibility = this.attacker.getCreatureVisibility(this.target);
         this.attackerVisibility = this.target.getCreatureVisibility(this.attacker);
@@ -126,6 +151,16 @@ export class Attack {
         }
     }
 
+    /**
+     * Computes the effective Armor Class the attacker must beat.
+     * AC is assembled from the target's base AC plus situational bonuses for:
+     * - the attack type (melee / ranged),
+     * - the attacker's specie,
+     * - the weapon's damage type(s).
+     * For hybrid weapons (two damage types), the damage type that the defender
+     * resists least is selected, and `this.damageType` is updated accordingly.
+     * The final value is stored in `this.ac`.
+     */
     initTarget() {
         const ac = this.target.getters.getArmorClass;
         const specie = this.target.getters.getSpecie;
@@ -160,6 +195,11 @@ export class Attack {
         this.ac = ac.base + acBonusAttackType + acBonusSpecie + acBonusDamageType;
     }
 
+    /**
+     * Runs all four initialisation steps in the required order:
+     * visibility → weapon → ability → target AC.
+     * Call this once after setting `weapon` and `ammo`, before calling `run`.
+     */
     init() {
         this.initVisibility();
         this.initWeapon();
@@ -167,6 +207,13 @@ export class Attack {
         this.initTarget();
     }
 
+    /**
+     * Resolves whether the attack hits.
+     * - Roll of 1: automatic fumble (miss), regardless of bonuses.
+     * - Roll of 20: automatic critical hit, unless the target is immune to critical hits.
+     * - Otherwise: hit when `diceRoll.total` (roll + attack bonus) ≥ `this.ac`.
+     * Sets `fumble`, `critical`, and `hit`.
+     */
     computeHit() {
         // Fumble: roll of 1 is an automatic miss
         if (this.diceRoll.roll === 1) {
@@ -187,6 +234,12 @@ export class Attack {
         }
     }
 
+    /**
+     * Applies a 50 % miss chance when the target is not fully visible to the attacker
+     * while the attacker remains visible to the target (one-sided impairment).
+     * If both combatants are impaired, no miss chance applies.
+     * Sets `failed` and `failure` when the miss chance triggers.
+     */
     computeVisibility() {
         if (
             this.targetVisibility !== CONSTS.CREATURE_VISIBILITY_VISIBLE &&
@@ -200,6 +253,12 @@ export class Attack {
         }
     }
 
+    /**
+     * Calculates and stores the total attack bonus in `this.attackBonus`.
+     * Composed of: base attack bonus + attack-type bonus + target-specie bonus.
+     * For finesse melee attacks, takes the higher of the melee and ranged
+     * attack-type bonuses to reward agile fighters.
+     */
     computeAttackBonus() {
         const ab = this.attacker.getters.getAttackBonus;
         const targetSpecie = this.target.getters.getSpecie;
@@ -215,6 +274,14 @@ export class Attack {
         this.attackBonus = ab.base + typeBonus + (ab.species[targetSpecie] ?? 0);
     }
 
+    /**
+     * Rolls and records damage for a successful hit.
+     * Base damage comes from the weapon's damage formula, with BODY modifier added
+     * for melee attacks (doubled when wielding a two-handed weapon).
+     * Critical hits double the total damage.
+     * The result is pushed into `this.damages` as `{ amount, damageType }`.
+     * Throws if called without a valid weapon (which should never happen after `init`).
+     */
     computeDamages() {
         const weapon = this.weapon;
         if (isWeapon(weapon)) {
@@ -236,6 +303,14 @@ export class Attack {
         }
     }
 
+    /**
+     * Applies all entries in `this.damages` to the target.
+     * For each damage entry: deducts HP, fires `damaged` on the target and
+     * `damage` on the attacker. Sets `this.lethal = true` if the target's
+     * HP drops to 0 or below.
+     * Call this after `run()`, once you are ready to commit the attack outcome
+     * (separating resolution from application lets callers inspect results first).
+     */
     applyComputedDamages() {
         for (const { amount, damageType } of this.damages) {
             this.target.hitPoints -= amount;
@@ -247,6 +322,19 @@ export class Attack {
         }
     }
 
+    /**
+     * Executes the full attack resolution sequence after `init()`.
+     * Steps (each may short-circuit the rest):
+     * 1. Charm check — a charmed attacker cannot attack its charmer.
+     * 2. Visibility miss-chance — 50 % failure if target is not visible to attacker
+     *    while attacker is visible to target.
+     * 3. Attack bonus — computed from attacker stats, attack type, and target specie.
+     * 4. Event hooks — `triggerAttackEvent` on the attacker and `triggerAttackedEvent`
+     *    on the target, allowing effects to modify the roll or mark the attack failed.
+     * 5. Hit resolution — `computeHit` (fumble / critical / normal).
+     * 6. Damage roll — `computeDamages` on a hit.
+     * Does NOT apply damage to the target; call `applyComputedDamages` separately.
+     */
     run() {
         // Charmed attacker cannot attack its charmer
         if (this.attacker.getters.getCharmerSet.has(this.target.id)) {

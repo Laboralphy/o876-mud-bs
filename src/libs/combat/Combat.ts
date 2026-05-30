@@ -20,12 +20,19 @@ type SlotWeaponAmmo = {
 export class Combat {
     private distance: DISTANCE = DISTANCE.FAR;
     public readonly events = new EventEmitter();
+    public busy: boolean = false; // if true then the next attack will be skipped
 
     constructor(
         public readonly attacker: Creature,
         public readonly target: Creature
     ) {}
 
+    /**
+     * Returns all ready hostile actions whose range meets or exceeds `minDistance`.
+     * "Ready" is determined by the creature's `getActions` getter, which already accounts
+     * for cooldowns, charges, and the `actionTaken`/`bonusActionTaken` round flags —
+     * so this list automatically reflects what is still usable at any point in the round.
+     */
     getOffensiveActionList(minDistance: DISTANCE): ActionState[] {
         const readyIds = new Set(
             this.attacker.getters.getActions.filter((a) => a.ready).map((a) => a.id)
@@ -35,6 +42,30 @@ export class Combat {
         );
     }
 
+    /**
+     * Returns ready hostile normal (non-bonus) actions usable at the current distance.
+     * This list is empty once `actionTaken` is true for this round.
+     */
+    private getNormalOffensiveActionList(): ActionState[] {
+        return this.getOffensiveActionList(this.distance).filter((a) => !a.bonus);
+    }
+
+    /**
+     * Returns ready hostile bonus actions usable at the current distance.
+     * This list is empty once `bonusActionTaken` is true for this round.
+     */
+    private getBonusOffensiveActionList(): ActionState[] {
+        return this.getOffensiveActionList(this.distance).filter((a) => a.bonus);
+    }
+
+    /**
+     * Returns all ranged weapons the attacker currently has ready to fire.
+     * - The dedicated ranged slot (`EQUIPMENT_SLOT_WEAPON_RANGED`) is included only when
+     *   its ammo requirement is satisfied (matching ammo type in `EQUIPMENT_SLOT_AMMO`),
+     *   or when the weapon has no ammo requirement at all.
+     * - Natural weapon slots are also checked: a natural weapon with the `RANGED` attribute
+     *   (e.g. spit, sting) is included without any ammo check.
+     */
     getRangedWeaponList(): SlotWeaponAmmo[] {
         const eq = this.attacker.state.equipment;
         const result: SlotWeaponAmmo[] = [];
@@ -71,6 +102,12 @@ export class Combat {
         return result;
     }
 
+    /**
+     * Returns all melee weapons the attacker has equipped.
+     * Checks the dedicated melee slot and all three natural weapon slots.
+     * A natural weapon that carries the `RANGED` attribute is excluded — it is
+     * handled by `getRangedWeaponList` instead.
+     */
     getMeleeWeaponList(): SlotWeaponAmmo[] {
         const eq = this.attacker.state.equipment;
         const meleeSlots: EquipmentSlot[] = [
@@ -88,6 +125,13 @@ export class Combat {
         }, []);
     }
 
+    /**
+     * Returns the weapon list appropriate for the current distance.
+     * - `FAR` / `MEDIUM` → ranged weapons only.
+     * - `CLOSE` → melee weapons only.
+     * An empty list means the attacker has nothing usable at this range; `playRound`
+     * will respond by trying to close the distance.
+     */
     getSuitableWeaponList(): SlotWeaponAmmo[] {
         switch (this.distance) {
             case DISTANCE.FAR:
@@ -103,6 +147,11 @@ export class Combat {
         }
     }
 
+    /**
+     * Sets the current distance between the attacker and its target.
+     * Unless `bQuiet` is true, emits a `distance-changed` event so that the
+     * `Orchestrator` can mirror the new distance to the opposing combat instance.
+     */
     setDistance(d: DISTANCE, bQuiet: boolean = false) {
         this.distance = d;
         if (!bQuiet) {
@@ -110,10 +159,17 @@ export class Combat {
         }
     }
 
+    /**
+     * Returns the current distance between attacker and target.
+     */
     getDistance(): DISTANCE {
         return this.distance;
     }
 
+    /**
+     * Moves one step closer to the target: FAR → MEDIUM → CLOSE.
+     * Has no effect when already at CLOSE range.
+     */
     approach() {
         switch (this.distance) {
             case DISTANCE.FAR: {
@@ -133,6 +189,10 @@ export class Combat {
         }
     }
 
+    /**
+     * Moves one step away from the target: CLOSE → MEDIUM → FAR.
+     * Has no effect when already at FAR range.
+     */
     retreat() {
         switch (this.distance) {
             case DISTANCE.FAR: {
@@ -152,8 +212,15 @@ export class Combat {
         }
     }
 
+    /**
+     * Executes a single weapon attack as the attacker's normal action.
+     * Marks `actionTaken` on the creature so no second normal action can be taken
+     * this round, then runs the full Attack pipeline: `init → run → applyComputedDamages`.
+     * Damage events and lethal detection are handled inside `applyComputedDamages`.
+     */
     attack(swa: SlotWeaponAmmo) {
         this.attacker.state.selectedOffensiveSlot = swa.slot;
+        this.attacker.state.actionTaken = true;
         const attack = new Attack(this.attacker, this.target);
         attack.weapon = swa.weapon;
         attack.ammo = swa.ammo ?? null;
@@ -162,16 +229,51 @@ export class Combat {
         attack.applyComputedDamages();
     }
 
+    /**
+     * Resolves one combat round for the attacker, respecting the D&D-style action economy:
+     * one normal action and one bonus action may be taken per round (not two of either).
+     *
+     * Normal action (consumed first):
+     *   - If a ready scripted normal action is usable at current range, it is executed via
+     *     `doAction` (which sets `actionTaken` internally).
+     *   - Otherwise, falls back to a weapon attack (`attack()`, which also sets `actionTaken`).
+     *   - If neither is available and the attacker is not yet at close range, approaches.
+     *
+     * Bonus action (attempted after the normal action):
+     *   - If a ready scripted bonus action is usable at current range, it is executed via
+     *     `doAction` (which sets `bonusActionTaken` internally).
+     *
+     * The `busy` flag, when set externally, skips the entire round (used for multi-round
+     * actions such as spell channels).
+     */
     playRound() {
-        const swl = this.getSuitableWeaponList();
-        if (swl.length === 0) {
-            // No suitable weapon, if far or medium distance, the try to move closer
-            if (this.distance === DISTANCE.FAR || this.distance === DISTANCE.MEDIUM) {
-                this.approach();
+        if (this.busy) {
+            // attacker is busy (casting a spell or an action)
+            this.busy = false;
+            return;
+        }
+
+        // Normal action slot
+        if (!this.attacker.state.actionTaken) {
+            const normalActions = this.getNormalOffensiveActionList();
+            if (normalActions.length > 0) {
+                this.attacker.doAction(normalActions[0].id, this.target);
+            } else {
+                const swl = this.getSuitableWeaponList();
+                if (swl.length > 0) {
+                    this.attack(swl[0]);
+                } else if (this.distance !== DISTANCE.CLOSE) {
+                    this.approach();
+                }
             }
-        } else {
-            // There is at least one suitable weapon, attack
-            this.attack(swl[0]);
+        }
+
+        // Bonus action slot
+        if (!this.attacker.state.bonusActionTaken) {
+            const bonusActions = this.getBonusOffensiveActionList();
+            if (bonusActions.length > 0) {
+                this.attacker.doAction(bonusActions[0].id, this.target);
+            }
         }
     }
 }

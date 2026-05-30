@@ -23,6 +23,8 @@ export const StateSchema = z.object({
     specie: SpecieSchema,
     size: CreatureSizeSchema,
     actions: z.record(z.string(), ActionStateSchema),
+    actionTaken: z.boolean(),
+    bonusActionTaken: z.boolean(),
 });
 
 export type State = z.infer<typeof StateSchema>;

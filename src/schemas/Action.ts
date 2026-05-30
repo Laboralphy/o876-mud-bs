@@ -9,6 +9,7 @@ export const ActionBlueprintSchema = z.strictObject({
     cooldown: z.number().int(),
     charges: z.number().int(),
     range: z.enum(DISTANCE),
+    bonus: z.boolean(),
 });
 
 export type ActionBlueprint = z.infer<typeof ActionBlueprintSchema>;
@@ -19,6 +20,7 @@ export const ActionStateSchema = z.strictObject({
     script: z.string(),
     range: z.enum(DISTANCE),
     cooldown: CooldownSchema,
+    bonus: z.boolean(),
 });
 
 export type ActionState = z.infer<typeof ActionStateSchema>;

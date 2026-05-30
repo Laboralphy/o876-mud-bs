@@ -26,9 +26,11 @@ import { EventCreatureCastSpell } from './schemas/events/EventCreatureCastSpell'
 import { EventCreatureAction } from './schemas/events/EventCreatureAction';
 import { EquipItemOutcome } from './schemas/enums/EquipItemOutcome';
 import { EffectSubtype } from './schemas/enums/EffectSubtype';
+import { ActionScriptManager } from './libs/action-script-manager';
 
 export class Manager {
     public readonly events = new EventEmitter();
+    public readonly scripts = new ActionScriptManager();
     private _time: number = 0;
     private readonly _creatures = new Map<string, Creature>();
     private readonly _items = new Map<string, Item>();
@@ -366,6 +368,9 @@ export class Manager {
     }
 
     private _onCreatureAction(payload: EventCreatureAction): void {
+        if (this.scripts.hasScript(payload.script)) {
+            this.scripts.invokeActionScript(payload.script, payload.creature, payload.target);
+        }
         this.events.emit(CONSTS.EVENT_CREATURE_ACTION, payload);
     }
 
@@ -397,6 +402,7 @@ export class Manager {
             hostile: actionBlueprint.hostile,
             script: actionBlueprint.script,
             range: actionBlueprint.range,
+            bonus: actionBlueprint.bonus,
             cooldown: CooldownManager.create({
                 duration: actionBlueprint.cooldown,
                 charges: actionBlueprint.charges,

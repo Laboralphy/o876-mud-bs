@@ -38,6 +38,7 @@ import { EventEffectProcessorImmunity } from './schemas/events/EventEffectProces
 import { EventEffectProcessorCreatureEffect } from './schemas/events/EventEffectProcessorCreatureEffect';
 import { getImmunityRules } from './libs/get-immunity-rules';
 import { CooldownManager } from './libs/cooldown';
+import { ActionState } from './schemas/Action';
 
 export class Creature {
     private readonly _store = buildStore();
@@ -78,6 +79,8 @@ export class Creature {
      * Dead effect are removed as a side effect.
      */
     process() {
+        this.state.actionTaken = false;
+        this.state.bonusActionTaken = false;
         this.triggerMutateEvent();
         this.depleteEffects();
     }
@@ -793,6 +796,11 @@ export class Creature {
                     success: false,
                     reason: 'ACTION_FAILED_NOT_READY',
                 };
+            }
+            if (action.bonus) {
+                this.state.bonusActionTaken = true;
+            } else {
+                this.state.actionTaken = true;
             }
             CooldownManager.pushTimer(this.state.actions[actionId].cooldown);
             this.emit(CONSTS.EVENT_CREATURE_ACTION, {
