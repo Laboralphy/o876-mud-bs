@@ -41,7 +41,7 @@ const BASE_ABILITIES = {
 
 export function makeManager(): Manager {
     const manager = new Manager();
-    manager.defineCreature(CREATURE_RESREF, {
+    manager.defineAsset(CREATURE_RESREF, {
         entityType: CONSTS.ENTITY_TYPE_CREATURE,
         abilities: BASE_ABILITIES,
         armorClass: 10,
@@ -51,7 +51,7 @@ export function makeManager(): Manager {
         equipment: [],
         actions: [],
     });
-    manager.defineCreature(CREATURE_WITH_GEAR_RESREF, {
+    manager.defineAsset(CREATURE_WITH_GEAR_RESREF, {
         entityType: CONSTS.ENTITY_TYPE_CREATURE,
         abilities: BASE_ABILITIES,
         armorClass: 10,

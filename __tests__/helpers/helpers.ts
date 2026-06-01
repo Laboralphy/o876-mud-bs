@@ -12,7 +12,7 @@ import { Skill } from '../../src/schemas/enums/Skill';
 import { AmmoType } from '../../src/schemas/enums/AmmoType';
 
 export function makeWeapon(overrides: Partial<WeaponBlueprint> & { id?: string } = {}): Item {
-    const { id = 'weapon-1', ...blueprintOverrides } = overrides;
+    const { id = 'weapons-1', ...blueprintOverrides } = overrides;
     return ItemBuilder.buildItem(
         WeaponBlueprintSchema.parse({
             entityType: CONSTS.ENTITY_TYPE_ITEM,

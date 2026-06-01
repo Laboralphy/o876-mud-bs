@@ -4,10 +4,8 @@ import { CONSTS } from '../../consts';
 import { GetterReturnType } from '../define-getters';
 import { Item } from '../../schemas/Item';
 
-
-
 /**
- * Retrieves for the currently selected weapon.
+ * Retrieves for the currently selected weapons.
  */
 export function getSelectedWeapon(state: State, getters: GetterReturnType): Item | null {
     const w = state.equipment[state.selectedOffensiveSlot];

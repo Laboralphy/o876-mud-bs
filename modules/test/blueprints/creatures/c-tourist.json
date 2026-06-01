@@ -1,0 +1,37 @@
+{
+    "entityType": "ENTITY_TYPE_CREATURE",
+    "specie": "SPECIE_HUMANOID",
+    "size": "CREATURE_SIZE_MEDIUM",
+    "armorClass": 10,
+    "abilities": {
+        "ABILITY_BODY": 10,
+        "ABILITY_MIND": 10,
+        "ABILITY_SENSES": 10,
+        "ABILITY_PRESENCE": 10
+    },
+    "properties": [],
+    "actions": [],
+    "equipment": [
+        {
+            "entityType": "ENTITY_TYPE_ITEM",
+            "itemType": "ITEM_TYPE_WEAPON",
+            "damages": "1d6",
+            "damageType": "DAMAGE_TYPE_PIERCING",
+            "proficiency": "PROFICIENCY_WEAPON_SIMPLE",
+            "attributes": ["WEAPON_ATTRIBUTE_FINESSE"],
+            "size": "WEAPON_SIZE_SMALL",
+            "equipmentSlots": ["EQUIPMENT_SLOT_WEAPON_MELEE"],
+            "properties": [],
+            "weight": 1
+        },
+        {
+            "entityType": "ENTITY_TYPE_ITEM",
+            "itemType": "ITEM_TYPE_ARMOR",
+            "armorClass": 1,
+            "proficiency": "PROFICIENCY_ARMOR_LIGHT",
+            "equipmentSlots": ["EQUIPMENT_SLOT_CHEST"],
+            "properties": [],
+            "weight": 5
+        }
+    ]
+}

@@ -10,11 +10,11 @@ describe('isRangedWeaponLoaded', () => {
         creature = new Creature('test');
     });
 
-    it('returns false when no ranged weapon is equipped', () => {
+    it('returns false when no ranged weapons is equipped', () => {
         expect(creature.getters.isRangedWeaponLoaded).toBe(false);
     });
 
-    it('returns false when ranged weapon has no AMMUNITION attribute', () => {
+    it('returns false when ranged weapons has no AMMUNITION attribute', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED] = makeWeapon({
             itemType: CONSTS.ITEM_TYPE_WEAPON,
             attributes: [],
@@ -23,7 +23,7 @@ describe('isRangedWeaponLoaded', () => {
         expect(creature.getters.isRangedWeaponLoaded).toBe(false);
     });
 
-    it('returns false when weapon requires ammo but none is equipped', () => {
+    it('returns false when weapons requires ammo but none is equipped', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED] = makeWeapon({
             attributes: [CONSTS.WEAPON_ATTRIBUTE_AMMUNITION],
             ammoType: CONSTS.AMMO_TYPE_ARROW,
@@ -32,7 +32,7 @@ describe('isRangedWeaponLoaded', () => {
         expect(creature.getters.isRangedWeaponLoaded).toBe(false);
     });
 
-    it('returns false when ammo type does not match weapon', () => {
+    it('returns false when ammo type does not match weapons', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED] = makeWeapon({
             attributes: [CONSTS.WEAPON_ATTRIBUTE_AMMUNITION],
             ammoType: CONSTS.AMMO_TYPE_ARROW,
@@ -42,7 +42,7 @@ describe('isRangedWeaponLoaded', () => {
         expect(creature.getters.isRangedWeaponLoaded).toBe(false);
     });
 
-    it('returns true when weapon and ammo types match', () => {
+    it('returns true when weapons and ammo types match', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED] = makeWeapon({
             attributes: [CONSTS.WEAPON_ATTRIBUTE_AMMUNITION],
             ammoType: CONSTS.AMMO_TYPE_ARROW,
@@ -60,11 +60,11 @@ describe('getSelectedWeaponAttributeSet', () => {
         creature = new Creature('test');
     });
 
-    it('returns empty set when no weapon is equipped', () => {
+    it('returns empty set when no weapons is equipped', () => {
         expect(creature.getters.getSelectedWeaponAttributeSet.size).toBe(0);
     });
 
-    it('returns attributes of the selected weapon', () => {
+    it('returns attributes of the selected weapons', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = makeWeapon({
             attributes: [CONSTS.WEAPON_ATTRIBUTE_TWO_HANDED],
         });
@@ -99,12 +99,12 @@ describe('isWieldingShield', () => {
         expect(creature.getters.isWieldingShield).toBe(false);
     });
 
-    it('returns true when shield is equipped and no two-handed weapon is selected', () => {
+    it('returns true when shield is equipped and no two-handed weapons is selected', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_SHIELD] = makeShield();
         expect(creature.getters.isWieldingShield).toBe(true);
     });
 
-    it('returns false when shield is equipped but a two-handed weapon is selected', () => {
+    it('returns false when shield is equipped but a two-handed weapons is selected', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_SHIELD] = makeShield();
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = makeWeapon({
             attributes: [CONSTS.WEAPON_ATTRIBUTE_TWO_HANDED],
@@ -120,25 +120,25 @@ describe('isWieldingTwoHandedWeapon', () => {
         creature = new Creature('test');
     });
 
-    it('returns false when no weapon is equipped', () => {
+    it('returns false when no weapons is equipped', () => {
         expect(creature.getters.isWieldingTwoHandedWeapon).toBe(false);
     });
 
-    it('returns true when a two-handed weapon is selected', () => {
+    it('returns true when a two-handed weapons is selected', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = makeWeapon({
             attributes: [CONSTS.WEAPON_ATTRIBUTE_TWO_HANDED],
         });
         expect(creature.getters.isWieldingTwoHandedWeapon).toBe(true);
     });
 
-    it('returns true for a versatile weapon when no shield is equipped', () => {
+    it('returns true for a versatile weapons when no shield is equipped', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = makeWeapon({
             attributes: [CONSTS.WEAPON_ATTRIBUTE_VERSATILE],
         });
         expect(creature.getters.isWieldingTwoHandedWeapon).toBe(true);
     });
 
-    it('returns false for a versatile weapon when a shield is equipped', () => {
+    it('returns false for a versatile weapons when a shield is equipped', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = makeWeapon({
             attributes: [CONSTS.WEAPON_ATTRIBUTE_VERSATILE],
         });
@@ -146,7 +146,7 @@ describe('isWieldingTwoHandedWeapon', () => {
         expect(creature.getters.isWieldingTwoHandedWeapon).toBe(false);
     });
 
-    it('returns false for a normal weapon', () => {
+    it('returns false for a normal weapons', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = makeWeapon();
         expect(creature.getters.isWieldingTwoHandedWeapon).toBe(false);
     });
@@ -170,12 +170,12 @@ describe('getDefensiveSlots', () => {
         expect(creature.getters.getDefensiveSlots).toContain(CONSTS.EQUIPMENT_SLOT_HEAD);
     });
 
-    it('includes shield slot when not wielding a two-handed weapon', () => {
+    it('includes shield slot when not wielding a two-handed weapons', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_SHIELD] = makeShield();
         expect(creature.getters.getDefensiveSlots).toContain(CONSTS.EQUIPMENT_SLOT_SHIELD);
     });
 
-    it('excludes shield slot when wielding a two-handed weapon', () => {
+    it('excludes shield slot when wielding a two-handed weapons', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_SHIELD] = makeShield();
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = makeWeapon({
             attributes: [CONSTS.WEAPON_ATTRIBUTE_TWO_HANDED],
@@ -202,12 +202,12 @@ describe('getOffensiveSlots', () => {
         expect(creature.getters.getOffensiveSlots).toEqual([]);
     });
 
-    it('returns selected melee slot when a weapon is equipped there', () => {
+    it('returns selected melee slot when a weapons is equipped there', () => {
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = makeWeapon();
         expect(creature.getters.getOffensiveSlots).toEqual([CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE]);
     });
 
-    it('returns ranged slot without ammo slot when weapon is not loaded', () => {
+    it('returns ranged slot without ammo slot when weapons is not loaded', () => {
         creature.state.selectedOffensiveSlot = CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED;
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED] = makeWeapon({
             attributes: [CONSTS.WEAPON_ATTRIBUTE_AMMUNITION],
@@ -217,7 +217,7 @@ describe('getOffensiveSlots', () => {
         expect(creature.getters.getOffensiveSlots).toEqual([CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED]);
     });
 
-    it('returns ranged and ammo slots when weapon is loaded', () => {
+    it('returns ranged and ammo slots when weapons is loaded', () => {
         creature.state.selectedOffensiveSlot = CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED;
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED] = makeWeapon({
             attributes: [CONSTS.WEAPON_ATTRIBUTE_AMMUNITION],

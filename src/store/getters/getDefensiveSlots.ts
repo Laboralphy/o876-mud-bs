@@ -6,7 +6,7 @@ import { GetterReturnType } from '../define-getters';
 /**
  * Retrieves the list of defensive equipment slots that are currently occupied.
  * The method determines the applicable equipment slots based on the game's logic,
- * including whether a two-handed weapon is wielded.
+ * including whether a two-handed weapons is wielded.
  */
 export function getDefensiveSlots(state: State, getters: GetterReturnType): EquipmentSlot[] {
     const aSlots: EquipmentSlot[] = [

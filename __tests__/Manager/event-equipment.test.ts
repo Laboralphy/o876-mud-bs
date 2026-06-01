@@ -17,12 +17,12 @@ describe('Manager — equipment events', () => {
     });
 
     describe('EVENT_CREATURE_EQUIP_ITEM', () => {
-        it('registers item ownership when a weapon is equipped', () => {
+        it('registers item ownership when a weapons is equipped', () => {
             creature.equipItem(weapon);
             expect(manager.getItemOwner(weapon)).toBe(creature);
         });
 
-        it('ownership is set to the correct creature when two creatures each equip their own weapon', () => {
+        it('ownership is set to the correct creature when two creatures each equip their own weapons', () => {
             const other = manager.createCreature(CREATURE_RESREF);
             const otherWeapon = makeWeapon('other-sword');
             creature.equipItem(weapon);
@@ -33,7 +33,7 @@ describe('Manager — equipment events', () => {
     });
 
     describe('EVENT_CREATURE_REMOVE_ITEM', () => {
-        it('clears item ownership when the weapon is unequipped', () => {
+        it('clears item ownership when the weapons is unequipped', () => {
             creature.equipItem(weapon);
             creature.unequipItem(weapon);
             expect(manager.getItemOwner(weapon)).toBeUndefined();
@@ -42,7 +42,7 @@ describe('Manager — equipment events', () => {
         it('does not affect ownership of a different item when only one is removed', () => {
             const sword = makeWeapon('sword');
             creature.equipItem(weapon);
-            // equip sword after weapon has been auto-removed from the melee slot by the new equip
+            // equip sword after weapons has been auto-removed from the melee slot by the new equip
             creature.unequipItem(sword); // sword never equipped — ownership must not be set
             expect(manager.getItemOwner(weapon)).toBe(creature);
         });
@@ -66,7 +66,7 @@ describe('Manager — equipment events', () => {
         it('fires without error when unequipping an item that was never equipped', () => {
             const spy = vi.fn();
             creature.events.on(CONSTS.EVENT_CREATURE_REMOVE_ITEM_FAILED, spy);
-            creature.unequipItem(weapon); // weapon was never equipped
+            creature.unequipItem(weapon); // weapons was never equipped
             expect(spy).toHaveBeenCalledOnce();
             expect(spy.mock.calls[0][0]).toMatchObject({
                 creature,

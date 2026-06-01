@@ -62,8 +62,8 @@ export class Combat {
      * Returns all ranged weapons the attacker currently has ready to fire.
      * - The dedicated ranged slot (`EQUIPMENT_SLOT_WEAPON_RANGED`) is included only when
      *   its ammo requirement is satisfied (matching ammo type in `EQUIPMENT_SLOT_AMMO`),
-     *   or when the weapon has no ammo requirement at all.
-     * - Natural weapon slots are also checked: a natural weapon with the `RANGED` attribute
+     *   or when the weapons has no ammo requirement at all.
+     * - Natural weapons slots are also checked: a natural weapons with the `RANGED` attribute
      *   (e.g. spit, sting) is included without any ammo check.
      */
     getRangedWeaponList(): SlotWeaponAmmo[] {
@@ -104,8 +104,8 @@ export class Combat {
 
     /**
      * Returns all melee weapons the attacker has equipped.
-     * Checks the dedicated melee slot and all three natural weapon slots.
-     * A natural weapon that carries the `RANGED` attribute is excluded — it is
+     * Checks the dedicated melee slot and all three natural weapons slots.
+     * A natural weapons that carries the `RANGED` attribute is excluded — it is
      * handled by `getRangedWeaponList` instead.
      */
     getMeleeWeaponList(): SlotWeaponAmmo[] {
@@ -126,7 +126,7 @@ export class Combat {
     }
 
     /**
-     * Returns the weapon list appropriate for the current distance.
+     * Returns the weapons list appropriate for the current distance.
      * - `FAR` / `MEDIUM` → ranged weapons only.
      * - `CLOSE` → melee weapons only.
      * An empty list means the attacker has nothing usable at this range; `playRound`
@@ -213,7 +213,7 @@ export class Combat {
     }
 
     /**
-     * Executes a single weapon attack as the attacker's normal action.
+     * Executes a single weapons attack as the attacker's normal action.
      * Marks `actionTaken` on the creature so no second normal action can be taken
      * this round, then runs the full Attack pipeline: `init → run → applyComputedDamages`.
      * Damage events and lethal detection are handled inside `applyComputedDamages`.
@@ -236,7 +236,7 @@ export class Combat {
      * Normal action (consumed first):
      *   - If a ready scripted normal action is usable at current range, it is executed via
      *     `doAction` (which sets `actionTaken` internally).
-     *   - Otherwise, falls back to a weapon attack (`attack()`, which also sets `actionTaken`).
+     *   - Otherwise, falls back to a weapons attack (`attack()`, which also sets `actionTaken`).
      *   - If neither is available and the attacker is not yet at close range, approaches.
      *
      * Bonus action (attempted after the normal action):

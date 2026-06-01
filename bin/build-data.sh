@@ -23,4 +23,10 @@ $script_folder/build-getters-index.sh
 echo "generating disease index."
 $script_folder/build-disease-index.sh
 
+echo "generating module index"
+for sModule in "$script_folder/../modules"/*/;
+do
+    $script_folder/build-module-index.sh "$(basename "$sModule")"
+done
+
 echo "done."

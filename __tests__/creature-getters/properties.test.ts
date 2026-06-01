@@ -88,7 +88,7 @@ describe('getEquipmentSlotProperties', () => {
         expect(creature.getters.getEquipmentSlotProperties).toEqual({});
     });
 
-    it('returns properties from weapon in offensive slot', () => {
+    it('returns properties from weapons in offensive slot', () => {
         const prop = makeAbilityModifierProperty(2);
         const weapon = makeWeapon({ properties: [prop.data] });
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
@@ -101,7 +101,6 @@ describe('getEquipmentSlotProperties', () => {
         const slotProps = creature.getters.getEquipmentSlotProperties;
         expect(slotProps[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE]).toBeUndefined();
     });
-
 });
 
 describe('removeInnateProperty', () => {
@@ -150,7 +149,7 @@ describe('getEquipmentProperties', () => {
         expect(creature.getters.getEquipmentProperties).toEqual([]);
     });
 
-    it('returns properties from a single equipped weapon', () => {
+    it('returns properties from a single equipped weapons', () => {
         const weapon = makeWeapon({ properties: [makeAbilityModifierProperty(2).data] });
         creature.state.equipment[CONSTS.EQUIPMENT_SLOT_WEAPON_MELEE] = weapon;
         expect(creature.getters.getEquipmentProperties).toHaveLength(1);

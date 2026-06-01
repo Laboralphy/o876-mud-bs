@@ -27,18 +27,18 @@ export class Attack {
     public attackerVisibility: CreatureVisibility = CONSTS.CREATURE_VISIBILITY_VISIBLE; // Target visibility
     public offensiveAbility: Ability = CONSTS.ABILITY_BODY;
     public offensiveAbilityModifier: number = 0;
-    public weapon: Item | null = null; // weapon used
+    public weapon: Item | null = null; // weapons used
     public ammo: Item | null = null; // ammo used
     public attackType: AttackType = CONSTS.ATTACK_TYPE_MELEE; // attack type (ranged, melee)
     public damageType: DamageType = CONSTS.DAMAGE_TYPE_CRUSHING; // damage type used in this attack (useful for hybrid weapons)
-    public range: number = 0; // maximum distance of attack (weapon)
+    public range: number = 0; // maximum distance of attack (weapons)
 
     public distance: number = 0; // distance between attacker and target
     public ac: number = 0; // target armor class
     public sneak: boolean = false; // this was a sneak attack : damage will be doubled
     public opportunity: boolean = false; // this was an attack of opportunity
     public rush: boolean = false; // this was a rushed attack
-    public improvised: boolean = false; // this was an attack done with an improvised weapon
+    public improvised: boolean = false; // this was an attack done with an improvised weapons
     public fumble: boolean = false; // roll was 1 : automatic fail
     public finesse: boolean = false; // if true, and attack is melee, it will used best of body, sense
     public critical: boolean = false; // roll was over critical range : automatic hit
@@ -73,10 +73,10 @@ export class Attack {
     }
 
     /**
-     * Resolves the weapon to use for this attack.
-     * If `this.weapon` is not a valid weapon, falls back to the NULL_WEAPON (unarmed).
-     * Derives `damageType` (from ammo if present, otherwise from the weapon),
-     * `attackType` and `range` (melee vs ranged based on weapon attributes),
+     * Resolves the weapons to use for this attack.
+     * If `this.weapons` is not a valid weapons, falls back to the NULL_WEAPON (unarmed).
+     * Derives `damageType` (from ammo if present, otherwise from the weapons),
+     * `attackType` and `range` (melee vs ranged based on weapons attributes),
      * and `finesse` flag.
      * Must be called before `initAbility` and `initTarget`.
      */
@@ -156,7 +156,7 @@ export class Attack {
      * AC is assembled from the target's base AC plus situational bonuses for:
      * - the attack type (melee / ranged),
      * - the attacker's specie,
-     * - the weapon's damage type(s).
+     * - the weapons's damage type(s).
      * For hybrid weapons (two damage types), the damage type that the defender
      * resists least is selected, and `this.damageType` is updated accordingly.
      * The final value is stored in `this.ac`.
@@ -181,7 +181,7 @@ export class Attack {
             acBonusDamageType = ac.damageTypes[weaponDamageTypes[0]] ?? 0;
             this.damageType = weaponDamageTypes[0];
         } else {
-            // Hybrid weapon: attacker exploits whichever damage type the defender resists least
+            // Hybrid weapons: attacker exploits whichever damage type the defender resists least
             const dt1 = ac.damageTypes[weaponDamageTypes[0]] ?? 0;
             const dt2 = ac.damageTypes[weaponDamageTypes[1]] ?? 0;
             if (dt1 <= dt2) {
@@ -197,8 +197,8 @@ export class Attack {
 
     /**
      * Runs all four initialisation steps in the required order:
-     * visibility → weapon → ability → target AC.
-     * Call this once after setting `weapon` and `ammo`, before calling `run`.
+     * visibility → weapons → ability → target AC.
+     * Call this once after setting `weapons` and `ammo`, before calling `run`.
      */
     init() {
         this.initVisibility();
@@ -276,11 +276,11 @@ export class Attack {
 
     /**
      * Rolls and records damage for a successful hit.
-     * Base damage comes from the weapon's damage formula, with BODY modifier added
-     * for melee attacks (doubled when wielding a two-handed weapon).
+     * Base damage comes from the weapons's damage formula, with BODY modifier added
+     * for melee attacks (doubled when wielding a two-handed weapons).
      * Critical hits double the total damage.
      * The result is pushed into `this.damages` as `{ amount, damageType }`.
-     * Throws if called without a valid weapon (which should never happen after `init`).
+     * Throws if called without a valid weapons (which should never happen after `init`).
      */
     computeDamages() {
         const weapon = this.weapon;
@@ -299,7 +299,7 @@ export class Attack {
             }
             this.damages.push({ amount, damageType });
         } else {
-            throw new Error('unexpected state : There should be  a weapon here at this stage.');
+            throw new Error('unexpected state : There should be  a weapons here at this stage.');
         }
     }
 
@@ -364,5 +364,4 @@ export class Attack {
             this.computeDamages();
         }
     }
-
 }

@@ -3,7 +3,6 @@ import { Creature } from './Creature';
 import { Item } from './schemas/Item';
 import { PropertyBuilder } from './builders/PropertyBuilder';
 import { ItemBlueprint } from './schemas/ItemBlueprint';
-import { CreatureBlueprint } from './schemas/CreatureBlueprint';
 import { ItemBuilder } from './builders/ItemBuilder';
 import { Property, PropertyDefinition } from './properties/schemas';
 import { Effect, EffectDefinition } from './effects/schemas';
@@ -27,14 +26,16 @@ import { EventCreatureAction } from './schemas/events/EventCreatureAction';
 import { EquipItemOutcome } from './schemas/enums/EquipItemOutcome';
 import { EffectSubtype } from './schemas/enums/EffectSubtype';
 import { ActionScriptManager } from './libs/action-script-manager';
+import { ModuleManager } from './ModuleManager';
+import { ExtendableEntity } from './libs/extend-resolver/ExtendResolver';
 
 export class Manager {
     public readonly events = new EventEmitter();
     public readonly scripts = new ActionScriptManager();
     private _time: number = 0;
+    private readonly _moduleManager = new ModuleManager();
     private readonly _creatures = new Map<string, Creature>();
     private readonly _items = new Map<string, Item>();
-    private readonly _creatureBlueprints = new Map<string, CreatureBlueprint>();
     private readonly _itemBlueprints = new Map<string, ItemBlueprint>();
     private readonly _actionBlueprints = new Map<string, ActionBlueprint>();
     private readonly _itemOwnership = new Map<string, Creature>();
@@ -47,7 +48,7 @@ export class Manager {
     // Creature management
 
     createCreature(resref: string, id: string = ''): Creature {
-        const creatureBlueprint = this._creatureBlueprints.get(resref);
+        const creatureBlueprint = this._moduleManager.getCreatureBlueprint(resref);
         if (!creatureBlueprint) {
             throw new ReferenceError(`Creature blueprint ${resref} not found`);
         }
@@ -78,8 +79,12 @@ export class Manager {
         return creature;
     }
 
-    defineCreature(resref: string, blueprint: CreatureBlueprint): void {
-        this._creatureBlueprints.set(resref, blueprint);
+    defineAsset(resref: string, asset: ExtendableEntity) {
+        this._moduleManager.addAsset(resref, asset);
+    }
+
+    defineCreature(): void {
+        throw new Error('Method not implemented');
     }
 
     destroyCreature(creature: Creature) {
@@ -160,10 +165,6 @@ export class Manager {
     //  ▐▌  ▐▌ ▐▛▀▘▐▛▛█    ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
     // ▝▀▀▘  ▀▘ ▀▀ ▝▘ ▀    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
     // Item management
-
-    defineItem(resref: string, blueprint: ItemBlueprint): void {
-        this._itemBlueprints.set(resref, blueprint);
-    }
 
     createItem(rb: ItemBlueprint | string, id: string = ''): Item {
         if (typeof rb === 'string') {
@@ -389,7 +390,7 @@ export class Manager {
     }
 
     private createItemFromResref(resref: string, id: string = ''): Item {
-        const blueprint: ItemBlueprint | undefined = this._itemBlueprints.get(resref);
+        const blueprint: ItemBlueprint = this._moduleManager.getItemBlueprint(resref);
         if (!blueprint) {
             throw new ReferenceError(`Creature equipment item blueprint ${resref} not found`);
         }

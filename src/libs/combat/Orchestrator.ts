@@ -53,4 +53,10 @@ export class Orchestrator {
     playCombatRound(combat: Combat) {
         combat.playRound();
     }
+
+    process() {
+        for (const combat of this.combats.values()) {
+            this.playCombatRound(combat);
+        }
+    }
 }

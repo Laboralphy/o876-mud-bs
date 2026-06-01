@@ -4,7 +4,7 @@ import { GetterReturnType } from '../define-getters';
 
 /**
  * Determines if the character is currently wielding a shield.
- * Note that, even if equipped, the shield might not be used at all times: if the character is attacking with a two-handed weapon,
+ * Note that, even if equipped, the shield might not be used at all times: if the character is attacking with a two-handed weapons,
  * the shield will not protect the character from damage.
  */
 export function isWieldingShield(state: State, getters: GetterReturnType): boolean {

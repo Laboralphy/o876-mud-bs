@@ -1,5 +1,4 @@
 import { GetterOutput } from '@laboralphy/reactor';
-import { getActions } from './getters/getActions';
 import { canAct } from './getters/canAct';
 import { canFight } from './getters/canFight';
 import { canMove } from './getters/canMove';
@@ -7,6 +6,7 @@ import { getAbilities } from './getters/getAbilities';
 import { getAbilityBaseValues } from './getters/getAbilityBaseValues';
 import { getAbilityBonusValues } from './getters/getAbilityBonusValues';
 import { getAbilityModifiers } from './getters/getAbilityModifiers';
+import { getActions } from './getters/getActions';
 import { getActiveEffects } from './getters/getActiveEffects';
 import { getActiveProperties } from './getters/getActiveProperties';
 import { getArmorClass } from './getters/getArmorClass';
@@ -25,9 +25,9 @@ import { getMaxHitPoints } from './getters/getMaxHitPoints';
 import { getOffensiveSlots } from './getters/getOffensiveSlots';
 import { getPropertySet } from './getters/getPropertySet';
 import { getResistanceValues } from './getters/getResistanceValues';
+import { getSelectedWeapon } from './getters/getSelectedWeapon';
 import { getSelectedWeaponAmmo } from './getters/getSelectedWeaponAmmo';
 import { getSelectedWeaponAttributeSet } from './getters/getSelectedWeaponAttributeSet';
-import { getSelectedWeapon } from './getters/getSelectedWeapon';
 import { getSize } from './getters/getSize';
 import { getSkillBonusValues } from './getters/getSkillBonusValues';
 import { getSkillValues } from './getters/getSkillValues';
@@ -36,7 +36,6 @@ import { isRangedWeaponLoaded } from './getters/isRangedWeaponLoaded';
 import { isWieldingShield } from './getters/isWieldingShield';
 import { isWieldingTwoHandedWeapon } from './getters/isWieldingTwoHandedWeapon';
 export type GetterReturnFunctions = {
-    getActions: typeof getActions;
     canAct: typeof canAct;
     canFight: typeof canFight;
     canMove: typeof canMove;
@@ -44,6 +43,7 @@ export type GetterReturnFunctions = {
     getAbilityBaseValues: typeof getAbilityBaseValues;
     getAbilityBonusValues: typeof getAbilityBonusValues;
     getAbilityModifiers: typeof getAbilityModifiers;
+    getActions: typeof getActions;
     getActiveEffects: typeof getActiveEffects;
     getActiveProperties: typeof getActiveProperties;
     getArmorClass: typeof getArmorClass;
@@ -62,9 +62,9 @@ export type GetterReturnFunctions = {
     getOffensiveSlots: typeof getOffensiveSlots;
     getPropertySet: typeof getPropertySet;
     getResistanceValues: typeof getResistanceValues;
+    getSelectedWeapon: typeof getSelectedWeapon;
     getSelectedWeaponAmmo: typeof getSelectedWeaponAmmo;
     getSelectedWeaponAttributeSet: typeof getSelectedWeaponAttributeSet;
-    getSelectedWeapon: typeof getSelectedWeapon;
     getSize: typeof getSize;
     getSkillBonusValues: typeof getSkillBonusValues;
     getSkillValues: typeof getSkillValues;
@@ -76,7 +76,6 @@ export type GetterReturnFunctions = {
 
 export type GetterReturnType = GetterOutput<GetterReturnFunctions>;
 export const Getters = {
-    getActions,
     canAct,
     canFight,
     canMove,
@@ -84,6 +83,7 @@ export const Getters = {
     getAbilityBaseValues,
     getAbilityBonusValues,
     getAbilityModifiers,
+    getActions,
     getActiveEffects,
     getActiveProperties,
     getArmorClass,
@@ -102,9 +102,9 @@ export const Getters = {
     getOffensiveSlots,
     getPropertySet,
     getResistanceValues,
+    getSelectedWeapon,
     getSelectedWeaponAmmo,
     getSelectedWeaponAttributeSet,
-    getSelectedWeapon,
     getSize,
     getSkillBonusValues,
     getSkillValues,

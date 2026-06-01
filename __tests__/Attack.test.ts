@@ -91,7 +91,7 @@ describe('Attack', () => {
             expect(attack.weapon).not.toBeNull(); // falls back to NULL_WEAPON (1d2 crushing)
         });
 
-        it('sets weapon reference from attacker equipment', () => {
+        it('sets weapons reference from attacker equipment', () => {
             const weapon = makeWeapon();
             attacker.equipItem(weapon);
             vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(10);
@@ -100,7 +100,7 @@ describe('Attack', () => {
             expect(attack.weapon).not.toBeNull();
         });
 
-        it('sets ranged attack type and range 100 for ranged weapon', () => {
+        it('sets ranged attack type and range 100 for ranged weapons', () => {
             const weapon = makeWeapon({
                 attributes: [CONSTS.WEAPON_ATTRIBUTE_RANGED],
                 equipmentSlots: [CONSTS.EQUIPMENT_SLOT_WEAPON_RANGED],
@@ -115,7 +115,7 @@ describe('Attack', () => {
             expect(attack.range).toBe(100);
         });
 
-        it('sets finesse flag for a finesse weapon', () => {
+        it('sets finesse flag for a finesse weapons', () => {
             const weapon = makeWeapon({ attributes: [CONSTS.WEAPON_ATTRIBUTE_FINESSE] });
             attacker.equipItem(weapon);
             vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(10);
@@ -222,7 +222,7 @@ describe('Attack', () => {
             expect(attack.ac).toBe(10); // 8 + 2
         });
 
-        it('adds damage-type AC bonus for a single-type weapon', () => {
+        it('adds damage-type AC bonus for a single-type weapons', () => {
             const weapon = makeWeapon({ damageType: CONSTS.DAMAGE_TYPE_SLASHING });
             attacker.equipItem(weapon);
             target.state.properties.push(
@@ -240,7 +240,7 @@ describe('Attack', () => {
             expect(attack.ac).toBe(12); // 8 + 4
         });
 
-        it('hybrid weapon exploits weaker defense — uses Math.min of two damage-type bonuses', () => {
+        it('hybrid weapons exploits weaker defense — uses Math.min of two damage-type bonuses', () => {
             const weapon = makeWeapon({
                 damageType: CONSTS.DAMAGE_TYPE_SLASHING,
                 altDamageType: CONSTS.DAMAGE_TYPE_PIERCING,
@@ -278,7 +278,7 @@ describe('Attack', () => {
             );
             vi.spyOn(Dice.prototype, 'roll').mockReturnValueOnce(10);
             const attack = new Attack(attacker, target);
-            attack.initWeapon(); // no weapon → unarmed → crushing
+            attack.initWeapon(); // no weapons → unarmed → crushing
             attack.initTarget();
             expect(attack.ac).toBe(11); // 8 + 3
         });
@@ -445,14 +445,14 @@ describe('Attack', () => {
                 .mockReturnValueOnce(10) // 1d20
                 .mockReturnValueOnce(2); // 1d2
             const attack = new Attack(attacker, target);
-            attack.initWeapon(); // sets weapon to NULL_WEAPON (1d2 crushing)
+            attack.initWeapon(); // sets weapons to NULL_WEAPON (1d2 crushing)
             attack.computeDamages();
             expect(attack.damages).toHaveLength(1);
             expect(attack.damages[0].amount).toBe(2);
             expect(attack.damages[0].damageType).toBe(CONSTS.DAMAGE_TYPE_CRUSHING);
         });
 
-        it('uses weapon damage formula and damage type', () => {
+        it('uses weapons damage formula and damage type', () => {
             const weapon = makeWeapon({ damages: '1d8', damageType: CONSTS.DAMAGE_TYPE_SLASHING });
             attacker.equipItem(weapon);
             vi.spyOn(Dice.prototype, 'roll')
@@ -488,7 +488,7 @@ describe('Attack', () => {
             expect(attack.damages[0].amount).toBe(5);
         });
 
-        it('adds body modifier once for a normal melee weapon', () => {
+        it('adds body modifier once for a normal melee weapons', () => {
             attacker.state.abilities[CONSTS.ABILITY_BODY] = 14; // mod +2
             attacker.equipItem(makeWeapon({ damages: '1d8' }));
             vi.spyOn(Dice.prototype, 'roll')
@@ -501,7 +501,7 @@ describe('Attack', () => {
             expect(attack.damages[0].amount).toBe(6); // 4 + 2
         });
 
-        it('adds body modifier twice for a two-handed melee weapon', () => {
+        it('adds body modifier twice for a two-handed melee weapons', () => {
             attacker.state.abilities[CONSTS.ABILITY_BODY] = 14; // mod +2
             attacker.equipItem(
                 makeWeapon({
@@ -519,7 +519,7 @@ describe('Attack', () => {
             expect(attack.damages[0].amount).toBe(9); // 5 + 2 + 2
         });
 
-        it('adds body modifier twice for a versatile weapon wielded without shield', () => {
+        it('adds body modifier twice for a versatile weapons wielded without shield', () => {
             attacker.state.abilities[CONSTS.ABILITY_BODY] = 14; // mod +2
             attacker.equipItem(
                 makeWeapon({
@@ -537,7 +537,7 @@ describe('Attack', () => {
             expect(attack.damages[0].amount).toBe(9); // 5 + 2 + 2
         });
 
-        it('adds body modifier only once for a versatile weapon when a shield is equipped', () => {
+        it('adds body modifier only once for a versatile weapons when a shield is equipped', () => {
             attacker.state.abilities[CONSTS.ABILITY_BODY] = 14; // mod +2
             attacker.equipItem(
                 makeWeapon({

@@ -1,0 +1,9 @@
+{
+    "entityType": "ENTITY_TYPE_ITEM",
+    "itemType": "ITEM_TYPE_ARMOR",
+    "armorClass": 1,
+    "proficiency": "PROFICIENCY_ARMOR_LIGHT",
+    "equipmentSlots": ["EQUIPMENT_SLOT_CHEST"],
+    "properties": [],
+    "weight": 5
+}
