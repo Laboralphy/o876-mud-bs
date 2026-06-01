@@ -150,7 +150,7 @@ export class Combat {
     /**
      * Sets the current distance between the attacker and its target.
      * Unless `bQuiet` is true, emits a `distance-changed` event so that the
-     * `Orchestrator` can mirror the new distance to the opposing combat instance.
+     * `CombatManager` can mirror the new distance to the opposing combat instance.
      */
     setDistance(d: DISTANCE, bQuiet: boolean = false) {
         this.distance = d;

@@ -2,7 +2,7 @@ import { Combat } from './Combat';
 import { Creature } from '../../Creature';
 import { DISTANCE } from '../distance';
 
-export class Orchestrator {
+export class CombatManager {
     public readonly combats = new Map<Creature, Combat>();
 
     /**
@@ -16,7 +16,7 @@ export class Orchestrator {
         this.combats.set(attacker, combat);
         combat.events.on('distance-changed', (data: { distance: DISTANCE }) => {
             const { distance } = data;
-            combat.setDistance(distance, true);
+            this.getMirroredCombat(combat)?.setDistance(distance, true);
         });
         if (bBoth) {
             this.createCombat(target, attacker, false);
