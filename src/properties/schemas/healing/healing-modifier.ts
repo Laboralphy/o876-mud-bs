@@ -4,5 +4,5 @@ import { DiceExpression } from '../../../schemas/DiceExpression';
 
 export const PropertyHealingModifier = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_HEALING_MODIFIER),
-    amp: DiceExpression,
-});
+    amp: DiceExpression.describe('PropertyHealingModifier.amp'),
+}).describe('PropertyHealingModifier');

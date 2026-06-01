@@ -7,6 +7,6 @@ import { AbilitySchema } from '../../../schemas/enums/Ability';
  */
 export const PropertyAbilityCheckModifier = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_ABILITY_CHECK_MODIFIER),
-    amp: z.number().int(),
-    ability: AbilitySchema,
-});
+    amp: z.number().int().describe('PropertyAbilityCheckModifier.amp'),
+    ability: AbilitySchema.describe('PropertyAbilityCheckModifier.ability'),
+}).describe('PropertyAbilityCheckModifier');

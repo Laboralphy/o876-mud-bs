@@ -7,6 +7,6 @@ import { CONSTS } from '../../../consts';
  */
 export const PropertySkillModifier = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_SKILL_MODIFIER),
-    amp: z.number().int(), // ability modifier
-    skill: SkillSchema, // what ability is modified
-});
+    amp: z.number().int().describe('PropertySkillModifier.amp'),
+    skill: SkillSchema.describe('PropertySkillModifier.skill'),
+}).describe('PropertySkillModifier');

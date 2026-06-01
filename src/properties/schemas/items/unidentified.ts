@@ -6,4 +6,4 @@ import { CONSTS } from '../../../consts';
  */
 export const PropertyUnidentified = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_UNIDENTIFIED),
-});
+}).describe('PropertyUnidentified');

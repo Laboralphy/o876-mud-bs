@@ -6,4 +6,4 @@ import { CONSTS } from '../../../consts';
  */
 export const PropertyDarkvision = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_DARKVISION),
-});
+}).describe('PropertyDarkvision');

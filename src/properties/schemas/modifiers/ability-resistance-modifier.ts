@@ -7,6 +7,6 @@ import { AbilitySchema } from '../../../schemas/enums/Ability';
  */
 export const PropertyAbilityResistanceModifier = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_ABILITY_RESISTANCE_MODIFIER),
-    amp: z.number().int(),
-    ability: AbilitySchema,
-});
+    amp: z.number().int().describe('PropertyAbilityResistanceModifier.amp'),
+    ability: AbilitySchema.describe('PropertyAbilityResistanceModifier.ability'),
+}).describe('PropertyAbilityResistanceModifier');

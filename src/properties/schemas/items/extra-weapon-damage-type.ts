@@ -14,5 +14,5 @@ import { DamageTypeSchema } from '../../../schemas/enums/DamageType';
  */
 export const PropertyExtraWeaponDamageType = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE),
-    damageType: DamageTypeSchema,
-});
+    damageType: DamageTypeSchema.describe('PropertyExtraWeaponDamageType.damageType'),
+}).describe('PropertyExtraWeaponDamageType');

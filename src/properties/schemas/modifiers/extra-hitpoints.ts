@@ -6,5 +6,5 @@ import { CONSTS } from '../../../consts';
  */
 export const PropertyExtraHitpoints = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_EXTRA_HITPOINTS),
-    amp: z.number().int(),
-});
+    amp: z.number().int().describe('PropertyExtraHitpoints.amp'),
+}).describe('PropertyExtraHitpoints');

@@ -4,5 +4,5 @@ import { ImmunitySchema } from '../../../schemas/enums/Immunity';
 
 export const PropertyImmunity = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_IMMUNITY),
-    immunityType: ImmunitySchema,
-});
+    immunityType: ImmunitySchema.describe('PropertyImmunity.immunityType'),
+}).describe('PropertyImmunity');

@@ -5,9 +5,9 @@ import { DiceExpression } from '../../../schemas/DiceExpression';
 
 export const PropertyRegeneration = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_REGENERATION),
-    amp: DiceExpression, // normal amount of hp regain per turn
-    vulnerabilities: z.array(DamageTypeSchema).optional(), // list of damage types that the regeneration is vulnerable to (increase shutdown)
-    useBodyModifier: z.boolean().optional().default(false), // if true, regeneration will use the body modifier as a bonus to amp
-    shutdown: z.number().int().optional().default(0), // This is a working property, if > 0, regeneration will stop until this value is soaked down
-    threshold: z.number().optional().default(0), // Above this value (hp/hpmax) the regeneration won't work
-});
+    amp: DiceExpression.describe('PropertyRegeneration.amp'),
+    vulnerabilities: z.array(DamageTypeSchema).optional().describe('PropertyRegeneration.vulnerabilities'),
+    useBodyModifier: z.boolean().optional().default(false).describe('PropertyRegeneration.useBodyModifier'),
+    shutdown: z.number().int().optional().default(0).describe('PropertyRegeneration.shutdown'),
+    threshold: z.number().optional().default(0).describe('PropertyRegeneration.threshold'),
+}).describe('PropertyRegeneration');

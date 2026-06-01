@@ -5,6 +5,6 @@ import { DiceExpression } from '../../../schemas/DiceExpression';
 
 export const PropertyDamageReduction = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_DAMAGE_REDUCTION),
-    amp: DiceExpression,
-    damageType: DamageTypeSchema,
-});
+    amp: DiceExpression.describe('PropertyDamageReduction.amp'),
+    damageType: DamageTypeSchema.describe('PropertyDamageReduction.damageType'),
+}).describe('PropertyDamageReduction');

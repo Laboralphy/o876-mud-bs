@@ -8,4 +8,4 @@ import { CONSTS } from '../../../consts';
  */
 export const PropertyLight = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_LIGHT),
-});
+}).describe('PropertyLight');

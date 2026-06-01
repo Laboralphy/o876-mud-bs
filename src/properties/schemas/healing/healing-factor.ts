@@ -8,5 +8,5 @@ import { CONSTS } from '../../../consts';
  */
 export const PropertyHealingFactor = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_HEALING_FACTOR),
-    amp: z.number(),
-});
+    amp: z.number().describe('PropertyHealingFactor.amp'),
+}).describe('PropertyHealingFactor');

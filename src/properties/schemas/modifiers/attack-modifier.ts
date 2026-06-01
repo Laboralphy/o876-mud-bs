@@ -11,7 +11,7 @@ import { SpecieSchema } from '../../../schemas/enums/Specie';
  */
 export const PropertyAttackModifier = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_ATTACK_MODIFIER),
-    amp: z.number().int(),
-    attackType: AttackTypeSchema.optional(),
-    specie: SpecieSchema.optional(),
-});
+    amp: z.number().int().describe('PropertyAttackModifier.amp'),
+    attackType: AttackTypeSchema.optional().describe('PropertyAttackModifier.attackType'),
+    specie: SpecieSchema.optional().describe('PropertyAttackModifier.specie'),
+}).describe('PropertyAttackModifier');

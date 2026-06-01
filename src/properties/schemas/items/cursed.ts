@@ -7,4 +7,4 @@ import { CONSTS } from '../../../consts';
  */
 export const PropertyCursed = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_CURSED),
-});
+}).describe('PropertyCursed');

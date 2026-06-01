@@ -1,0 +1,147 @@
+{
+  "WeaponBlueprint": "Weapon",
+  "WeaponBlueprint.entityType": "Entity type",
+  "WeaponBlueprint.itemType": "Item type",
+  "WeaponBlueprint.weight": "Weight (kg)",
+  "WeaponBlueprint.damages": "Damage formula (e.g. 1d8, 2d6+2)",
+  "WeaponBlueprint.damageType": "Primary damage type",
+  "WeaponBlueprint.altDamageType": "Alternative damage type (hybrid weapon)",
+  "WeaponBlueprint.proficiency": "Required proficiency",
+  "WeaponBlueprint.attributes": "Weapon attributes",
+  "WeaponBlueprint.size": "Weapon size",
+  "WeaponBlueprint.ammoType": "Required ammo type",
+  "WeaponBlueprint.equipmentSlots": "Equipment slots",
+  "WeaponBlueprint.properties": "Innate properties",
+
+  "AmmoBlueprint": "Ammunition",
+  "AmmoBlueprint.entityType": "Entity type",
+  "AmmoBlueprint.itemType": "Item type",
+  "AmmoBlueprint.weight": "Weight (kg)",
+  "AmmoBlueprint.ammoType": "Ammo type",
+  "AmmoBlueprint.equipmentSlots": "Equipment slots",
+  "AmmoBlueprint.damageType": "Damage type",
+  "AmmoBlueprint.altDamageType": "Alternative damage type",
+  "AmmoBlueprint.properties": "Innate properties",
+
+  "ArmorBlueprint": "Armor",
+  "ArmorBlueprint.entityType": "Entity type",
+  "ArmorBlueprint.itemType": "Item type",
+  "ArmorBlueprint.weight": "Weight (kg)",
+  "ArmorBlueprint.armorClass": "Armor class bonus",
+  "ArmorBlueprint.proficiency": "Required proficiency",
+  "ArmorBlueprint.equipmentSlots": "Equipment slots",
+  "ArmorBlueprint.properties": "Innate properties",
+
+  "ShieldBlueprint": "Shield",
+  "ShieldBlueprint.entityType": "Entity type",
+  "ShieldBlueprint.itemType": "Item type",
+  "ShieldBlueprint.weight": "Weight (kg)",
+  "ShieldBlueprint.armorClass": "Armor class bonus",
+  "ShieldBlueprint.proficiency": "Required proficiency",
+  "ShieldBlueprint.equipmentSlots": "Equipment slots",
+  "ShieldBlueprint.properties": "Innate properties",
+
+  "GearBlueprint": "Gear",
+  "GearBlueprint.entityType": "Entity type",
+  "GearBlueprint.itemType": "Item type",
+  "GearBlueprint.weight": "Weight (kg)",
+  "GearBlueprint.equipmentSlots": "Equipment slots",
+  "GearBlueprint.properties": "Innate properties",
+
+  "CreatureBlueprint": "Creature",
+  "CreatureBlueprint.ref": "Resource reference (optional override)",
+  "CreatureBlueprint.entityType": "Entity type",
+  "CreatureBlueprint.abilities": "Base ability scores",
+  "CreatureBlueprint.armorClass": "Base armor class",
+  "CreatureBlueprint.specie": "Species",
+  "CreatureBlueprint.size": "Size",
+  "CreatureBlueprint.properties": "Innate properties",
+  "CreatureBlueprint.equipment": "Starting equipment",
+  "CreatureBlueprint.actions": "Available actions",
+
+  "ActionBlueprint": "Action",
+  "ActionBlueprint.id": "Action identifier",
+  "ActionBlueprint.hostile": "Hostile (targets enemies)",
+  "ActionBlueprint.script": "Script identifier",
+  "ActionBlueprint.cooldown": "Cooldown duration (turns)",
+  "ActionBlueprint.charges": "Charges per cooldown",
+  "ActionBlueprint.range": "Effective range",
+  "ActionBlueprint.bonus": "Bonus action",
+
+  "PropertyDamageImmunity": "Damage Immunity",
+  "PropertyDamageImmunity.damageType": "Immune damage type",
+
+  "PropertyDamageModifier": "Damage Modifier",
+  "PropertyDamageModifier.amp": "Modifier amount (dice expression)",
+  "PropertyDamageModifier.damageType": "Affected damage type",
+
+  "PropertyDamageReduction": "Damage Reduction",
+  "PropertyDamageReduction.amp": "Reduction amount (dice expression)",
+  "PropertyDamageReduction.damageType": "Affected damage type",
+
+  "PropertyDamageResistance": "Damage Resistance (×0.5)",
+  "PropertyDamageResistance.damageType": "Resistant damage type",
+
+  "PropertyDamageVulnerability": "Damage Vulnerability (×2)",
+  "PropertyDamageVulnerability.damageType": "Vulnerable damage type",
+
+  "PropertyHealingFactor": "Healing Factor",
+  "PropertyHealingFactor.amp": "Healing multiplier (e.g. 0.5 halves healing received)",
+
+  "PropertyHealingModifier": "Healing Modifier",
+  "PropertyHealingModifier.amp": "Healing amount modifier (dice expression)",
+
+  "PropertyRegeneration": "Regeneration",
+  "PropertyRegeneration.amp": "HP regained per turn (dice expression)",
+  "PropertyRegeneration.vulnerabilities": "Damage types that suspend regeneration",
+  "PropertyRegeneration.useBodyModifier": "Add Body modifier to regeneration amount",
+  "PropertyRegeneration.shutdown": "Shutdown counter (stops regen when > 0)",
+  "PropertyRegeneration.threshold": "HP ratio above which regeneration is inactive (0–1)",
+
+  "PropertyCursed": "Cursed",
+
+  "PropertyExtraWeaponDamageType": "Extra Weapon Damage Type",
+  "PropertyExtraWeaponDamageType.damageType": "Additional damage type",
+
+  "PropertyUnidentified": "Unidentified",
+
+  "PropertyWeightFactor": "Weight Factor",
+  "PropertyWeightFactor.amp": "Weight multiplier (e.g. 0.5 halves item weight)",
+
+  "PropertyAbilityCheckModifier": "Ability Check Modifier",
+  "PropertyAbilityCheckModifier.amp": "Modifier value (positive = bonus, negative = penalty)",
+  "PropertyAbilityCheckModifier.ability": "Affected ability",
+
+  "PropertyAbilityModifier": "Ability Modifier",
+  "PropertyAbilityModifier.amp": "Modifier value (positive = bonus, negative = penalty)",
+  "PropertyAbilityModifier.ability": "Affected ability",
+
+  "PropertyAbilityResistanceModifier": "Ability Resistance Modifier",
+  "PropertyAbilityResistanceModifier.amp": "Modifier value (positive = bonus, negative = penalty)",
+  "PropertyAbilityResistanceModifier.ability": "Affected ability",
+
+  "PropertyArmorClassModifier": "Armor Class Modifier",
+  "PropertyArmorClassModifier.amp": "AC modifier (positive = bonus, negative = penalty)",
+  "PropertyArmorClassModifier.attackType": "Restrict to attack type (optional)",
+  "PropertyArmorClassModifier.damageType": "Restrict to damage type (optional)",
+  "PropertyArmorClassModifier.specie": "Restrict to attacker species (optional)",
+
+  "PropertyAttackModifier": "Attack Modifier",
+  "PropertyAttackModifier.amp": "Attack roll modifier (positive = bonus, negative = penalty)",
+  "PropertyAttackModifier.attackType": "Restrict to attack type (optional)",
+  "PropertyAttackModifier.specie": "Restrict to target species (optional)",
+
+  "PropertyExtraHitpoints": "Extra Hitpoints",
+  "PropertyExtraHitpoints.amp": "Additional maximum hitpoints",
+
+  "PropertySkillModifier": "Skill Modifier",
+  "PropertySkillModifier.amp": "Modifier value (positive = bonus, negative = penalty)",
+  "PropertySkillModifier.skill": "Affected skill",
+
+  "PropertyImmunity": "Immunity",
+  "PropertyImmunity.immunityType": "Immunity type",
+
+  "PropertyDarkvision": "Darkvision",
+
+  "PropertyLight": "Light"
+}

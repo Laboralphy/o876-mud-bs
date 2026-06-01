@@ -7,5 +7,5 @@ import { DamageTypeSchema } from '../../../schemas/enums/DamageType';
  */
 export const PropertyDamageResistance = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_DAMAGE_RESISTANCE),
-    damageType: DamageTypeSchema,
-});
+    damageType: DamageTypeSchema.describe('PropertyDamageResistance.damageType'),
+}).describe('PropertyDamageResistance');

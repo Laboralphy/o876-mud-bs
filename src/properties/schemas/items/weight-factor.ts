@@ -7,5 +7,5 @@ import { CONSTS } from '../../../consts';
  */
 export const PropertyWeightFactor = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_WEIGHT_FACTOR),
-    amp: z.number(),
-});
+    amp: z.number().describe('PropertyWeightFactor.amp'),
+}).describe('PropertyWeightFactor');

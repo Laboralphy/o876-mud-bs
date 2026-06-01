@@ -4,9 +4,9 @@ import { EquipmentSlotSchema } from './enums/EquipmentSlot';
 import { PropertyDefinitionSchema } from '../properties/schemas';
 
 export const GearBlueprintSchema = z.strictObject({
-    entityType: z.literal(CONSTS.ENTITY_TYPE_ITEM).describe('fields.entityType'),
-    properties: z.array(PropertyDefinitionSchema),
-    weight: z.number().min(0).describe('fields.weight'),
+    entityType: z.literal(CONSTS.ENTITY_TYPE_ITEM).describe('GearBlueprint.entityType'),
+    properties: z.array(PropertyDefinitionSchema).describe('GearBlueprint.properties'),
+    weight: z.number().min(0).describe('GearBlueprint.weight'),
     itemType: z
         .union([
             z.literal(CONSTS.ITEM_TYPE_BELT),
@@ -21,8 +21,8 @@ export const GearBlueprintSchema = z.strictObject({
             z.literal(CONSTS.ITEM_TYPE_NECKLACE),
             z.literal(CONSTS.ITEM_TYPE_TORCH),
         ])
-        .describe('fields.itemType'),
-    equipmentSlots: z.array(EquipmentSlotSchema),
-});
+        .describe('GearBlueprint.itemType'),
+    equipmentSlots: z.array(EquipmentSlotSchema).describe('GearBlueprint.equipmentSlots'),
+}).describe('GearBlueprint');
 
 export type GearBlueprint = z.infer<typeof GearBlueprintSchema>;

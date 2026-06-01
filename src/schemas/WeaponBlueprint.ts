@@ -8,17 +8,17 @@ import { AmmoTypeSchema } from './enums/AmmoType';
 import { PropertyDefinitionSchema } from '../properties/schemas';
 
 export const WeaponBlueprintSchema = z.object({
-    entityType: z.literal(CONSTS.ENTITY_TYPE_ITEM).describe('fields.entityType'),
-    properties: z.array(PropertyDefinitionSchema),
-    weight: z.number().min(0).describe('fields.weight'),
-    itemType: z.literal(CONSTS.ITEM_TYPE_WEAPON).describe('fields.itemType'),
-    damages: z.string().describe('fields.damages'),
-    damageType: DamageTypeSchema.describe('fields.damageType'),
-    altDamageType: DamageTypeSchema.optional().describe('fields.altDamageType'),
-    proficiency: ProficiencySchema.describe('fields.proficiency'),
-    attributes: z.array(WeaponAttributeSchema).describe('fields.weaponAttributes'),
-    size: WeaponSizeSchema.describe('fields.size'),
-    ammoType: AmmoTypeSchema.optional().describe('fields.ammoType'),
+    entityType: z.literal(CONSTS.ENTITY_TYPE_ITEM).describe('WeaponBlueprint.entityType'),
+    properties: z.array(PropertyDefinitionSchema).describe('WeaponBlueprint.properties'),
+    weight: z.number().min(0).describe('WeaponBlueprint.weight'),
+    itemType: z.literal(CONSTS.ITEM_TYPE_WEAPON).describe('WeaponBlueprint.itemType'),
+    damages: z.string().describe('WeaponBlueprint.damages'),
+    damageType: DamageTypeSchema.describe('WeaponBlueprint.damageType'),
+    altDamageType: DamageTypeSchema.optional().describe('WeaponBlueprint.altDamageType'),
+    proficiency: ProficiencySchema.describe('WeaponBlueprint.proficiency'),
+    attributes: z.array(WeaponAttributeSchema).describe('WeaponBlueprint.attributes'),
+    size: WeaponSizeSchema.describe('WeaponBlueprint.size'),
+    ammoType: AmmoTypeSchema.optional().describe('WeaponBlueprint.ammoType'),
     equipmentSlots: z
         .array(
             z.union([
@@ -29,7 +29,7 @@ export const WeaponBlueprintSchema = z.object({
                 z.literal(CONSTS.EQUIPMENT_SLOT_NATURAL_WEAPON_3),
             ])
         )
-        .describe('fields.equipmentSlots'),
-});
+        .describe('WeaponBlueprint.equipmentSlots'),
+}).describe('WeaponBlueprint');
 
 export type WeaponBlueprint = z.infer<typeof WeaponBlueprintSchema>;

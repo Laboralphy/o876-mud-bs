@@ -12,8 +12,8 @@ import { AttackTypeSchema } from '../../../schemas/enums/AttackType';
  */
 export const PropertyArmorClassModifier = z.strictObject({
     type: z.literal(CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER),
-    amp: z.number().int(),
-    attackType: AttackTypeSchema.optional(),
-    damageType: DamageTypeSchema.optional(),
-    specie: SpecieSchema.optional(),
-});
+    amp: z.number().int().describe('PropertyArmorClassModifier.amp'),
+    attackType: AttackTypeSchema.optional().describe('PropertyArmorClassModifier.attackType'),
+    damageType: DamageTypeSchema.optional().describe('PropertyArmorClassModifier.damageType'),
+    specie: SpecieSchema.optional().describe('PropertyArmorClassModifier.specie'),
+}).describe('PropertyArmorClassModifier');
