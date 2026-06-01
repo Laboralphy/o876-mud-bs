@@ -4,26 +4,21 @@
  * Expected CSV columns (header row only, no script row in the sheet):
  *
  *   id, specie, size, ac,
- *   str, dex, con, int, wis, cha,
+ *   body, senses, mind, presence,
  *   proficiency,
  *   natw-name, natw-damages, natw-damage-type, natw-attribute, natw-property, natw-amp, natw-paramName, natw-paramValue,
  *   action, action-script, action-cooldown, action-charges, action-range, action-bonus, action-hostile,
  *   traits, def-property, def-amp, def-paramName, def-paramValue, equipment
  *
- * Ability score mapping (D&D 6 → library 4):
- *   BODY     = round((2×STR + CON) / 3)   — strength-dominated
- *   SENSES   = DEX                         — straight dexterity
- *   MIND     = round((2×INT + WIS) / 3)   — intellect-dominated
- *   PRESENCE = round((2×CHA + WIS) / 3)   — charisma-dominated
- *
- * Columns dropped from old format: level, hd, speed, classType, feats,
+ * Columns dropped from old D&D format: level, hd, speed, classType, feats,
  *   saving-throw proficiencies, action parameters (handled by action scripts).
+ * Use convert-monsters-csv.ts to migrate old CSV data to this format.
  *
  * - id            : unique ref (e.g. c-goblin); triggers a new entity
  * - specie        : beast | humanoid | undead | construct | dragon | ... → SPECIE_xxx
  * - size          : tiny | small | medium | large | huge | gargantuan → CREATURE_SIZE_xxx
  * - ac            : base armor class (integer)
- * - str/dex/con/int/wis/cha : D&D ability scores — converted to library scores on cha column
+ * - body/senses/mind/presence : library ability scores (integers)
  * - proficiency   : additional proficiency (repeatable on continuation rows)
  *                   simple | complex | unarmed | armor-light | armor-medium | armor-heavy | shield
  * - natw-name     : natural weapon name; adds an inline weapon to equipment
@@ -51,7 +46,7 @@
 
 export const HEADERS = [
     'id', 'specie', 'size', 'ac',
-    'str', 'dex', 'con', 'int', 'wis', 'cha',
+    'body', 'senses', 'mind', 'presence',
     'proficiency',
     'natw-name', 'natw-damages', 'natw-damage-type', 'natw-attribute',
     'natw-property', 'natw-amp', 'natw-paramName', 'natw-paramValue',
@@ -64,12 +59,10 @@ export const SCRIPTS = [
     /* specie         */ `c.specie = ref(value, 'SPECIE')`,
     /* size           */ `c.size = ref(value, 'CREATURE_SIZE')`,
     /* ac             */ `c.armorClass = value`,
-    /* str            */ `c._str = value`,
-    /* dex            */ `c._dex = value`,
-    /* con            */ `c._con = value`,
-    /* int            */ `c._int = value`,
-    /* wis            */ `c._wis = value`,
-    /* cha            */ `c._cha = value; c.abilities = { ABILITY_BODY: Math.round((2*c._str+c._con)/3), ABILITY_SENSES: c._dex, ABILITY_MIND: Math.round((2*c._int+c._wis)/3), ABILITY_PRESENCE: Math.round((2*c._cha+c._wis)/3) }; delete c._str; delete c._dex; delete c._con; delete c._int; delete c._wis; delete c._cha`,
+    /* body           */ `c.abilities.ABILITY_BODY = value`,
+    /* senses         */ `c.abilities.ABILITY_SENSES = value`,
+    /* mind           */ `c.abilities.ABILITY_MIND = value`,
+    /* presence       */ `c.abilities.ABILITY_PRESENCE = value`,
     /* proficiency    */ `c.proficiencies.push(ref(value, 'PROFICIENCY'))`,
     /* natw-name      */ `c.equipment.push({ entityType: 'ENTITY_TYPE_ITEM', itemType: 'ITEM_TYPE_WEAPON', proficiency: 'PROFICIENCY_UNARMED', weight: 0, size: 'WEAPON_SIZE_SMALL', attributes: [], damages: '1d3', damageType: 'DAMAGE_TYPE_CRUSHING', properties: [], equipmentSlots: ['EQUIPMENT_SLOT_NATURAL_WEAPON_1', 'EQUIPMENT_SLOT_NATURAL_WEAPON_2', 'EQUIPMENT_SLOT_NATURAL_WEAPON_3'] })`,
     /* natw-damages   */ `last(c.equipment).damages = value`,
