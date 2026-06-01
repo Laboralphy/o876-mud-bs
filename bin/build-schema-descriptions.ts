@@ -21,30 +21,7 @@ import { ShieldBlueprintSchema } from '../src/schemas/ShieldBlueprint.js';
 import { GearBlueprintSchema } from '../src/schemas/GearBlueprint.js';
 import { CreatureBlueprintSchema } from '../src/schemas/CreatureBlueprint.js';
 import { ActionBlueprintSchema } from '../src/schemas/Action.js';
-import {
-    PropertyDamageImmunity,
-    PropertyDamageModifier,
-    PropertyDamageReduction,
-    PropertyDamageResistance,
-    PropertyDamageVulnerability,
-    PropertyHealingFactor,
-    PropertyHealingModifier,
-    PropertyRegeneration,
-    PropertyCursed,
-    PropertyExtraWeaponDamageType,
-    PropertyUnidentified,
-    PropertyWeightFactor,
-    PropertyAbilityCheckModifier,
-    PropertyAbilityModifier,
-    PropertyAbilityResistanceModifier,
-    PropertyArmorClassModifier,
-    PropertyAttackModifier,
-    PropertyExtraHitpoints,
-    PropertySkillModifier,
-    PropertyImmunity,
-    PropertyDarkvision,
-    PropertyLight,
-} from '../src/properties/schemas/index.js';
+import { PropertyDefinitionSchema } from '../src/properties/schemas';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -57,8 +34,12 @@ const localeFile = join(rootDir, 'src', 'data', 'locales', `${locale}.json`);
 const translations: Record<string, string> = JSON.parse(readFileSync(localeFile, 'utf-8'));
 
 function translateDescriptions(node: unknown): unknown {
-    if (typeof node !== 'object' || node === null) return node;
-    if (Array.isArray(node)) return node.map(translateDescriptions);
+    if (typeof node !== 'object' || node === null) {
+        return node;
+    }
+    if (Array.isArray(node)) {
+        return node.map(translateDescriptions);
+    }
     const result: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(node as Record<string, unknown>)) {
         if (key === 'description' && typeof value === 'string') {
@@ -78,29 +59,18 @@ const schemas: Record<string, z.ZodTypeAny> = {
     GearBlueprint: GearBlueprintSchema,
     CreatureBlueprint: CreatureBlueprintSchema,
     ActionBlueprint: ActionBlueprintSchema,
-    PropertyDamageImmunity,
-    PropertyDamageModifier,
-    PropertyDamageReduction,
-    PropertyDamageResistance,
-    PropertyDamageVulnerability,
-    PropertyHealingFactor,
-    PropertyHealingModifier,
-    PropertyRegeneration,
-    PropertyCursed,
-    PropertyExtraWeaponDamageType,
-    PropertyUnidentified,
-    PropertyWeightFactor,
-    PropertyAbilityCheckModifier,
-    PropertyAbilityModifier,
-    PropertyAbilityResistanceModifier,
-    PropertyArmorClassModifier,
-    PropertyAttackModifier,
-    PropertyExtraHitpoints,
-    PropertySkillModifier,
-    PropertyImmunity,
-    PropertyDarkvision,
-    PropertyLight,
 };
+
+// Auto-discover all property schemas from the discriminated union.
+// Each variant must have .describe('PropertyXxx') set — that string becomes the key.
+for (const schema of PropertyDefinitionSchema.options) {
+    const name = (schema as z.ZodTypeAny).description;
+    if (name) {
+        schemas[name] = schema as z.ZodTypeAny;
+    } else {
+        console.warn(`Warning: property schema has no .describe() — skipping`);
+    }
+}
 
 const output: Record<string, unknown> = {};
 for (const [name, schema] of Object.entries(schemas)) {

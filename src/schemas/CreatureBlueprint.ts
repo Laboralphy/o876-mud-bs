@@ -6,17 +6,24 @@ import { PropertyDefinitionSchema } from '../properties/schemas';
 import { ItemBlueprintSchema } from './ItemBlueprint';
 import { ActionBlueprintSchema } from './Action';
 import { CreatureSizeSchema } from './enums/CreatureSize';
+import { CONSTS } from '../consts';
 
-export const CreatureBlueprintSchema = z.strictObject({
-    ref: z.string().optional().describe('CreatureBlueprint.ref'),
-    entityType: EntityTypeSchema.describe('CreatureBlueprint.entityType'),
-    abilities: z.record(AbilitySchema, z.number().int()).describe('CreatureBlueprint.abilities'),
-    armorClass: z.number().int().describe('CreatureBlueprint.armorClass'),
-    specie: SpecieSchema.describe('CreatureBlueprint.specie'),
-    size: CreatureSizeSchema.describe('CreatureBlueprint.size'),
-    properties: z.array(PropertyDefinitionSchema).describe('CreatureBlueprint.properties'),
-    equipment: z.array(ItemBlueprintSchema.or(z.string())).describe('CreatureBlueprint.equipment'),
-    actions: z.array(ActionBlueprintSchema).describe('CreatureBlueprint.actions'),
-}).describe('CreatureBlueprint');
+export const CreatureBlueprintSchema = z
+    .strictObject({
+        ref: z.string().optional().describe('CreatureBlueprint.ref'),
+        entityType: z.literal(CONSTS.ENTITY_TYPE_CREATURE).describe('CreatureBlueprint.entityType'),
+        abilities: z
+            .record(AbilitySchema, z.number().int().positive())
+            .describe('CreatureBlueprint.abilities'),
+        armorClass: z.number().int().describe('CreatureBlueprint.armorClass'),
+        specie: SpecieSchema.describe('CreatureBlueprint.specie'),
+        size: CreatureSizeSchema.describe('CreatureBlueprint.size'),
+        properties: z.array(PropertyDefinitionSchema).describe('CreatureBlueprint.properties'),
+        equipment: z
+            .array(ItemBlueprintSchema.or(z.string()))
+            .describe('CreatureBlueprint.equipment'),
+        actions: z.array(ActionBlueprintSchema).describe('CreatureBlueprint.actions'),
+    })
+    .describe('CreatureBlueprint');
 
 export type CreatureBlueprint = z.infer<typeof CreatureBlueprintSchema>;
