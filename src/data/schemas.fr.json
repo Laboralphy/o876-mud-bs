@@ -8705,6 +8705,708 @@
     "additionalProperties": false,
     "description": "Action"
   },
+  "ExtendedProperties": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "entityType": {
+        "type": "string",
+        "const": "ENTITY_TYPE_EXTENDED_PROPERTIES",
+        "description": "Type d'entité"
+      },
+      "extends": {
+        "description": "Ensembles de propriétés hérités",
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "properties": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_DAMAGE_IMMUNITY"
+                },
+                "damageType": {
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ],
+                  "description": "Type de dégâts immunisé"
+                }
+              },
+              "required": [
+                "type",
+                "damageType"
+              ],
+              "additionalProperties": false,
+              "description": "Immunité aux dégâts"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Montant du modificateur (expression de dés)"
+                },
+                "damageType": {
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ],
+                  "description": "Type de dégâts affecté"
+                }
+              },
+              "required": [
+                "type",
+                "amp",
+                "damageType"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_DAMAGE_REDUCTION"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Montant de la réduction (expression de dés)"
+                },
+                "damageType": {
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ],
+                  "description": "Type de dégâts affecté"
+                }
+              },
+              "required": [
+                "type",
+                "amp",
+                "damageType"
+              ],
+              "additionalProperties": false,
+              "description": "Réduction des dégâts"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_DAMAGE_RESISTANCE"
+                },
+                "damageType": {
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ],
+                  "description": "Type de dégâts résisté"
+                }
+              },
+              "required": [
+                "type",
+                "damageType"
+              ],
+              "additionalProperties": false,
+              "description": "Résistance aux dégâts (×0,5)"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_DAMAGE_VULNERABILITY"
+                },
+                "damageType": {
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ],
+                  "description": "Type de dégâts vulnérable"
+                }
+              },
+              "required": [
+                "type",
+                "damageType"
+              ],
+              "additionalProperties": false,
+              "description": "Vulnérabilité aux dégâts (×2)"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_HEALING_FACTOR"
+                },
+                "amp": {
+                  "type": "number",
+                  "description": "Multiplicateur de soin (ex. 0,5 divise les soins reçus par 2)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Facteur de soin"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_HEALING_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Modificateur de montant de soin (expression de dés)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de soin"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_REGENERATION"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "PV regagnés par tour (expression de dés)"
+                },
+                "vulnerabilities": {
+                  "description": "Types de dégâts qui suspendent la régénération",
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "DAMAGE_TYPE_SLASHING",
+                      "DAMAGE_TYPE_CRUSHING",
+                      "DAMAGE_TYPE_PIERCING",
+                      "DAMAGE_TYPE_THERMAL",
+                      "DAMAGE_TYPE_CRYOGENIC",
+                      "DAMAGE_TYPE_CHEMICAL",
+                      "DAMAGE_TYPE_ELECTRIC",
+                      "DAMAGE_TYPE_NECROTIC",
+                      "DAMAGE_TYPE_RADIANT"
+                    ],
+                    "description": "fields.damageType"
+                  }
+                },
+                "useBodyModifier": {
+                  "default": false,
+                  "description": "Ajouter le modificateur de Corps au montant de régénération",
+                  "type": "boolean"
+                },
+                "shutdown": {
+                  "default": 0,
+                  "description": "Compteur d'arrêt (stoppe la regen si > 0)",
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "threshold": {
+                  "default": 0,
+                  "description": "Ratio de PV au-dessus duquel la régénération est inactive (0–1)",
+                  "type": "number"
+                }
+              },
+              "required": [
+                "type",
+                "amp",
+                "useBodyModifier",
+                "shutdown",
+                "threshold"
+              ],
+              "additionalProperties": false,
+              "description": "Régénération"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_CURSED"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "Maudit"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE"
+                },
+                "damageType": {
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ],
+                  "description": "Type de dégâts additionnel"
+                }
+              },
+              "required": [
+                "type",
+                "damageType"
+              ],
+              "additionalProperties": false,
+              "description": "Type de dégâts supplémentaire"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_UNIDENTIFIED"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "Non identifié"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_WEIGHT_FACTOR"
+                },
+                "amp": {
+                  "type": "number",
+                  "description": "Multiplicateur de poids (ex. 0,5 divise le poids par 2)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Facteur de poids"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_ABILITY_CHECK_MODIFIER"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "description": "Valeur du modificateur (positif = bonus, négatif = malus)"
+                },
+                "ability": {
+                  "type": "string",
+                  "enum": [
+                    "ABILITY_BODY",
+                    "ABILITY_SENSES",
+                    "ABILITY_MIND",
+                    "ABILITY_PRESENCE"
+                  ],
+                  "description": "Caractéristique affectée"
+                }
+              },
+              "required": [
+                "type",
+                "amp",
+                "ability"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de test de caractéristique"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_ABILITY_MODIFIER"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "description": "Valeur du modificateur (positif = bonus, négatif = malus)"
+                },
+                "ability": {
+                  "type": "string",
+                  "enum": [
+                    "ABILITY_BODY",
+                    "ABILITY_SENSES",
+                    "ABILITY_MIND",
+                    "ABILITY_PRESENCE"
+                  ],
+                  "description": "Caractéristique affectée"
+                }
+              },
+              "required": [
+                "type",
+                "amp",
+                "ability"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de caractéristique"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_ABILITY_RESISTANCE_MODIFIER"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "description": "Valeur du modificateur (positif = bonus, négatif = malus)"
+                },
+                "ability": {
+                  "type": "string",
+                  "enum": [
+                    "ABILITY_BODY",
+                    "ABILITY_SENSES",
+                    "ABILITY_MIND",
+                    "ABILITY_PRESENCE"
+                  ],
+                  "description": "Caractéristique affectée"
+                }
+              },
+              "required": [
+                "type",
+                "amp",
+                "ability"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de résistance de caractéristique"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_ARMOR_CLASS_MODIFIER"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "description": "Modificateur de CA (positif = bonus, négatif = malus)"
+                },
+                "attackType": {
+                  "description": "Restreindre au type d'attaque (optionnel)",
+                  "type": "string",
+                  "enum": [
+                    "ATTACK_TYPE_MELEE",
+                    "ATTACK_TYPE_RANGED"
+                  ]
+                },
+                "damageType": {
+                  "description": "Restreindre au type de dégâts (optionnel)",
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ]
+                },
+                "specie": {
+                  "description": "Restreindre à l'espèce de l'attaquant (optionnel)",
+                  "type": "string",
+                  "enum": [
+                    "SPECIE_ABERRATION",
+                    "SPECIE_BEAST",
+                    "SPECIE_CELESTIAL",
+                    "SPECIE_CONSTRUCT",
+                    "SPECIE_DRAGON",
+                    "SPECIE_ELEMENTAL",
+                    "SPECIE_FEY",
+                    "SPECIE_FIEND",
+                    "SPECIE_GIANT",
+                    "SPECIE_HUMANOID",
+                    "SPECIE_MONSTROSITY",
+                    "SPECIE_OOZE",
+                    "SPECIE_PLANT",
+                    "SPECIE_UNDEAD"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de classe d'armure"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_ATTACK_MODIFIER"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "description": "Modificateur de jet d'attaque (positif = bonus, négatif = malus)"
+                },
+                "attackType": {
+                  "description": "Restreindre au type d'attaque (optionnel)",
+                  "type": "string",
+                  "enum": [
+                    "ATTACK_TYPE_MELEE",
+                    "ATTACK_TYPE_RANGED"
+                  ]
+                },
+                "specie": {
+                  "description": "Restreindre à l'espèce de la cible (optionnel)",
+                  "type": "string",
+                  "enum": [
+                    "SPECIE_ABERRATION",
+                    "SPECIE_BEAST",
+                    "SPECIE_CELESTIAL",
+                    "SPECIE_CONSTRUCT",
+                    "SPECIE_DRAGON",
+                    "SPECIE_ELEMENTAL",
+                    "SPECIE_FEY",
+                    "SPECIE_FIEND",
+                    "SPECIE_GIANT",
+                    "SPECIE_HUMANOID",
+                    "SPECIE_MONSTROSITY",
+                    "SPECIE_OOZE",
+                    "SPECIE_PLANT",
+                    "SPECIE_UNDEAD"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur d'attaque"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_EXTRA_HITPOINTS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "description": "Points de vie maximum additionnels"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Points de vie supplémentaires"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_SKILL_MODIFIER"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "description": "Valeur du modificateur (positif = bonus, négatif = malus)"
+                },
+                "skill": {
+                  "type": "string",
+                  "enum": [
+                    "SKILL_ACROBATICS",
+                    "SKILL_ALCHEMY",
+                    "SKILL_ARCANA",
+                    "SKILL_ATHLETICS",
+                    "SKILL_AURA",
+                    "SKILL_DISCIPLINE",
+                    "SKILL_FAITH",
+                    "SKILL_HAGGLE",
+                    "SKILL_INVESTIGATION",
+                    "SKILL_MARTIAL_EXPERTISE",
+                    "SKILL_PERCEPTION",
+                    "SKILL_PERSUASION",
+                    "SKILL_SLEIGHT_OF_HAND",
+                    "SKILL_STEALTH",
+                    "SKILL_SURVIVAL",
+                    "SKILL_TECHNOLOGY"
+                  ],
+                  "description": "Compétence affectée"
+                }
+              },
+              "required": [
+                "type",
+                "amp",
+                "skill"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de compétence"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_IMMUNITY"
+                },
+                "immunityType": {
+                  "type": "string",
+                  "enum": [
+                    "IMMUNITY_TYPE_CHARM",
+                    "IMMUNITY_TYPE_DISEASE",
+                    "IMMUNITY_TYPE_FEAR",
+                    "IMMUNITY_TYPE_PARALYSIS",
+                    "IMMUNITY_TYPE_PETRIFICATION",
+                    "IMMUNITY_TYPE_POISON",
+                    "IMMUNITY_TYPE_ROOT",
+                    "IMMUNITY_TYPE_STUN",
+                    "IMMUNITY_TYPE_BLINDNESS",
+                    "IMMUNITY_TYPE_CRITICAL_HIT"
+                  ],
+                  "description": "Type d'immunité"
+                }
+              },
+              "required": [
+                "type",
+                "immunityType"
+              ],
+              "additionalProperties": false,
+              "description": "Immunité"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_DARKVISION"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "Vision dans le noir"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_LIGHT"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "Lumière"
+            }
+          ]
+        },
+        "description": "Propriétés"
+      }
+    },
+    "required": [
+      "entityType",
+      "properties"
+    ],
+    "additionalProperties": false,
+    "description": "Propriétés étendues"
+  },
   "PropertyDamageImmunity": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",

@@ -60,6 +60,11 @@
   "CreatureBlueprint.proficiencies": "Proficiencies",
   "CreatureBlueprint.actions": "Available actions",
 
+  "ExtendedProperties": "Extended Properties",
+  "ExtendedProperties.entityType": "Entity type",
+  "ExtendedProperties.extends": "Inherited property bundles",
+  "ExtendedProperties.properties": "Properties",
+
   "ActionBlueprint": "Action",
   "ActionBlueprint.id": "Action identifier",
   "ActionBlueprint.hostile": "Hostile (targets enemies)",

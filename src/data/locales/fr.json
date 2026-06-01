@@ -60,6 +60,11 @@
   "CreatureBlueprint.proficiencies": "Maîtrises",
   "CreatureBlueprint.actions": "Actions disponibles",
 
+  "ExtendedProperties": "Propriétés étendues",
+  "ExtendedProperties.entityType": "Type d'entité",
+  "ExtendedProperties.extends": "Ensembles de propriétés hérités",
+  "ExtendedProperties.properties": "Propriétés",
+
   "ActionBlueprint": "Action",
   "ActionBlueprint.id": "Identifiant de l'action",
   "ActionBlueprint.hostile": "Hostile (cible les ennemis)",

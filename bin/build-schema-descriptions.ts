@@ -21,6 +21,7 @@ import { ShieldBlueprintSchema } from '../src/schemas/ShieldBlueprint.js';
 import { GearBlueprintSchema } from '../src/schemas/GearBlueprint.js';
 import { CreatureBlueprintSchema } from '../src/schemas/CreatureBlueprint.js';
 import { ActionBlueprintSchema } from '../src/schemas/Action.js';
+import { ExtendedPropertiesSchema } from '../src/schemas/ExtendedProperties.js';
 import { PropertyDefinitionSchema } from '../src/properties/schemas';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -59,6 +60,7 @@ const schemas: Record<string, z.ZodTypeAny> = {
     GearBlueprint: GearBlueprintSchema,
     CreatureBlueprint: CreatureBlueprintSchema,
     ActionBlueprint: ActionBlueprintSchema,
+    ExtendedProperties: ExtendedPropertiesSchema,
 };
 
 // Auto-discover all property schemas from the discriminated union.
