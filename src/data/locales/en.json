@@ -132,6 +132,9 @@
   "PropertyArmorClassModifier.damageType": "Restrict to damage type (optional)",
   "PropertyArmorClassModifier.specie": "Restrict to attacker species (optional)",
 
+  "PropertyMaxSenseBonus": "Max Senses Bonus",
+  "PropertyMaxSenseBonus.amp": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)",
+
   "PropertyAttackModifier": "Attack Modifier",
   "PropertyAttackModifier.amp": "Attack roll modifier (positive = bonus, negative = penalty)",
   "PropertyAttackModifier.attackType": "Restrict to attack type (optional)",

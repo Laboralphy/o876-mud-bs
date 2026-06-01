@@ -132,6 +132,9 @@
   "PropertyArmorClassModifier.damageType": "Restreindre au type de dégâts (optionnel)",
   "PropertyArmorClassModifier.specie": "Restreindre à l'espèce de l'attaquant (optionnel)",
 
+  "PropertyMaxSenseBonus": "Bonus de Sens maximal",
+  "PropertyMaxSenseBonus.amp": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)",
+
   "PropertyAttackModifier": "Modificateur d'attaque",
   "PropertyAttackModifier.amp": "Modificateur de jet d'attaque (positif = bonus, négatif = malus)",
   "PropertyAttackModifier.attackType": "Restreindre au type d'attaque (optionnel)",

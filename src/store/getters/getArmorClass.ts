@@ -18,8 +18,15 @@ export type ArmorClassStruct = {
 export function getArmorClass(state: State, getters: GetterReturnType): ArmorClassStruct {
     const acbv = BASE_ARMOR_CLASS[getters.getSize];
     const am: Record<Ability, number> = getters.getAbilityModifiers;
-    const acAbilities = acbv + am[CONSTS.ABILITY_SENSES] + Math.floor(am[CONSTS.ABILITY_BODY] / 2);
     const acNatural = state.armorClass;
+    const equippedArmor = state.equipment[CONSTS.EQUIPMENT_SLOT_CHEST];
+    const equippedShield = state.equipment[CONSTS.EQUIPMENT_SLOT_SHIELD];
+    const maxSenseBonus = aggregate([CONSTS.PROPERTY_MAX_SENSE_BONUS], {}, getters).min;
+    const acAbilities = acbv + Math.min(am[CONSTS.ABILITY_SENSES], maxSenseBonus) + Math.floor(am[CONSTS.ABILITY_BODY] / 2);
+    const acArmor =
+        equippedArmor && equippedArmor.itemType === CONSTS.ITEM_TYPE_ARMOR ? equippedArmor.armorClass : 0;
+    const acShield =
+        equippedShield && equippedShield.itemType === CONSTS.ITEM_TYPE_SHIELD ? equippedShield.armorClass : 0;
     const acAttackTypes: Partial<Record<AttackType, number>> = {};
     const acSpecies: Partial<Record<Specie, number>> = {};
     const acDamageTypes: Partial<Record<DamageType, number>> = {};
@@ -68,7 +75,7 @@ export function getArmorClass(state: State, getters: GetterReturnType): ArmorCla
         getters
     );
     return {
-        base: acNatural + acAbilities,
+        base: acNatural + acAbilities + acArmor + acShield,
         attackTypes: acAttackTypes,
         species: acSpecies,
         damageTypes: acDamageTypes,
