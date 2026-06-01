@@ -1,5 +1,17 @@
 # Development History
 
+## 2026-06-01
+- `ModuleManager` + `ExtendResolver`: asset registry with JSON inheritance (child wins on scalars, arrays merge); `loadModule()` bulk-loads a module index
+- Manager migrated from `_creatureBlueprints` Map to `ModuleManager`; `defineCreature` replaced by `defineAsset`
+- `bin/build-module-index.sh`: generates `index.ts` per module; `build-data.sh` now discovers modules dynamically
+- Module index format: entries grouped under `{ blueprints: { ... } }`; root `index.ts` exports `Manager` and locale schemas
+- Schema description system: all blueprint and property schemas annotated with `.describe()`; `build-schema-descriptions.ts` generates `src/data/schemas.{en,fr}.json` from locale translation files
+- `SmartData` rewritten in TypeScript, moved to `src/libs/smart-data`; CSV transform scripts added for all asset types (weapons, armors, shields, ammo, gear, monsters)
+- `Orchestrator` renamed to `CombatManager`; distance-sync bug fixed (was updating same combat instead of mirrored one); 7 new distance-sync tests
+- `PROPERTY_MAX_SENSE_BONUS`; `getArmorClass` base computation fix
+- `PROPERTY_AILMENT` with on-hit effect application; `AilmentType` enum
+- `proficiencies` field added to `CreatureBlueprint` and State
+
 ## 2026-05-30
 - Combat action economy: normal action slot (scripted action or weapon attack) + bonus action slot per round
 - `attack()` marks `actionTaken`; `playRound` dispatches both slots via `getNormalOffensiveActionList` / `getBonusOffensiveActionList`
