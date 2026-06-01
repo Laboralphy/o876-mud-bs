@@ -16,17 +16,22 @@
  */
 
 export const HEADERS = [
-    'id', 'ammoType', 'damageType', 'altDamageType', 'weight',
-    'property', 'amp', 'paramName', 'paramValue',
+    'id',
+    'damageType',
+    'altDamageType',
+    'weight',
+    'property',
+    'amp',
+    'paramName',
+    'paramValue',
 ];
 
 export const SCRIPTS = [
-    /* id           */ `output(); id(value); c={ entityType: 'ENTITY_TYPE_ITEM', itemType: 'ITEM_TYPE_AMMO', ammoType: '', damageType: '', weight: 0, properties: [], equipmentSlots: ['EQUIPMENT_SLOT_AMMO'] }`,
-    /* ammoType     */ `c.ammoType = ref(value, 'ammo_type')`,
-    /* damageType   */ `c.damageType = ref(value, 'damage_type')`,
-    /* altDamageType*/ `c.altDamageType = ref(value, 'damage_type')`,
+    /* id           */ `output(); id(value); c={ entityType: 'ENTITY_TYPE_ITEM', itemType: 'ITEM_TYPE_AMMO', ammoType: ref(value, 'AMMO_TYPE'), damageType: '', weight: 0, properties: [], equipmentSlots: ['EQUIPMENT_SLOT_AMMO'] }`,
+    /* damageType   */ `c.damageType = ref(value, 'DAMAGE_TYPE')`,
+    /* altDamageType*/ `c.altDamageType = ref(value, 'DAMAGE_TYPE')`,
     /* weight       */ `c.weight = parseFloat(value.toString().replace(/,/g, '.'))`,
-    /* property     */ `c.properties.push({ type: ref(value, 'property') })`,
+    /* property     */ `c.properties.push({ type: ref(value, 'PROPERTY') })`,
     /* amp          */ `last(c.properties).amp = value`,
     /* paramName    */ ``,
     /* paramValue   */ `kv(last(c.properties))`,
