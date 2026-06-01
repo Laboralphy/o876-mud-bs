@@ -9,7 +9,7 @@
 - `SmartData` rewritten in TypeScript, moved to `src/libs/smart-data`; CSV transform scripts added for all asset types (weapons, armors, shields, ammo, gear, monsters)
 - `Orchestrator` renamed to `CombatManager`; distance-sync bug fixed (was updating same combat instead of mirrored one); 7 new distance-sync tests
 - `PROPERTY_MAX_SENSE_BONUS`; `getArmorClass` base computation fix
-- `PROPERTY_AILMENT` with on-hit effect application; `AilmentType` enum
+- `PROPERTY_AILMENT` with on-hit effect application; `Ailment` enum
 - `proficiencies` field added to `CreatureBlueprint` and State
 
 ## 2026-05-30

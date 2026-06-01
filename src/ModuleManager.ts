@@ -1,11 +1,6 @@
 import { ExtendResolver } from './libs/extend-resolver';
 import { ExtendableEntity } from './libs/extend-resolver/ExtendResolver';
-import { Creature } from './Creature';
-import { PropertyDefinition } from './properties/schemas';
-import { PropertyBuilder } from './builders/PropertyBuilder';
 import { ItemBlueprint, ItemBlueprintSchema } from './schemas/ItemBlueprint';
-import { Item } from './schemas/Item';
-import { ActionBlueprint, ActionState } from './schemas/Action';
 import { CreatureBlueprint, CreatureBlueprintSchema } from './schemas/CreatureBlueprint';
 
 function validateCreature(entity: ExtendableEntity): CreatureBlueprint {

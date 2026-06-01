@@ -34,6 +34,7 @@ generateFile() {
 }
 
 generateFile Ability abilities
+generateFile Ailment ailments
 generateFile AmmoType ammo-types
 generateFile AttackType attack-types
 generateFile CreatureVisibility creature-visibility

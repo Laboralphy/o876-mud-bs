@@ -3,10 +3,10 @@ import { IProgram } from '../../interfaces/IProgram';
 import { Property } from '../schemas';
 import { PropertyType } from '../../schemas/enums/PropertyType';
 
-import { PropertyProgramRegeneration } from './PropertyProgramRegeneration';
 import { PropertyProgramAilment } from './PropertyProgramAilment';
+import { PropertyProgramRegeneration } from './PropertyProgramRegeneration';
 
 export const propertyPrograms = new Map<PropertyType, IProgram<Property>>([
-    [CONSTS.PROPERTY_REGENERATION, new PropertyProgramRegeneration()],
     [CONSTS.PROPERTY_AILMENT, new PropertyProgramAilment()],
+    [CONSTS.PROPERTY_REGENERATION, new PropertyProgramRegeneration()],
 ]);

@@ -18,9 +18,9 @@ import { PropertyAbilityResistanceModifier } from './modifiers/ability-resistanc
 import { PropertyArmorClassModifier } from './modifiers/armor-class-modifier';
 import { PropertyAttackModifier } from './modifiers/attack-modifier';
 import { PropertyExtraHitpoints } from './modifiers/extra-hitpoints';
-import { PropertySkillModifier } from './modifiers/skill-modifier';
 import { PropertyMaxSenseBonus } from './modifiers/max-sense-bonus';
-import { PropertyAilment } from './modifiers/ailment';
+import { PropertySkillModifier } from './modifiers/skill-modifier';
+import { PropertyAilment } from './status/ailment';
 import { PropertyImmunity } from './status/immunity';
 import { PropertyDarkvision } from './visibility/darkvision';
 import { PropertyLight } from './visibility/light';
@@ -43,8 +43,8 @@ export const PropertyDefinitionSchema = z.discriminatedUnion('type', [
     PropertyArmorClassModifier,
     PropertyAttackModifier,
     PropertyExtraHitpoints,
-    PropertySkillModifier,
     PropertyMaxSenseBonus,
+    PropertySkillModifier,
     PropertyAilment,
     PropertyImmunity,
     PropertyDarkvision,
@@ -70,8 +70,8 @@ const _WrappedPropertyAbilityResistanceModifier = BasePropertySchema.extend({ ty
 const _WrappedPropertyArmorClassModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER), data: PropertyArmorClassModifier });
 const _WrappedPropertyAttackModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_ATTACK_MODIFIER), data: PropertyAttackModifier });
 const _WrappedPropertyExtraHitpoints = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_EXTRA_HITPOINTS), data: PropertyExtraHitpoints });
-const _WrappedPropertySkillModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_SKILL_MODIFIER), data: PropertySkillModifier });
 const _WrappedPropertyMaxSenseBonus = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_MAX_SENSE_BONUS), data: PropertyMaxSenseBonus });
+const _WrappedPropertySkillModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_SKILL_MODIFIER), data: PropertySkillModifier });
 const _WrappedPropertyAilment = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_AILMENT), data: PropertyAilment });
 const _WrappedPropertyImmunity = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_IMMUNITY), data: PropertyImmunity });
 const _WrappedPropertyDarkvision = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_DARKVISION), data: PropertyDarkvision });
@@ -95,8 +95,8 @@ export const PropertySchema = z.discriminatedUnion('type', [
     _WrappedPropertyArmorClassModifier,
     _WrappedPropertyAttackModifier,
     _WrappedPropertyExtraHitpoints,
-    _WrappedPropertySkillModifier,
     _WrappedPropertyMaxSenseBonus,
+    _WrappedPropertySkillModifier,
     _WrappedPropertyAilment,
     _WrappedPropertyImmunity,
     _WrappedPropertyDarkvision,

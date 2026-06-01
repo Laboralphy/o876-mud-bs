@@ -291,36 +291,6 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "const": "PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE"
-                },
-                "damageType": {
-                  "type": "string",
-                  "enum": [
-                    "DAMAGE_TYPE_SLASHING",
-                    "DAMAGE_TYPE_CRUSHING",
-                    "DAMAGE_TYPE_PIERCING",
-                    "DAMAGE_TYPE_THERMAL",
-                    "DAMAGE_TYPE_CRYOGENIC",
-                    "DAMAGE_TYPE_CHEMICAL",
-                    "DAMAGE_TYPE_ELECTRIC",
-                    "DAMAGE_TYPE_NECROTIC",
-                    "DAMAGE_TYPE_RADIANT"
-                  ],
-                  "description": "Additional damage type"
-                }
-              },
-              "required": [
-                "type",
-                "damageType"
-              ],
-              "additionalProperties": false,
-              "description": "Extra Weapon Damage Type"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
                   "const": "PROPERTY_UNIDENTIFIED"
                 }
               },
@@ -584,6 +554,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_MAX_SENSE_BONUS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Max Senses Bonus"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_SKILL_MODIFIER"
                 },
                 "amp": {
@@ -622,6 +613,120 @@
               ],
               "additionalProperties": false,
               "description": "Skill Modifier"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_AILMENT"
+                },
+                "ailment": {
+                  "type": "string",
+                  "enum": [
+                    "AILMENT_ABILITY_DRAIN",
+                    "AILMENT_ATTACK_DRAIN",
+                    "AILMENT_ARMOR_CLASS_DRAIN",
+                    "AILMENT_DISEASE",
+                    "AILMENT_BLINDNESS",
+                    "AILMENT_FEAR",
+                    "AILMENT_POISON",
+                    "AILMENT_PARALYSIS",
+                    "AILMENT_PETRIFICATION",
+                    "AILMENT_STUN",
+                    "AILMENT_ROOT"
+                  ],
+                  "description": "Ailment type"
+                },
+                "chance": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 20,
+                  "description": "Trigger chance (1d20 ≤ this value)"
+                },
+                "duration": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991,
+                  "description": "Effect duration (rounds)"
+                },
+                "subtype": {
+                  "type": "string",
+                  "enum": [
+                    "EFFECT_SUBTYPE_MAGICAL",
+                    "EFFECT_SUBTYPE_EXTRAORDINARY",
+                    "EFFECT_SUBTYPE_SUPERNATURAL",
+                    "EFFECT_SUBTYPE_UNYIELDING",
+                    "EFFECT_SUBTYPE_WEAPON"
+                  ],
+                  "description": "Effect subtype (determines resistance ability)"
+                },
+                "dc": {
+                  "default": 10,
+                  "description": "Resistance difficulty class",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "amp": {
+                  "description": "Magnitude (integer for drains, dice expression for poison e.g. 1d6)",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ]
+                },
+                "ability": {
+                  "description": "Ability drained (AILMENT_ABILITY_DRAIN only)",
+                  "type": "string",
+                  "enum": [
+                    "ABILITY_BODY",
+                    "ABILITY_SENSES",
+                    "ABILITY_MIND",
+                    "ABILITY_PRESENCE"
+                  ]
+                },
+                "disease": {
+                  "description": "Disease applied (AILMENT_DISEASE only)",
+                  "type": "string",
+                  "enum": [
+                    "DISEASE_GHOUL_FEVER",
+                    "DISEASE_MUMMY_ROT",
+                    "DISEASE_RAT_SICKNESS"
+                  ]
+                },
+                "damageType": {
+                  "description": "Poison damage type override (AILMENT_POISON only)",
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "ailment",
+                "chance",
+                "duration",
+                "subtype",
+                "dc"
+              ],
+              "additionalProperties": false,
+              "description": "Weapon Ailment"
             },
             {
               "type": "object",
@@ -757,11 +862,9 @@
             "WEAPON_ATTRIBUTE_SPECIAL",
             "WEAPON_ATTRIBUTE_TWO_HANDED",
             "WEAPON_ATTRIBUTE_VERSATILE",
-            "WEAPON_ATTRIBUTE_REACH",
             "WEAPON_ATTRIBUTE_RANGED",
             "WEAPON_ATTRIBUTE_SEMIAUTOMATIC",
-            "WEAPON_ATTRIBUTE_SPREAD",
-            "WEAPON_ATTRIBUTE_IGNORE_ARMOR"
+            "WEAPON_ATTRIBUTE_SPREAD"
           ],
           "description": "fields.weaponAttribute"
         },
@@ -1121,36 +1224,6 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "const": "PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE"
-                },
-                "damageType": {
-                  "type": "string",
-                  "enum": [
-                    "DAMAGE_TYPE_SLASHING",
-                    "DAMAGE_TYPE_CRUSHING",
-                    "DAMAGE_TYPE_PIERCING",
-                    "DAMAGE_TYPE_THERMAL",
-                    "DAMAGE_TYPE_CRYOGENIC",
-                    "DAMAGE_TYPE_CHEMICAL",
-                    "DAMAGE_TYPE_ELECTRIC",
-                    "DAMAGE_TYPE_NECROTIC",
-                    "DAMAGE_TYPE_RADIANT"
-                  ],
-                  "description": "Additional damage type"
-                }
-              },
-              "required": [
-                "type",
-                "damageType"
-              ],
-              "additionalProperties": false,
-              "description": "Extra Weapon Damage Type"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
                   "const": "PROPERTY_UNIDENTIFIED"
                 }
               },
@@ -1414,6 +1487,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_MAX_SENSE_BONUS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Max Senses Bonus"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_SKILL_MODIFIER"
                 },
                 "amp": {
@@ -1452,6 +1546,120 @@
               ],
               "additionalProperties": false,
               "description": "Skill Modifier"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_AILMENT"
+                },
+                "ailment": {
+                  "type": "string",
+                  "enum": [
+                    "AILMENT_ABILITY_DRAIN",
+                    "AILMENT_ATTACK_DRAIN",
+                    "AILMENT_ARMOR_CLASS_DRAIN",
+                    "AILMENT_DISEASE",
+                    "AILMENT_BLINDNESS",
+                    "AILMENT_FEAR",
+                    "AILMENT_POISON",
+                    "AILMENT_PARALYSIS",
+                    "AILMENT_PETRIFICATION",
+                    "AILMENT_STUN",
+                    "AILMENT_ROOT"
+                  ],
+                  "description": "Ailment type"
+                },
+                "chance": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 20,
+                  "description": "Trigger chance (1d20 ≤ this value)"
+                },
+                "duration": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991,
+                  "description": "Effect duration (rounds)"
+                },
+                "subtype": {
+                  "type": "string",
+                  "enum": [
+                    "EFFECT_SUBTYPE_MAGICAL",
+                    "EFFECT_SUBTYPE_EXTRAORDINARY",
+                    "EFFECT_SUBTYPE_SUPERNATURAL",
+                    "EFFECT_SUBTYPE_UNYIELDING",
+                    "EFFECT_SUBTYPE_WEAPON"
+                  ],
+                  "description": "Effect subtype (determines resistance ability)"
+                },
+                "dc": {
+                  "default": 10,
+                  "description": "Resistance difficulty class",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "amp": {
+                  "description": "Magnitude (integer for drains, dice expression for poison e.g. 1d6)",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ]
+                },
+                "ability": {
+                  "description": "Ability drained (AILMENT_ABILITY_DRAIN only)",
+                  "type": "string",
+                  "enum": [
+                    "ABILITY_BODY",
+                    "ABILITY_SENSES",
+                    "ABILITY_MIND",
+                    "ABILITY_PRESENCE"
+                  ]
+                },
+                "disease": {
+                  "description": "Disease applied (AILMENT_DISEASE only)",
+                  "type": "string",
+                  "enum": [
+                    "DISEASE_GHOUL_FEVER",
+                    "DISEASE_MUMMY_ROT",
+                    "DISEASE_RAT_SICKNESS"
+                  ]
+                },
+                "damageType": {
+                  "description": "Poison damage type override (AILMENT_POISON only)",
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "ailment",
+                "chance",
+                "duration",
+                "subtype",
+                "dc"
+              ],
+              "additionalProperties": false,
+              "description": "Weapon Ailment"
             },
             {
               "type": "object",
@@ -1895,36 +2103,6 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "const": "PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE"
-                },
-                "damageType": {
-                  "type": "string",
-                  "enum": [
-                    "DAMAGE_TYPE_SLASHING",
-                    "DAMAGE_TYPE_CRUSHING",
-                    "DAMAGE_TYPE_PIERCING",
-                    "DAMAGE_TYPE_THERMAL",
-                    "DAMAGE_TYPE_CRYOGENIC",
-                    "DAMAGE_TYPE_CHEMICAL",
-                    "DAMAGE_TYPE_ELECTRIC",
-                    "DAMAGE_TYPE_NECROTIC",
-                    "DAMAGE_TYPE_RADIANT"
-                  ],
-                  "description": "Additional damage type"
-                }
-              },
-              "required": [
-                "type",
-                "damageType"
-              ],
-              "additionalProperties": false,
-              "description": "Extra Weapon Damage Type"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
                   "const": "PROPERTY_UNIDENTIFIED"
                 }
               },
@@ -2188,6 +2366,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_MAX_SENSE_BONUS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Max Senses Bonus"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_SKILL_MODIFIER"
                 },
                 "amp": {
@@ -2226,6 +2425,120 @@
               ],
               "additionalProperties": false,
               "description": "Skill Modifier"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_AILMENT"
+                },
+                "ailment": {
+                  "type": "string",
+                  "enum": [
+                    "AILMENT_ABILITY_DRAIN",
+                    "AILMENT_ATTACK_DRAIN",
+                    "AILMENT_ARMOR_CLASS_DRAIN",
+                    "AILMENT_DISEASE",
+                    "AILMENT_BLINDNESS",
+                    "AILMENT_FEAR",
+                    "AILMENT_POISON",
+                    "AILMENT_PARALYSIS",
+                    "AILMENT_PETRIFICATION",
+                    "AILMENT_STUN",
+                    "AILMENT_ROOT"
+                  ],
+                  "description": "Ailment type"
+                },
+                "chance": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 20,
+                  "description": "Trigger chance (1d20 ≤ this value)"
+                },
+                "duration": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991,
+                  "description": "Effect duration (rounds)"
+                },
+                "subtype": {
+                  "type": "string",
+                  "enum": [
+                    "EFFECT_SUBTYPE_MAGICAL",
+                    "EFFECT_SUBTYPE_EXTRAORDINARY",
+                    "EFFECT_SUBTYPE_SUPERNATURAL",
+                    "EFFECT_SUBTYPE_UNYIELDING",
+                    "EFFECT_SUBTYPE_WEAPON"
+                  ],
+                  "description": "Effect subtype (determines resistance ability)"
+                },
+                "dc": {
+                  "default": 10,
+                  "description": "Resistance difficulty class",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "amp": {
+                  "description": "Magnitude (integer for drains, dice expression for poison e.g. 1d6)",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ]
+                },
+                "ability": {
+                  "description": "Ability drained (AILMENT_ABILITY_DRAIN only)",
+                  "type": "string",
+                  "enum": [
+                    "ABILITY_BODY",
+                    "ABILITY_SENSES",
+                    "ABILITY_MIND",
+                    "ABILITY_PRESENCE"
+                  ]
+                },
+                "disease": {
+                  "description": "Disease applied (AILMENT_DISEASE only)",
+                  "type": "string",
+                  "enum": [
+                    "DISEASE_GHOUL_FEVER",
+                    "DISEASE_MUMMY_ROT",
+                    "DISEASE_RAT_SICKNESS"
+                  ]
+                },
+                "damageType": {
+                  "description": "Poison damage type override (AILMENT_POISON only)",
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "ailment",
+                "chance",
+                "duration",
+                "subtype",
+                "dc"
+              ],
+              "additionalProperties": false,
+              "description": "Weapon Ailment"
             },
             {
               "type": "object",
@@ -2653,36 +2966,6 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "const": "PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE"
-                },
-                "damageType": {
-                  "type": "string",
-                  "enum": [
-                    "DAMAGE_TYPE_SLASHING",
-                    "DAMAGE_TYPE_CRUSHING",
-                    "DAMAGE_TYPE_PIERCING",
-                    "DAMAGE_TYPE_THERMAL",
-                    "DAMAGE_TYPE_CRYOGENIC",
-                    "DAMAGE_TYPE_CHEMICAL",
-                    "DAMAGE_TYPE_ELECTRIC",
-                    "DAMAGE_TYPE_NECROTIC",
-                    "DAMAGE_TYPE_RADIANT"
-                  ],
-                  "description": "Additional damage type"
-                }
-              },
-              "required": [
-                "type",
-                "damageType"
-              ],
-              "additionalProperties": false,
-              "description": "Extra Weapon Damage Type"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
                   "const": "PROPERTY_UNIDENTIFIED"
                 }
               },
@@ -2946,6 +3229,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_MAX_SENSE_BONUS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Max Senses Bonus"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_SKILL_MODIFIER"
                 },
                 "amp": {
@@ -2984,6 +3288,120 @@
               ],
               "additionalProperties": false,
               "description": "Skill Modifier"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_AILMENT"
+                },
+                "ailment": {
+                  "type": "string",
+                  "enum": [
+                    "AILMENT_ABILITY_DRAIN",
+                    "AILMENT_ATTACK_DRAIN",
+                    "AILMENT_ARMOR_CLASS_DRAIN",
+                    "AILMENT_DISEASE",
+                    "AILMENT_BLINDNESS",
+                    "AILMENT_FEAR",
+                    "AILMENT_POISON",
+                    "AILMENT_PARALYSIS",
+                    "AILMENT_PETRIFICATION",
+                    "AILMENT_STUN",
+                    "AILMENT_ROOT"
+                  ],
+                  "description": "Ailment type"
+                },
+                "chance": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 20,
+                  "description": "Trigger chance (1d20 ≤ this value)"
+                },
+                "duration": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991,
+                  "description": "Effect duration (rounds)"
+                },
+                "subtype": {
+                  "type": "string",
+                  "enum": [
+                    "EFFECT_SUBTYPE_MAGICAL",
+                    "EFFECT_SUBTYPE_EXTRAORDINARY",
+                    "EFFECT_SUBTYPE_SUPERNATURAL",
+                    "EFFECT_SUBTYPE_UNYIELDING",
+                    "EFFECT_SUBTYPE_WEAPON"
+                  ],
+                  "description": "Effect subtype (determines resistance ability)"
+                },
+                "dc": {
+                  "default": 10,
+                  "description": "Resistance difficulty class",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "amp": {
+                  "description": "Magnitude (integer for drains, dice expression for poison e.g. 1d6)",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ]
+                },
+                "ability": {
+                  "description": "Ability drained (AILMENT_ABILITY_DRAIN only)",
+                  "type": "string",
+                  "enum": [
+                    "ABILITY_BODY",
+                    "ABILITY_SENSES",
+                    "ABILITY_MIND",
+                    "ABILITY_PRESENCE"
+                  ]
+                },
+                "disease": {
+                  "description": "Disease applied (AILMENT_DISEASE only)",
+                  "type": "string",
+                  "enum": [
+                    "DISEASE_GHOUL_FEVER",
+                    "DISEASE_MUMMY_ROT",
+                    "DISEASE_RAT_SICKNESS"
+                  ]
+                },
+                "damageType": {
+                  "description": "Poison damage type override (AILMENT_POISON only)",
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "ailment",
+                "chance",
+                "duration",
+                "subtype",
+                "dc"
+              ],
+              "additionalProperties": false,
+              "description": "Weapon Ailment"
             },
             {
               "type": "object",
@@ -3411,36 +3829,6 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "const": "PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE"
-                },
-                "damageType": {
-                  "type": "string",
-                  "enum": [
-                    "DAMAGE_TYPE_SLASHING",
-                    "DAMAGE_TYPE_CRUSHING",
-                    "DAMAGE_TYPE_PIERCING",
-                    "DAMAGE_TYPE_THERMAL",
-                    "DAMAGE_TYPE_CRYOGENIC",
-                    "DAMAGE_TYPE_CHEMICAL",
-                    "DAMAGE_TYPE_ELECTRIC",
-                    "DAMAGE_TYPE_NECROTIC",
-                    "DAMAGE_TYPE_RADIANT"
-                  ],
-                  "description": "Additional damage type"
-                }
-              },
-              "required": [
-                "type",
-                "damageType"
-              ],
-              "additionalProperties": false,
-              "description": "Extra Weapon Damage Type"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
                   "const": "PROPERTY_UNIDENTIFIED"
                 }
               },
@@ -3704,6 +4092,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_MAX_SENSE_BONUS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Max Senses Bonus"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_SKILL_MODIFIER"
                 },
                 "amp": {
@@ -3742,6 +4151,120 @@
               ],
               "additionalProperties": false,
               "description": "Skill Modifier"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_AILMENT"
+                },
+                "ailment": {
+                  "type": "string",
+                  "enum": [
+                    "AILMENT_ABILITY_DRAIN",
+                    "AILMENT_ATTACK_DRAIN",
+                    "AILMENT_ARMOR_CLASS_DRAIN",
+                    "AILMENT_DISEASE",
+                    "AILMENT_BLINDNESS",
+                    "AILMENT_FEAR",
+                    "AILMENT_POISON",
+                    "AILMENT_PARALYSIS",
+                    "AILMENT_PETRIFICATION",
+                    "AILMENT_STUN",
+                    "AILMENT_ROOT"
+                  ],
+                  "description": "Ailment type"
+                },
+                "chance": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 20,
+                  "description": "Trigger chance (1d20 ≤ this value)"
+                },
+                "duration": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991,
+                  "description": "Effect duration (rounds)"
+                },
+                "subtype": {
+                  "type": "string",
+                  "enum": [
+                    "EFFECT_SUBTYPE_MAGICAL",
+                    "EFFECT_SUBTYPE_EXTRAORDINARY",
+                    "EFFECT_SUBTYPE_SUPERNATURAL",
+                    "EFFECT_SUBTYPE_UNYIELDING",
+                    "EFFECT_SUBTYPE_WEAPON"
+                  ],
+                  "description": "Effect subtype (determines resistance ability)"
+                },
+                "dc": {
+                  "default": 10,
+                  "description": "Resistance difficulty class",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "amp": {
+                  "description": "Magnitude (integer for drains, dice expression for poison e.g. 1d6)",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ]
+                },
+                "ability": {
+                  "description": "Ability drained (AILMENT_ABILITY_DRAIN only)",
+                  "type": "string",
+                  "enum": [
+                    "ABILITY_BODY",
+                    "ABILITY_SENSES",
+                    "ABILITY_MIND",
+                    "ABILITY_PRESENCE"
+                  ]
+                },
+                "disease": {
+                  "description": "Disease applied (AILMENT_DISEASE only)",
+                  "type": "string",
+                  "enum": [
+                    "DISEASE_GHOUL_FEVER",
+                    "DISEASE_MUMMY_ROT",
+                    "DISEASE_RAT_SICKNESS"
+                  ]
+                },
+                "damageType": {
+                  "description": "Poison damage type override (AILMENT_POISON only)",
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "ailment",
+                "chance",
+                "duration",
+                "subtype",
+                "dc"
+              ],
+              "additionalProperties": false,
+              "description": "Weapon Ailment"
             },
             {
               "type": "object",
@@ -4256,36 +4779,6 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "const": "PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE"
-                },
-                "damageType": {
-                  "type": "string",
-                  "enum": [
-                    "DAMAGE_TYPE_SLASHING",
-                    "DAMAGE_TYPE_CRUSHING",
-                    "DAMAGE_TYPE_PIERCING",
-                    "DAMAGE_TYPE_THERMAL",
-                    "DAMAGE_TYPE_CRYOGENIC",
-                    "DAMAGE_TYPE_CHEMICAL",
-                    "DAMAGE_TYPE_ELECTRIC",
-                    "DAMAGE_TYPE_NECROTIC",
-                    "DAMAGE_TYPE_RADIANT"
-                  ],
-                  "description": "Additional damage type"
-                }
-              },
-              "required": [
-                "type",
-                "damageType"
-              ],
-              "additionalProperties": false,
-              "description": "Extra Weapon Damage Type"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
                   "const": "PROPERTY_UNIDENTIFIED"
                 }
               },
@@ -4549,6 +5042,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_MAX_SENSE_BONUS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Max Senses Bonus"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_SKILL_MODIFIER"
                 },
                 "amp": {
@@ -4587,6 +5101,120 @@
               ],
               "additionalProperties": false,
               "description": "Skill Modifier"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_AILMENT"
+                },
+                "ailment": {
+                  "type": "string",
+                  "enum": [
+                    "AILMENT_ABILITY_DRAIN",
+                    "AILMENT_ATTACK_DRAIN",
+                    "AILMENT_ARMOR_CLASS_DRAIN",
+                    "AILMENT_DISEASE",
+                    "AILMENT_BLINDNESS",
+                    "AILMENT_FEAR",
+                    "AILMENT_POISON",
+                    "AILMENT_PARALYSIS",
+                    "AILMENT_PETRIFICATION",
+                    "AILMENT_STUN",
+                    "AILMENT_ROOT"
+                  ],
+                  "description": "Ailment type"
+                },
+                "chance": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 20,
+                  "description": "Trigger chance (1d20 ≤ this value)"
+                },
+                "duration": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991,
+                  "description": "Effect duration (rounds)"
+                },
+                "subtype": {
+                  "type": "string",
+                  "enum": [
+                    "EFFECT_SUBTYPE_MAGICAL",
+                    "EFFECT_SUBTYPE_EXTRAORDINARY",
+                    "EFFECT_SUBTYPE_SUPERNATURAL",
+                    "EFFECT_SUBTYPE_UNYIELDING",
+                    "EFFECT_SUBTYPE_WEAPON"
+                  ],
+                  "description": "Effect subtype (determines resistance ability)"
+                },
+                "dc": {
+                  "default": 10,
+                  "description": "Resistance difficulty class",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "amp": {
+                  "description": "Magnitude (integer for drains, dice expression for poison e.g. 1d6)",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ]
+                },
+                "ability": {
+                  "description": "Ability drained (AILMENT_ABILITY_DRAIN only)",
+                  "type": "string",
+                  "enum": [
+                    "ABILITY_BODY",
+                    "ABILITY_SENSES",
+                    "ABILITY_MIND",
+                    "ABILITY_PRESENCE"
+                  ]
+                },
+                "disease": {
+                  "description": "Disease applied (AILMENT_DISEASE only)",
+                  "type": "string",
+                  "enum": [
+                    "DISEASE_GHOUL_FEVER",
+                    "DISEASE_MUMMY_ROT",
+                    "DISEASE_RAT_SICKNESS"
+                  ]
+                },
+                "damageType": {
+                  "description": "Poison damage type override (AILMENT_POISON only)",
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "ailment",
+                "chance",
+                "duration",
+                "subtype",
+                "dc"
+              ],
+              "additionalProperties": false,
+              "description": "Weapon Ailment"
             },
             {
               "type": "object",
@@ -4948,36 +5576,6 @@
                             "properties": {
                               "type": {
                                 "type": "string",
-                                "const": "PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE"
-                              },
-                              "damageType": {
-                                "type": "string",
-                                "enum": [
-                                  "DAMAGE_TYPE_SLASHING",
-                                  "DAMAGE_TYPE_CRUSHING",
-                                  "DAMAGE_TYPE_PIERCING",
-                                  "DAMAGE_TYPE_THERMAL",
-                                  "DAMAGE_TYPE_CRYOGENIC",
-                                  "DAMAGE_TYPE_CHEMICAL",
-                                  "DAMAGE_TYPE_ELECTRIC",
-                                  "DAMAGE_TYPE_NECROTIC",
-                                  "DAMAGE_TYPE_RADIANT"
-                                ],
-                                "description": "Additional damage type"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "damageType"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Extra Weapon Damage Type"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
                                 "const": "PROPERTY_UNIDENTIFIED"
                               }
                             },
@@ -5241,6 +5839,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_MAX_SENSE_BONUS"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Max Senses Bonus"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_SKILL_MODIFIER"
                               },
                               "amp": {
@@ -5279,6 +5898,120 @@
                             ],
                             "additionalProperties": false,
                             "description": "Skill Modifier"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_AILMENT"
+                              },
+                              "ailment": {
+                                "type": "string",
+                                "enum": [
+                                  "AILMENT_ABILITY_DRAIN",
+                                  "AILMENT_ATTACK_DRAIN",
+                                  "AILMENT_ARMOR_CLASS_DRAIN",
+                                  "AILMENT_DISEASE",
+                                  "AILMENT_BLINDNESS",
+                                  "AILMENT_FEAR",
+                                  "AILMENT_POISON",
+                                  "AILMENT_PARALYSIS",
+                                  "AILMENT_PETRIFICATION",
+                                  "AILMENT_STUN",
+                                  "AILMENT_ROOT"
+                                ],
+                                "description": "Ailment type"
+                              },
+                              "chance": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 20,
+                                "description": "Trigger chance (1d20 ≤ this value)"
+                              },
+                              "duration": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 9007199254740991,
+                                "description": "Effect duration (rounds)"
+                              },
+                              "subtype": {
+                                "type": "string",
+                                "enum": [
+                                  "EFFECT_SUBTYPE_MAGICAL",
+                                  "EFFECT_SUBTYPE_EXTRAORDINARY",
+                                  "EFFECT_SUBTYPE_SUPERNATURAL",
+                                  "EFFECT_SUBTYPE_UNYIELDING",
+                                  "EFFECT_SUBTYPE_WEAPON"
+                                ],
+                                "description": "Effect subtype (determines resistance ability)"
+                              },
+                              "dc": {
+                                "default": 10,
+                                "description": "Resistance difficulty class",
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "amp": {
+                                "description": "Magnitude (integer for drains, dice expression for poison e.g. 1d6)",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ]
+                              },
+                              "ability": {
+                                "description": "Ability drained (AILMENT_ABILITY_DRAIN only)",
+                                "type": "string",
+                                "enum": [
+                                  "ABILITY_BODY",
+                                  "ABILITY_SENSES",
+                                  "ABILITY_MIND",
+                                  "ABILITY_PRESENCE"
+                                ]
+                              },
+                              "disease": {
+                                "description": "Disease applied (AILMENT_DISEASE only)",
+                                "type": "string",
+                                "enum": [
+                                  "DISEASE_GHOUL_FEVER",
+                                  "DISEASE_MUMMY_ROT",
+                                  "DISEASE_RAT_SICKNESS"
+                                ]
+                              },
+                              "damageType": {
+                                "description": "Poison damage type override (AILMENT_POISON only)",
+                                "type": "string",
+                                "enum": [
+                                  "DAMAGE_TYPE_SLASHING",
+                                  "DAMAGE_TYPE_CRUSHING",
+                                  "DAMAGE_TYPE_PIERCING",
+                                  "DAMAGE_TYPE_THERMAL",
+                                  "DAMAGE_TYPE_CRYOGENIC",
+                                  "DAMAGE_TYPE_CHEMICAL",
+                                  "DAMAGE_TYPE_ELECTRIC",
+                                  "DAMAGE_TYPE_NECROTIC",
+                                  "DAMAGE_TYPE_RADIANT"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "ailment",
+                              "chance",
+                              "duration",
+                              "subtype",
+                              "dc"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Weapon Ailment"
                           },
                           {
                             "type": "object",
@@ -5721,36 +6454,6 @@
                             "properties": {
                               "type": {
                                 "type": "string",
-                                "const": "PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE"
-                              },
-                              "damageType": {
-                                "type": "string",
-                                "enum": [
-                                  "DAMAGE_TYPE_SLASHING",
-                                  "DAMAGE_TYPE_CRUSHING",
-                                  "DAMAGE_TYPE_PIERCING",
-                                  "DAMAGE_TYPE_THERMAL",
-                                  "DAMAGE_TYPE_CRYOGENIC",
-                                  "DAMAGE_TYPE_CHEMICAL",
-                                  "DAMAGE_TYPE_ELECTRIC",
-                                  "DAMAGE_TYPE_NECROTIC",
-                                  "DAMAGE_TYPE_RADIANT"
-                                ],
-                                "description": "Additional damage type"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "damageType"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Extra Weapon Damage Type"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
                                 "const": "PROPERTY_UNIDENTIFIED"
                               }
                             },
@@ -6014,6 +6717,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_MAX_SENSE_BONUS"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Max Senses Bonus"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_SKILL_MODIFIER"
                               },
                               "amp": {
@@ -6052,6 +6776,120 @@
                             ],
                             "additionalProperties": false,
                             "description": "Skill Modifier"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_AILMENT"
+                              },
+                              "ailment": {
+                                "type": "string",
+                                "enum": [
+                                  "AILMENT_ABILITY_DRAIN",
+                                  "AILMENT_ATTACK_DRAIN",
+                                  "AILMENT_ARMOR_CLASS_DRAIN",
+                                  "AILMENT_DISEASE",
+                                  "AILMENT_BLINDNESS",
+                                  "AILMENT_FEAR",
+                                  "AILMENT_POISON",
+                                  "AILMENT_PARALYSIS",
+                                  "AILMENT_PETRIFICATION",
+                                  "AILMENT_STUN",
+                                  "AILMENT_ROOT"
+                                ],
+                                "description": "Ailment type"
+                              },
+                              "chance": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 20,
+                                "description": "Trigger chance (1d20 ≤ this value)"
+                              },
+                              "duration": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 9007199254740991,
+                                "description": "Effect duration (rounds)"
+                              },
+                              "subtype": {
+                                "type": "string",
+                                "enum": [
+                                  "EFFECT_SUBTYPE_MAGICAL",
+                                  "EFFECT_SUBTYPE_EXTRAORDINARY",
+                                  "EFFECT_SUBTYPE_SUPERNATURAL",
+                                  "EFFECT_SUBTYPE_UNYIELDING",
+                                  "EFFECT_SUBTYPE_WEAPON"
+                                ],
+                                "description": "Effect subtype (determines resistance ability)"
+                              },
+                              "dc": {
+                                "default": 10,
+                                "description": "Resistance difficulty class",
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "amp": {
+                                "description": "Magnitude (integer for drains, dice expression for poison e.g. 1d6)",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ]
+                              },
+                              "ability": {
+                                "description": "Ability drained (AILMENT_ABILITY_DRAIN only)",
+                                "type": "string",
+                                "enum": [
+                                  "ABILITY_BODY",
+                                  "ABILITY_SENSES",
+                                  "ABILITY_MIND",
+                                  "ABILITY_PRESENCE"
+                                ]
+                              },
+                              "disease": {
+                                "description": "Disease applied (AILMENT_DISEASE only)",
+                                "type": "string",
+                                "enum": [
+                                  "DISEASE_GHOUL_FEVER",
+                                  "DISEASE_MUMMY_ROT",
+                                  "DISEASE_RAT_SICKNESS"
+                                ]
+                              },
+                              "damageType": {
+                                "description": "Poison damage type override (AILMENT_POISON only)",
+                                "type": "string",
+                                "enum": [
+                                  "DAMAGE_TYPE_SLASHING",
+                                  "DAMAGE_TYPE_CRUSHING",
+                                  "DAMAGE_TYPE_PIERCING",
+                                  "DAMAGE_TYPE_THERMAL",
+                                  "DAMAGE_TYPE_CRYOGENIC",
+                                  "DAMAGE_TYPE_CHEMICAL",
+                                  "DAMAGE_TYPE_ELECTRIC",
+                                  "DAMAGE_TYPE_NECROTIC",
+                                  "DAMAGE_TYPE_RADIANT"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "ailment",
+                              "chance",
+                              "duration",
+                              "subtype",
+                              "dc"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Weapon Ailment"
                           },
                           {
                             "type": "object",
@@ -6187,11 +7025,9 @@
                           "WEAPON_ATTRIBUTE_SPECIAL",
                           "WEAPON_ATTRIBUTE_TWO_HANDED",
                           "WEAPON_ATTRIBUTE_VERSATILE",
-                          "WEAPON_ATTRIBUTE_REACH",
                           "WEAPON_ATTRIBUTE_RANGED",
                           "WEAPON_ATTRIBUTE_SEMIAUTOMATIC",
-                          "WEAPON_ATTRIBUTE_SPREAD",
-                          "WEAPON_ATTRIBUTE_IGNORE_ARMOR"
+                          "WEAPON_ATTRIBUTE_SPREAD"
                         ],
                         "description": "fields.weaponAttribute"
                       },
@@ -6550,36 +7386,6 @@
                             "properties": {
                               "type": {
                                 "type": "string",
-                                "const": "PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE"
-                              },
-                              "damageType": {
-                                "type": "string",
-                                "enum": [
-                                  "DAMAGE_TYPE_SLASHING",
-                                  "DAMAGE_TYPE_CRUSHING",
-                                  "DAMAGE_TYPE_PIERCING",
-                                  "DAMAGE_TYPE_THERMAL",
-                                  "DAMAGE_TYPE_CRYOGENIC",
-                                  "DAMAGE_TYPE_CHEMICAL",
-                                  "DAMAGE_TYPE_ELECTRIC",
-                                  "DAMAGE_TYPE_NECROTIC",
-                                  "DAMAGE_TYPE_RADIANT"
-                                ],
-                                "description": "Additional damage type"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "damageType"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Extra Weapon Damage Type"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
                                 "const": "PROPERTY_UNIDENTIFIED"
                               }
                             },
@@ -6843,6 +7649,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_MAX_SENSE_BONUS"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Max Senses Bonus"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_SKILL_MODIFIER"
                               },
                               "amp": {
@@ -6881,6 +7708,120 @@
                             ],
                             "additionalProperties": false,
                             "description": "Skill Modifier"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_AILMENT"
+                              },
+                              "ailment": {
+                                "type": "string",
+                                "enum": [
+                                  "AILMENT_ABILITY_DRAIN",
+                                  "AILMENT_ATTACK_DRAIN",
+                                  "AILMENT_ARMOR_CLASS_DRAIN",
+                                  "AILMENT_DISEASE",
+                                  "AILMENT_BLINDNESS",
+                                  "AILMENT_FEAR",
+                                  "AILMENT_POISON",
+                                  "AILMENT_PARALYSIS",
+                                  "AILMENT_PETRIFICATION",
+                                  "AILMENT_STUN",
+                                  "AILMENT_ROOT"
+                                ],
+                                "description": "Ailment type"
+                              },
+                              "chance": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 20,
+                                "description": "Trigger chance (1d20 ≤ this value)"
+                              },
+                              "duration": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 9007199254740991,
+                                "description": "Effect duration (rounds)"
+                              },
+                              "subtype": {
+                                "type": "string",
+                                "enum": [
+                                  "EFFECT_SUBTYPE_MAGICAL",
+                                  "EFFECT_SUBTYPE_EXTRAORDINARY",
+                                  "EFFECT_SUBTYPE_SUPERNATURAL",
+                                  "EFFECT_SUBTYPE_UNYIELDING",
+                                  "EFFECT_SUBTYPE_WEAPON"
+                                ],
+                                "description": "Effect subtype (determines resistance ability)"
+                              },
+                              "dc": {
+                                "default": 10,
+                                "description": "Resistance difficulty class",
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "amp": {
+                                "description": "Magnitude (integer for drains, dice expression for poison e.g. 1d6)",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ]
+                              },
+                              "ability": {
+                                "description": "Ability drained (AILMENT_ABILITY_DRAIN only)",
+                                "type": "string",
+                                "enum": [
+                                  "ABILITY_BODY",
+                                  "ABILITY_SENSES",
+                                  "ABILITY_MIND",
+                                  "ABILITY_PRESENCE"
+                                ]
+                              },
+                              "disease": {
+                                "description": "Disease applied (AILMENT_DISEASE only)",
+                                "type": "string",
+                                "enum": [
+                                  "DISEASE_GHOUL_FEVER",
+                                  "DISEASE_MUMMY_ROT",
+                                  "DISEASE_RAT_SICKNESS"
+                                ]
+                              },
+                              "damageType": {
+                                "description": "Poison damage type override (AILMENT_POISON only)",
+                                "type": "string",
+                                "enum": [
+                                  "DAMAGE_TYPE_SLASHING",
+                                  "DAMAGE_TYPE_CRUSHING",
+                                  "DAMAGE_TYPE_PIERCING",
+                                  "DAMAGE_TYPE_THERMAL",
+                                  "DAMAGE_TYPE_CRYOGENIC",
+                                  "DAMAGE_TYPE_CHEMICAL",
+                                  "DAMAGE_TYPE_ELECTRIC",
+                                  "DAMAGE_TYPE_NECROTIC",
+                                  "DAMAGE_TYPE_RADIANT"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "ailment",
+                              "chance",
+                              "duration",
+                              "subtype",
+                              "dc"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Weapon Ailment"
                           },
                           {
                             "type": "object",
@@ -7307,36 +8248,6 @@
                             "properties": {
                               "type": {
                                 "type": "string",
-                                "const": "PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE"
-                              },
-                              "damageType": {
-                                "type": "string",
-                                "enum": [
-                                  "DAMAGE_TYPE_SLASHING",
-                                  "DAMAGE_TYPE_CRUSHING",
-                                  "DAMAGE_TYPE_PIERCING",
-                                  "DAMAGE_TYPE_THERMAL",
-                                  "DAMAGE_TYPE_CRYOGENIC",
-                                  "DAMAGE_TYPE_CHEMICAL",
-                                  "DAMAGE_TYPE_ELECTRIC",
-                                  "DAMAGE_TYPE_NECROTIC",
-                                  "DAMAGE_TYPE_RADIANT"
-                                ],
-                                "description": "Additional damage type"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "damageType"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Extra Weapon Damage Type"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
                                 "const": "PROPERTY_UNIDENTIFIED"
                               }
                             },
@@ -7600,6 +8511,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_MAX_SENSE_BONUS"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Max Senses Bonus"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_SKILL_MODIFIER"
                               },
                               "amp": {
@@ -7638,6 +8570,120 @@
                             ],
                             "additionalProperties": false,
                             "description": "Skill Modifier"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_AILMENT"
+                              },
+                              "ailment": {
+                                "type": "string",
+                                "enum": [
+                                  "AILMENT_ABILITY_DRAIN",
+                                  "AILMENT_ATTACK_DRAIN",
+                                  "AILMENT_ARMOR_CLASS_DRAIN",
+                                  "AILMENT_DISEASE",
+                                  "AILMENT_BLINDNESS",
+                                  "AILMENT_FEAR",
+                                  "AILMENT_POISON",
+                                  "AILMENT_PARALYSIS",
+                                  "AILMENT_PETRIFICATION",
+                                  "AILMENT_STUN",
+                                  "AILMENT_ROOT"
+                                ],
+                                "description": "Ailment type"
+                              },
+                              "chance": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 20,
+                                "description": "Trigger chance (1d20 ≤ this value)"
+                              },
+                              "duration": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 9007199254740991,
+                                "description": "Effect duration (rounds)"
+                              },
+                              "subtype": {
+                                "type": "string",
+                                "enum": [
+                                  "EFFECT_SUBTYPE_MAGICAL",
+                                  "EFFECT_SUBTYPE_EXTRAORDINARY",
+                                  "EFFECT_SUBTYPE_SUPERNATURAL",
+                                  "EFFECT_SUBTYPE_UNYIELDING",
+                                  "EFFECT_SUBTYPE_WEAPON"
+                                ],
+                                "description": "Effect subtype (determines resistance ability)"
+                              },
+                              "dc": {
+                                "default": 10,
+                                "description": "Resistance difficulty class",
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "amp": {
+                                "description": "Magnitude (integer for drains, dice expression for poison e.g. 1d6)",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ]
+                              },
+                              "ability": {
+                                "description": "Ability drained (AILMENT_ABILITY_DRAIN only)",
+                                "type": "string",
+                                "enum": [
+                                  "ABILITY_BODY",
+                                  "ABILITY_SENSES",
+                                  "ABILITY_MIND",
+                                  "ABILITY_PRESENCE"
+                                ]
+                              },
+                              "disease": {
+                                "description": "Disease applied (AILMENT_DISEASE only)",
+                                "type": "string",
+                                "enum": [
+                                  "DISEASE_GHOUL_FEVER",
+                                  "DISEASE_MUMMY_ROT",
+                                  "DISEASE_RAT_SICKNESS"
+                                ]
+                              },
+                              "damageType": {
+                                "description": "Poison damage type override (AILMENT_POISON only)",
+                                "type": "string",
+                                "enum": [
+                                  "DAMAGE_TYPE_SLASHING",
+                                  "DAMAGE_TYPE_CRUSHING",
+                                  "DAMAGE_TYPE_PIERCING",
+                                  "DAMAGE_TYPE_THERMAL",
+                                  "DAMAGE_TYPE_CRYOGENIC",
+                                  "DAMAGE_TYPE_CHEMICAL",
+                                  "DAMAGE_TYPE_ELECTRIC",
+                                  "DAMAGE_TYPE_NECROTIC",
+                                  "DAMAGE_TYPE_RADIANT"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "ailment",
+                              "chance",
+                              "duration",
+                              "subtype",
+                              "dc"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Weapon Ailment"
                           },
                           {
                             "type": "object",
@@ -8064,36 +9110,6 @@
                             "properties": {
                               "type": {
                                 "type": "string",
-                                "const": "PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE"
-                              },
-                              "damageType": {
-                                "type": "string",
-                                "enum": [
-                                  "DAMAGE_TYPE_SLASHING",
-                                  "DAMAGE_TYPE_CRUSHING",
-                                  "DAMAGE_TYPE_PIERCING",
-                                  "DAMAGE_TYPE_THERMAL",
-                                  "DAMAGE_TYPE_CRYOGENIC",
-                                  "DAMAGE_TYPE_CHEMICAL",
-                                  "DAMAGE_TYPE_ELECTRIC",
-                                  "DAMAGE_TYPE_NECROTIC",
-                                  "DAMAGE_TYPE_RADIANT"
-                                ],
-                                "description": "Additional damage type"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "damageType"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Extra Weapon Damage Type"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
                                 "const": "PROPERTY_UNIDENTIFIED"
                               }
                             },
@@ -8357,6 +9373,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_MAX_SENSE_BONUS"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Max Senses Bonus"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_SKILL_MODIFIER"
                               },
                               "amp": {
@@ -8395,6 +9432,120 @@
                             ],
                             "additionalProperties": false,
                             "description": "Skill Modifier"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_AILMENT"
+                              },
+                              "ailment": {
+                                "type": "string",
+                                "enum": [
+                                  "AILMENT_ABILITY_DRAIN",
+                                  "AILMENT_ATTACK_DRAIN",
+                                  "AILMENT_ARMOR_CLASS_DRAIN",
+                                  "AILMENT_DISEASE",
+                                  "AILMENT_BLINDNESS",
+                                  "AILMENT_FEAR",
+                                  "AILMENT_POISON",
+                                  "AILMENT_PARALYSIS",
+                                  "AILMENT_PETRIFICATION",
+                                  "AILMENT_STUN",
+                                  "AILMENT_ROOT"
+                                ],
+                                "description": "Ailment type"
+                              },
+                              "chance": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 20,
+                                "description": "Trigger chance (1d20 ≤ this value)"
+                              },
+                              "duration": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 9007199254740991,
+                                "description": "Effect duration (rounds)"
+                              },
+                              "subtype": {
+                                "type": "string",
+                                "enum": [
+                                  "EFFECT_SUBTYPE_MAGICAL",
+                                  "EFFECT_SUBTYPE_EXTRAORDINARY",
+                                  "EFFECT_SUBTYPE_SUPERNATURAL",
+                                  "EFFECT_SUBTYPE_UNYIELDING",
+                                  "EFFECT_SUBTYPE_WEAPON"
+                                ],
+                                "description": "Effect subtype (determines resistance ability)"
+                              },
+                              "dc": {
+                                "default": 10,
+                                "description": "Resistance difficulty class",
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "amp": {
+                                "description": "Magnitude (integer for drains, dice expression for poison e.g. 1d6)",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ]
+                              },
+                              "ability": {
+                                "description": "Ability drained (AILMENT_ABILITY_DRAIN only)",
+                                "type": "string",
+                                "enum": [
+                                  "ABILITY_BODY",
+                                  "ABILITY_SENSES",
+                                  "ABILITY_MIND",
+                                  "ABILITY_PRESENCE"
+                                ]
+                              },
+                              "disease": {
+                                "description": "Disease applied (AILMENT_DISEASE only)",
+                                "type": "string",
+                                "enum": [
+                                  "DISEASE_GHOUL_FEVER",
+                                  "DISEASE_MUMMY_ROT",
+                                  "DISEASE_RAT_SICKNESS"
+                                ]
+                              },
+                              "damageType": {
+                                "description": "Poison damage type override (AILMENT_POISON only)",
+                                "type": "string",
+                                "enum": [
+                                  "DAMAGE_TYPE_SLASHING",
+                                  "DAMAGE_TYPE_CRUSHING",
+                                  "DAMAGE_TYPE_PIERCING",
+                                  "DAMAGE_TYPE_THERMAL",
+                                  "DAMAGE_TYPE_CRYOGENIC",
+                                  "DAMAGE_TYPE_CHEMICAL",
+                                  "DAMAGE_TYPE_ELECTRIC",
+                                  "DAMAGE_TYPE_NECROTIC",
+                                  "DAMAGE_TYPE_RADIANT"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "ailment",
+                              "chance",
+                              "duration",
+                              "subtype",
+                              "dc"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Weapon Ailment"
                           },
                           {
                             "type": "object",
@@ -9004,36 +10155,6 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "const": "PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE"
-                },
-                "damageType": {
-                  "type": "string",
-                  "enum": [
-                    "DAMAGE_TYPE_SLASHING",
-                    "DAMAGE_TYPE_CRUSHING",
-                    "DAMAGE_TYPE_PIERCING",
-                    "DAMAGE_TYPE_THERMAL",
-                    "DAMAGE_TYPE_CRYOGENIC",
-                    "DAMAGE_TYPE_CHEMICAL",
-                    "DAMAGE_TYPE_ELECTRIC",
-                    "DAMAGE_TYPE_NECROTIC",
-                    "DAMAGE_TYPE_RADIANT"
-                  ],
-                  "description": "Additional damage type"
-                }
-              },
-              "required": [
-                "type",
-                "damageType"
-              ],
-              "additionalProperties": false,
-              "description": "Extra Weapon Damage Type"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
                   "const": "PROPERTY_UNIDENTIFIED"
                 }
               },
@@ -9297,6 +10418,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_MAX_SENSE_BONUS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Max Senses Bonus"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_SKILL_MODIFIER"
                 },
                 "amp": {
@@ -9335,6 +10477,120 @@
               ],
               "additionalProperties": false,
               "description": "Skill Modifier"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_AILMENT"
+                },
+                "ailment": {
+                  "type": "string",
+                  "enum": [
+                    "AILMENT_ABILITY_DRAIN",
+                    "AILMENT_ATTACK_DRAIN",
+                    "AILMENT_ARMOR_CLASS_DRAIN",
+                    "AILMENT_DISEASE",
+                    "AILMENT_BLINDNESS",
+                    "AILMENT_FEAR",
+                    "AILMENT_POISON",
+                    "AILMENT_PARALYSIS",
+                    "AILMENT_PETRIFICATION",
+                    "AILMENT_STUN",
+                    "AILMENT_ROOT"
+                  ],
+                  "description": "Ailment type"
+                },
+                "chance": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 20,
+                  "description": "Trigger chance (1d20 ≤ this value)"
+                },
+                "duration": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991,
+                  "description": "Effect duration (rounds)"
+                },
+                "subtype": {
+                  "type": "string",
+                  "enum": [
+                    "EFFECT_SUBTYPE_MAGICAL",
+                    "EFFECT_SUBTYPE_EXTRAORDINARY",
+                    "EFFECT_SUBTYPE_SUPERNATURAL",
+                    "EFFECT_SUBTYPE_UNYIELDING",
+                    "EFFECT_SUBTYPE_WEAPON"
+                  ],
+                  "description": "Effect subtype (determines resistance ability)"
+                },
+                "dc": {
+                  "default": 10,
+                  "description": "Resistance difficulty class",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "amp": {
+                  "description": "Magnitude (integer for drains, dice expression for poison e.g. 1d6)",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ]
+                },
+                "ability": {
+                  "description": "Ability drained (AILMENT_ABILITY_DRAIN only)",
+                  "type": "string",
+                  "enum": [
+                    "ABILITY_BODY",
+                    "ABILITY_SENSES",
+                    "ABILITY_MIND",
+                    "ABILITY_PRESENCE"
+                  ]
+                },
+                "disease": {
+                  "description": "Disease applied (AILMENT_DISEASE only)",
+                  "type": "string",
+                  "enum": [
+                    "DISEASE_GHOUL_FEVER",
+                    "DISEASE_MUMMY_ROT",
+                    "DISEASE_RAT_SICKNESS"
+                  ]
+                },
+                "damageType": {
+                  "description": "Poison damage type override (AILMENT_POISON only)",
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "ailment",
+                "chance",
+                "duration",
+                "subtype",
+                "dc"
+              ],
+              "additionalProperties": false,
+              "description": "Weapon Ailment"
             },
             {
               "type": "object",
@@ -9690,37 +10946,6 @@
     "additionalProperties": false,
     "description": "Cursed"
   },
-  "PropertyExtraWeaponDamageType": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "type": "object",
-    "properties": {
-      "type": {
-        "type": "string",
-        "const": "PROPERTY_EXTRA_WEAPON_DAMAGE_TYPE"
-      },
-      "damageType": {
-        "type": "string",
-        "enum": [
-          "DAMAGE_TYPE_SLASHING",
-          "DAMAGE_TYPE_CRUSHING",
-          "DAMAGE_TYPE_PIERCING",
-          "DAMAGE_TYPE_THERMAL",
-          "DAMAGE_TYPE_CRYOGENIC",
-          "DAMAGE_TYPE_CHEMICAL",
-          "DAMAGE_TYPE_ELECTRIC",
-          "DAMAGE_TYPE_NECROTIC",
-          "DAMAGE_TYPE_RADIANT"
-        ],
-        "description": "Additional damage type"
-      }
-    },
-    "required": [
-      "type",
-      "damageType"
-    ],
-    "additionalProperties": false,
-    "description": "Extra Weapon Damage Type"
-  },
   "PropertyUnidentified": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
@@ -9992,6 +11217,28 @@
     "additionalProperties": false,
     "description": "Extra Hitpoints"
   },
+  "PropertyMaxSenseBonus": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "const": "PROPERTY_MAX_SENSE_BONUS"
+      },
+      "amp": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "description": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)"
+      }
+    },
+    "required": [
+      "type",
+      "amp"
+    ],
+    "additionalProperties": false,
+    "description": "Max Senses Bonus"
+  },
   "PropertySkillModifier": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
@@ -10036,6 +11283,121 @@
     ],
     "additionalProperties": false,
     "description": "Skill Modifier"
+  },
+  "PropertyAilment": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "const": "PROPERTY_AILMENT"
+      },
+      "ailment": {
+        "type": "string",
+        "enum": [
+          "AILMENT_ABILITY_DRAIN",
+          "AILMENT_ATTACK_DRAIN",
+          "AILMENT_ARMOR_CLASS_DRAIN",
+          "AILMENT_DISEASE",
+          "AILMENT_BLINDNESS",
+          "AILMENT_FEAR",
+          "AILMENT_POISON",
+          "AILMENT_PARALYSIS",
+          "AILMENT_PETRIFICATION",
+          "AILMENT_STUN",
+          "AILMENT_ROOT"
+        ],
+        "description": "Ailment type"
+      },
+      "chance": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 20,
+        "description": "Trigger chance (1d20 ≤ this value)"
+      },
+      "duration": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991,
+        "description": "Effect duration (rounds)"
+      },
+      "subtype": {
+        "type": "string",
+        "enum": [
+          "EFFECT_SUBTYPE_MAGICAL",
+          "EFFECT_SUBTYPE_EXTRAORDINARY",
+          "EFFECT_SUBTYPE_SUPERNATURAL",
+          "EFFECT_SUBTYPE_UNYIELDING",
+          "EFFECT_SUBTYPE_WEAPON"
+        ],
+        "description": "Effect subtype (determines resistance ability)"
+      },
+      "dc": {
+        "default": 10,
+        "description": "Resistance difficulty class",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "amp": {
+        "description": "Magnitude (integer for drains, dice expression for poison e.g. 1d6)",
+        "anyOf": [
+          {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          {
+            "type": "string",
+            "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+          }
+        ]
+      },
+      "ability": {
+        "description": "Ability drained (AILMENT_ABILITY_DRAIN only)",
+        "type": "string",
+        "enum": [
+          "ABILITY_BODY",
+          "ABILITY_SENSES",
+          "ABILITY_MIND",
+          "ABILITY_PRESENCE"
+        ]
+      },
+      "disease": {
+        "description": "Disease applied (AILMENT_DISEASE only)",
+        "type": "string",
+        "enum": [
+          "DISEASE_GHOUL_FEVER",
+          "DISEASE_MUMMY_ROT",
+          "DISEASE_RAT_SICKNESS"
+        ]
+      },
+      "damageType": {
+        "description": "Poison damage type override (AILMENT_POISON only)",
+        "type": "string",
+        "enum": [
+          "DAMAGE_TYPE_SLASHING",
+          "DAMAGE_TYPE_CRUSHING",
+          "DAMAGE_TYPE_PIERCING",
+          "DAMAGE_TYPE_THERMAL",
+          "DAMAGE_TYPE_CRYOGENIC",
+          "DAMAGE_TYPE_CHEMICAL",
+          "DAMAGE_TYPE_ELECTRIC",
+          "DAMAGE_TYPE_NECROTIC",
+          "DAMAGE_TYPE_RADIANT"
+        ]
+      }
+    },
+    "required": [
+      "type",
+      "ailment",
+      "chance",
+      "duration",
+      "subtype",
+      "dc"
+    ],
+    "additionalProperties": false,
+    "description": "Weapon Ailment"
   },
   "PropertyImmunity": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",

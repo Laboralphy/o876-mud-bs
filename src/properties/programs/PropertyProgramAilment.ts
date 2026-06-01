@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { IProgram } from '../../interfaces/IProgram';
 import { Property } from '../schemas';
-import { PropertyAilment } from '../schemas/modifiers/ailment';
+import { PropertyAilment } from '../schemas/status/ailment';
 import { CONSTS } from '../../consts';
 import { Ability } from '../../schemas/enums/Ability';
 import { EffectSubtype } from '../../schemas/enums/EffectSubtype';
@@ -48,8 +48,11 @@ export class PropertyProgramAilment implements IProgram<Property> {
             return !!(rs && target.checkSkill(rs, data.dc));
         };
 
-        switch (data.ailmentType) {
-            case CONSTS.AILMENT_ABILITY_DRAIN:
+        switch (data.ailment) {
+            case CONSTS.AILMENT_ABILITY_DRAIN: {
+                if (resistAbility()) {
+                    return;
+                }
                 target.applyEffect(
                     {
                         type: CONSTS.EFFECT_ABILITY_MODIFIER,
@@ -61,8 +64,12 @@ export class PropertyProgramAilment implements IProgram<Property> {
                     data.subtype
                 );
                 break;
+            }
 
-            case CONSTS.AILMENT_ATTACK_DRAIN:
+            case CONSTS.AILMENT_ATTACK_DRAIN: {
+                if (resistAbility()) {
+                    return;
+                }
                 target.applyEffect(
                     { type: CONSTS.EFFECT_ATTACK_MODIFIER, amp: -creature.dice.roll(data.amp!) },
                     creature,
@@ -70,8 +77,12 @@ export class PropertyProgramAilment implements IProgram<Property> {
                     data.subtype
                 );
                 break;
+            }
 
-            case CONSTS.AILMENT_ARMOR_CLASS_DRAIN:
+            case CONSTS.AILMENT_ARMOR_CLASS_DRAIN: {
+                if (resistAbility()) {
+                    return;
+                }
                 target.applyEffect(
                     {
                         type: CONSTS.EFFECT_ARMOR_CLASS_MODIFIER,
@@ -82,8 +93,12 @@ export class PropertyProgramAilment implements IProgram<Property> {
                     data.subtype
                 );
                 break;
+            }
 
             case CONSTS.AILMENT_DISEASE: {
+                if (resistSkill(CONSTS.EFFECT_DISEASE)) {
+                    return;
+                }
                 const alreadyInfected = target.state.effects.some(
                     (e) =>
                         e.type === CONSTS.EFFECT_DISEASE &&
@@ -106,7 +121,10 @@ export class PropertyProgramAilment implements IProgram<Property> {
                 break;
             }
 
-            case CONSTS.AILMENT_BLINDNESS:
+            case CONSTS.AILMENT_BLINDNESS: {
+                if (resistSkill(CONSTS.EFFECT_BLINDNESS)) {
+                    return;
+                }
                 target.applyEffect(
                     { type: CONSTS.EFFECT_BLINDNESS },
                     creature,
@@ -114,8 +132,12 @@ export class PropertyProgramAilment implements IProgram<Property> {
                     data.subtype
                 );
                 break;
+            }
 
-            case CONSTS.AILMENT_FEAR:
+            case CONSTS.AILMENT_FEAR: {
+                if (resistSkill(CONSTS.EFFECT_FEAR)) {
+                    return;
+                }
                 target.applyEffect(
                     { type: CONSTS.EFFECT_FEAR, dc: data.dc },
                     creature,
@@ -123,12 +145,16 @@ export class PropertyProgramAilment implements IProgram<Property> {
                     data.subtype
                 );
                 break;
+            }
 
-            case CONSTS.AILMENT_POISON:
+            case CONSTS.AILMENT_POISON: {
+                if (resistSkill(CONSTS.EFFECT_POISON)) {
+                    return;
+                }
                 target.applyEffect(
                     {
                         type: CONSTS.EFFECT_POISON,
-                        amp: data.amp as string,
+                        amp: String(data.amp),
                         damageType: data.damageType ?? CONSTS.DAMAGE_TYPE_NECROTIC,
                         dc: data.dc,
                         periodicity: 1,
@@ -139,8 +165,12 @@ export class PropertyProgramAilment implements IProgram<Property> {
                     data.subtype
                 );
                 break;
+            }
 
-            case CONSTS.AILMENT_PARALYSIS:
+            case CONSTS.AILMENT_PARALYSIS: {
+                if (resistSkill(CONSTS.EFFECT_PARALYSIS)) {
+                    return;
+                }
                 target.applyEffect(
                     { type: CONSTS.EFFECT_PARALYSIS, dc: data.dc },
                     creature,
@@ -148,17 +178,25 @@ export class PropertyProgramAilment implements IProgram<Property> {
                     data.subtype
                 );
                 break;
+            }
 
-            case CONSTS.AILMENT_PETRIFICATION:
+            case CONSTS.AILMENT_PETRIFICATION: {
+                if (resistAbility()) {
+                    return;
+                }
                 target.applyEffect(
                     { type: CONSTS.EFFECT_PETRIFICATION, amp: 1, dc: data.dc },
                     creature,
-                    data.duration,
+                    Number.MAX_SAFE_INTEGER,
                     data.subtype
                 );
                 break;
+            }
 
-            case CONSTS.AILMENT_STUN:
+            case CONSTS.AILMENT_STUN: {
+                if (resistSkill(CONSTS.EFFECT_STUN)) {
+                    return;
+                }
                 target.applyEffect(
                     { type: CONSTS.EFFECT_STUN, dc: data.dc },
                     creature,
@@ -166,8 +204,12 @@ export class PropertyProgramAilment implements IProgram<Property> {
                     data.subtype
                 );
                 break;
+            }
 
-            case CONSTS.AILMENT_ROOT:
+            case CONSTS.AILMENT_ROOT: {
+                if (resistSkill(CONSTS.EFFECT_ROOT)) {
+                    return;
+                }
                 target.applyEffect(
                     { type: CONSTS.EFFECT_ROOT, dc: data.dc },
                     creature,
@@ -175,6 +217,11 @@ export class PropertyProgramAilment implements IProgram<Property> {
                     data.subtype
                 );
                 break;
+            }
+
+            default: {
+                throw new ReferenceError(`Ailment ${data.ailment} unknown`);
+            }
         }
     }
 }

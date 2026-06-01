@@ -24,6 +24,7 @@
  * - natw-name     : natural weapon name; adds an inline weapon to equipment
  * - natw-damages  : damage dice for the last pushed natural weapon (e.g. 2d6)
  * - natw-damage-type : damage type short name (slashing | piercing | crushing | thermal | ...)
+ * - natw-damage-type : damage type short name (slashing | piercing | crushing | thermal | ...)
  * - natw-attribute: weapon attribute short name (reach | finesse | ...) — repeatable
  * - natw-property : property short name for the last natural weapon — repeatable
  * - natw-amp      : amp for the last pushed natural weapon property
@@ -45,13 +46,37 @@
  */
 
 export const HEADERS = [
-    'id', 'specie', 'size', 'ac',
-    'body', 'senses', 'mind', 'presence',
+    'id',
+    'specie',
+    'size',
+    'ac',
+    'body',
+    'senses',
+    'mind',
+    'presence',
     'proficiency',
-    'natw-name', 'natw-damages', 'natw-damage-type', 'natw-attribute',
-    'natw-property', 'natw-amp', 'natw-paramName', 'natw-paramValue',
-    'action', 'action-script', 'action-cooldown', 'action-charges', 'action-range', 'action-bonus', 'action-hostile',
-    'traits', 'def-property', 'def-amp', 'def-paramName', 'def-paramValue', 'equipment',
+    'natw-name',
+    'natw-damages',
+    'natw-damageType',
+    'natw-altDamageType',
+    'natw-attribute',
+    'natw-property',
+    'natw-amp',
+    'natw-paramName',
+    'natw-paramValue',
+    'action',
+    'action-script',
+    'action-cooldown',
+    'action-charges',
+    'action-range',
+    'action-bonus',
+    'action-hostile',
+    'traits',
+    'def-property',
+    'def-amp',
+    'def-paramName',
+    'def-paramValue',
+    'equipment',
 ];
 
 export const SCRIPTS = [
@@ -66,7 +91,8 @@ export const SCRIPTS = [
     /* proficiency    */ `c.proficiencies.push(ref(value, 'PROFICIENCY'))`,
     /* natw-name      */ `c.equipment.push({ entityType: 'ENTITY_TYPE_ITEM', itemType: 'ITEM_TYPE_WEAPON', proficiency: 'PROFICIENCY_UNARMED', weight: 0, size: 'WEAPON_SIZE_SMALL', attributes: [], damages: '1d3', damageType: 'DAMAGE_TYPE_CRUSHING', properties: [], equipmentSlots: ['EQUIPMENT_SLOT_NATURAL_WEAPON_1', 'EQUIPMENT_SLOT_NATURAL_WEAPON_2', 'EQUIPMENT_SLOT_NATURAL_WEAPON_3'] })`,
     /* natw-damages   */ `last(c.equipment).damages = value`,
-    /* natw-damage-type*/ `last(c.equipment).damageType = ref(value, 'DAMAGE_TYPE')`,
+    /* natw-damageType*/ `last(c.equipment).damageType = ref(value, 'DAMAGE_TYPE')`,
+    /* natw-altDamageType*/ `last(c.equipment).altDamageType = ref(value, 'DAMAGE_TYPE')`,
     /* natw-attribute */ `last(c.equipment).attributes.push(ref(value, 'WEAPON_ATTRIBUTE'))`,
     /* natw-property  */ `last(c.equipment).properties.push({ type: ref(value, 'property') })`,
     /* natw-amp       */ `last(last(c.equipment).properties).amp = value`,
