@@ -57,6 +57,7 @@
   "CreatureBlueprint.size": "Size",
   "CreatureBlueprint.properties": "Innate properties",
   "CreatureBlueprint.equipment": "Starting equipment",
+  "CreatureBlueprint.proficiencies": "Proficiencies",
   "CreatureBlueprint.actions": "Available actions",
 
   "ActionBlueprint": "Action",

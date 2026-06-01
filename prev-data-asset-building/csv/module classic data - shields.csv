@@ -1,0 +1,5 @@
+shield,type,property,amp,propParamName,propParamValue
+"output(); id(value); c={ entityType: ""ENTITY_TYPE_ITEM"", extends:[], properties: [] }",c.extends.push(value),"c.properties.push({ type: ref(value, 'property') })",last(c.properties).amp = value,,kv(last(c.properties))
+shd-small,shd-type-small,,,,
+shd-medium,shd-type-medium,,,,
+shd-large,shd-type-large,,,,

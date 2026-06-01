@@ -7,6 +7,7 @@ import { EquipmentSlotSchema } from '../../schemas/enums/EquipmentSlot';
 import { SpecieSchema } from '../../schemas/enums/Specie';
 import { CreatureSizeSchema } from '../../schemas/enums/CreatureSize';
 import { ActionStateSchema } from '../../schemas/Action';
+import { ProficiencySchema } from '../../schemas/enums/Proficiency';
 
 export const StateSchema = z.object({
     abilities: z.object({
@@ -22,6 +23,7 @@ export const StateSchema = z.object({
     armorClass: z.number().int(), // Natural armor class
     specie: SpecieSchema,
     size: CreatureSizeSchema,
+    proficiencies: z.array(ProficiencySchema),
     actions: z.record(z.string(), ActionStateSchema),
     actionTaken: z.boolean(),
     bonusActionTaken: z.boolean(),

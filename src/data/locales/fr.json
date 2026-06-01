@@ -57,6 +57,7 @@
   "CreatureBlueprint.size": "Taille",
   "CreatureBlueprint.properties": "Propriétés innées",
   "CreatureBlueprint.equipment": "Équipement de départ",
+  "CreatureBlueprint.proficiencies": "Maîtrises",
   "CreatureBlueprint.actions": "Actions disponibles",
 
   "ActionBlueprint": "Action",

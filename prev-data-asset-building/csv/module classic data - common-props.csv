@@ -1,0 +1,70 @@
+extends,description,type,def-property,def-amp,def-propParamName,def-propParamValue
+"output(); id(value); c={ entityType: 'ENTITY_TYPE_EXTENDED_PROPERTIES', properties: [] }",,if (!('extends' in c)) { c.extends=[] } c.extends.push(value),"c.properties.push({ type: ref(value, 'property') })",last(c.properties).amp= value,,kv(last(c.properties))
+cp-freedom,cannot be slowed/stopped,,immunity,,immunityType,IMMUNITY_TYPE_PARALYSIS
+,,,immunity,,immunityType,IMMUNITY_TYPE_SLOW
+,,,immunity,,immunityType,IMMUNITY_TYPE_ROOT
+,,,,,,
+cp-mindless,has no mind : immune to mind affecting effects and psychic damages,,immunity,,immunityType,IMMUNITY_TYPE_FEAR
+,,,immunity,,immunityType,IMMUNITY_TYPE_CHARM
+,,,damage-immunity,,damageType,DAMAGE_TYPE_PSYCHIC
+,,,,,,
+cp-poison-immunity,immunity to poison,,immunity,,immunityType,IMMUNITY_TYPE_POISON
+,,,damage-immunity,,damageType,DAMAGE_TYPE_POISON
+,,,,,,
+cp-lifeless,not a living entity,cp-poison-immunity,immunity,,immunityType,IMMUNITY_TYPE_DISEASE
+,,,immunity,,immunityType,IMMUNITY_TYPE_DEATH
+,,,,,,
+cp-unholy,"resist withering, vulnerable to radiant",,damage-resistance,,damageType,DAMAGE_TYPE_WITHERING
+,,,damage-vulnerability,,damageType,DAMAGE_TYPE_RADIANT
+,,,,,,
+cp-hard-skin,resilient to all physical damage,,damage-resistance,,damageType,DAMAGE_TYPE_SLASHING
+,,,damage-resistance,,damageType,DAMAGE_TYPE_PIERCING
+,,,damage-resistance,,damageType,DAMAGE_TYPE_CRUSHING
+,,,,,,
+cp-flawed-deflective-skin,deflect slashing and piercing damage,,damage-resistance,,damageType,DAMAGE_TYPE_SLASHING
+,vulnerable to crushing,,damage-resistance,,damageType,DAMAGE_TYPE_PIERCING
+,,,damage-vulnerability,,damageType,DAMAGE_TYPE_CRUSHING
+,,,,,,
+cp-deflective-skin,"deflect slashing and piercing damage, not flawed",,damage-resistance,,damageType,DAMAGE_TYPE_SLASHING
+,,,damage-resistance,,damageType,DAMAGE_TYPE_PIERCING
+,,,,,,
+cp-ultra-deflective-skin,strongest grade of deflecting skin,,damage-immunity,,damageType,DAMAGE_TYPE_SLASHING
+,"immune to slashing and piercing, resistant to crushing",,damage-immunity,,damageType,DAMAGE_TYPE_PIERCING
+,,,damage-resistance,,damageType,DAMAGE_TYPE_CRUSHING
+,,,,,,
+cp-construct,"all constructs are lifeless, mindless, immune to paralysis & petrification",cp-lifeless,immunity,,immunityType,IMMUNITY_TYPE_PARALYSIS
+,,cp-mindless,immunity,,immunityType,IMMUNITY_TYPE_PETRIFICATION
+,,,,,,
+cp-construct-organic,flesh golem are not immune to petrification,cp-lifeless,immunity,,immunityType,IMMUNITY_TYPE_PARALYSIS
+,,cp-mindless,,,,
+,,cp-hard-skin,,,,
+,,,,,,
+cp-construct-mineral,these constructs are vulnerable to crushing,cp-construct,,,,
+,,cp-flawed-deflective-skin,,,,
+,,,,,,
+cp-construct-metal,,cp-construct,,,,
+,,cp-deflective-skin,,,,
+,,,,,,
+cp-construct-armored,,cp-construct,,,,
+,,cp-ultra-deflective-skin,,,,
+,,,,,,
+cp-undead,,cp-lifeless,darkvision,,,
+,,cp-unholy,,,,
+,,,,,,
+cp-undead-corporeal,,cp-undead,,,,
+,,cp-hard-skin,,,,
+,,,,,,
+cp-undead-skeleton,,cp-undead,immunity,,immunityType,IMMUNITY_TYPE_PETRIFICATION
+,,cp-mindless,,,,
+,,cp-flawed-deflective-skin,,,,
+,,cp-unholy,,,,
+,,,,,,
+cp-undead-ethereal,,cp-undead,damage-immunity,,damageType,DAMAGE_TYPE_COLD
+,,cp-hard-skin,immunity,,immunityType,IMMUNITY_TYPE_PETRIFICATION
+,,,,,,
+cp-fiend,"all fiends are immune to poison, have darkvision",cp-poison-immunity,darkvision,,,
+,,,damage-resistance,,damageType,DAMAGE_TYPE_FIRE
+,,,damage-vulnerability,,damageType,DAMAGE_TYPE_RADIANT
+,,,,,,
+cp-celestial,,,damage-resistance,,damageType,DAMAGE_TYPE_RADIANT
+,,,immunity,,immunityType,IMMUNITY_TYPE_FEAR

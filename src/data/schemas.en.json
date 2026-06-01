@@ -8559,6 +8559,26 @@
         },
         "description": "Starting equipment"
       },
+      "proficiencies": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "PROFICIENCY_WEAPON_SIMPLE",
+            "PROFICIENCY_WEAPON_COMPLEX",
+            "PROFICIENCY_WEAPON_EXPERT",
+            "PROFICIENCY_WEAPON_MAGIC",
+            "PROFICIENCY_WEAPON_TECHNOLOGIC",
+            "PROFICIENCY_UNARMED",
+            "PROFICIENCY_ARMOR_LIGHT",
+            "PROFICIENCY_ARMOR_MEDIUM",
+            "PROFICIENCY_ARMOR_HEAVY",
+            "PROFICIENCY_SHIELD"
+          ],
+          "description": "fields.proficiency"
+        },
+        "description": "Proficiencies"
+      },
       "actions": {
         "type": "array",
         "items": {
@@ -8625,6 +8645,7 @@
       "size",
       "properties",
       "equipment",
+      "proficiencies",
       "actions"
     ],
     "additionalProperties": false,
