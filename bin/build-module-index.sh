@@ -37,13 +37,15 @@ mapfile -t json_files < <(find "$module_folder" -name "*.json" | sort)
 
     echo ""
     echo "export default {"
+    echo "    blueprints: {"
 
     for json_file in "${json_files[@]}"; do
         key="$(basename "$json_file" .json)"
         identifier="$(toCamelCase "$key")"
-        echo "    '${key}': ${identifier},"
+        echo "        '${key}': ${identifier},"
     done
 
+    echo "    },"
     echo "};"
 } > "$index_file"
 

@@ -30,7 +30,7 @@ do
 done
 
 echo "generating schema descriptions."
-tsx "$script_folder/build-schema-descriptions.ts" --locale=en
-tsx "$script_folder/build-schema-descriptions.ts" --locale=fr
+npx tsx "$script_folder/build-schema-descriptions.ts" --locale=en
+npx tsx "$script_folder/build-schema-descriptions.ts" --locale=fr
 
 echo "done."
