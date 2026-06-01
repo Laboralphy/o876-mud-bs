@@ -135,6 +135,17 @@
   "PropertyMaxSenseBonus": "Max Senses Bonus",
   "PropertyMaxSenseBonus.amp": "Maximum bonus from SENSES applied to AC (0 = no bonus, use for heavy armor)",
 
+  "PropertyAilment": "Weapon Ailment",
+  "PropertyAilment.ailmentType": "Ailment type",
+  "PropertyAilment.chance": "Trigger chance (1d20 ≤ this value)",
+  "PropertyAilment.duration": "Effect duration (rounds)",
+  "PropertyAilment.subtype": "Effect subtype (determines resistance ability)",
+  "PropertyAilment.dc": "Resistance difficulty class",
+  "PropertyAilment.amp": "Magnitude (integer for drains, dice expression for poison e.g. 1d6)",
+  "PropertyAilment.ability": "Ability drained (AILMENT_ABILITY_DRAIN only)",
+  "PropertyAilment.disease": "Disease applied (AILMENT_DISEASE only)",
+  "PropertyAilment.damageType": "Poison damage type override (AILMENT_POISON only)",
+
   "PropertyAttackModifier": "Attack Modifier",
   "PropertyAttackModifier.amp": "Attack roll modifier (positive = bonus, negative = penalty)",
   "PropertyAttackModifier.attackType": "Restrict to attack type (optional)",

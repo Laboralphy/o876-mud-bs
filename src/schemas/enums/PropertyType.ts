@@ -27,6 +27,7 @@ export const PropertyTypeSchema = z
         CONSTS.PROPERTY_DARKVISION,
         CONSTS.PROPERTY_LIGHT,
         CONSTS.PROPERTY_MAX_SENSE_BONUS,
+        CONSTS.PROPERTY_AILMENT,
     ])
     .describe('fields.propertyType');
 

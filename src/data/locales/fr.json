@@ -135,6 +135,17 @@
   "PropertyMaxSenseBonus": "Bonus de Sens maximal",
   "PropertyMaxSenseBonus.amp": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)",
 
+  "PropertyAilment": "Affliction d'arme",
+  "PropertyAilment.ailmentType": "Type d'affliction",
+  "PropertyAilment.chance": "Chance de déclenchement (1d20 ≤ cette valeur)",
+  "PropertyAilment.duration": "Durée de l'effet (rounds)",
+  "PropertyAilment.subtype": "Sous-type de l'effet (détermine la caractéristique de résistance)",
+  "PropertyAilment.dc": "Degré de difficulté de résistance",
+  "PropertyAilment.amp": "Magnitude (entier pour les drains, expression de dé pour poison ex. 1d6)",
+  "PropertyAilment.ability": "Caractéristique drainée (AILMENT_ABILITY_DRAIN uniquement)",
+  "PropertyAilment.disease": "Maladie appliquée (AILMENT_DISEASE uniquement)",
+  "PropertyAilment.damageType": "Type de dégâts du poison (AILMENT_POISON uniquement)",
+
   "PropertyAttackModifier": "Modificateur d'attaque",
   "PropertyAttackModifier.amp": "Modificateur de jet d'attaque (positif = bonus, négatif = malus)",
   "PropertyAttackModifier.attackType": "Restreindre au type d'attaque (optionnel)",
