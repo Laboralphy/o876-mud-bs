@@ -188,29 +188,36 @@ export class Manager {
     //  ▀▀  ▀▀ ▝▘ ▀▝▀▀  ▀▀▘  ▀▘    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
     // Combat Management
 
-    startFight(attacker: Creature, target: Creature, bBoth: boolean = true): void {
-        this._combatManager.createCombat(attacker, target, bBoth);
+    startCombat(attacker: Creature, target: Creature): void {
+        this._combatManager.createCombat(attacker, target);
     }
 
-    stopFight(creature: Creature, bBoth: boolean = false, bOpportunity: boolean = true): void {
+    /**
+     * a creature stop all combats in which it is involved in
+     * @param creature
+     * @param bDisengage if true, the creature is disengaging the combat with skill, and do not suffer attack of opportunity
+     */
+    stopCombat(creature: Creature, bDisengage: boolean = false): void {
         const combat = this._combatManager.getCombat(creature);
         if (combat) {
-            this._combatManager.disposeCombat(combat, bBoth, bOpportunity);
+            this._combatManager.disposeCombat(combat, !bDisengage);
         }
     }
 
-    isFighting(creature: Creature): boolean {
-        return this._combatManager.getCombat(creature) !== undefined;
+    isFighting(creature: Creature, target?: Creature): boolean {
+        const combat = this._combatManager.getCombat(creature);
+        if (!combat) {
+            return false;
+        }
+        return !target || combat.target === target;
     }
 
-    getFightTarget(creature: Creature): Creature | undefined {
+    getCombatTarget(creature: Creature): Creature | undefined {
         return this._combatManager.getCombat(creature)?.target;
     }
 
-    getAggressors(creature: Creature): Creature[] {
-        return [...this._combatManager.combats.values()]
-            .filter((combat) => combat.target === creature)
-            .map((combat) => combat.attacker);
+    getCombatAggressors(creature: Creature): Creature[] {
+        return this._combatManager.getAllInvolvedCombats(creature).map((c) => c.attacker);
     }
 
     process(): void {
@@ -417,15 +424,9 @@ export class Manager {
     }
 
     private _onCreatureDeath(payload: EventCreatureDeath): void {
-        this._stopAllCombatsInvolving(payload.creature);
+        const creature = payload.creature;
+        this.stopCombat(creature, true); // we'll consider that dying is a form of skilled disengagement
         this.events.emit(CONSTS.EVENT_CREATURE_DEATH, payload);
-    }
-
-    private _stopAllCombatsInvolving(creature: Creature): void {
-        this.stopFight(creature, false, false);
-        for (const aggressor of this.getAggressors(creature)) {
-            this.stopFight(aggressor, false, false);
-        }
     }
 
     // ─── action/spell events ──────────────────────────────────────────────────
