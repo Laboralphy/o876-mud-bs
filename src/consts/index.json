@@ -158,7 +158,6 @@
   "EVENT_COMBAT_SCRIPT": "combat.script",
   "EVENT_COMBAT_OFFENSIVE_SLOT": "combat.offensive-slot",
   "EVENT_COMBAT_ACTION_FAILURE": "combat-action-failure",
-  "EVENT_COMBAT_PENDING_ACTION_FAILED": "combat.pending-action-failed",
   "EVENT_ITEM_CHARGES": "item_charges",
   "GENDER_MALE": "GENDER_MALE",
   "GENDER_FEMALE": "GENDER_FEMALE",
