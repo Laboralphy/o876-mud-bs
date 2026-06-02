@@ -18,11 +18,11 @@ describe('CombatManager — combat distance synchronization', () => {
         alice = manager.createCreature(CREATURE_RESREF);
         bob = manager.createCreature(CREATURE_RESREF);
         combatManager = new CombatManager();
-        c1 = combatManager.createCombat(alice, bob, true);
+        c1 = combatManager.createCombat(alice, bob);
         c2 = combatManager.getCombat(bob)!;
     });
 
-    it('createCombat(bBoth=true) registers both combat instances', () => {
+    it('createCombat registers both combat instances via retaliation', () => {
         expect(c1).toBeDefined();
         expect(c2).toBeDefined();
         expect(c1.attacker).toBe(alice);
