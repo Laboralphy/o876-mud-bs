@@ -8,6 +8,7 @@ import { isAmmo, isWeapon } from '../../store/type-guards';
 import { ActionState } from '../../schemas/Action';
 import EventEmitter from 'node:events';
 import { Attack } from '../../Attack';
+import { EventCombatPendingActionFailed } from '../../schemas/events/EventCombatPendingActionFailed';
 
 type SlotWeaponAmmo = {
     slot: EquipmentSlot;
@@ -318,7 +319,8 @@ export class Combat {
             if (queued) {
                 const result = this.attacker.doAction(queued.actionId, queued.target);
                 if (!result.success) {
-                    this.events.emit('pending-action-failed', { ...queued, bonus: false, reason: result.reason });
+                    const payload: EventCombatPendingActionFailed = { ...queued, bonus: false, reason: result.reason };
+                    this.events.emit(CONSTS.EVENT_COMBAT_PENDING_ACTION_FAILED, payload);
                 }
             } else {
                 const normalActions = this.getNormalOffensiveActionList();
@@ -353,7 +355,8 @@ export class Combat {
             if (queued) {
                 const result = this.attacker.doAction(queued.actionId, queued.target);
                 if (!result.success) {
-                    this.events.emit('pending-action-failed', { ...queued, bonus: true, reason: result.reason });
+                    const payload: EventCombatPendingActionFailed = { ...queued, bonus: true, reason: result.reason };
+                    this.events.emit(CONSTS.EVENT_COMBAT_PENDING_ACTION_FAILED, payload);
                 }
             } else {
                 const bonusActions = this.getBonusOffensiveActionList();
