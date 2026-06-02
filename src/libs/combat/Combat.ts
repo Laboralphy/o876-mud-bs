@@ -235,6 +235,16 @@ export class Combat {
         }
     }
 
+    private runAttack(swa: SlotWeaponAmmo) {
+        this.attacker.state.selectedOffensiveSlot = swa.slot;
+        const attack = new Attack(this.attacker, this.target);
+        attack.weapon = swa.weapon;
+        attack.ammo = swa.ammo ?? null;
+        attack.init();
+        attack.run();
+        attack.applyComputedDamages();
+    }
+
     /**
      * Executes a single weapons attack as the attacker's normal action.
      * Marks `actionTaken` on the creature so no second normal action can be taken
@@ -242,14 +252,18 @@ export class Combat {
      * Damage events and lethal detection are handled inside `applyComputedDamages`.
      */
     attack(swa: SlotWeaponAmmo) {
-        this.attacker.state.selectedOffensiveSlot = swa.slot;
         this.attacker.state.actionTaken = true;
-        const attack = new Attack(this.attacker, this.target);
-        attack.weapon = swa.weapon;
-        attack.ammo = swa.ammo ?? null;
-        attack.init();
-        attack.run();
-        attack.applyComputedDamages();
+        this.runAttack(swa);
+    }
+
+    /**
+     * Executes a single weapons attack as the attacker's bonus action.
+     * Marks `bonusActionTaken` on the creature so no second bonus action can be taken
+     * this round.
+     */
+    bonusAttack(swa: SlotWeaponAmmo) {
+        this.attacker.state.bonusActionTaken = true;
+        this.runAttack(swa);
     }
 
     /**
@@ -297,15 +311,18 @@ export class Combat {
         if (!this.attacker.state.bonusActionTaken) {
             const bonusActions = this.getBonusOffensiveActionList();
             if (bonusActions.length > 0) {
-                this.attacker.doAction(bonusActions[0].id, this.target);
+                this.attacker.doAction(
+                    bonusActions[Math.floor(Math.random() * bonusActions.length)].id,
+                    this.target
+                );
+                this.attacker.state.bonusActionTaken = true;
             } else {
                 // no action available
                 // check for natural melee weapon
                 const nmwl = this.getAltNaturalMeleeWeaponList();
                 if (nmwl.length > 0) {
-                    // There is at least one natural melee weapon available
                     const w = nmwl[Math.floor(Math.random() * nmwl.length)];
-                    this.attack(w);
+                    this.bonusAttack(w);
                 }
             }
         }
