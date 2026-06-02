@@ -192,10 +192,10 @@ export class Manager {
         this._combatManager.createCombat(attacker, target, bBoth);
     }
 
-    stopFight(creature: Creature, bBoth: boolean = true): void {
+    stopFight(creature: Creature, bBoth: boolean = true, bOpportunity: boolean = true): void {
         const combat = this._combatManager.getCombat(creature);
         if (combat) {
-            this._combatManager.disposeCombat(combat, bBoth);
+            this._combatManager.disposeCombat(combat, bBoth, bOpportunity);
         }
     }
 
@@ -422,9 +422,9 @@ export class Manager {
     }
 
     private _stopAllCombatsInvolving(creature: Creature): void {
-        this.stopFight(creature, false);
+        this.stopFight(creature, false, false);
         for (const aggressor of this.getAggressors(creature)) {
-            this.stopFight(aggressor, false);
+            this.stopFight(aggressor, false, false);
         }
     }
 

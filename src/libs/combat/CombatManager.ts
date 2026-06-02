@@ -26,11 +26,20 @@ export class CombatManager {
         return this.getCombat(combat.target);
     }
 
-    disposeCombat(combat: Combat, bBoth: boolean = false) {
+    disposeCombat(combat: Combat, bBoth: boolean = false, bOpportunity: boolean = true) {
+        const mr = this.getMirroredCombat(combat);
         if (bBoth) {
-            const mr = this.getMirroredCombat(combat);
+            // mutual stop — remove both sides silently
             if (mr) {
-                this.disposeCombat(mr, false);
+                this.combats.delete(mr.attacker);
+            }
+        } else {
+            // unilateral disengagement — mirror gets an opportunity attack then also stops
+            if (mr) {
+                if (bOpportunity) {
+                    mr.opportunityAttack();
+                }
+                this.combats.delete(mr.attacker);
             }
         }
         this.combats.delete(combat.attacker);

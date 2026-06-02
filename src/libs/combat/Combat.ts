@@ -293,6 +293,25 @@ export class Combat {
      * actions such as spell channels).
      */
     /**
+     * Triggered when the attacker's target unilaterally disengages.
+     * Clears pending actions and immediately attacks using the first available
+     * action slot (normal, then bonus). No attack if both slots are already spent.
+     */
+    opportunityAttack(): void {
+        this._pendingNormalAction = null;
+        this._pendingBonusAction = null;
+        const swl = this.getSuitableWeaponList();
+        if (swl.length === 0) {
+            return;
+        }
+        if (!this.attacker.state.actionTaken) {
+            this.attack(swl[0]);
+        } else if (!this.attacker.state.bonusActionTaken) {
+            this.bonusAttack(swl[0]);
+        }
+    }
+
+    /**
      * Queues an action to be executed during the next playRound (normal) or
      * playBonusRound (bonus). Queued actions take priority over AI-chosen actions.
      */
