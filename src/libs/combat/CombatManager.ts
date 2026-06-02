@@ -1,6 +1,6 @@
 import { Combat } from './Combat';
 import { Creature } from '../../Creature';
-import { DISTANCE } from '../distance';
+import { Distance } from '../../schemas/enums/Distance';
 
 export class CombatManager {
     public readonly combats = new Map<Creature, Combat>();
@@ -14,7 +14,7 @@ export class CombatManager {
     createCombat(attacker: Creature, target: Creature, bBoth: boolean = false): Combat {
         const combat = new Combat(attacker, target);
         this.combats.set(attacker, combat);
-        combat.events.on('distance-changed', (data: { distance: DISTANCE }) => {
+        combat.events.on('distance-changed', (data: { distance: Distance }) => {
             const { distance } = data;
             this.getMirroredCombat(combat)?.setDistance(distance, true);
         });

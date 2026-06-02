@@ -3,7 +3,7 @@ import { ActionScriptManager } from '../../src/libs/action-script-manager';
 import { makeManager } from '../Manager/helpers';
 import { CooldownManager } from '../../src/libs/cooldown';
 import { ActionStateSchema } from '../../src/schemas/Action';
-import { DISTANCE } from '../../src/libs/distance';
+import { CONSTS } from '../../src/consts';
 
 describe('ActionScriptManager', () => {
     let asm: ActionScriptManager;
@@ -100,7 +100,7 @@ describe('ActionScriptManager', () => {
                 id: 'fireball',
                 hostile: true,
                 script: 'scripts/fireball',
-                range: DISTANCE.CLOSE,
+                range: CONSTS.DISTANCE_CLOSE,
                 cooldown: CooldownManager.create({ duration: 10, charges: 2 }),
                 bonus: false,
             });
@@ -116,7 +116,7 @@ describe('ActionScriptManager', () => {
                 id: 'zap',
                 hostile: true,
                 script: 'scripts/zap',
-                range: DISTANCE.CLOSE,
+                range: CONSTS.DISTANCE_CLOSE,
                 cooldown: CooldownManager.create({ duration: 10, charges: 2 }),
                 bonus: false,
             });

@@ -1,5 +1,6 @@
 import { Creature } from '../../Creature';
-import { DISTANCE } from '../distance';
+import { DistanceComputer } from '../distance';
+import { Distance } from '../../schemas/enums/Distance';
 import { Item } from '../../schemas/Item';
 import { CONSTS } from '../../consts';
 import { EquipmentSlot } from '../../schemas/enums/EquipmentSlot';
@@ -18,7 +19,7 @@ type SlotWeaponAmmo = {
  * The combat class
  */
 export class Combat {
-    private distance: DISTANCE = DISTANCE.FAR;
+    private distance: Distance = CONSTS.DISTANCE_FAR;
     public readonly events = new EventEmitter();
     public busy: boolean = false; // if true then the next attack will be skipped
 
@@ -33,12 +34,15 @@ export class Combat {
      * for cooldowns, charges, and the `actionTaken`/`bonusActionTaken` round flags —
      * so this list automatically reflects what is still usable at any point in the round.
      */
-    getOffensiveActionList(minDistance: DISTANCE): ActionState[] {
+    getOffensiveActionList(minDistance: Distance): ActionState[] {
         const readyIds = new Set(
             this.attacker.getters.getActions.filter((a) => a.ready).map((a) => a.id)
         );
         return Object.values(this.attacker.state.actions).filter(
-            (action) => action.hostile && action.range >= minDistance && readyIds.has(action.id)
+            (action) =>
+                action.hostile &&
+                DistanceComputer.compare(action.range, minDistance) >= 0 &&
+                readyIds.has(action.id)
         );
     }
 
@@ -134,11 +138,11 @@ export class Combat {
      */
     getSuitableWeaponList(): SlotWeaponAmmo[] {
         switch (this.distance) {
-            case DISTANCE.FAR:
-            case DISTANCE.MEDIUM: {
+            case CONSTS.DISTANCE_FAR:
+            case CONSTS.DISTANCE_MEDIUM: {
                 return this.getRangedWeaponList();
             }
-            case DISTANCE.CLOSE: {
+            case CONSTS.DISTANCE_CLOSE: {
                 return this.getMeleeWeaponList();
             }
             default: {
@@ -152,7 +156,7 @@ export class Combat {
      * Unless `bQuiet` is true, emits a `distance-changed` event so that the
      * `CombatManager` can mirror the new distance to the opposing combat instance.
      */
-    setDistance(d: DISTANCE, bQuiet: boolean = false) {
+    setDistance(d: Distance, bQuiet: boolean = false) {
         this.distance = d;
         if (!bQuiet) {
             this.events.emit('distance-changed', { distance: d });
@@ -162,7 +166,7 @@ export class Combat {
     /**
      * Returns the current distance between attacker and target.
      */
-    getDistance(): DISTANCE {
+    getDistance(): Distance {
         return this.distance;
     }
 
@@ -172,15 +176,15 @@ export class Combat {
      */
     approach() {
         switch (this.distance) {
-            case DISTANCE.FAR: {
-                this.setDistance(DISTANCE.MEDIUM);
+            case CONSTS.DISTANCE_FAR: {
+                this.setDistance(CONSTS.DISTANCE_MEDIUM);
                 break;
             }
-            case DISTANCE.MEDIUM: {
-                this.setDistance(DISTANCE.CLOSE);
+            case CONSTS.DISTANCE_MEDIUM: {
+                this.setDistance(CONSTS.DISTANCE_CLOSE);
                 break;
             }
-            case DISTANCE.CLOSE: {
+            case CONSTS.DISTANCE_CLOSE: {
                 break;
             }
             default: {
@@ -195,15 +199,15 @@ export class Combat {
      */
     retreat() {
         switch (this.distance) {
-            case DISTANCE.FAR: {
+            case CONSTS.DISTANCE_FAR: {
                 break;
             }
-            case DISTANCE.MEDIUM: {
-                this.setDistance(DISTANCE.FAR);
+            case CONSTS.DISTANCE_MEDIUM: {
+                this.setDistance(CONSTS.DISTANCE_FAR);
                 break;
             }
-            case DISTANCE.CLOSE: {
-                this.setDistance(DISTANCE.MEDIUM);
+            case CONSTS.DISTANCE_CLOSE: {
+                this.setDistance(CONSTS.DISTANCE_MEDIUM);
                 break;
             }
             default: {
@@ -262,7 +266,7 @@ export class Combat {
                 const swl = this.getSuitableWeaponList();
                 if (swl.length > 0) {
                     this.attack(swl[0]);
-                } else if (this.distance !== DISTANCE.CLOSE) {
+                } else if (this.distance !== CONSTS.DISTANCE_CLOSE) {
                     this.approach();
                 }
             }
