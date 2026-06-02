@@ -173,7 +173,13 @@ export class Manager {
     }
 
     doAction(creature: Creature, actionId: string, target: Creature | undefined) {
-        creature.doAction(actionId, target);
+        const combat = this._combatManager.getCombat(creature);
+        if (combat) {
+            const action = creature.state.actions[actionId];
+            combat.enqueueAction(actionId, target, action?.bonus ?? false);
+        } else {
+            creature.doAction(actionId, target);
+        }
     }
 
     //  ▄▄         ▗▖       ▗▖                                          ▗▖

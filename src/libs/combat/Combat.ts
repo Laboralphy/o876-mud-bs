@@ -15,6 +15,11 @@ type SlotWeaponAmmo = {
     ammo?: Item;
 };
 
+type QueuedAction = {
+    actionId: string;
+    target: Creature | undefined;
+};
+
 /**
  * The combat class
  */
@@ -22,6 +27,8 @@ export class Combat {
     private distance: Distance = CONSTS.DISTANCE_FAR;
     public readonly events = new EventEmitter();
     public busy: boolean = false; // if true then the next attack will be skipped
+    private readonly _normalActionQueue: QueuedAction[] = [];
+    private readonly _bonusActionQueue: QueuedAction[] = [];
 
     constructor(
         public readonly attacker: Creature,
@@ -283,6 +290,19 @@ export class Combat {
      * The `busy` flag, when set externally, skips the entire round (used for multi-round
      * actions such as spell channels).
      */
+    /**
+     * Queues an action to be executed during the next playRound (normal) or
+     * playBonusRound (bonus). Queued actions take priority over AI-chosen actions.
+     */
+    enqueueAction(actionId: string, target: Creature | undefined, bonus: boolean): void {
+        const entry: QueuedAction = { actionId, target };
+        if (bonus) {
+            this._bonusActionQueue.push(entry);
+        } else {
+            this._normalActionQueue.push(entry);
+        }
+    }
+
     playRound() {
         if (this.busy) {
             // attacker is busy (casting a spell or an action)
@@ -292,15 +312,20 @@ export class Combat {
 
         // Normal action slot
         if (!this.attacker.state.actionTaken) {
-            const normalActions = this.getNormalOffensiveActionList();
-            if (normalActions.length > 0) {
-                this.attacker.doAction(normalActions[0].id, this.target);
+            const queued = this._normalActionQueue.shift();
+            if (queued) {
+                this.attacker.doAction(queued.actionId, queued.target);
             } else {
-                const swl = this.getSuitableWeaponList();
-                if (swl.length > 0) {
-                    this.attack(swl[0]);
-                } else if (this.distance !== CONSTS.DISTANCE_CLOSE) {
-                    this.approach();
+                const normalActions = this.getNormalOffensiveActionList();
+                if (normalActions.length > 0) {
+                    this.attacker.doAction(normalActions[0].id, this.target);
+                } else {
+                    const swl = this.getSuitableWeaponList();
+                    if (swl.length > 0) {
+                        this.attack(swl[0]);
+                    } else if (this.distance !== CONSTS.DISTANCE_CLOSE) {
+                        this.approach();
+                    }
                 }
             }
         }
@@ -309,20 +334,24 @@ export class Combat {
     playBonusRound() {
         // Bonus action slot
         if (!this.attacker.state.bonusActionTaken) {
-            const bonusActions = this.getBonusOffensiveActionList();
-            if (bonusActions.length > 0) {
-                this.attacker.doAction(
-                    bonusActions[Math.floor(Math.random() * bonusActions.length)].id,
-                    this.target
-                );
-                this.attacker.state.bonusActionTaken = true;
+            const queued = this._bonusActionQueue.shift();
+            if (queued) {
+                this.attacker.doAction(queued.actionId, queued.target);
             } else {
-                // no action available
-                // check for natural melee weapon
-                const nmwl = this.getAltNaturalMeleeWeaponList();
-                if (nmwl.length > 0) {
-                    const w = nmwl[Math.floor(Math.random() * nmwl.length)];
-                    this.bonusAttack(w);
+                const bonusActions = this.getBonusOffensiveActionList();
+                if (bonusActions.length > 0) {
+                    this.attacker.doAction(
+                        bonusActions[Math.floor(Math.random() * bonusActions.length)].id,
+                        this.target
+                    );
+                    this.attacker.state.bonusActionTaken = true;
+                } else {
+                    // no action available — use a natural melee weapon if present
+                    const nmwl = this.getAltNaturalMeleeWeaponList();
+                    if (nmwl.length > 0) {
+                        const w = nmwl[Math.floor(Math.random() * nmwl.length)];
+                        this.bonusAttack(w);
+                    }
                 }
             }
         }
