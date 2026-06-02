@@ -192,7 +192,7 @@ export class Manager {
         this._combatManager.createCombat(attacker, target, bBoth);
     }
 
-    stopFight(creature: Creature, bBoth: boolean = false): void {
+    stopFight(creature: Creature, bBoth: boolean = true): void {
         const combat = this._combatManager.getCombat(creature);
         if (combat) {
             this._combatManager.disposeCombat(combat, bBoth);
@@ -211,6 +211,11 @@ export class Manager {
         return [...this._combatManager.combats.values()]
             .filter((combat) => combat.target === creature)
             .map((combat) => combat.attacker);
+    }
+
+    process(): void {
+        ++this._time;
+        this._combatManager.process();
     }
 
     // ▗▄▄▖ ▗▖                                                  ▗▖
@@ -412,7 +417,15 @@ export class Manager {
     }
 
     private _onCreatureDeath(payload: EventCreatureDeath): void {
+        this._stopAllCombatsInvolving(payload.creature);
         this.events.emit(CONSTS.EVENT_CREATURE_DEATH, payload);
+    }
+
+    private _stopAllCombatsInvolving(creature: Creature): void {
+        this.stopFight(creature, false);
+        for (const aggressor of this.getAggressors(creature)) {
+            this.stopFight(aggressor, false);
+        }
     }
 
     // ─── action/spell events ──────────────────────────────────────────────────

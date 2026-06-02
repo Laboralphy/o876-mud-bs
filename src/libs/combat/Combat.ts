@@ -29,6 +29,7 @@ export class Combat {
     public busy: boolean = false; // if true then the next attack will be skipped
     private _pendingNormalAction: QueuedAction | null = null;
     private _pendingBonusAction: QueuedAction | null = null;
+    private _internalTimer: number = 0;
 
     constructor(
         public readonly attacker: Creature,
@@ -315,7 +316,10 @@ export class Combat {
             const queued = this._pendingNormalAction;
             this._pendingNormalAction = null;
             if (queued) {
-                this.attacker.doAction(queued.actionId, queued.target);
+                const result = this.attacker.doAction(queued.actionId, queued.target);
+                if (!result.success) {
+                    this.events.emit('pending-action-failed', { ...queued, bonus: false, reason: result.reason });
+                }
             } else {
                 const normalActions = this.getNormalOffensiveActionList();
                 if (normalActions.length > 0) {
@@ -332,13 +336,25 @@ export class Combat {
         }
     }
 
+    process(): void {
+        ++this._internalTimer;
+        if ((this._internalTimer & 1) === 0) {
+            this.playRound();
+        } else {
+            this.playBonusRound();
+        }
+    }
+
     playBonusRound() {
         // Bonus action slot
         if (!this.attacker.state.bonusActionTaken) {
             const queued = this._pendingBonusAction;
             this._pendingBonusAction = null;
             if (queued) {
-                this.attacker.doAction(queued.actionId, queued.target);
+                const result = this.attacker.doAction(queued.actionId, queued.target);
+                if (!result.success) {
+                    this.events.emit('pending-action-failed', { ...queued, bonus: true, reason: result.reason });
+                }
             } else {
                 const bonusActions = this.getBonusOffensiveActionList();
                 if (bonusActions.length > 0) {

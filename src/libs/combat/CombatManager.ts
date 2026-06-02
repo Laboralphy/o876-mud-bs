@@ -4,14 +4,7 @@ import { Distance } from '../../schemas/enums/Distance';
 
 export class CombatManager {
     public readonly combats = new Map<Creature, Combat>();
-    private _internalTimer: number = 0;
 
-    /**
-     * Creates a new combat, create a second combat if bBoth is true
-     * @param attacker
-     * @param target
-     * @param bBoth
-     */
     createCombat(attacker: Creature, target: Creature, bBoth: boolean = false): Combat {
         const combat = new Combat(attacker, target);
         this.combats.set(attacker, combat);
@@ -30,8 +23,7 @@ export class CombatManager {
     }
 
     getMirroredCombat(combat: Combat): Combat | undefined {
-        const target = combat.target;
-        return this.getCombat(target);
+        return this.getCombat(combat.target);
     }
 
     disposeCombat(combat: Combat, bBoth: boolean = false) {
@@ -44,31 +36,13 @@ export class CombatManager {
         this.combats.delete(combat.attacker);
     }
 
-    /**
-     * In a combat with creatures A -> T, when distance changes, synchronize the combat distance with T -> A
-     */
     synchronizeCombatDistance(combat: Combat) {
         this.getMirroredCombat(combat)?.setDistance(combat.getDistance(), true);
     }
 
-    playCombatRound(combat: Combat) {
-        combat.playRound();
-    }
-
-    playCombatBonusRound(combat: Combat) {
-        combat.playBonusRound();
-    }
-
     process() {
-        ++this._internalTimer;
-        if ((this._internalTimer & 1) === 0) {
-            for (const combat of this.combats.values()) {
-                this.playCombatRound(combat);
-            }
-        } else {
-            for (const combat of this.combats.values()) {
-                this.playCombatBonusRound(combat);
-            }
+        for (const combat of this.combats.values()) {
+            combat.process();
         }
     }
 }
