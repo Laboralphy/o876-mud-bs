@@ -27,8 +27,8 @@ export class Combat {
     private distance: Distance = CONSTS.DISTANCE_FAR;
     public readonly events = new EventEmitter();
     public busy: boolean = false; // if true then the next attack will be skipped
-    private readonly _normalActionQueue: QueuedAction[] = [];
-    private readonly _bonusActionQueue: QueuedAction[] = [];
+    private _pendingNormalAction: QueuedAction | null = null;
+    private _pendingBonusAction: QueuedAction | null = null;
 
     constructor(
         public readonly attacker: Creature,
@@ -297,9 +297,9 @@ export class Combat {
     enqueueAction(actionId: string, target: Creature | undefined, bonus: boolean): void {
         const entry: QueuedAction = { actionId, target };
         if (bonus) {
-            this._bonusActionQueue.push(entry);
+            this._pendingBonusAction = entry;
         } else {
-            this._normalActionQueue.push(entry);
+            this._pendingNormalAction = entry;
         }
     }
 
@@ -312,7 +312,8 @@ export class Combat {
 
         // Normal action slot
         if (!this.attacker.state.actionTaken) {
-            const queued = this._normalActionQueue.shift();
+            const queued = this._pendingNormalAction;
+            this._pendingNormalAction = null;
             if (queued) {
                 this.attacker.doAction(queued.actionId, queued.target);
             } else {
@@ -334,7 +335,8 @@ export class Combat {
     playBonusRound() {
         // Bonus action slot
         if (!this.attacker.state.bonusActionTaken) {
-            const queued = this._bonusActionQueue.shift();
+            const queued = this._pendingBonusAction;
+            this._pendingBonusAction = null;
             if (queued) {
                 this.attacker.doAction(queued.actionId, queued.target);
             } else {
