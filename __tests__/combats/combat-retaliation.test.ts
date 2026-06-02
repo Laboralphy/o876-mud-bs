@@ -36,9 +36,9 @@ describe('CombatManager — retaliation on engagement', () => {
     });
 
     it('engaging a target already in combat still creates the attacker combat', () => {
-        combatManager.createCombat(bob, charlie);
-        combatManager.createCombat(alice, bob);
-        expect(combatManager.getCombat(alice)!.target).toBe(bob);
+        combatManager.createCombat(bob, charlie); // bob -> charlie
+        combatManager.createCombat(alice, bob); // alice -> bob
+        expect(combatManager.getCombat(alice)!.target).toBe(bob); // expecting alice -> bob
     });
 
     it('does not cause a stack overflow', () => {
