@@ -28,20 +28,22 @@ import { EffectSubtype } from './schemas/enums/EffectSubtype';
 import { ActionScriptManager } from './libs/action-script-manager';
 import { ModuleManager } from './ModuleManager';
 import { ExtendableEntity } from './libs/extend-resolver/ExtendResolver';
+import { CombatManager } from './libs/combat/CombatManager';
 
 export class Manager {
     public readonly events = new EventEmitter();
     public readonly scripts = new ActionScriptManager();
     private _time: number = 0;
     private readonly _moduleManager = new ModuleManager();
+    private readonly _combatManager = new CombatManager();
     private readonly _creatures = new Map<string, Creature>();
     private readonly _items = new Map<string, Item>();
-    private readonly _itemBlueprints = new Map<string, ItemBlueprint>();
     private readonly _actionBlueprints = new Map<string, ActionBlueprint>();
     private readonly _itemOwnership = new Map<string, Creature>();
     private readonly _creatureCleanup = new Map<string, () => void>();
 
-    //  ▄▄              ▗▖                                                      ▗▖
+    //  ▄▄              ▗▖                                                      ▗▖    private readonly _itemBlueprints = new Map<string, ItemBlueprint>();
+
     // ▐▌▝▘▐▛▜▖▗▛▜▖ ▀▜▖▝▜▛▘▐▌▐▌▐▛▜▖▗▛▜▖    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
     // ▐▌▗▖▐▌  ▐▛▀▘▗▛▜▌ ▐▌ ▐▌▐▌▐▌  ▐▛▀▘    ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
     //  ▀▀ ▝▘   ▀▀  ▀▀▘  ▀▘ ▀▀▘▝▘   ▀▀     ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
@@ -53,13 +55,23 @@ export class Manager {
             throw new ReferenceError(`Creature blueprint ${resref} not found`);
         }
         const creature = new Creature(id === '' ? undefined : id);
-        const { ref, abilities, armorClass, specie, properties, equipment, actions, size } =
-            creatureBlueprint;
+        const {
+            ref,
+            abilities,
+            armorClass,
+            specie,
+            properties,
+            equipment,
+            actions,
+            size,
+            proficiencies,
+        } = creatureBlueprint;
         creature.ref = ref ?? '';
         creature.state.armorClass = armorClass;
         creature.state.specie = specie;
         creature.state.abilities = abilities;
         creature.state.size = size;
+        creature.state.proficiencies.push(...proficiencies);
         creature.state.properties.push(
             ...properties.map((p: PropertyDefinition) => PropertyBuilder.buildProperty(p))
         );
@@ -158,6 +170,41 @@ export class Manager {
 
     defineAction(actionBlueprint: ActionBlueprint) {
         this._actionBlueprints.set(actionBlueprint.id, actionBlueprint);
+    }
+
+    doAction(creature: Creature, actionId: string, target: Creature | undefined) {
+        creature.doAction(actionId, target);
+    }
+
+    //  ▄▄         ▗▖       ▗▖                                          ▗▖
+    // ▐▌▝▘▗▛▜▖▐▙▟▙▐▙▄  ▀▜▖▝▜▛▘    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
+    // ▐▌▗▖▐▌▐▌▐▛▛█▐▌▐▌▗▛▜▌ ▐▌     ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
+    //  ▀▀  ▀▀ ▝▘ ▀▝▀▀  ▀▀▘  ▀▘    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
+    // Combat Management
+
+    startFight(attacker: Creature, target: Creature, bBoth: boolean = true): void {
+        this._combatManager.createCombat(attacker, target, bBoth);
+    }
+
+    stopFight(creature: Creature, bBoth: boolean = false): void {
+        const combat = this._combatManager.getCombat(creature);
+        if (combat) {
+            this._combatManager.disposeCombat(combat, bBoth);
+        }
+    }
+
+    isFighting(creature: Creature): boolean {
+        return this._combatManager.getCombat(creature) !== undefined;
+    }
+
+    getFightTarget(creature: Creature): Creature | undefined {
+        return this._combatManager.getCombat(creature)?.target;
+    }
+
+    getAggressors(creature: Creature): Creature[] {
+        return [...this._combatManager.combats.values()]
+            .filter((combat) => combat.target === creature)
+            .map((combat) => combat.attacker);
     }
 
     // ▗▄▄▖ ▗▖                                                  ▗▖
