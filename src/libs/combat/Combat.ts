@@ -338,7 +338,11 @@ export class Combat {
             if (queued) {
                 const result = this.attacker.doAction(queued.actionId, queued.target);
                 if (!result.success) {
-                    const payload: EventCombatActionFailure = { ...queued, bonus: false, reason: result.reason };
+                    const payload: EventCombatActionFailure = {
+                        ...queued,
+                        bonus: false,
+                        reason: result.reason,
+                    };
                     this.events.emit(CONSTS.EVENT_COMBAT_ACTION_FAILURE, payload);
                 }
             } else {
@@ -357,15 +361,6 @@ export class Combat {
         }
     }
 
-    process(): void {
-        ++this._internalTimer;
-        if ((this._internalTimer & 1) === 0) {
-            this.playRound();
-        } else {
-            this.playBonusRound();
-        }
-    }
-
     playBonusRound() {
         // Bonus action slot
         if (!this.attacker.state.bonusActionTaken) {
@@ -374,7 +369,11 @@ export class Combat {
             if (queued) {
                 const result = this.attacker.doAction(queued.actionId, queued.target);
                 if (!result.success) {
-                    const payload: EventCombatActionFailure = { ...queued, bonus: true, reason: result.reason };
+                    const payload: EventCombatActionFailure = {
+                        ...queued,
+                        bonus: true,
+                        reason: result.reason,
+                    };
                     this.events.emit(CONSTS.EVENT_COMBAT_ACTION_FAILURE, payload);
                 }
             } else {
@@ -394,6 +393,15 @@ export class Combat {
                     }
                 }
             }
+        }
+    }
+
+    process(): void {
+        ++this._internalTimer;
+        if ((this._internalTimer & 1) === 0) {
+            this.playRound();
+        } else {
+            this.playBonusRound();
         }
     }
 }
