@@ -29,10 +29,13 @@ import { ActionScriptManager } from './libs/action-script-manager';
 import { ModuleManager } from './ModuleManager';
 import { ExtendableEntity } from './libs/extend-resolver/ExtendResolver';
 import { CombatManager } from './libs/combat/CombatManager';
+import { IManager } from './interfaces/IManager';
+import { ThinkScriptManager } from './libs/think-script-manager';
 
-export class Manager {
+export class Manager implements IManager {
     public readonly events = new EventEmitter();
     public readonly scripts = new ActionScriptManager();
+    public readonly thinkers = new ThinkScriptManager();
     private _time: number = 0;
     private readonly _moduleManager = new ModuleManager();
     private readonly _combatManager = new CombatManager();
@@ -76,6 +79,7 @@ export class Manager {
             ...properties.map((p: PropertyDefinition) => PropertyBuilder.buildProperty(p))
         );
         this._creatures.set(creature.id, creature);
+        creature.manager = this;
         this.plugCreatureEvents(creature);
         equipment
             .map((itemBlueprint: ItemBlueprint | string): Item => this.createItem(itemBlueprint))
@@ -112,6 +116,7 @@ export class Manager {
             this._creatureCleanup.delete(creature.id);
         }
         this._creatures.delete(creature.id);
+        creature.manager = null;
     }
 
     getCreature(id: string): Creature | undefined {
@@ -222,6 +227,15 @@ export class Manager {
 
     process(): void {
         ++this._time;
+        for (const creature of this._creatures.values()) {
+            creature.process();
+            for (const prop of creature.getters.getActiveProperties) {
+                if (prop.type === CONSTS.PROPERTY_THINK) {
+                    const script = (prop.data as { script: string }).script;
+                    this.thinkers.invoke(script, { manager: this, creature });
+                }
+            }
+        }
         this._combatManager.process();
     }
 

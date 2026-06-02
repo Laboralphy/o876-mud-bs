@@ -41,6 +41,7 @@ generateFile CreatureVisibility creature-visibility
 generateFile CreatureSize creature-sizes
 generateFile DamageType damage-types
 generateFile Disease diseases
+generateFile Distance distances
 generateFile EffectType effect-types
 generateFile EffectSubtype effect-subtypes
 generateFile EntityType entity-types
