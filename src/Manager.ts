@@ -192,7 +192,7 @@ export class Manager {
         this._combatManager.createCombat(attacker, target, bBoth);
     }
 
-    stopFight(creature: Creature, bBoth: boolean = true, bOpportunity: boolean = true): void {
+    stopFight(creature: Creature, bBoth: boolean = false, bOpportunity: boolean = true): void {
         const combat = this._combatManager.getCombat(creature);
         if (combat) {
             this._combatManager.disposeCombat(combat, bBoth, bOpportunity);
