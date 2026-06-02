@@ -130,6 +130,25 @@ export class Combat {
     }
 
     /**
+     * Returns secondary and tertiary melee natural weapons the attacker has equipped.
+     * These weapon may be used for bonus actions
+     */
+    getAltNaturalMeleeWeaponList(): SlotWeaponAmmo[] {
+        const eq = this.attacker.state.equipment;
+        const meleeSlots: EquipmentSlot[] = [
+            CONSTS.EQUIPMENT_SLOT_NATURAL_WEAPON_2,
+            CONSTS.EQUIPMENT_SLOT_NATURAL_WEAPON_3,
+        ];
+        return meleeSlots.reduce<SlotWeaponAmmo[]>((acc, slot) => {
+            const w = eq[slot];
+            if (isWeapon(w) && !w.attributes.includes(CONSTS.WEAPON_ATTRIBUTE_RANGED)) {
+                acc.push({ slot, weapon: w });
+            }
+            return acc;
+        }, []);
+    }
+
+    /**
      * Returns the weapons list appropriate for the current distance.
      * - `FAR` / `MEDIUM` → ranged weapons only.
      * - `CLOSE` → melee weapons only.
@@ -271,12 +290,23 @@ export class Combat {
                 }
             }
         }
+    }
 
+    playBonusRound() {
         // Bonus action slot
         if (!this.attacker.state.bonusActionTaken) {
             const bonusActions = this.getBonusOffensiveActionList();
             if (bonusActions.length > 0) {
                 this.attacker.doAction(bonusActions[0].id, this.target);
+            } else {
+                // no action available
+                // check for natural melee weapon
+                const nmwl = this.getAltNaturalMeleeWeaponList();
+                if (nmwl.length > 0) {
+                    // There is at least one natural melee weapon available
+                    const w = nmwl[Math.floor(Math.random() * nmwl.length)];
+                    this.attack(w);
+                }
             }
         }
     }

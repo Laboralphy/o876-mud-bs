@@ -4,6 +4,7 @@ import { Distance } from '../../schemas/enums/Distance';
 
 export class CombatManager {
     public readonly combats = new Map<Creature, Combat>();
+    private _internalTimer: number = 0;
 
     /**
      * Creates a new combat, create a second combat if bBoth is true
@@ -54,9 +55,20 @@ export class CombatManager {
         combat.playRound();
     }
 
+    playCombatBonusRound(combat: Combat) {
+        combat.playBonusRound();
+    }
+
     process() {
-        for (const combat of this.combats.values()) {
-            this.playCombatRound(combat);
+        ++this._internalTimer;
+        if ((this._internalTimer & 1) === 0) {
+            for (const combat of this.combats.values()) {
+                this.playCombatRound(combat);
+            }
+        } else {
+            for (const combat of this.combats.values()) {
+                this.playCombatBonusRound(combat);
+            }
         }
     }
 }
