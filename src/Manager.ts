@@ -318,7 +318,7 @@ export class Manager implements IManager {
 
     invokeThinker(scriptId: string, creature: Creature, target?: Creature): void {
         if (this.scripts.hasScript(scriptId)) {
-            this.scripts.runScript(scriptId, creature, target);
+            this.scripts.runScript(scriptId, this, creature, target);
         }
     }
 
@@ -461,7 +461,7 @@ export class Manager implements IManager {
 
     private _onCreatureAction(payload: EventCreatureAction): void {
         if (this.scripts.hasScript(payload.script)) {
-            this.scripts.runScript(payload.script, payload.creature, payload.target);
+            this.scripts.runScript(payload.script, this, payload.creature, payload.target);
         }
         this.events.emit(CONSTS.EVENT_CREATURE_ACTION, payload);
     }

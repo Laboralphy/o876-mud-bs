@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { Manager } from '../../src/Manager';
+import { IManager } from '../../src/interfaces/IManager';
 import { ActionStateSchema } from '../../src/schemas/Action';
 import { CooldownManager } from '../../src/libs/cooldown';
 import { CONSTS } from '../../src/consts';
@@ -33,58 +34,45 @@ describe('Manager — think system', () => {
     it('mutate script is called during process() for creatures with PROPERTY_THINK', () => {
         const fn = vi.fn();
         manager.scripts.declareScript('ai-basic', fn);
-        manager.addCreatureInnateProperty(alice, {
-            type: CONSTS.PROPERTY_THINK,
-            mutate: 'ai-basic',
-        });
+        manager.addCreatureInnateProperty(alice, { type: CONSTS.PROPERTY_THINK, mutate: 'ai-basic' });
         manager.process();
         expect(fn).toHaveBeenCalledOnce();
     });
 
-    it('mutate script receives creature in context', () => {
-        let capturedCtx: { creature: Creature } | undefined;
-        manager.scripts.declareScript('ai-inspect', (creature: Creature) => {
-            capturedCtx = { creature };
+    it('mutate script receives manager and creature', () => {
+        let capturedManager: IManager | undefined;
+        let capturedCreature: Creature | undefined;
+        manager.scripts.declareScript('ai-inspect', (m: IManager, creature: Creature) => {
+            capturedManager = m;
+            capturedCreature = creature;
         });
-        manager.addCreatureInnateProperty(alice, {
-            type: CONSTS.PROPERTY_THINK,
-            mutate: 'ai-inspect',
-        });
+        manager.addCreatureInnateProperty(alice, { type: CONSTS.PROPERTY_THINK, mutate: 'ai-inspect' });
         manager.process();
-        expect(capturedCtx?.creature).toBe(alice);
+        expect(capturedManager).toBe(manager);
+        expect(capturedCreature).toBe(alice);
     });
 
-    it('mutate script can start a combat via creature.manager', () => {
-        manager.scripts.declareScript('ai-aggro', (creature: Creature) => {
-            if (!creature.manager.isFighting(creature)) {
-                creature.manager.startCombat(creature, bob);
+    it('mutate script can start a combat via manager parameter', () => {
+        manager.scripts.declareScript('ai-aggro', (m: IManager, creature: Creature) => {
+            if (!m.isFighting(creature)) {
+                m.startCombat(creature, bob);
             }
         });
-        manager.addCreatureInnateProperty(alice, {
-            type: CONSTS.PROPERTY_THINK,
-            mutate: 'ai-aggro',
-        });
+        manager.addCreatureInnateProperty(alice, { type: CONSTS.PROPERTY_THINK, mutate: 'ai-aggro' });
         manager.process();
         expect(manager.isFighting(alice)).toBe(true);
         expect(manager.getCombatTarget(alice)).toBe(bob);
     });
 
     it('undeclared thinker scripts are silently skipped', () => {
-        manager.addCreatureInnateProperty(alice, {
-            type: CONSTS.PROPERTY_THINK,
-            mutate: 'no-such-script',
-        });
+        manager.addCreatureInnateProperty(alice, { type: CONSTS.PROPERTY_THINK, mutate: 'no-such-script' });
         expect(() => manager.process()).not.toThrow();
     });
 
     it('scripts without the matching hook are not called', () => {
         const fn = vi.fn();
         manager.scripts.declareScript('ai-attack-only', fn);
-        // only 'attack' hook wired, not 'mutate'
-        manager.addCreatureInnateProperty(alice, {
-            type: CONSTS.PROPERTY_THINK,
-            attack: 'ai-attack-only',
-        });
+        manager.addCreatureInnateProperty(alice, { type: CONSTS.PROPERTY_THINK, attack: 'ai-attack-only' });
         manager.process();
         expect(fn).not.toHaveBeenCalled();
     });
@@ -92,9 +80,7 @@ describe('Manager — think system', () => {
     it('mutate enqueues actions that resolve in the matching round', () => {
         const actionFired = vi.fn();
         alice.events.on(CONSTS.EVENT_CREATURE_ACTION, (p: { actionId: string }) => {
-            if (p.actionId === 'strike') {
-                actionFired();
-            }
+            if (p.actionId === 'strike') actionFired();
         });
         manager.startCombat(alice, bob);
         const combat = manager['_combatManager'].getCombat(alice)!;
@@ -107,15 +93,12 @@ describe('Manager — think system', () => {
             cooldown: CooldownManager.create({ duration: 0, charges: 99 }),
             bonus: false,
         });
-        manager.scripts.declareScript('ai-strike', (creature: Creature) => {
+        manager.scripts.declareScript('ai-strike', (m: IManager, creature: Creature) => {
             if (!creature.state.actionTaken) {
-                creature.manager.doAction(creature, 'strike', bob);
+                m.doAction(creature, 'strike', bob);
             }
         });
-        manager.addCreatureInnateProperty(alice, {
-            type: CONSTS.PROPERTY_THINK,
-            mutate: 'ai-strike',
-        });
+        manager.addCreatureInnateProperty(alice, { type: CONSTS.PROPERTY_THINK, mutate: 'ai-strike' });
         // tick 1 → bonus round; tick 2 → normal round fires the queued strike
         manager.process();
         manager.process();

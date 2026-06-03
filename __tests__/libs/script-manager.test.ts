@@ -12,9 +12,7 @@ describe('ScriptManager', () => {
         asm = new ScriptManager();
     });
 
-    // ─── declareActionScript ──────────────────────────────────────────────────
-
-    describe('declareActionScript', () => {
+    describe('declareScript', () => {
         it('registers a script so hasScript returns true', () => {
             asm.declareScript('fireball', vi.fn());
             expect(asm.hasScript('fireball')).toBe(true);
@@ -27,13 +25,11 @@ describe('ScriptManager', () => {
             asm.declareScript('fireball', second);
             const manager = makeManager();
             const creature = manager.createCreature('test-creature');
-            asm.runScript('fireball', creature, undefined);
+            asm.runScript('fireball', manager, creature, undefined);
             expect(first).not.toHaveBeenCalled();
             expect(second).toHaveBeenCalledOnce();
         });
     });
-
-    // ─── hasScript ────────────────────────────────────────────────────────────
 
     describe('hasScript', () => {
         it('returns false for an undeclared id', () => {
@@ -46,27 +42,25 @@ describe('ScriptManager', () => {
         });
     });
 
-    // ─── invokeActionScript ───────────────────────────────────────────────────
-
-    describe('invokeActionScript', () => {
+    describe('runScript', () => {
         it('calls the registered function', () => {
             const fn = vi.fn();
             asm.declareScript('smite', fn);
             const manager = makeManager();
             const creature = manager.createCreature('test-creature');
             const target = manager.createCreature('test-creature');
-            asm.runScript('smite', creature, target);
+            asm.runScript('smite', manager, creature, target);
             expect(fn).toHaveBeenCalledOnce();
         });
 
-        it('passes creature and target to the function', () => {
+        it('passes manager, creature and target to the function', () => {
             const fn = vi.fn();
             asm.declareScript('smite', fn);
             const manager = makeManager();
             const creature = manager.createCreature('test-creature');
             const target = manager.createCreature('test-creature');
-            asm.runScript('smite', creature, target);
-            expect(fn).toHaveBeenCalledWith(creature, target);
+            asm.runScript('smite', manager, creature, target);
+            expect(fn).toHaveBeenCalledWith(manager, creature, target);
         });
 
         it('passes undefined target when there is no target', () => {
@@ -74,20 +68,18 @@ describe('ScriptManager', () => {
             asm.declareScript('shout', fn);
             const manager = makeManager();
             const creature = manager.createCreature('test-creature');
-            asm.runScript('shout', creature, undefined);
-            expect(fn).toHaveBeenCalledWith(creature, undefined);
+            asm.runScript('shout', manager, creature, undefined);
+            expect(fn).toHaveBeenCalledWith(manager, creature, undefined);
         });
 
         it('throws when the script id is not registered', () => {
             const manager = makeManager();
             const creature = manager.createCreature('test-creature');
-            expect(() => asm.runScript('unknown', creature, undefined)).toThrow(
-                'No action script declared for id "unknown"'
+            expect(() => asm.runScript('unknown', manager, creature, undefined)).toThrow(
+                'No script declared for id "unknown"'
             );
         });
     });
-
-    // ─── Manager integration ──────────────────────────────────────────────────
 
     describe('Manager integration', () => {
         it('invokes the script when doAction fires the action event', () => {
@@ -106,7 +98,7 @@ describe('ScriptManager', () => {
             });
             creature.doAction('fireball', target);
             expect(fn).toHaveBeenCalledOnce();
-            expect(fn).toHaveBeenCalledWith(creature, target);
+            expect(fn).toHaveBeenCalledWith(manager, creature, target);
         });
 
         it('does not throw when doAction fires for an unregistered script', () => {
