@@ -10,7 +10,7 @@ if [ -z "${1:-}" ]; then
 fi
 
 module_name="$1"
-module_folder="$(realpath "${script_folder}/../modules/${module_name}")"
+module_folder="$(realpath "${script_folder}/../src/modules/${module_name}")"
 
 if [ ! -d "$module_folder" ]; then
     echo "Module folder not found: ${module_folder}" >&2

@@ -1,5 +1,6 @@
 import { Creature } from '../../Creature';
-import { DISTANCE } from '../distance';
+import { DistanceComputer } from '../distance';
+import { Distance } from '../../schemas/enums/Distance';
 import { Item } from '../../schemas/Item';
 import { CONSTS } from '../../consts';
 import { EquipmentSlot } from '../../schemas/enums/EquipmentSlot';
@@ -7,6 +8,7 @@ import { isAmmo, isWeapon } from '../../store/type-guards';
 import { ActionState } from '../../schemas/Action';
 import EventEmitter from 'node:events';
 import { Attack } from '../../Attack';
+import { EventCombatActionFailure } from '../../schemas/events/EventCombatActionFailure';
 
 type SlotWeaponAmmo = {
     slot: EquipmentSlot;
@@ -14,13 +16,21 @@ type SlotWeaponAmmo = {
     ammo?: Item;
 };
 
+type QueuedAction = {
+    actionId: string;
+    target: Creature | undefined;
+};
+
 /**
  * The combat class
  */
 export class Combat {
-    private distance: DISTANCE = DISTANCE.FAR;
+    private distance: Distance = CONSTS.DISTANCE_FAR;
     public readonly events = new EventEmitter();
     public busy: boolean = false; // if true then the next attack will be skipped
+    private _pendingNormalAction: QueuedAction | null = null;
+    private _pendingBonusAction: QueuedAction | null = null;
+    private _internalTimer: number = 0;
 
     constructor(
         public readonly attacker: Creature,
@@ -33,12 +43,15 @@ export class Combat {
      * for cooldowns, charges, and the `actionTaken`/`bonusActionTaken` round flags —
      * so this list automatically reflects what is still usable at any point in the round.
      */
-    getOffensiveActionList(minDistance: DISTANCE): ActionState[] {
+    getOffensiveActionList(minDistance: Distance): ActionState[] {
         const readyIds = new Set(
             this.attacker.getters.getActions.filter((a) => a.ready).map((a) => a.id)
         );
         return Object.values(this.attacker.state.actions).filter(
-            (action) => action.hostile && action.range >= minDistance && readyIds.has(action.id)
+            (action) =>
+                action.hostile &&
+                DistanceComputer.compare(action.range, minDistance) >= 0 &&
+                readyIds.has(action.id)
         );
     }
 
@@ -126,6 +139,25 @@ export class Combat {
     }
 
     /**
+     * Returns secondary and tertiary melee natural weapons the attacker has equipped.
+     * These weapon may be used for bonus actions
+     */
+    getAltNaturalMeleeWeaponList(): SlotWeaponAmmo[] {
+        const eq = this.attacker.state.equipment;
+        const meleeSlots: EquipmentSlot[] = [
+            CONSTS.EQUIPMENT_SLOT_NATURAL_WEAPON_2,
+            CONSTS.EQUIPMENT_SLOT_NATURAL_WEAPON_3,
+        ];
+        return meleeSlots.reduce<SlotWeaponAmmo[]>((acc, slot) => {
+            const w = eq[slot];
+            if (isWeapon(w) && !w.attributes.includes(CONSTS.WEAPON_ATTRIBUTE_RANGED)) {
+                acc.push({ slot, weapon: w });
+            }
+            return acc;
+        }, []);
+    }
+
+    /**
      * Returns the weapons list appropriate for the current distance.
      * - `FAR` / `MEDIUM` → ranged weapons only.
      * - `CLOSE` → melee weapons only.
@@ -134,11 +166,11 @@ export class Combat {
      */
     getSuitableWeaponList(): SlotWeaponAmmo[] {
         switch (this.distance) {
-            case DISTANCE.FAR:
-            case DISTANCE.MEDIUM: {
+            case CONSTS.DISTANCE_FAR:
+            case CONSTS.DISTANCE_MEDIUM: {
                 return this.getRangedWeaponList();
             }
-            case DISTANCE.CLOSE: {
+            case CONSTS.DISTANCE_CLOSE: {
                 return this.getMeleeWeaponList();
             }
             default: {
@@ -152,7 +184,7 @@ export class Combat {
      * Unless `bQuiet` is true, emits a `distance-changed` event so that the
      * `CombatManager` can mirror the new distance to the opposing combat instance.
      */
-    setDistance(d: DISTANCE, bQuiet: boolean = false) {
+    setDistance(d: Distance, bQuiet: boolean = false) {
         this.distance = d;
         if (!bQuiet) {
             this.events.emit('distance-changed', { distance: d });
@@ -162,7 +194,7 @@ export class Combat {
     /**
      * Returns the current distance between attacker and target.
      */
-    getDistance(): DISTANCE {
+    getDistance(): Distance {
         return this.distance;
     }
 
@@ -172,15 +204,15 @@ export class Combat {
      */
     approach() {
         switch (this.distance) {
-            case DISTANCE.FAR: {
-                this.setDistance(DISTANCE.MEDIUM);
+            case CONSTS.DISTANCE_FAR: {
+                this.setDistance(CONSTS.DISTANCE_MEDIUM);
                 break;
             }
-            case DISTANCE.MEDIUM: {
-                this.setDistance(DISTANCE.CLOSE);
+            case CONSTS.DISTANCE_MEDIUM: {
+                this.setDistance(CONSTS.DISTANCE_CLOSE);
                 break;
             }
-            case DISTANCE.CLOSE: {
+            case CONSTS.DISTANCE_CLOSE: {
                 break;
             }
             default: {
@@ -195,21 +227,31 @@ export class Combat {
      */
     retreat() {
         switch (this.distance) {
-            case DISTANCE.FAR: {
+            case CONSTS.DISTANCE_FAR: {
                 break;
             }
-            case DISTANCE.MEDIUM: {
-                this.setDistance(DISTANCE.FAR);
+            case CONSTS.DISTANCE_MEDIUM: {
+                this.setDistance(CONSTS.DISTANCE_FAR);
                 break;
             }
-            case DISTANCE.CLOSE: {
-                this.setDistance(DISTANCE.MEDIUM);
+            case CONSTS.DISTANCE_CLOSE: {
+                this.setDistance(CONSTS.DISTANCE_MEDIUM);
                 break;
             }
             default: {
                 throw new TypeError('Invalid distance');
             }
         }
+    }
+
+    private runAttack(swa: SlotWeaponAmmo) {
+        this.attacker.state.selectedOffensiveSlot = swa.slot;
+        const attack = new Attack(this.attacker, this.target);
+        attack.weapon = swa.weapon;
+        attack.ammo = swa.ammo ?? null;
+        attack.init();
+        attack.run();
+        attack.applyComputedDamages();
     }
 
     /**
@@ -219,14 +261,18 @@ export class Combat {
      * Damage events and lethal detection are handled inside `applyComputedDamages`.
      */
     attack(swa: SlotWeaponAmmo) {
-        this.attacker.state.selectedOffensiveSlot = swa.slot;
         this.attacker.state.actionTaken = true;
-        const attack = new Attack(this.attacker, this.target);
-        attack.weapon = swa.weapon;
-        attack.ammo = swa.ammo ?? null;
-        attack.init();
-        attack.run();
-        attack.applyComputedDamages();
+        this.runAttack(swa);
+    }
+
+    /**
+     * Executes a single weapons attack as the attacker's bonus action.
+     * Marks `bonusActionTaken` on the creature so no second bonus action can be taken
+     * this round.
+     */
+    bonusAttack(swa: SlotWeaponAmmo) {
+        this.attacker.state.bonusActionTaken = true;
+        this.runAttack(swa);
     }
 
     /**
@@ -246,6 +292,38 @@ export class Combat {
      * The `busy` flag, when set externally, skips the entire round (used for multi-round
      * actions such as spell channels).
      */
+    /**
+     * Triggered when the attacker's target unilaterally disengages.
+     * Clears pending actions and immediately attacks using the first available
+     * action slot (normal, then bonus). No attack if both slots are already spent.
+     */
+    opportunityAttack(): void {
+        this._pendingNormalAction = null;
+        this._pendingBonusAction = null;
+        const swl = this.getSuitableWeaponList();
+        if (swl.length === 0) {
+            return;
+        }
+        if (!this.attacker.state.actionTaken) {
+            this.attack(swl[0]);
+        } else if (!this.attacker.state.bonusActionTaken) {
+            this.bonusAttack(swl[0]);
+        }
+    }
+
+    /**
+     * Queues an action to be executed during the next playRound (normal) or
+     * playBonusRound (bonus). Queued actions take priority over AI-chosen actions.
+     */
+    enqueueAction(actionId: string, target: Creature | undefined, bonus: boolean): void {
+        const entry: QueuedAction = { actionId, target };
+        if (bonus) {
+            this._pendingBonusAction = entry;
+        } else {
+            this._pendingNormalAction = entry;
+        }
+    }
+
     playRound() {
         if (this.busy) {
             // attacker is busy (casting a spell or an action)
@@ -255,25 +333,75 @@ export class Combat {
 
         // Normal action slot
         if (!this.attacker.state.actionTaken) {
-            const normalActions = this.getNormalOffensiveActionList();
-            if (normalActions.length > 0) {
-                this.attacker.doAction(normalActions[0].id, this.target);
+            const queued = this._pendingNormalAction;
+            this._pendingNormalAction = null;
+            if (queued) {
+                const result = this.attacker.doAction(queued.actionId, queued.target);
+                if (!result.success) {
+                    const payload: EventCombatActionFailure = {
+                        ...queued,
+                        bonus: false,
+                        reason: result.reason,
+                    };
+                    this.events.emit(CONSTS.EVENT_COMBAT_ACTION_FAILURE, payload);
+                }
             } else {
-                const swl = this.getSuitableWeaponList();
-                if (swl.length > 0) {
-                    this.attack(swl[0]);
-                } else if (this.distance !== DISTANCE.CLOSE) {
-                    this.approach();
+                const normalActions = this.getNormalOffensiveActionList();
+                if (normalActions.length > 0) {
+                    this.attacker.doAction(normalActions[0].id, this.target);
+                } else {
+                    const swl = this.getSuitableWeaponList();
+                    if (swl.length > 0) {
+                        this.attack(swl[0]);
+                    } else if (this.distance !== CONSTS.DISTANCE_CLOSE) {
+                        this.approach();
+                    }
                 }
             }
         }
+    }
 
+    playBonusRound() {
         // Bonus action slot
         if (!this.attacker.state.bonusActionTaken) {
-            const bonusActions = this.getBonusOffensiveActionList();
-            if (bonusActions.length > 0) {
-                this.attacker.doAction(bonusActions[0].id, this.target);
+            const queued = this._pendingBonusAction;
+            this._pendingBonusAction = null;
+            if (queued) {
+                const result = this.attacker.doAction(queued.actionId, queued.target);
+                if (!result.success) {
+                    const payload: EventCombatActionFailure = {
+                        ...queued,
+                        bonus: true,
+                        reason: result.reason,
+                    };
+                    this.events.emit(CONSTS.EVENT_COMBAT_ACTION_FAILURE, payload);
+                }
+            } else {
+                const bonusActions = this.getBonusOffensiveActionList();
+                if (bonusActions.length > 0) {
+                    this.attacker.doAction(
+                        bonusActions[Math.floor(Math.random() * bonusActions.length)].id,
+                        this.target
+                    );
+                    this.attacker.state.bonusActionTaken = true;
+                } else {
+                    // no action available — use a natural melee weapon if present
+                    const nmwl = this.getAltNaturalMeleeWeaponList();
+                    if (nmwl.length > 0) {
+                        const w = nmwl[Math.floor(Math.random() * nmwl.length)];
+                        this.bonusAttack(w);
+                    }
+                }
             }
+        }
+    }
+
+    process(): void {
+        ++this._internalTimer;
+        if ((this._internalTimer & 1) === 0) {
+            this.playRound();
+        } else {
+            this.playBonusRound();
         }
     }
 }

@@ -1,1 +1,1 @@
-export { Distance, DISTANCE } from './Distance';
+export { DistanceComputer, DISTANCE_RANK } from './DistanceComputer';

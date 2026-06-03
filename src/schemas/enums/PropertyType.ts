@@ -28,6 +28,7 @@ export const PropertyTypeSchema = z
         CONSTS.PROPERTY_IMMUNITY,
         CONSTS.PROPERTY_DARKVISION,
         CONSTS.PROPERTY_LIGHT,
+        CONSTS.PROPERTY_THINK,
     ])
     .describe('fields.propertyType');
 

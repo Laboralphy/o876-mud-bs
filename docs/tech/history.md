@@ -87,4 +87,4 @@
 - Dependency update (`package-lock.json`)
 
 ## 2026-04-14 — 2026-04-15
-- Project initialised; constants, enums, and schema structure laid out
+- Project initialized; constants, enums, and schema structure laid out

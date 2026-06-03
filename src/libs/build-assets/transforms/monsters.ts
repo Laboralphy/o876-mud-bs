@@ -102,7 +102,7 @@ export const SCRIPTS = [
     /* action-script  */ `last(c.actions).script = value`,
     /* action-cooldown*/ `last(c.actions).cooldown = value`,
     /* action-charges */ `last(c.actions).charges = value`,
-    /* action-range   */ `last(c.actions).range = value`,
+    /* action-range   */ `last(c.actions).range = ref(value, 'DISTANCE')`,
     /* action-bonus   */ `last(c.actions).bonus = value === 'TRUE'`,
     /* action-hostile */ `last(c.actions).hostile = value === 'TRUE'`,
     /* traits         */ `if (!c.extends) { c.extends = [] } c.extends.push(value)`,

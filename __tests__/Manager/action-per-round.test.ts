@@ -3,7 +3,7 @@ import { Creature } from '../../src/Creature';
 import { CooldownManager } from '../../src/libs/cooldown';
 import { ActionStateSchema } from '../../src/schemas/Action';
 import { CREATURE_RESREF, makeManager } from './helpers';
-import { DISTANCE } from '../../src/libs/distance';
+import { CONSTS } from '../../src/consts';
 
 describe('Creature — action per round', () => {
     let creature: Creature;
@@ -17,7 +17,7 @@ describe('Creature — action per round', () => {
             id: 'strike',
             hostile: true,
             script: 'scripts/strike',
-            range: DISTANCE.CLOSE,
+            range: CONSTS.DISTANCE_CLOSE,
             cooldown: CooldownManager.create({ duration: 10, charges: 3 }),
             bonus: false,
         });
@@ -25,7 +25,7 @@ describe('Creature — action per round', () => {
             id: 'quickstep',
             hostile: false,
             script: 'scripts/quickstep',
-            range: DISTANCE.CLOSE,
+            range: CONSTS.DISTANCE_CLOSE,
             cooldown: CooldownManager.create({ duration: 10, charges: 3 }),
             bonus: true,
         });

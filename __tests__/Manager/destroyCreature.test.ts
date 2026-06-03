@@ -39,7 +39,7 @@ describe('Manager.destroyCreature', () => {
     it('creature is removed from the registry after destruction', () => {
         const id = creature.id;
         manager.destroyCreature(creature);
-        expect(manager.getCreature(id)).toBeUndefined();
+        expect(() => manager.getCreature(id)).toThrow();
     });
 
     it('all equipment slots are empty on the creature state after destruction', () => {

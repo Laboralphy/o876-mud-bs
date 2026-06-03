@@ -24,6 +24,7 @@ import { PropertyAilment } from './status/ailment';
 import { PropertyImmunity } from './status/immunity';
 import { PropertyDarkvision } from './visibility/darkvision';
 import { PropertyLight } from './visibility/light';
+import { PropertyThink } from './think/think';
 
 export const PropertyDefinitionSchema = z.discriminatedUnion('type', [
     PropertyDamageImmunity,
@@ -49,6 +50,7 @@ export const PropertyDefinitionSchema = z.discriminatedUnion('type', [
     PropertyImmunity,
     PropertyDarkvision,
     PropertyLight,
+    PropertyThink,
 ]);
 
 export type PropertyDefinition = z.infer<typeof PropertyDefinitionSchema>;
@@ -76,6 +78,7 @@ const _WrappedPropertyAilment = BasePropertySchema.extend({ type: z.literal(CONS
 const _WrappedPropertyImmunity = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_IMMUNITY), data: PropertyImmunity });
 const _WrappedPropertyDarkvision = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_DARKVISION), data: PropertyDarkvision });
 const _WrappedPropertyLight = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_LIGHT), data: PropertyLight });
+const _WrappedPropertyThink = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_THINK), data: PropertyThink });
 
 export const PropertySchema = z.discriminatedUnion('type', [
     _WrappedPropertyDamageImmunity,
@@ -101,6 +104,7 @@ export const PropertySchema = z.discriminatedUnion('type', [
     _WrappedPropertyImmunity,
     _WrappedPropertyDarkvision,
     _WrappedPropertyLight,
+    _WrappedPropertyThink,
 ]);
 
 export type Property = z.infer<typeof PropertySchema>;

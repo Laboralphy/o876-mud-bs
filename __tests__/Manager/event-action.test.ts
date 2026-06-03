@@ -5,14 +5,13 @@ import { Creature } from '../../src/Creature';
 import { CooldownManager } from '../../src/libs/cooldown';
 import { ActionStateSchema } from '../../src/schemas/Action';
 import { CREATURE_RESREF, makeManager } from './helpers';
-import { DISTANCE } from '../../src/libs/distance';
 
 function addAction(creature: Creature, id: string, charges = 2, bonus = false): void {
     creature.state.actions[id] = ActionStateSchema.parse({
         id,
         hostile: true,
         script: `scripts/${id}`,
-        range: DISTANCE.CLOSE,
+        range: CONSTS.DISTANCE_CLOSE,
         cooldown: CooldownManager.create({ duration: 10, charges }),
         bonus,
     });

@@ -1,25 +1,19 @@
 import { Combat } from './Combat';
 import { Creature } from '../../Creature';
-import { DISTANCE } from '../distance';
+import { Distance } from '../../schemas/enums/Distance';
 
 export class CombatManager {
     public readonly combats = new Map<Creature, Combat>();
 
-    /**
-     * Creates a new combat, create a second combat if bBoth is true
-     * @param attacker
-     * @param target
-     * @param bBoth
-     */
-    createCombat(attacker: Creature, target: Creature, bBoth: boolean = false): Combat {
+    createCombat(attacker: Creature, target: Creature): Combat {
         const combat = new Combat(attacker, target);
         this.combats.set(attacker, combat);
-        combat.events.on('distance-changed', (data: { distance: DISTANCE }) => {
+        combat.events.on('distance-changed', (data: { distance: Distance }) => {
             const { distance } = data;
             this.getMirroredCombat(combat)?.setDistance(distance, true);
         });
-        if (bBoth) {
-            this.createCombat(target, attacker, false);
+        if (!this.getCombat(target)) {
+            this.createCombat(target, attacker);
         }
         return combat;
     }
@@ -29,34 +23,32 @@ export class CombatManager {
     }
 
     getMirroredCombat(combat: Combat): Combat | undefined {
-        const target = combat.target;
-        return this.getCombat(target);
+        return this.getCombat(combat.target);
     }
 
-    disposeCombat(combat: Combat, bBoth: boolean = false) {
-        if (bBoth) {
-            const mr = this.getMirroredCombat(combat);
-            if (mr) {
-                this.disposeCombat(mr, false);
+    getAllInvolvedCombats(creature: Creature): Combat[] {
+        return [...this.combats.values()].filter((combat) => combat.target === creature);
+    }
+
+    disposeCombat(combat: Combat, _bUnilateral: boolean = false) {
+        // unilateral disengagement — mirrors get an opportunity attack then also stops
+        const clist = this.getAllInvolvedCombats(combat.attacker);
+        for (const c of clist) {
+            if (_bUnilateral) {
+                c.opportunityAttack();
             }
+            this.combats.delete(c.attacker);
         }
         this.combats.delete(combat.attacker);
     }
 
-    /**
-     * In a combat with creatures A -> T, when distance changes, synchronize the combat distance with T -> A
-     */
     synchronizeCombatDistance(combat: Combat) {
         this.getMirroredCombat(combat)?.setDistance(combat.getDistance(), true);
     }
 
-    playCombatRound(combat: Combat) {
-        combat.playRound();
-    }
-
     process() {
         for (const combat of this.combats.values()) {
-            this.playCombatRound(combat);
+            combat.process();
         }
     }
 }

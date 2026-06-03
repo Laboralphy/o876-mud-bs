@@ -38,7 +38,7 @@ import { EventEffectProcessorImmunity } from './schemas/events/EventEffectProces
 import { EventEffectProcessorCreatureEffect } from './schemas/events/EventEffectProcessorCreatureEffect';
 import { getImmunityRules } from './libs/get-immunity-rules';
 import { CooldownManager } from './libs/cooldown';
-import { ActionState } from './schemas/Action';
+import { IManager } from './interfaces/IManager';
 
 export class Creature {
     private readonly _store = buildStore();
@@ -47,6 +47,7 @@ export class Creature {
 
     private _hitpoints: number = 1;
     public location: Location | null = null;
+    protected _manager: IManager | null = null;
 
     get registry(): LocationRegistry | null {
         return this.location?.registry ?? null;
@@ -62,6 +63,18 @@ export class Creature {
 
     get state(): State {
         return this._store.state;
+    }
+
+    set manager(m: IManager | null) {
+        this._manager = m;
+    }
+
+    get manager(): IManager {
+        if (this._manager) {
+            return this._manager;
+        } else {
+            throw new Error(`Creature ${this.id} has no manager assigned`);
+        }
     }
 
     // ▗▖   ▗▖   ▄▖                     ▄▖
