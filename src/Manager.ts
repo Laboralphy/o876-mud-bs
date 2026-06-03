@@ -25,17 +25,15 @@ import { EventCreatureCastSpell } from './schemas/events/EventCreatureCastSpell'
 import { EventCreatureAction } from './schemas/events/EventCreatureAction';
 import { EquipItemOutcome } from './schemas/enums/EquipItemOutcome';
 import { EffectSubtype } from './schemas/enums/EffectSubtype';
-import { ActionScriptManager } from './libs/action-script-manager';
+import { ScriptManager } from './libs/script-manager';
 import { ModuleManager } from './ModuleManager';
 import { ExtendableEntity } from './libs/extend-resolver/ExtendResolver';
 import { CombatManager } from './libs/combat/CombatManager';
 import { IManager } from './interfaces/IManager';
-import { ThinkScriptManager } from './libs/think-script-manager';
 
 export class Manager implements IManager {
     public readonly events = new EventEmitter();
-    public readonly scripts = new ActionScriptManager();
-    public readonly thinkers = new ThinkScriptManager();
+    public readonly scripts = new ScriptManager();
     private _time: number = 0;
     private readonly _moduleManager = new ModuleManager();
     private readonly _combatManager = new CombatManager();
@@ -45,8 +43,17 @@ export class Manager implements IManager {
     private readonly _itemOwnership = new Map<string, Creature>();
     private readonly _creatureCleanup = new Map<string, () => void>();
 
-    //  ▄▄              ▗▖                                                      ▗▖    private readonly _itemBlueprints = new Map<string, ItemBlueprint>();
+    // ▗▖ ▄      ▗▖     ▄▖                                              ▗▖
+    // ▐█▟█▗▛▜▖ ▄▟▌▐▌▐▌ ▐▌ ▗▛▜▖    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
+    // ▐▌▘█▐▌▐▌▐▌▐▌▐▌▐▌ ▐▌ ▐▛▀▘    ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
+    // ▝▘ ▀ ▀▀  ▀▀▘ ▀▀▘ ▀▀  ▀▀     ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
+    // Module management
 
+    defineAsset(resref: string, asset: ExtendableEntity) {
+        this._moduleManager.addAsset(resref, asset);
+    }
+
+    //  ▄▄              ▗▖                                                      ▗▖
     // ▐▌▝▘▐▛▜▖▗▛▜▖ ▀▜▖▝▜▛▘▐▌▐▌▐▛▜▖▗▛▜▖    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
     // ▐▌▗▖▐▌  ▐▛▀▘▗▛▜▌ ▐▌ ▐▌▐▌▐▌  ▐▛▀▘    ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
     //  ▀▀ ▝▘   ▀▀  ▀▀▘  ▀▘ ▀▀▘▝▘   ▀▀     ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
@@ -95,14 +102,6 @@ export class Manager implements IManager {
         return creature;
     }
 
-    defineAsset(resref: string, asset: ExtendableEntity) {
-        this._moduleManager.addAsset(resref, asset);
-    }
-
-    defineCreature(): void {
-        throw new Error('Method not implemented');
-    }
-
     destroyCreature(creature: Creature) {
         for (const item of Object.values(creature.state.equipment)) {
             if (item) {
@@ -119,8 +118,13 @@ export class Manager implements IManager {
         creature.manager = null;
     }
 
-    getCreature(id: string): Creature | undefined {
-        return this._creatures.get(id);
+    getCreature(id: string): Creature {
+        const oCreature = this._creatures.get(id);
+        if (oCreature) {
+            return oCreature;
+        } else {
+            throw new ReferenceError(`creature ${id} not found`);
+        }
     }
 
     addCreatureInnateProperty(creature: Creature, property: PropertyDefinition): Property {
@@ -141,102 +145,6 @@ export class Manager implements IManager {
 
     getCreatureInnateProperties(creature: Creature): Property[] {
         return deepClone(creature.getters.getInnateProperties);
-    }
-
-    // ▗▄▄▖  ▄▖  ▄▖         ▗▖                                              ▗▖
-    // ▐▙▄  ▟▙▖ ▟▙▖▗▛▜▖▗▛▀ ▝▜▛▘    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
-    // ▐▌   ▐▌  ▐▌ ▐▛▀▘▐▌   ▐▌     ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▌  ▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
-    // ▝▀▀▘ ▝▘  ▝▘  ▀▀  ▀▀   ▀▘    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘  ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
-
-    getCreatureEffects(creature: Creature): Effect[] {
-        return deepClone(creature.getters.getEffects);
-    }
-
-    applyEffect(
-        creature: Creature,
-        effect: EffectDefinition,
-        source: Creature,
-        duration: number,
-        subtype: EffectSubtype = CONSTS.EFFECT_SUBTYPE_MAGICAL,
-        tag: string = ''
-    ): Effect {
-        return creature.applyEffect(effect, source, duration, subtype, tag);
-    }
-
-    removeCreatureEffect(creature: Creature, effect: Effect) {
-        creature.removeEffect(effect);
-    }
-
-    //  ▗▖      ▗▖  ▗▖                                                  ▗▖
-    // ▗▛▜▖▗▛▀ ▝▜▛▘ ▄▖ ▗▛▜▖▐▛▜▖    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
-    // ▐▙▟▌▐▌   ▐▌  ▐▌ ▐▌▐▌▐▌▐▌    ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
-    // ▝▘▝▘ ▀▀   ▀▘ ▀▀  ▀▀ ▝▘▝▘    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
-    // Action management
-
-    defineAction(actionBlueprint: ActionBlueprint) {
-        this._actionBlueprints.set(actionBlueprint.id, actionBlueprint);
-    }
-
-    doAction(creature: Creature, actionId: string, target: Creature | undefined) {
-        const combat = this._combatManager.getCombat(creature);
-        if (combat) {
-            const action = creature.state.actions[actionId];
-            combat.enqueueAction(actionId, target, action?.bonus ?? false);
-        } else {
-            creature.doAction(actionId, target);
-        }
-    }
-
-    //  ▄▄         ▗▖       ▗▖                                          ▗▖
-    // ▐▌▝▘▗▛▜▖▐▙▟▙▐▙▄  ▀▜▖▝▜▛▘    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
-    // ▐▌▗▖▐▌▐▌▐▛▛█▐▌▐▌▗▛▜▌ ▐▌     ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
-    //  ▀▀  ▀▀ ▝▘ ▀▝▀▀  ▀▀▘  ▀▘    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
-    // Combat Management
-
-    startCombat(attacker: Creature, target: Creature): void {
-        this._combatManager.createCombat(attacker, target);
-    }
-
-    /**
-     * a creature stop all combats in which it is involved in
-     * @param creature
-     * @param bDisengage if true, the creature is disengaging the combat with skill, and do not suffer attack of opportunity
-     */
-    stopCombat(creature: Creature, bDisengage: boolean = false): void {
-        const combat = this._combatManager.getCombat(creature);
-        if (combat) {
-            this._combatManager.disposeCombat(combat, !bDisengage);
-        }
-    }
-
-    isFighting(creature: Creature, target?: Creature): boolean {
-        const combat = this._combatManager.getCombat(creature);
-        if (!combat) {
-            return false;
-        }
-        return !target || combat.target === target;
-    }
-
-    getCombatTarget(creature: Creature): Creature | undefined {
-        return this._combatManager.getCombat(creature)?.target;
-    }
-
-    getCombatAggressors(creature: Creature): Creature[] {
-        return this._combatManager.getAllInvolvedCombats(creature).map((c) => c.attacker);
-    }
-
-    process(): void {
-        ++this._time;
-        for (const creature of this._creatures.values()) {
-            creature.process();
-            for (const prop of creature.getters.getActiveProperties) {
-                if (prop.type === CONSTS.PROPERTY_THINK) {
-                    const script = (prop.data as { script: string }).script;
-                    this.thinkers.invoke(script, { manager: this, creature });
-                }
-            }
-        }
-        this._combatManager.process();
     }
 
     // ▗▄▄▖ ▗▖                                                  ▗▖
@@ -306,7 +214,7 @@ export class Manager implements IManager {
         return deepClone(this._normalizeItem(item).properties);
     }
 
-    destroyItem(item: Item) {
+    destroyItem(item: Item): void {
         const oItem = this._normalizeItem(item);
         const oOwner = this.getItemOwner(oItem);
         if (oOwner) {
@@ -316,17 +224,115 @@ export class Manager implements IManager {
         this._items.delete(oItem.id);
     }
 
-    public getItem(itemId: string): Item {
-        const oItem = this._items.get(itemId);
+    getItem(id: string): Item {
+        const oItem = this._items.get(id);
         if (oItem) {
             return oItem;
         } else {
-            throw new ReferenceError(`item ${itemId} not found`);
+            throw new ReferenceError(`item ${id} not found`);
         }
     }
 
-    private _normalizeItem(item: Item): Item {
-        return this.getItem(item.id);
+    // ▗▄▄▖  ▄▖  ▄▖         ▗▖                                          ▗▖
+    // ▐▙▄  ▟▙▖ ▟▙▖▗▛▜▖▗▛▀ ▝▜▛▘    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
+    // ▐▌   ▐▌  ▐▌ ▐▛▀▘▐▌   ▐▌     ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
+    // ▝▀▀▘ ▝▘  ▝▘  ▀▀  ▀▀   ▀▘    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
+    // Effect management
+
+    getCreatureEffects(creature: Creature): Effect[] {
+        return deepClone(creature.getters.getEffects);
+    }
+
+    applyEffect(
+        creature: Creature,
+        effect: EffectDefinition,
+        source: Creature,
+        duration: number,
+        subtype: EffectSubtype = CONSTS.EFFECT_SUBTYPE_MAGICAL,
+        tag: string = ''
+    ): Effect {
+        return creature.applyEffect(effect, source, duration, subtype, tag);
+    }
+
+    removeCreatureEffect(creature: Creature, effect: Effect): void {
+        creature.removeEffect(effect);
+    }
+
+    //  ▗▖      ▗▖  ▗▖                                                  ▗▖
+    // ▗▛▜▖▗▛▀ ▝▜▛▘ ▄▖ ▗▛▜▖▐▛▜▖    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
+    // ▐▙▟▌▐▌   ▐▌  ▐▌ ▐▌▐▌▐▌▐▌    ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
+    // ▝▘▝▘ ▀▀   ▀▘ ▀▀  ▀▀ ▝▘▝▘    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
+    // Action management
+
+    defineAction(actionBlueprint: ActionBlueprint) {
+        this._actionBlueprints.set(actionBlueprint.id, actionBlueprint);
+    }
+
+    doAction(creature: Creature, actionId: string, target: Creature | undefined): void {
+        const combat = this._combatManager.getCombat(creature);
+        if (combat) {
+            const action = creature.state.actions[actionId];
+            combat.enqueueAction(actionId, target, action?.bonus ?? false);
+        } else {
+            creature.doAction(actionId, target);
+        }
+    }
+
+    //  ▄▄         ▗▖       ▗▖                                          ▗▖
+    // ▐▌▝▘▗▛▜▖▐▙▟▙▐▙▄  ▀▜▖▝▜▛▘    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
+    // ▐▌▗▖▐▌▐▌▐▛▛█▐▌▐▌▗▛▜▌ ▐▌     ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
+    //  ▀▀  ▀▀ ▝▘ ▀▝▀▀  ▀▀▘  ▀▘    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
+    // Combat Management
+
+    startCombat(attacker: Creature, target: Creature): void {
+        this._combatManager.createCombat(attacker, target);
+    }
+
+    /**
+     * a creature stop all combats in which it is involved in
+     * @param creature
+     * @param bDisengage if true, the creature is disengaging the combat with skill, and do not suffer attack of opportunity
+     */
+    stopCombat(creature: Creature, bDisengage: boolean = false): void {
+        const combat = this._combatManager.getCombat(creature);
+        if (combat) {
+            this._combatManager.disposeCombat(combat, !bDisengage);
+        }
+    }
+
+    isFighting(creature: Creature, target?: Creature): boolean {
+        const combat = this._combatManager.getCombat(creature);
+        if (!combat) {
+            return false;
+        }
+        return !target || combat.target === target;
+    }
+
+    getCombatTarget(creature: Creature): Creature | undefined {
+        return this._combatManager.getCombat(creature)?.target;
+    }
+
+    getCombatAggressors(creature: Creature): Creature[] {
+        return this._combatManager.getAllInvolvedCombats(creature).map((c) => c.attacker);
+    }
+
+    invokeThinker(scriptId: string, creature: Creature, target?: Creature): void {
+        if (this.scripts.hasScript(scriptId)) {
+            this.scripts.runScript(scriptId, creature, target);
+        }
+    }
+
+    //  ▄▄              ▗▖      ▄▖       ▄▖             ▗▖  ▗▖
+    // ▝▙▄ ▐▛▜▖▗▛▜▖▗▛▀  ▄▖  ▀▜▖ ▐▌      ▟▙▖▐▌▐▌▐▛▜▖▗▛▀ ▝▜▛▘ ▄▖ ▗▛▜▖▐▛▜▖▗▛▀▘
+    //   ▐▌▐▙▟▘▐▛▀▘▐▌   ▐▌ ▗▛▜▌ ▐▌      ▐▌ ▐▌▐▌▐▌▐▌▐▌   ▐▌  ▐▌ ▐▌▐▌▐▌▐▌ ▀▜▖
+    //  ▀▀ ▐▌   ▀▀  ▀▀  ▀▀  ▀▀▘ ▀▀      ▝▘  ▀▀▘▝▘▝▘ ▀▀   ▀▘ ▀▀  ▀▀ ▝▘▝▘▝▀▀
+
+    process(): void {
+        ++this._time;
+        for (const creature of this._creatures.values()) {
+            creature.process();
+        }
+        this._combatManager.process();
     }
 
     // ▗▄▄      ▗▖          ▗▖                  ▗▖ ▗▖        ▗▖
@@ -334,6 +340,10 @@ export class Manager implements IManager {
     // ▐▛▀ ▐▌   ▐▌ ▝▙▟▘▗▛▜▌ ▐▌ ▐▛▀▘    ▐▛▛█▐▛▀▘ ▐▌ ▐▌▐▌▐▌▐▌▐▌▐▌ ▀▜▖
     // ▝▘  ▝▘   ▀▀  ▝▘  ▀▀▘  ▀▘ ▀▀     ▝▘ ▀ ▀▀   ▀▘▝▘▝▘ ▀▀  ▀▀▘▝▀▀
     // Private methods
+
+    private _normalizeItem(item: Item): Item {
+        return this.getItem(item.id);
+    }
 
     private plugCreatureEvents(creature: Creature) {
         const ce = creature.events;
@@ -451,7 +461,7 @@ export class Manager implements IManager {
 
     private _onCreatureAction(payload: EventCreatureAction): void {
         if (this.scripts.hasScript(payload.script)) {
-            this.scripts.invokeActionScript(payload.script, payload.creature, payload.target);
+            this.scripts.runScript(payload.script, payload.creature, payload.target);
         }
         this.events.emit(CONSTS.EVENT_CREATURE_ACTION, payload);
     }

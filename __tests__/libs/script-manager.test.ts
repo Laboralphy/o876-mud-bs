@@ -1,33 +1,33 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { ActionScriptManager } from '../../src/libs/action-script-manager';
+import { ScriptManager } from '../../src/libs/script-manager';
 import { makeManager } from '../Manager/helpers';
 import { CooldownManager } from '../../src/libs/cooldown';
 import { ActionStateSchema } from '../../src/schemas/Action';
 import { CONSTS } from '../../src/consts';
 
-describe('ActionScriptManager', () => {
-    let asm: ActionScriptManager;
+describe('ScriptManager', () => {
+    let asm: ScriptManager;
 
     beforeEach(() => {
-        asm = new ActionScriptManager();
+        asm = new ScriptManager();
     });
 
     // ─── declareActionScript ──────────────────────────────────────────────────
 
     describe('declareActionScript', () => {
         it('registers a script so hasScript returns true', () => {
-            asm.declareActionScript('fireball', vi.fn());
+            asm.declareScript('fireball', vi.fn());
             expect(asm.hasScript('fireball')).toBe(true);
         });
 
         it('overwrites a previously registered script', () => {
             const first = vi.fn();
             const second = vi.fn();
-            asm.declareActionScript('fireball', first);
-            asm.declareActionScript('fireball', second);
+            asm.declareScript('fireball', first);
+            asm.declareScript('fireball', second);
             const manager = makeManager();
             const creature = manager.createCreature('test-creature');
-            asm.invokeActionScript('fireball', creature, undefined);
+            asm.runScript('fireball', creature, undefined);
             expect(first).not.toHaveBeenCalled();
             expect(second).toHaveBeenCalledOnce();
         });
@@ -41,7 +41,7 @@ describe('ActionScriptManager', () => {
         });
 
         it('returns true after declaration', () => {
-            asm.declareActionScript('heal', vi.fn());
+            asm.declareScript('heal', vi.fn());
             expect(asm.hasScript('heal')).toBe(true);
         });
     });
@@ -51,37 +51,37 @@ describe('ActionScriptManager', () => {
     describe('invokeActionScript', () => {
         it('calls the registered function', () => {
             const fn = vi.fn();
-            asm.declareActionScript('smite', fn);
+            asm.declareScript('smite', fn);
             const manager = makeManager();
             const creature = manager.createCreature('test-creature');
             const target = manager.createCreature('test-creature');
-            asm.invokeActionScript('smite', creature, target);
+            asm.runScript('smite', creature, target);
             expect(fn).toHaveBeenCalledOnce();
         });
 
         it('passes creature and target to the function', () => {
             const fn = vi.fn();
-            asm.declareActionScript('smite', fn);
+            asm.declareScript('smite', fn);
             const manager = makeManager();
             const creature = manager.createCreature('test-creature');
             const target = manager.createCreature('test-creature');
-            asm.invokeActionScript('smite', creature, target);
+            asm.runScript('smite', creature, target);
             expect(fn).toHaveBeenCalledWith(creature, target);
         });
 
         it('passes undefined target when there is no target', () => {
             const fn = vi.fn();
-            asm.declareActionScript('shout', fn);
+            asm.declareScript('shout', fn);
             const manager = makeManager();
             const creature = manager.createCreature('test-creature');
-            asm.invokeActionScript('shout', creature, undefined);
+            asm.runScript('shout', creature, undefined);
             expect(fn).toHaveBeenCalledWith(creature, undefined);
         });
 
         it('throws when the script id is not registered', () => {
             const manager = makeManager();
             const creature = manager.createCreature('test-creature');
-            expect(() => asm.invokeActionScript('unknown', creature, undefined)).toThrow(
+            expect(() => asm.runScript('unknown', creature, undefined)).toThrow(
                 'No action script declared for id "unknown"'
             );
         });
@@ -93,7 +93,7 @@ describe('ActionScriptManager', () => {
         it('invokes the script when doAction fires the action event', () => {
             const manager = makeManager();
             const fn = vi.fn();
-            manager.scripts.declareActionScript('scripts/fireball', fn);
+            manager.scripts.declareScript('scripts/fireball', fn);
             const creature = manager.createCreature('test-creature');
             const target = manager.createCreature('test-creature');
             creature.state.actions['fireball'] = ActionStateSchema.parse({

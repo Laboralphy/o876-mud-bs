@@ -47,7 +47,7 @@ export class Creature {
 
     private _hitpoints: number = 1;
     public location: Location | null = null;
-    public manager: IManager | null = null;
+    protected _manager: IManager | null = null;
 
     get registry(): LocationRegistry | null {
         return this.location?.registry ?? null;
@@ -63,6 +63,18 @@ export class Creature {
 
     get state(): State {
         return this._store.state;
+    }
+
+    set manager(m: IManager | null) {
+        this._manager = m;
+    }
+
+    get manager(): IManager {
+        if (this._manager) {
+            return this._manager;
+        } else {
+            throw new Error(`Creature ${this.id} has no manager assigned`);
+        }
     }
 
     // ▗▖   ▗▖   ▄▖                     ▄▖
