@@ -2,6 +2,8 @@ import { ExtendResolver } from './libs/extend-resolver';
 import { ExtendableEntity } from './libs/extend-resolver/ExtendResolver';
 import { ItemBlueprint, ItemBlueprintSchema } from './schemas/ItemBlueprint';
 import { CreatureBlueprint, CreatureBlueprintSchema } from './schemas/CreatureBlueprint';
+import { ModuleStructure } from './schemas/ModuleStructure';
+import { CreatureActionScript } from './schemas/CreatureActionScript';
 
 function validateCreature(entity: ExtendableEntity): CreatureBlueprint {
     return CreatureBlueprintSchema.parse(entity);
@@ -13,6 +15,7 @@ function validateItem(entity: ExtendableEntity): ItemBlueprint {
 
 export class ModuleManager {
     private readonly extendResolver = new ExtendResolver();
+    private readonly scripts = new Map<string, CreatureActionScript>();
 
     addAsset(ref: string, entity: ExtendableEntity) {
         this.extendResolver.declareEntity(ref, entity);
@@ -22,10 +25,36 @@ export class ModuleManager {
         return validator(this.extendResolver.resolveEntity(ref));
     }
 
-    loadModule(moduleContent: Record<string, ExtendableEntity>) {
+    loadModuleBlueprints(moduleContent: Record<string, ExtendableEntity>) {
         for (const [key, asset] of Object.entries(moduleContent)) {
             this.addAsset(key, asset);
         }
+    }
+
+    loadModuleScripts(moduleScripts: Record<string, CreatureActionScript>) {
+        for (const [scriptId, script] of Object.entries(moduleScripts)) {
+            this.scripts.set(scriptId, script);
+        }
+    }
+
+    loadModule(module: ModuleStructure) {
+        if (module.blueprints) {
+            this.loadModuleBlueprints(module.blueprints);
+        }
+        if (module.thinkers) {
+            this.loadModuleScripts(module.thinkers);
+        }
+        if (module.actions) {
+            this.loadModuleScripts(module.actions);
+        }
+    }
+
+    defineScript(scriptId: string, fn: CreatureActionScript) {
+        this.scripts.set(scriptId, fn);
+    }
+
+    getScript(scriptId: string): CreatureActionScript | undefined {
+        return this.scripts.get(scriptId);
     }
 
     /**
