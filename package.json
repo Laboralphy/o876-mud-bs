@@ -11,7 +11,8 @@
         "test": "vitest run",
         "lint": "eslint src/**/*.ts",
         "format": "prettier --write src/**/*.ts && prettier --write src/**/*.json",
-        "fix": "npm run format && npm run lint -- --fix",
+        "format+lint:fix": "npm run format && npm run lint -- --fix",
+        "build-module-blueprints": "./bin/build-module-blueprints.sh",
         "build-data": "./bin/build-data.sh"
     },
     "devDependencies": {
