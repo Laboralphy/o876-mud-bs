@@ -11,7 +11,7 @@ import { Ability } from './schemas/enums/Ability';
 import { WeaponBlueprintSchema } from './schemas/WeaponBlueprint';
 import NULL_WEAPON_BLUEPRINT from './data/null-weapon.json';
 import { ItemBuilder } from './builders/ItemBuilder';
-import { aggregate } from '@/libs/aggregator';
+import { aggregate } from './libs/aggregator';
 
 export type Damage = {
     amount: number;

@@ -1,4 +1,4 @@
-import * as base from './base';
-import * as classic from './classic';
+import base from './base';
+import classic from './classic';
 
 export { base, classic };

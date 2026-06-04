@@ -4,13 +4,13 @@
   "proficiency": "PROFICIENCY_WEAPON_EXPERT",
   "damages": "1d12",
   "damageType": "DAMAGE_TYPE_SLASHING",
-  "altDamageType": "",
   "weight": 14,
   "size": "WEAPON_SIZE_LARGE",
   "attributes": [
-    "melee"
+    "WEAPON_ATTRIBUTE_TWO_HANDED"
   ],
   "properties": [],
-  "equipmentSlots": [],
-  "ammoType": "two-handed"
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_WEAPON_MELEE"
+  ]
 }

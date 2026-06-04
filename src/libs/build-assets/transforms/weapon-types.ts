@@ -37,7 +37,7 @@ export const HEADERS = [
 ];
 
 export const SCRIPTS = [
-    /* id          */ `output(); id(value); c={ entityType: 'ENTITY_TYPE_ITEM', itemType: 'ITEM_TYPE_WEAPON', proficiency: '', damages: '', damageType: '', altDamageType: '', weight: 0, size: '', attributes: [], properties: [], equipmentSlots: [] }`,
+    /* id          */ `output(); id(value); c={ entityType: 'ENTITY_TYPE_ITEM', itemType: 'ITEM_TYPE_WEAPON', proficiency: '', damages: '', damageType: '', weight: 0, size: '', attributes: [], properties: [], equipmentSlots: [] }`,
     /* proficiency */ `c.proficiency = ref(value, 'PROFICIENCY')`,
     /* damages     */ `c.damages = value`,
     /* damageType  */ `c.damageType = ref(value, 'DAMAGE_TYPE')`,

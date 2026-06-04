@@ -4,13 +4,16 @@
   "proficiency": "PROFICIENCY_WEAPON_COMPLEX",
   "damages": "1d8",
   "damageType": "DAMAGE_TYPE_PIERCING",
-  "altDamageType": "",
   "weight": 4,
   "size": "WEAPON_SIZE_LARGE",
   "attributes": [
-    "WEAPON_ATTRIBUTE_RANGED"
+    "WEAPON_ATTRIBUTE_TWO_HANDED",
+    "WEAPON_ATTRIBUTE_RANGED",
+    "WEAPON_ATTRIBUTE_AMMUNITION"
   ],
   "properties": [],
-  "equipmentSlots": [],
-  "ammoType": "ammunition"
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_WEAPON_RANGED"
+  ],
+  "ammoType": "AMMO_TYPE_ARROW"
 }

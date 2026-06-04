@@ -1,6 +1,6 @@
 import z from 'zod';
-import { SkillSchema } from '@/schemas/enums/Skill';
-import { CONSTS } from '@/consts';
+import { SkillSchema } from '../../../schemas/enums/Skill';
+import { CONSTS } from '../../../consts';
 
 /**
  * This property modify a skill check

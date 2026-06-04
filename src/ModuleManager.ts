@@ -25,6 +25,10 @@ export class ModuleManager {
         return validator(this.extendResolver.resolveEntity(ref));
     }
 
+    getResRefList() {
+        return this.extendResolver.keys
+    }
+
     loadModuleBlueprints(moduleContent: Record<string, ExtendableEntity>) {
         for (const [key, asset] of Object.entries(moduleContent)) {
             this.addAsset(key, asset);

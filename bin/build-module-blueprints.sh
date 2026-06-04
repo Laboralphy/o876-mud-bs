@@ -23,13 +23,14 @@ doTransformDataTypes () {
   if [ -n "$URL" ]
   then
     BP_PATH="$SCRIPT_DIR/../src/modules/$MODULE/blueprints/$BP_SUB/$THIS_TYPE"
-    echo "downloading/building $MODULE::$THIS_TYPE"
     mkdir -p "$BP_PATH"
     if ls "$BP_PATH"/*.json 2>/dev/null | grep -q .
     then
         rm "$BP_PATH"/*.json
     fi
+    echo "downloading/building $MODULE::$THIS_TYPE"
     doDownloadSheet "$MODULE-$THIS_TYPE" "$URL"
+    echo "transforming $MODULE-$THIS_TYPE.csv"
     npx tsx "$SCRIPT_DIR/../src/libs/build-assets/transform-data.ts" "$MODULE-$THIS_TYPE.csv" "$BP_PATH" "$SCRIPT_DIR/../src/libs/build-assets/transforms/$THIS_TYPE.ts"
     rm "$MODULE-$THIS_TYPE.csv"
   else

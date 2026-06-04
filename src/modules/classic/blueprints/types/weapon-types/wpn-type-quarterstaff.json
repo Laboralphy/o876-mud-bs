@@ -4,13 +4,13 @@
   "proficiency": "PROFICIENCY_WEAPON_SIMPLE",
   "damages": "1d6",
   "damageType": "DAMAGE_TYPE_CRUSHING",
-  "altDamageType": "",
   "weight": 4,
   "size": "WEAPON_SIZE_MEDIUM",
   "attributes": [
-    "melee"
+    "WEAPON_ATTRIBUTE_VERSATILE"
   ],
   "properties": [],
-  "equipmentSlots": [],
-  "ammoType": "versatile"
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_WEAPON_MELEE"
+  ]
 }

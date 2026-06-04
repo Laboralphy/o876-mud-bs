@@ -4,13 +4,13 @@
   "proficiency": "PROFICIENCY_WEAPON_COMPLEX",
   "damages": "1d8",
   "damageType": "DAMAGE_TYPE_SLASHING",
-  "altDamageType": "",
   "weight": 3,
   "size": "WEAPON_SIZE_MEDIUM",
   "attributes": [
-    "melee"
+    "WEAPON_ATTRIBUTE_VERSATILE"
   ],
   "properties": [],
-  "equipmentSlots": [],
-  "ammoType": "versatile"
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_WEAPON_MELEE"
+  ]
 }

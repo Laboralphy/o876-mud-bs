@@ -4,13 +4,17 @@
   "proficiency": "PROFICIENCY_WEAPON_SIMPLE",
   "damages": "1d8",
   "damageType": "DAMAGE_TYPE_PIERCING",
-  "altDamageType": "",
   "weight": 5,
   "size": "WEAPON_SIZE_MEDIUM",
   "attributes": [
+    "WEAPON_ATTRIBUTE_TWO_HANDED",
+    "WEAPON_ATTRIBUTE_AMMUNITION",
+    "WEAPON_ATTRIBUTE_LOADING",
     "WEAPON_ATTRIBUTE_RANGED"
   ],
   "properties": [],
-  "equipmentSlots": [],
-  "ammoType": "ranged"
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_WEAPON_RANGED"
+  ],
+  "ammoType": "AMMO_TYPE_QUARREL"
 }

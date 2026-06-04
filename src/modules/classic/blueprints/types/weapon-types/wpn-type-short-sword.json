@@ -4,13 +4,13 @@
   "proficiency": "PROFICIENCY_WEAPON_COMPLEX",
   "damages": "1d6",
   "damageType": "DAMAGE_TYPE_PIERCING",
-  "altDamageType": "",
   "weight": 2,
   "size": "WEAPON_SIZE_SMALL",
   "attributes": [
-    "melee"
+    "WEAPON_ATTRIBUTE_FINESSE"
   ],
   "properties": [],
-  "equipmentSlots": [],
-  "ammoType": "finesse"
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_WEAPON_MELEE"
+  ]
 }

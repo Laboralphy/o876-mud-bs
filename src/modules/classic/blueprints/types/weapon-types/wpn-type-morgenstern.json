@@ -4,12 +4,12 @@
   "proficiency": "PROFICIENCY_WEAPON_EXPERT",
   "damages": "1d8",
   "damageType": "DAMAGE_TYPE_CRUSHING",
-  "altDamageType": "DAMAGE_TYPE_PIERCING",
   "weight": 6,
   "size": "WEAPON_SIZE_MEDIUM",
-  "attributes": [
-    "melee"
-  ],
+  "attributes": [],
   "properties": [],
-  "equipmentSlots": []
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_WEAPON_MELEE"
+  ],
+  "altDamageType": "DAMAGE_TYPE_PIERCING"
 }

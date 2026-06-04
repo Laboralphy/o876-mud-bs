@@ -38,6 +38,9 @@ export class Manager implements IManager {
     public readonly events = new EventEmitter();
     private _time: number = 0;
     private readonly _moduleManager = new ModuleManager();
+    get moduleManager(): ModuleManager {
+        return this._moduleManager;
+    }
     private readonly _combatManager = new CombatManager();
     private readonly _creatures = new Map<string, Creature>();
     private readonly _items = new Map<string, Item>();
