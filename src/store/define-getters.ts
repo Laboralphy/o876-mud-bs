@@ -16,6 +16,7 @@ import { getDamageMitigation } from './getters/getDamageMitigation';
 import { getDefensiveSlots } from './getters/getDefensiveSlots';
 import { getEffectSet } from './getters/getEffectSet';
 import { getEffects } from './getters/getEffects';
+import { getEffectsWithProgram } from './getters/getEffectsWithProgram';
 import { getEquipmentProperties } from './getters/getEquipmentProperties';
 import { getEquipmentSlotProperties } from './getters/getEquipmentSlotProperties';
 import { getHealingFactor } from './getters/getHealingFactor';
@@ -23,6 +24,7 @@ import { getImmunities } from './getters/getImmunities';
 import { getInnateProperties } from './getters/getInnateProperties';
 import { getMaxHitPoints } from './getters/getMaxHitPoints';
 import { getOffensiveSlots } from './getters/getOffensiveSlots';
+import { getPropertiesWithProgram } from './getters/getPropertiesWithProgram';
 import { getPropertySet } from './getters/getPropertySet';
 import { getResistanceValues } from './getters/getResistanceValues';
 import { getSelectedWeapon } from './getters/getSelectedWeapon';
@@ -53,6 +55,7 @@ export type GetterReturnFunctions = {
     getDefensiveSlots: typeof getDefensiveSlots;
     getEffectSet: typeof getEffectSet;
     getEffects: typeof getEffects;
+    getEffectsWithProgram: typeof getEffectsWithProgram;
     getEquipmentProperties: typeof getEquipmentProperties;
     getEquipmentSlotProperties: typeof getEquipmentSlotProperties;
     getHealingFactor: typeof getHealingFactor;
@@ -60,6 +63,7 @@ export type GetterReturnFunctions = {
     getInnateProperties: typeof getInnateProperties;
     getMaxHitPoints: typeof getMaxHitPoints;
     getOffensiveSlots: typeof getOffensiveSlots;
+    getPropertiesWithProgram: typeof getPropertiesWithProgram;
     getPropertySet: typeof getPropertySet;
     getResistanceValues: typeof getResistanceValues;
     getSelectedWeapon: typeof getSelectedWeapon;
@@ -93,6 +97,7 @@ export const Getters = {
     getDefensiveSlots,
     getEffectSet,
     getEffects,
+    getEffectsWithProgram,
     getEquipmentProperties,
     getEquipmentSlotProperties,
     getHealingFactor,
@@ -100,6 +105,7 @@ export const Getters = {
     getInnateProperties,
     getMaxHitPoints,
     getOffensiveSlots,
+    getPropertiesWithProgram,
     getPropertySet,
     getResistanceValues,
     getSelectedWeapon,

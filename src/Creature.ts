@@ -100,12 +100,14 @@ export class Creature {
 
     private _iterateThroughPropertiesAndEffects(
         propCallback: (prop: Property, prog: IProgram<Property>) => void,
-        effCallback: (effect: Effect, prog: IProgram<Effect>) => void
+        effCallback: (effect: Effect, prog: IProgram<Effect>) => void,
+        effectsSource: Effect[] = this.getters.getEffectsWithProgram,
+        propertiesSource: Property[] = this.getters.getPropertiesWithProgram
     ): void {
-        for (const prop of this.getters.getActiveProperties) {
+        for (const prop of propertiesSource) {
             propCallback(prop, propertyPrograms.get(prop.type)!);
         }
-        for (const effect of this.getters.getActiveEffects) {
+        for (const effect of effectsSource) {
             effCallback(effect, effectPrograms.get(effect.type)!);
         }
     }
@@ -127,7 +129,9 @@ export class Creature {
                 if (effProg.mutate) {
                     effProg.mutate(effect, this, this.registry?.getCreature(effect.source));
                 }
-            }
+            },
+            this.getters.getActiveEffects,
+            this.getters.getActiveProperties
         );
     }
 
