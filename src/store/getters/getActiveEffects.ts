@@ -7,5 +7,7 @@ import { effectPrograms } from '../../effects/programs';
 import { Effect } from '../../effects/schemas';
 
 export const getActiveEffects = (state: State, getters: GetterReturnType): Effect[] => {
-    return getters.getEffects.filter((e) => effectPrograms.has(e.type));
+    return getters.getEffects.filter(
+        (e) => effectPrograms.has(e.type) && effectPrograms.get(e.type)!.mutate
+    );
 };

@@ -764,6 +764,40 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_THINK"
+                },
+                "mutate": {
+                  "description": "PropertyThink.mutate",
+                  "type": "string"
+                },
+                "attack": {
+                  "description": "PropertyThink.attack",
+                  "type": "string"
+                },
+                "attacked": {
+                  "description": "PropertyThink.attacked",
+                  "type": "string"
+                },
+                "damage": {
+                  "description": "PropertyThink.damage",
+                  "type": "string"
+                },
+                "damaged": {
+                  "description": "PropertyThink.damaged",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThink"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_DARKVISION"
                 }
               },
@@ -1697,6 +1731,40 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_THINK"
+                },
+                "mutate": {
+                  "description": "PropertyThink.mutate",
+                  "type": "string"
+                },
+                "attack": {
+                  "description": "PropertyThink.attack",
+                  "type": "string"
+                },
+                "attacked": {
+                  "description": "PropertyThink.attacked",
+                  "type": "string"
+                },
+                "damage": {
+                  "description": "PropertyThink.damage",
+                  "type": "string"
+                },
+                "damaged": {
+                  "description": "PropertyThink.damaged",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThink"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_DARKVISION"
                 }
               },
@@ -2576,6 +2644,40 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_THINK"
+                },
+                "mutate": {
+                  "description": "PropertyThink.mutate",
+                  "type": "string"
+                },
+                "attack": {
+                  "description": "PropertyThink.attack",
+                  "type": "string"
+                },
+                "attacked": {
+                  "description": "PropertyThink.attacked",
+                  "type": "string"
+                },
+                "damage": {
+                  "description": "PropertyThink.damage",
+                  "type": "string"
+                },
+                "damaged": {
+                  "description": "PropertyThink.damaged",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThink"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_DARKVISION"
                 }
               },
@@ -3439,6 +3541,40 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_THINK"
+                },
+                "mutate": {
+                  "description": "PropertyThink.mutate",
+                  "type": "string"
+                },
+                "attack": {
+                  "description": "PropertyThink.attack",
+                  "type": "string"
+                },
+                "attacked": {
+                  "description": "PropertyThink.attacked",
+                  "type": "string"
+                },
+                "damage": {
+                  "description": "PropertyThink.damage",
+                  "type": "string"
+                },
+                "damaged": {
+                  "description": "PropertyThink.damaged",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThink"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_DARKVISION"
                 }
               },
@@ -4296,6 +4432,40 @@
               ],
               "additionalProperties": false,
               "description": "Immunity"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_THINK"
+                },
+                "mutate": {
+                  "description": "PropertyThink.mutate",
+                  "type": "string"
+                },
+                "attack": {
+                  "description": "PropertyThink.attack",
+                  "type": "string"
+                },
+                "attacked": {
+                  "description": "PropertyThink.attacked",
+                  "type": "string"
+                },
+                "damage": {
+                  "description": "PropertyThink.damage",
+                  "type": "string"
+                },
+                "damaged": {
+                  "description": "PropertyThink.damaged",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThink"
             },
             {
               "type": "object",
@@ -5252,6 +5422,40 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_THINK"
+                },
+                "mutate": {
+                  "description": "PropertyThink.mutate",
+                  "type": "string"
+                },
+                "attack": {
+                  "description": "PropertyThink.attack",
+                  "type": "string"
+                },
+                "attacked": {
+                  "description": "PropertyThink.attacked",
+                  "type": "string"
+                },
+                "damage": {
+                  "description": "PropertyThink.damage",
+                  "type": "string"
+                },
+                "damaged": {
+                  "description": "PropertyThink.damaged",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThink"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_DARKVISION"
                 }
               },
@@ -6043,6 +6247,40 @@
                             ],
                             "additionalProperties": false,
                             "description": "Immunity"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_THINK"
+                              },
+                              "mutate": {
+                                "description": "PropertyThink.mutate",
+                                "type": "string"
+                              },
+                              "attack": {
+                                "description": "PropertyThink.attack",
+                                "type": "string"
+                              },
+                              "attacked": {
+                                "description": "PropertyThink.attacked",
+                                "type": "string"
+                              },
+                              "damage": {
+                                "description": "PropertyThink.damage",
+                                "type": "string"
+                              },
+                              "damaged": {
+                                "description": "PropertyThink.damaged",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThink"
                           },
                           {
                             "type": "object",
@@ -6921,6 +7159,40 @@
                             ],
                             "additionalProperties": false,
                             "description": "Immunity"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_THINK"
+                              },
+                              "mutate": {
+                                "description": "PropertyThink.mutate",
+                                "type": "string"
+                              },
+                              "attack": {
+                                "description": "PropertyThink.attack",
+                                "type": "string"
+                              },
+                              "attacked": {
+                                "description": "PropertyThink.attacked",
+                                "type": "string"
+                              },
+                              "damage": {
+                                "description": "PropertyThink.damage",
+                                "type": "string"
+                              },
+                              "damaged": {
+                                "description": "PropertyThink.damaged",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThink"
                           },
                           {
                             "type": "object",
@@ -7859,6 +8131,40 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_THINK"
+                              },
+                              "mutate": {
+                                "description": "PropertyThink.mutate",
+                                "type": "string"
+                              },
+                              "attack": {
+                                "description": "PropertyThink.attack",
+                                "type": "string"
+                              },
+                              "attacked": {
+                                "description": "PropertyThink.attacked",
+                                "type": "string"
+                              },
+                              "damage": {
+                                "description": "PropertyThink.damage",
+                                "type": "string"
+                              },
+                              "damaged": {
+                                "description": "PropertyThink.damaged",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThink"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_DARKVISION"
                               }
                             },
@@ -8715,6 +9021,40 @@
                             ],
                             "additionalProperties": false,
                             "description": "Immunity"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_THINK"
+                              },
+                              "mutate": {
+                                "description": "PropertyThink.mutate",
+                                "type": "string"
+                              },
+                              "attack": {
+                                "description": "PropertyThink.attack",
+                                "type": "string"
+                              },
+                              "attacked": {
+                                "description": "PropertyThink.attacked",
+                                "type": "string"
+                              },
+                              "damage": {
+                                "description": "PropertyThink.damage",
+                                "type": "string"
+                              },
+                              "damaged": {
+                                "description": "PropertyThink.damaged",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThink"
                           },
                           {
                             "type": "object",
@@ -9583,6 +9923,40 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_THINK"
+                              },
+                              "mutate": {
+                                "description": "PropertyThink.mutate",
+                                "type": "string"
+                              },
+                              "attack": {
+                                "description": "PropertyThink.attack",
+                                "type": "string"
+                              },
+                              "attacked": {
+                                "description": "PropertyThink.attacked",
+                                "type": "string"
+                              },
+                              "damage": {
+                                "description": "PropertyThink.damage",
+                                "type": "string"
+                              },
+                              "damaged": {
+                                "description": "PropertyThink.damaged",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThink"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_DARKVISION"
                               }
                             },
@@ -9760,11 +10134,11 @@
               "description": "Charges per cooldown"
             },
             "range": {
-              "type": "number",
+              "type": "string",
               "enum": [
-                0,
-                1,
-                2
+                "DISTANCE_CLOSE",
+                "DISTANCE_MEDIUM",
+                "DISTANCE_FAR"
               ],
               "description": "Effective range"
             },
@@ -9831,11 +10205,11 @@
         "description": "Charges per cooldown"
       },
       "range": {
-        "type": "number",
+        "type": "string",
         "enum": [
-          0,
-          1,
-          2
+          "DISTANCE_CLOSE",
+          "DISTANCE_MEDIUM",
+          "DISTANCE_FAR"
         ],
         "description": "Effective range"
       },
@@ -10622,6 +10996,40 @@
               ],
               "additionalProperties": false,
               "description": "Immunity"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_THINK"
+                },
+                "mutate": {
+                  "description": "PropertyThink.mutate",
+                  "type": "string"
+                },
+                "attack": {
+                  "description": "PropertyThink.attack",
+                  "type": "string"
+                },
+                "attacked": {
+                  "description": "PropertyThink.attacked",
+                  "type": "string"
+                },
+                "damage": {
+                  "description": "PropertyThink.damage",
+                  "type": "string"
+                },
+                "damaged": {
+                  "description": "PropertyThink.damaged",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThink"
             },
             {
               "type": "object",
@@ -11430,6 +11838,41 @@
     ],
     "additionalProperties": false,
     "description": "Immunity"
+  },
+  "PropertyThink": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "const": "PROPERTY_THINK"
+      },
+      "mutate": {
+        "description": "PropertyThink.mutate",
+        "type": "string"
+      },
+      "attack": {
+        "description": "PropertyThink.attack",
+        "type": "string"
+      },
+      "attacked": {
+        "description": "PropertyThink.attacked",
+        "type": "string"
+      },
+      "damage": {
+        "description": "PropertyThink.damage",
+        "type": "string"
+      },
+      "damaged": {
+        "description": "PropertyThink.damaged",
+        "type": "string"
+      }
+    },
+    "required": [
+      "type"
+    ],
+    "additionalProperties": false,
+    "description": "PropertyThink"
   },
   "PropertyDarkvision": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",

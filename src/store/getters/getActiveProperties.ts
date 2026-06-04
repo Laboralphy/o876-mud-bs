@@ -10,5 +10,5 @@ import { Property } from '../../properties/schemas';
 export const getActiveProperties = (state: State, getters: GetterReturnType): Property[] => {
     return getters.getInnateProperties
         .concat(getters.getEquipmentProperties)
-        .filter((p) => propertyPrograms.has(p.type));
+        .filter((p) => propertyPrograms.has(p.type) && propertyPrograms.get(p.type)!.mutate);
 };

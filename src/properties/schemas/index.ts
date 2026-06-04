@@ -22,9 +22,9 @@ import { PropertyMaxSenseBonus } from './modifiers/max-sense-bonus';
 import { PropertySkillModifier } from './modifiers/skill-modifier';
 import { PropertyAilment } from './status/ailment';
 import { PropertyImmunity } from './status/immunity';
+import { PropertyThink } from './think/think';
 import { PropertyDarkvision } from './visibility/darkvision';
 import { PropertyLight } from './visibility/light';
-import { PropertyThink } from './think/think';
 
 export const PropertyDefinitionSchema = z.discriminatedUnion('type', [
     PropertyDamageImmunity,
@@ -48,9 +48,9 @@ export const PropertyDefinitionSchema = z.discriminatedUnion('type', [
     PropertySkillModifier,
     PropertyAilment,
     PropertyImmunity,
+    PropertyThink,
     PropertyDarkvision,
     PropertyLight,
-    PropertyThink,
 ]);
 
 export type PropertyDefinition = z.infer<typeof PropertyDefinitionSchema>;
@@ -76,9 +76,9 @@ const _WrappedPropertyMaxSenseBonus = BasePropertySchema.extend({ type: z.litera
 const _WrappedPropertySkillModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_SKILL_MODIFIER), data: PropertySkillModifier });
 const _WrappedPropertyAilment = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_AILMENT), data: PropertyAilment });
 const _WrappedPropertyImmunity = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_IMMUNITY), data: PropertyImmunity });
+const _WrappedPropertyThink = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_THINK), data: PropertyThink });
 const _WrappedPropertyDarkvision = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_DARKVISION), data: PropertyDarkvision });
 const _WrappedPropertyLight = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_LIGHT), data: PropertyLight });
-const _WrappedPropertyThink = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_THINK), data: PropertyThink });
 
 export const PropertySchema = z.discriminatedUnion('type', [
     _WrappedPropertyDamageImmunity,
@@ -102,9 +102,9 @@ export const PropertySchema = z.discriminatedUnion('type', [
     _WrappedPropertySkillModifier,
     _WrappedPropertyAilment,
     _WrappedPropertyImmunity,
+    _WrappedPropertyThink,
     _WrappedPropertyDarkvision,
     _WrappedPropertyLight,
-    _WrappedPropertyThink,
 ]);
 
 export type Property = z.infer<typeof PropertySchema>;
