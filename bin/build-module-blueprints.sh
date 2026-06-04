@@ -25,9 +25,12 @@ doTransformDataTypes () {
     BP_PATH="$SCRIPT_DIR/../src/modules/$MODULE/blueprints/$BP_SUB/$THIS_TYPE"
     echo "downloading/building $MODULE::$THIS_TYPE"
     mkdir -p "$BP_PATH"
-    rm "$BP_PATH"/*.json
+    if ls "$BP_PATH"/*.json 2>/dev/null | grep -q .
+    then
+        rm "$BP_PATH"/*.json
+    fi
     doDownloadSheet "$MODULE-$THIS_TYPE" "$URL"
-    node transform-data.js "$MODULE-$THIS_TYPE.csv" "$BP_PATH"
+    npx tsx "$SCRIPT_DIR/../src/libs/build-assets/transform-data.ts" "$MODULE-$THIS_TYPE.csv" "$BP_PATH" "$SCRIPT_DIR/../src/libs/build-assets/transforms/$THIS_TYPE.ts"
     rm "$MODULE-$THIS_TYPE.csv"
   else
     echo "module $MODULE : has no data for $THIS_TYPE"
@@ -47,7 +50,7 @@ doProcessModuleData () {
   url_var_shield_types=${URL_SHEET_PREFIX}_SHIELD_TYPES
   url_var_weapons=${URL_SHEET_PREFIX}_WEAPONS
   url_var_armors=${URL_SHEET_PREFIX}_ARMORS
-  url_var_ammunitions=${URL_SHEET_PREFIX}_AMMUNITIONS
+  url_var_ammunition=${URL_SHEET_PREFIX}_AMMUNITION
   url_var_gear=${URL_SHEET_PREFIX}_GEAR
   url_var_shields=${URL_SHEET_PREFIX}_SHIELDS
   url_var_monsters=${URL_SHEET_PREFIX}_MONSTERS
@@ -59,7 +62,7 @@ doProcessModuleData () {
   doTransformDataTypes "$MODULE" types shield-types "${!url_var_shield_types}"
   doTransformDataTypes "$MODULE" items weapons "${!url_var_weapons}"
   doTransformDataTypes "$MODULE" items armors "${!url_var_armors}"
-  doTransformDataTypes "$MODULE" items ammo "${!url_var_ammunitions}"
+  doTransformDataTypes "$MODULE" items ammo "${!url_var_ammunition}"
   doTransformDataTypes "$MODULE" items gear "${!url_var_gear}"
   doTransformDataTypes "$MODULE" items shields "${!url_var_shields}"
   doTransformDataTypes "$MODULE" creatures monsters "${!url_var_monsters}"

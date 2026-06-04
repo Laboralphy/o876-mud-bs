@@ -1,0 +1,11 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "itemType": "ITEM_TYPE_AMMO",
+  "ammoType": "AMMO_TYPE_ARROW",
+  "damageType": "DAMAGE_TYPE_PIERCING",
+  "weight": 0.05,
+  "properties": [],
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_AMMO"
+  ]
+}

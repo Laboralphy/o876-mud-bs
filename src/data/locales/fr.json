@@ -151,6 +151,9 @@
     "PropertyAttackModifier.attackType": "Restreindre au type d'attaque (optionnel)",
     "PropertyAttackModifier.specie": "Restreindre à l'espèce de la cible (optionnel)",
 
+    "PropertyWeaponDamageModifier": "Modificateur de dégâts d'arme",
+    "PropertyWeaponDamageModifier.amp": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)",
+
     "PropertyExtraHitpoints": "Points de vie supplémentaires",
     "PropertyExtraHitpoints.amp": "Points de vie maximum additionnels",
 

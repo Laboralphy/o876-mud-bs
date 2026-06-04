@@ -1,0 +1,17 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "itemType": "ITEM_TYPE_SHIELD",
+  "proficiency": "PROFICIENCY_SHIELD",
+  "armorClass": 3,
+  "weight": 6,
+  "properties": [
+    {
+      "type": "PROPERTY_ARMOR_CLASS_MODIFIER",
+      "amp": 3,
+      "attackType": "ATTACK_TYPE_RANGED"
+    }
+  ],
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_SHIELD"
+  ]
+}

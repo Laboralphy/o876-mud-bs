@@ -1,0 +1,16 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "itemType": "ITEM_TYPE_WEAPON",
+  "proficiency": "PROFICIENCY_WEAPON_COMPLEX",
+  "damages": "1d8",
+  "damageType": "DAMAGE_TYPE_PIERCING",
+  "altDamageType": "",
+  "weight": 4,
+  "size": "WEAPON_SIZE_LARGE",
+  "attributes": [
+    "WEAPON_ATTRIBUTE_RANGED"
+  ],
+  "properties": [],
+  "equipmentSlots": [],
+  "ammoType": "ammunition"
+}

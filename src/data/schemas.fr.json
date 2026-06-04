@@ -619,6 +619,26 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts d'arme"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_AILMENT"
                 },
                 "ailment": {
@@ -1586,6 +1606,26 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts d'arme"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_AILMENT"
                 },
                 "ailment": {
@@ -2499,6 +2539,26 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts d'arme"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_AILMENT"
                 },
                 "ailment": {
@@ -3396,6 +3456,26 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts d'arme"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_AILMENT"
                 },
                 "ailment": {
@@ -4287,6 +4367,26 @@
               ],
               "additionalProperties": false,
               "description": "Modificateur de compétence"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts d'arme"
             },
             {
               "type": "object",
@@ -5277,6 +5377,26 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts d'arme"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_AILMENT"
                 },
                 "ailment": {
@@ -6102,6 +6222,26 @@
                             ],
                             "additionalProperties": false,
                             "description": "Modificateur de compétence"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                              },
+                              "amp": {
+                                "type": "string",
+                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Modificateur de dégâts d'arme"
                           },
                           {
                             "type": "object",
@@ -7014,6 +7154,26 @@
                             ],
                             "additionalProperties": false,
                             "description": "Modificateur de compétence"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                              },
+                              "amp": {
+                                "type": "string",
+                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Modificateur de dégâts d'arme"
                           },
                           {
                             "type": "object",
@@ -7986,6 +8146,26 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                              },
+                              "amp": {
+                                "type": "string",
+                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Modificateur de dégâts d'arme"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_AILMENT"
                               },
                               "ailment": {
@@ -8882,6 +9062,26 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                              },
+                              "amp": {
+                                "type": "string",
+                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Modificateur de dégâts d'arme"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_AILMENT"
                               },
                               "ailment": {
@@ -9772,6 +9972,26 @@
                             ],
                             "additionalProperties": false,
                             "description": "Modificateur de compétence"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                              },
+                              "amp": {
+                                "type": "string",
+                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Modificateur de dégâts d'arme"
                           },
                           {
                             "type": "object",
@@ -10857,6 +11077,26 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts d'arme"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_AILMENT"
                 },
                 "ailment": {
@@ -11691,6 +11931,27 @@
     ],
     "additionalProperties": false,
     "description": "Modificateur de compétence"
+  },
+  "PropertyWeaponDamageModifier": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+      },
+      "amp": {
+        "type": "string",
+        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+        "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+      }
+    },
+    "required": [
+      "type",
+      "amp"
+    ],
+    "additionalProperties": false,
+    "description": "Modificateur de dégâts d'arme"
   },
   "PropertyAilment": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",

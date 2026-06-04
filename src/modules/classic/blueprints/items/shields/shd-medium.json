@@ -1,0 +1,7 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "extends": [
+    "shd-type-medium"
+  ],
+  "properties": []
+}

@@ -1,0 +1,12 @@
+{
+  "entityType": "ENTITY_TYPE_EXTENDED_PROPERTIES",
+  "properties": [
+    {
+      "type": "PROPERTY_DARKVISION"
+    }
+  ],
+  "extends": [
+    "cp-lifeless",
+    "cp-unholy"
+  ]
+}

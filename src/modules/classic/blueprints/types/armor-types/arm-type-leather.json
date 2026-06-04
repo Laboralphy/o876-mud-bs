@@ -1,0 +1,17 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "itemType": "ITEM_TYPE_ARMOR",
+  "proficiency": "PROFICIENCY_ARMOR_LIGHT",
+  "armorClass": 1,
+  "weight": 5,
+  "properties": [
+    {
+      "type": "PROPERTY_ARMOR_CLASS_MODIFIER",
+      "amp": -1,
+      "damageType": "DAMAGE_TYPE_PIERCING"
+    }
+  ],
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_CHEST"
+  ]
+}

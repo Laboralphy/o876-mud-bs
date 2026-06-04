@@ -1,0 +1,16 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "extends": [
+    "wpn-type-dagger"
+  ],
+  "properties": [
+    {
+      "type": "PROPERTY_ATTACK_MODIFIER",
+      "amp": 1
+    },
+    {
+      "type": "PROPERTY_WEAPON_DAMAGE_MODIFIER",
+      "amp": 1
+    }
+  ]
+}

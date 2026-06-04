@@ -20,6 +20,7 @@ import { PropertyAttackModifier } from './modifiers/attack-modifier';
 import { PropertyExtraHitpoints } from './modifiers/extra-hitpoints';
 import { PropertyMaxSenseBonus } from './modifiers/max-sense-bonus';
 import { PropertySkillModifier } from './modifiers/skill-modifier';
+import { PropertyWeaponDamageModifier } from './modifiers/weapon-damage-modifier';
 import { PropertyAilment } from './status/ailment';
 import { PropertyImmunity } from './status/immunity';
 import { PropertyThink } from './think/think';
@@ -46,6 +47,7 @@ export const PropertyDefinitionSchema = z.discriminatedUnion('type', [
     PropertyExtraHitpoints,
     PropertyMaxSenseBonus,
     PropertySkillModifier,
+    PropertyWeaponDamageModifier,
     PropertyAilment,
     PropertyImmunity,
     PropertyThink,
@@ -74,6 +76,7 @@ const _WrappedPropertyAttackModifier = BasePropertySchema.extend({ type: z.liter
 const _WrappedPropertyExtraHitpoints = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_EXTRA_HITPOINTS), data: PropertyExtraHitpoints });
 const _WrappedPropertyMaxSenseBonus = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_MAX_SENSE_BONUS), data: PropertyMaxSenseBonus });
 const _WrappedPropertySkillModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_SKILL_MODIFIER), data: PropertySkillModifier });
+const _WrappedPropertyWeaponDamageModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_WEAPON_DAMAGE_MODIFIER), data: PropertyWeaponDamageModifier });
 const _WrappedPropertyAilment = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_AILMENT), data: PropertyAilment });
 const _WrappedPropertyImmunity = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_IMMUNITY), data: PropertyImmunity });
 const _WrappedPropertyThink = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_THINK), data: PropertyThink });
@@ -100,6 +103,7 @@ export const PropertySchema = z.discriminatedUnion('type', [
     _WrappedPropertyExtraHitpoints,
     _WrappedPropertyMaxSenseBonus,
     _WrappedPropertySkillModifier,
+    _WrappedPropertyWeaponDamageModifier,
     _WrappedPropertyAilment,
     _WrappedPropertyImmunity,
     _WrappedPropertyThink,

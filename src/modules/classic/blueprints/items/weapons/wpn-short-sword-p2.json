@@ -1,0 +1,16 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "extends": [
+    "wpn-type-short-sword"
+  ],
+  "properties": [
+    {
+      "type": "PROPERTY_ATTACK_MODIFIER",
+      "amp": 2
+    },
+    {
+      "type": "PROPERTY_WEAPON_DAMAGE_MODIFIER",
+      "amp": 2
+    }
+  ]
+}

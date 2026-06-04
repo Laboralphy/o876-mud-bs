@@ -1,0 +1,9 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "itemType": "ITEM_TYPE_GAUNTLETS",
+  "weight": 1.5,
+  "properties": [],
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_ARMS"
+  ]
+}
