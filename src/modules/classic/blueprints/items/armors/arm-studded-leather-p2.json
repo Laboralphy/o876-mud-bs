@@ -1,0 +1,12 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "extends": [
+    "arm-type-studded-leather"
+  ],
+  "properties": [
+    {
+      "type": "PROPERTY_ARMOR_CLASS_MODIFIER",
+      "amp": 2
+    }
+  ]
+}

@@ -30,12 +30,16 @@ import { ModuleManager } from './ModuleManager';
 import { ExtendableEntity } from './libs/extend-resolver/ExtendResolver';
 import { CombatManager } from './libs/combat/CombatManager';
 import { IManager } from './interfaces/IManager';
+import baseModule from './modules/base';
+import classicModule from './modules/classic';
 
 export class Manager implements IManager {
     public readonly events = new EventEmitter();
     public readonly scripts = new ScriptManager();
     private _time: number = 0;
-    private readonly _moduleManager = new ModuleManager();
+    private readonly _moduleManager = new ModuleManager()
+        .loadModule(baseModule.blueprints)
+        .loadModule(classicModule.blueprints);
     private readonly _combatManager = new CombatManager();
     private readonly _creatures = new Map<string, Creature>();
     private readonly _items = new Map<string, Item>();

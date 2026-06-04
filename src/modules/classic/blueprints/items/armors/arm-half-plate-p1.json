@@ -1,0 +1,12 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "extends": [
+    "arm-type-half-plate"
+  ],
+  "properties": [
+    {
+      "type": "PROPERTY_ARMOR_CLASS_MODIFIER",
+      "amp": 1
+    }
+  ]
+}

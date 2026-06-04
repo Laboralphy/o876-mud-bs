@@ -22,10 +22,11 @@ export class ModuleManager {
         return validator(this.extendResolver.resolveEntity(ref));
     }
 
-    loadModule(moduleContent: Record<string, ExtendableEntity>) {
+    loadModule(moduleContent: Record<string, ExtendableEntity>): this {
         for (const [key, asset] of Object.entries(moduleContent)) {
             this.addAsset(key, asset);
         }
+        return this;
     }
 
     /**

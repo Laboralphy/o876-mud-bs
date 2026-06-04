@@ -1,0 +1,9 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "itemType": "ITEM_TYPE_HELM",
+  "weight": 3,
+  "properties": [],
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_HEAD"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "entityType": "ENTITY_TYPE_EXTENDED_PROPERTIES",
+  "properties": [
+    {
+      "type": "PROPERTY_IMMUNITY",
+      "immunityType": "IMMUNITY_TYPE_PETRIFICATION"
+    }
+  ],
+  "extends": [
+    "cp-undead",
+    "cp-mindless",
+    "cp-flawed-deflective-skin",
+    "cp-unholy"
+  ]
+}

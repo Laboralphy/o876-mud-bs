@@ -151,6 +151,9 @@
     "PropertyAttackModifier.attackType": "Restrict to attack type (optional)",
     "PropertyAttackModifier.specie": "Restrict to target species (optional)",
 
+    "PropertyWeaponDamageModifier": "Weapon Damage Modifier",
+    "PropertyWeaponDamageModifier.amp": "Bonus damage dice added to weapon attacks (e.g. 1d6)",
+
     "PropertyExtraHitpoints": "Extra Hitpoints",
     "PropertyExtraHitpoints.amp": "Additional maximum hitpoints",
 

@@ -1,0 +1,19 @@
+{
+  "entityType": "ENTITY_TYPE_EXTENDED_PROPERTIES",
+  "properties": [
+    {
+      "type": "PROPERTY_DARKVISION"
+    },
+    {
+      "type": "PROPERTY_DAMAGE_RESISTANCE",
+      "damageType": "DAMAGE_TYPE_THERMAL"
+    },
+    {
+      "type": "PROPERTY_DAMAGE_VULNERABILITY",
+      "damageType": "DAMAGE_TYPE_RADIANT"
+    }
+  ],
+  "extends": [
+    "cp-poison-immunity"
+  ]
+}

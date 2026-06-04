@@ -1,0 +1,13 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "extends": [
+    "ammo-type-arrow"
+  ],
+  "properties": [
+    {
+      "type": "PROPERTY_DAMAGE_MODIFIER",
+      "amp": "1d4",
+      "damageType": "DAMAGE_TYPE_FIRE"
+    }
+  ]
+}

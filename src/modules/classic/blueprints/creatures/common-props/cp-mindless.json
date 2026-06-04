@@ -1,0 +1,13 @@
+{
+  "entityType": "ENTITY_TYPE_EXTENDED_PROPERTIES",
+  "properties": [
+    {
+      "type": "PROPERTY_IMMUNITY",
+      "immunityType": "IMMUNITY_TYPE_FEAR"
+    },
+    {
+      "type": "PROPERTY_IMMUNITY",
+      "immunityType": "IMMUNITY_TYPE_CHARM"
+    }
+  ]
+}

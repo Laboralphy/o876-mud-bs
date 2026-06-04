@@ -1,0 +1,17 @@
+{
+  "entityType": "ENTITY_TYPE_EXTENDED_PROPERTIES",
+  "properties": [
+    {
+      "type": "PROPERTY_DAMAGE_IMMUNITY",
+      "damageType": "DAMAGE_TYPE_CRYOGENIC"
+    },
+    {
+      "type": "PROPERTY_IMMUNITY",
+      "immunityType": "IMMUNITY_TYPE_PETRIFICATION"
+    }
+  ],
+  "extends": [
+    "cp-undead",
+    "cp-hard-skin"
+  ]
+}

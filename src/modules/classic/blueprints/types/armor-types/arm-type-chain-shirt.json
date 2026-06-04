@@ -1,0 +1,31 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "itemType": "ITEM_TYPE_ARMOR",
+  "proficiency": "PROFICIENCY_ARMOR_MEDIUM",
+  "armorClass": 3,
+  "weight": 10,
+  "properties": [
+    {
+      "type": "PROPERTY_ARMOR_CLASS_MODIFIER",
+      "amp": 1,
+      "damageType": "DAMAGE_TYPE_SLASHING"
+    },
+    {
+      "type": "PROPERTY_ARMOR_CLASS_MODIFIER",
+      "amp": -2,
+      "damageType": "DAMAGE_TYPE_PIERCING"
+    },
+    {
+      "type": "PROPERTY_ARMOR_CLASS_MODIFIER",
+      "amp": -1,
+      "damageType": "DAMAGE_TYPE_CRUSHING"
+    },
+    {
+      "type": "PROPERTY_MAX_SENSE_BONUS",
+      "amp": 2
+    }
+  ],
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_CHEST"
+  ]
+}

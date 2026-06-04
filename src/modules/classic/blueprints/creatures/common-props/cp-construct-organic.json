@@ -1,0 +1,14 @@
+{
+  "entityType": "ENTITY_TYPE_EXTENDED_PROPERTIES",
+  "properties": [
+    {
+      "type": "PROPERTY_IMMUNITY",
+      "immunityType": "IMMUNITY_TYPE_PARALYSIS"
+    }
+  ],
+  "extends": [
+    "cp-lifeless",
+    "cp-mindless",
+    "cp-hard-skin"
+  ]
+}

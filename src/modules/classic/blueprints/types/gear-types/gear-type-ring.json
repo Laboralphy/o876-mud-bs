@@ -1,0 +1,10 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "itemType": "ITEM_TYPE_RING",
+  "weight": 0.005,
+  "properties": [],
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_FINGER_LEFT",
+    "EQUIPMENT_SLOT_FINGER_RIGHT"
+  ]
+}

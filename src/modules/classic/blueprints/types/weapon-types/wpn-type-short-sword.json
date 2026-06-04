@@ -1,0 +1,16 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "itemType": "ITEM_TYPE_WEAPON",
+  "proficiency": "PROFICIENCY_WEAPON_COMPLEX",
+  "damages": "1d6",
+  "damageType": "DAMAGE_TYPE_PIERCING",
+  "altDamageType": "",
+  "weight": 2,
+  "size": "WEAPON_SIZE_SMALL",
+  "attributes": [
+    "melee"
+  ],
+  "properties": [],
+  "equipmentSlots": [],
+  "ammoType": "finesse"
+}

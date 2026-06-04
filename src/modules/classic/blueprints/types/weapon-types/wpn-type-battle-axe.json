@@ -1,0 +1,16 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "itemType": "ITEM_TYPE_WEAPON",
+  "proficiency": "PROFICIENCY_WEAPON_COMPLEX",
+  "damages": "1d10",
+  "damageType": "DAMAGE_TYPE_SLASHING",
+  "altDamageType": "",
+  "weight": 4,
+  "size": "WEAPON_SIZE_MEDIUM",
+  "attributes": [
+    "melee"
+  ],
+  "properties": [],
+  "equipmentSlots": [],
+  "ammoType": "versatile"
+}

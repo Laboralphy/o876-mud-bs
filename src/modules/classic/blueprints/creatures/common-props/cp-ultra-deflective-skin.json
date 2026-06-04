@@ -1,0 +1,17 @@
+{
+  "entityType": "ENTITY_TYPE_EXTENDED_PROPERTIES",
+  "properties": [
+    {
+      "type": "PROPERTY_DAMAGE_IMMUNITY",
+      "damageType": "DAMAGE_TYPE_SLASHING"
+    },
+    {
+      "type": "PROPERTY_DAMAGE_IMMUNITY",
+      "damageType": "DAMAGE_TYPE_PIERCING"
+    },
+    {
+      "type": "PROPERTY_DAMAGE_RESISTANCE",
+      "damageType": "DAMAGE_TYPE_CRUSHING"
+    }
+  ]
+}

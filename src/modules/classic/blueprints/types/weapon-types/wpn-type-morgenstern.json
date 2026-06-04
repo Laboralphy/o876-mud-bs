@@ -1,0 +1,15 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "itemType": "ITEM_TYPE_WEAPON",
+  "proficiency": "PROFICIENCY_WEAPON_EXPERT",
+  "damages": "1d8",
+  "damageType": "DAMAGE_TYPE_CRUSHING",
+  "altDamageType": "DAMAGE_TYPE_PIERCING",
+  "weight": 6,
+  "size": "WEAPON_SIZE_MEDIUM",
+  "attributes": [
+    "melee"
+  ],
+  "properties": [],
+  "equipmentSlots": []
+}

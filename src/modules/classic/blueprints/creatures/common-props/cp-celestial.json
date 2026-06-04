@@ -1,0 +1,13 @@
+{
+  "entityType": "ENTITY_TYPE_EXTENDED_PROPERTIES",
+  "properties": [
+    {
+      "type": "PROPERTY_DAMAGE_RESISTANCE",
+      "damageType": "DAMAGE_TYPE_RADIANT"
+    },
+    {
+      "type": "PROPERTY_IMMUNITY",
+      "immunityType": "IMMUNITY_TYPE_FEAR"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "itemType": "ITEM_TYPE_WEAPON",
+  "proficiency": "PROFICIENCY_WEAPON_EXPERT",
+  "damages": "1d10",
+  "damageType": "DAMAGE_TYPE_SLASHING",
+  "altDamageType": "DAMAGE_TYPE_PIERCING",
+  "weight": 12,
+  "size": "WEAPON_SIZE_LARGE",
+  "attributes": [
+    "melee"
+  ],
+  "properties": [],
+  "equipmentSlots": [],
+  "ammoType": "two-handed"
+}

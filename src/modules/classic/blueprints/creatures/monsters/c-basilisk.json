@@ -1,0 +1,63 @@
+{
+  "entityType": "ENTITY_TYPE_CREATURE",
+  "abilities": {
+    "ABILITY_BODY": 16,
+    "ABILITY_SENSES": 8,
+    "ABILITY_MIND": 4,
+    "ABILITY_PRESENCE": 7
+  },
+  "armorClass": 6,
+  "specie": "SPECIE_MONSTROSITY",
+  "size": "CREATURE_SIZE_MEDIUM",
+  "proficiencies": [
+    "PROFICIENCY_UNARMED"
+  ],
+  "properties": [
+    {
+      "type": "PROPERTY_DARKVISION"
+    }
+  ],
+  "equipment": [
+    {
+      "entityType": "ENTITY_TYPE_ITEM",
+      "itemType": "ITEM_TYPE_WEAPON",
+      "proficiency": "PROFICIENCY_UNARMED",
+      "weight": 0,
+      "size": "WEAPON_SIZE_SMALL",
+      "attributes": [],
+      "damages": "2d6",
+      "damageType": "DAMAGE_TYPE_PIERCING",
+      "properties": [],
+      "equipmentSlots": [
+        "EQUIPMENT_SLOT_NATURAL_WEAPON_1",
+        "EQUIPMENT_SLOT_NATURAL_WEAPON_2",
+        "EQUIPMENT_SLOT_NATURAL_WEAPON_3"
+      ]
+    },
+    {
+      "entityType": "ENTITY_TYPE_ITEM",
+      "itemType": "ITEM_TYPE_WEAPON",
+      "proficiency": "PROFICIENCY_UNARMED",
+      "weight": 0,
+      "size": "WEAPON_SIZE_SMALL",
+      "attributes": [],
+      "damages": "1d1",
+      "damageType": "DAMAGE_TYPE_RADIANT",
+      "properties": [
+        {
+          "type": "PROPERTY_AILMENT",
+          "ailment": "AILMENT_PETRIFICATION",
+          "chance": 4,
+          "dc": 12,
+          "subtype": "EFFECT_SUBTYPE_EXTRAORDINARY"
+        }
+      ],
+      "equipmentSlots": [
+        "EQUIPMENT_SLOT_NATURAL_WEAPON_1",
+        "EQUIPMENT_SLOT_NATURAL_WEAPON_2",
+        "EQUIPMENT_SLOT_NATURAL_WEAPON_3"
+      ]
+    }
+  ],
+  "actions": []
+}
