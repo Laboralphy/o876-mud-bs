@@ -619,6 +619,26 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts d'arme"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_AILMENT"
                 },
                 "ailment": {
@@ -758,6 +778,40 @@
               ],
               "additionalProperties": false,
               "description": "Immunité"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_THINK"
+                },
+                "mutate": {
+                  "description": "PropertyThink.mutate",
+                  "type": "string"
+                },
+                "attack": {
+                  "description": "PropertyThink.attack",
+                  "type": "string"
+                },
+                "attacked": {
+                  "description": "PropertyThink.attacked",
+                  "type": "string"
+                },
+                "damage": {
+                  "description": "PropertyThink.damage",
+                  "type": "string"
+                },
+                "damaged": {
+                  "description": "PropertyThink.damaged",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThink"
             },
             {
               "type": "object",
@@ -1552,6 +1606,26 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts d'arme"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_AILMENT"
                 },
                 "ailment": {
@@ -1691,6 +1765,40 @@
               ],
               "additionalProperties": false,
               "description": "Immunité"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_THINK"
+                },
+                "mutate": {
+                  "description": "PropertyThink.mutate",
+                  "type": "string"
+                },
+                "attack": {
+                  "description": "PropertyThink.attack",
+                  "type": "string"
+                },
+                "attacked": {
+                  "description": "PropertyThink.attacked",
+                  "type": "string"
+                },
+                "damage": {
+                  "description": "PropertyThink.damage",
+                  "type": "string"
+                },
+                "damaged": {
+                  "description": "PropertyThink.damaged",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThink"
             },
             {
               "type": "object",
@@ -2431,6 +2539,26 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts d'arme"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_AILMENT"
                 },
                 "ailment": {
@@ -2570,6 +2698,40 @@
               ],
               "additionalProperties": false,
               "description": "Immunité"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_THINK"
+                },
+                "mutate": {
+                  "description": "PropertyThink.mutate",
+                  "type": "string"
+                },
+                "attack": {
+                  "description": "PropertyThink.attack",
+                  "type": "string"
+                },
+                "attacked": {
+                  "description": "PropertyThink.attacked",
+                  "type": "string"
+                },
+                "damage": {
+                  "description": "PropertyThink.damage",
+                  "type": "string"
+                },
+                "damaged": {
+                  "description": "PropertyThink.damaged",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThink"
             },
             {
               "type": "object",
@@ -3294,6 +3456,26 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts d'arme"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_AILMENT"
                 },
                 "ailment": {
@@ -3433,6 +3615,40 @@
               ],
               "additionalProperties": false,
               "description": "Immunité"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_THINK"
+                },
+                "mutate": {
+                  "description": "PropertyThink.mutate",
+                  "type": "string"
+                },
+                "attack": {
+                  "description": "PropertyThink.attack",
+                  "type": "string"
+                },
+                "attacked": {
+                  "description": "PropertyThink.attacked",
+                  "type": "string"
+                },
+                "damage": {
+                  "description": "PropertyThink.damage",
+                  "type": "string"
+                },
+                "damaged": {
+                  "description": "PropertyThink.damaged",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThink"
             },
             {
               "type": "object",
@@ -4157,6 +4373,26 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts d'arme"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_AILMENT"
                 },
                 "ailment": {
@@ -4296,6 +4532,40 @@
               ],
               "additionalProperties": false,
               "description": "Immunité"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_THINK"
+                },
+                "mutate": {
+                  "description": "PropertyThink.mutate",
+                  "type": "string"
+                },
+                "attack": {
+                  "description": "PropertyThink.attack",
+                  "type": "string"
+                },
+                "attacked": {
+                  "description": "PropertyThink.attacked",
+                  "type": "string"
+                },
+                "damage": {
+                  "description": "PropertyThink.damage",
+                  "type": "string"
+                },
+                "damaged": {
+                  "description": "PropertyThink.damaged",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThink"
             },
             {
               "type": "object",
@@ -5107,6 +5377,26 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts d'arme"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_AILMENT"
                 },
                 "ailment": {
@@ -5246,6 +5536,40 @@
               ],
               "additionalProperties": false,
               "description": "Immunité"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_THINK"
+                },
+                "mutate": {
+                  "description": "PropertyThink.mutate",
+                  "type": "string"
+                },
+                "attack": {
+                  "description": "PropertyThink.attack",
+                  "type": "string"
+                },
+                "attacked": {
+                  "description": "PropertyThink.attacked",
+                  "type": "string"
+                },
+                "damage": {
+                  "description": "PropertyThink.damage",
+                  "type": "string"
+                },
+                "damaged": {
+                  "description": "PropertyThink.damaged",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThink"
             },
             {
               "type": "object",
@@ -5904,6 +6228,26 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                              },
+                              "amp": {
+                                "type": "string",
+                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Modificateur de dégâts d'arme"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_AILMENT"
                               },
                               "ailment": {
@@ -6043,6 +6387,40 @@
                             ],
                             "additionalProperties": false,
                             "description": "Immunité"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_THINK"
+                              },
+                              "mutate": {
+                                "description": "PropertyThink.mutate",
+                                "type": "string"
+                              },
+                              "attack": {
+                                "description": "PropertyThink.attack",
+                                "type": "string"
+                              },
+                              "attacked": {
+                                "description": "PropertyThink.attacked",
+                                "type": "string"
+                              },
+                              "damage": {
+                                "description": "PropertyThink.damage",
+                                "type": "string"
+                              },
+                              "damaged": {
+                                "description": "PropertyThink.damaged",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThink"
                           },
                           {
                             "type": "object",
@@ -6782,6 +7160,26 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                              },
+                              "amp": {
+                                "type": "string",
+                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Modificateur de dégâts d'arme"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_AILMENT"
                               },
                               "ailment": {
@@ -6921,6 +7319,40 @@
                             ],
                             "additionalProperties": false,
                             "description": "Immunité"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_THINK"
+                              },
+                              "mutate": {
+                                "description": "PropertyThink.mutate",
+                                "type": "string"
+                              },
+                              "attack": {
+                                "description": "PropertyThink.attack",
+                                "type": "string"
+                              },
+                              "attacked": {
+                                "description": "PropertyThink.attacked",
+                                "type": "string"
+                              },
+                              "damage": {
+                                "description": "PropertyThink.damage",
+                                "type": "string"
+                              },
+                              "damaged": {
+                                "description": "PropertyThink.damaged",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThink"
                           },
                           {
                             "type": "object",
@@ -7714,6 +8146,26 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                              },
+                              "amp": {
+                                "type": "string",
+                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Modificateur de dégâts d'arme"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_AILMENT"
                               },
                               "ailment": {
@@ -7853,6 +8305,40 @@
                             ],
                             "additionalProperties": false,
                             "description": "Immunité"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_THINK"
+                              },
+                              "mutate": {
+                                "description": "PropertyThink.mutate",
+                                "type": "string"
+                              },
+                              "attack": {
+                                "description": "PropertyThink.attack",
+                                "type": "string"
+                              },
+                              "attacked": {
+                                "description": "PropertyThink.attacked",
+                                "type": "string"
+                              },
+                              "damage": {
+                                "description": "PropertyThink.damage",
+                                "type": "string"
+                              },
+                              "damaged": {
+                                "description": "PropertyThink.damaged",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThink"
                           },
                           {
                             "type": "object",
@@ -8576,6 +9062,26 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                              },
+                              "amp": {
+                                "type": "string",
+                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Modificateur de dégâts d'arme"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_AILMENT"
                               },
                               "ailment": {
@@ -8715,6 +9221,40 @@
                             ],
                             "additionalProperties": false,
                             "description": "Immunité"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_THINK"
+                              },
+                              "mutate": {
+                                "description": "PropertyThink.mutate",
+                                "type": "string"
+                              },
+                              "attack": {
+                                "description": "PropertyThink.attack",
+                                "type": "string"
+                              },
+                              "attacked": {
+                                "description": "PropertyThink.attacked",
+                                "type": "string"
+                              },
+                              "damage": {
+                                "description": "PropertyThink.damage",
+                                "type": "string"
+                              },
+                              "damaged": {
+                                "description": "PropertyThink.damaged",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThink"
                           },
                           {
                             "type": "object",
@@ -9438,6 +9978,26 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                              },
+                              "amp": {
+                                "type": "string",
+                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Modificateur de dégâts d'arme"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_AILMENT"
                               },
                               "ailment": {
@@ -9577,6 +10137,40 @@
                             ],
                             "additionalProperties": false,
                             "description": "Immunité"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_THINK"
+                              },
+                              "mutate": {
+                                "description": "PropertyThink.mutate",
+                                "type": "string"
+                              },
+                              "attack": {
+                                "description": "PropertyThink.attack",
+                                "type": "string"
+                              },
+                              "attacked": {
+                                "description": "PropertyThink.attacked",
+                                "type": "string"
+                              },
+                              "damage": {
+                                "description": "PropertyThink.damage",
+                                "type": "string"
+                              },
+                              "damaged": {
+                                "description": "PropertyThink.damaged",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThink"
                           },
                           {
                             "type": "object",
@@ -9760,11 +10354,11 @@
               "description": "Charges par recharge"
             },
             "range": {
-              "type": "number",
+              "type": "string",
               "enum": [
-                0,
-                1,
-                2
+                "DISTANCE_CLOSE",
+                "DISTANCE_MEDIUM",
+                "DISTANCE_FAR"
               ],
               "description": "Portée effective"
             },
@@ -9831,11 +10425,11 @@
         "description": "Charges par recharge"
       },
       "range": {
-        "type": "number",
+        "type": "string",
         "enum": [
-          0,
-          1,
-          2
+          "DISTANCE_CLOSE",
+          "DISTANCE_MEDIUM",
+          "DISTANCE_FAR"
         ],
         "description": "Portée effective"
       },
@@ -10483,6 +11077,26 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+                },
+                "amp": {
+                  "type": "string",
+                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Modificateur de dégâts d'arme"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_AILMENT"
                 },
                 "ailment": {
@@ -10622,6 +11236,40 @@
               ],
               "additionalProperties": false,
               "description": "Immunité"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_THINK"
+                },
+                "mutate": {
+                  "description": "PropertyThink.mutate",
+                  "type": "string"
+                },
+                "attack": {
+                  "description": "PropertyThink.attack",
+                  "type": "string"
+                },
+                "attacked": {
+                  "description": "PropertyThink.attacked",
+                  "type": "string"
+                },
+                "damage": {
+                  "description": "PropertyThink.damage",
+                  "type": "string"
+                },
+                "damaged": {
+                  "description": "PropertyThink.damaged",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThink"
             },
             {
               "type": "object",
@@ -11284,6 +11932,27 @@
     "additionalProperties": false,
     "description": "Modificateur de compétence"
   },
+  "PropertyWeaponDamageModifier": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
+      },
+      "amp": {
+        "type": "string",
+        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+        "description": "Dés de dégâts bonus ajoutés aux attaques à l'arme (ex. 1d6)"
+      }
+    },
+    "required": [
+      "type",
+      "amp"
+    ],
+    "additionalProperties": false,
+    "description": "Modificateur de dégâts d'arme"
+  },
   "PropertyAilment": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
@@ -11430,6 +12099,41 @@
     ],
     "additionalProperties": false,
     "description": "Immunité"
+  },
+  "PropertyThink": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "const": "PROPERTY_THINK"
+      },
+      "mutate": {
+        "description": "PropertyThink.mutate",
+        "type": "string"
+      },
+      "attack": {
+        "description": "PropertyThink.attack",
+        "type": "string"
+      },
+      "attacked": {
+        "description": "PropertyThink.attacked",
+        "type": "string"
+      },
+      "damage": {
+        "description": "PropertyThink.damage",
+        "type": "string"
+      },
+      "damaged": {
+        "description": "PropertyThink.damaged",
+        "type": "string"
+      }
+    },
+    "required": [
+      "type"
+    ],
+    "additionalProperties": false,
+    "description": "PropertyThink"
   },
   "PropertyDarkvision": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",

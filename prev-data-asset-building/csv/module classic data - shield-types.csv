@@ -1,5 +1,0 @@
-armor-type,proficiency,armorClass,ac-slashing,ac-piercing,ac-crushing,weight,property,amp,propParamName,propParamValue
-"output(); id(value); c={ entityType: ""ENTITY_TYPE_PARTIAL_ITEM"", itemType: ""ITEM_TYPE_SHIELD"", proficiency: ""PROFICIENCY_SHIELD"", armorClass: 0, weight: 0, properties: [], equipmentSlots: ['EQUIPMENT_SLOT_SHIELD'] }","c.proficiency=ref(value, 'PROFICIENCY')",c.armorClass=value,"c.properties.push({ type: 'PROPERTY_ARMOR_CLASS_MODIFIER', amp: value, damageType: 'DAMAGE_TYPE_SLASHING' })","c.properties.push({ type: 'PROPERTY_ARMOR_CLASS_MODIFIER', amp: value, damageType: 'DAMAGE_TYPE_PIERCING' })","c.properties.push({ type: 'PROPERTY_ARMOR_CLASS_MODIFIER', amp: value, damageType: 'DAMAGE_TYPE_CRUSHING' })","c.weight=parseFloat(value.toString().replace(/,/g, '.'))","c.properties.push({ type: ref(value, 'property') })",last(c.properties).amp = value,,kv(last(c.properties))
-shd-type-small,shield,1,,,,3,armor-class-modifier,1,attackType,ATTACK_TYPE_RANGED
-shd-type-medium,shield,2,,,,6,armor-class-modifier,2,attackType,ATTACK_TYPE_RANGED
-shd-type-large,shield,3,,,,12,armor-class-modifier,3,attackType,ATTACK_TYPE_RANGED

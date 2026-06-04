@@ -33,7 +33,7 @@ describe('Manager — think system', () => {
 
     it('mutate script is called during process() for creatures with PROPERTY_THINK', () => {
         const fn = vi.fn();
-        manager.scripts.declareScript('ai-basic', fn);
+        manager.defineScript('ai-basic', fn);
         manager.addCreatureInnateProperty(alice, { type: CONSTS.PROPERTY_THINK, mutate: 'ai-basic' });
         manager.process();
         expect(fn).toHaveBeenCalledOnce();
@@ -42,7 +42,7 @@ describe('Manager — think system', () => {
     it('mutate script receives manager and creature', () => {
         let capturedManager: IManager | undefined;
         let capturedCreature: Creature | undefined;
-        manager.scripts.declareScript('ai-inspect', (m: IManager, creature: Creature) => {
+        manager.defineScript('ai-inspect', (m: IManager, creature: Creature) => {
             capturedManager = m;
             capturedCreature = creature;
         });
@@ -53,7 +53,7 @@ describe('Manager — think system', () => {
     });
 
     it('mutate script can start a combat via manager parameter', () => {
-        manager.scripts.declareScript('ai-aggro', (m: IManager, creature: Creature) => {
+        manager.defineScript('ai-aggro', (m: IManager, creature: Creature) => {
             if (!m.isFighting(creature)) {
                 m.startCombat(creature, bob);
             }
@@ -71,7 +71,7 @@ describe('Manager — think system', () => {
 
     it('scripts without the matching hook are not called', () => {
         const fn = vi.fn();
-        manager.scripts.declareScript('ai-attack-only', fn);
+        manager.defineScript('ai-attack-only', fn);
         manager.addCreatureInnateProperty(alice, { type: CONSTS.PROPERTY_THINK, attack: 'ai-attack-only' });
         manager.process();
         expect(fn).not.toHaveBeenCalled();
@@ -93,7 +93,7 @@ describe('Manager — think system', () => {
             cooldown: CooldownManager.create({ duration: 0, charges: 99 }),
             bonus: false,
         });
-        manager.scripts.declareScript('ai-strike', (m: IManager, creature: Creature) => {
+        manager.defineScript('ai-strike', (m: IManager, creature: Creature) => {
             if (!creature.state.actionTaken) {
                 m.doAction(creature, 'strike', bob);
             }

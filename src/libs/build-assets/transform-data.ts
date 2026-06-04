@@ -24,8 +24,9 @@ async function main(sFileName: string, sDestPath: string, sTransformFile: string
                 fs.writeFileSync(sFileFinal, JSON.stringify(oStruct, null, '  '));
             });
     } catch (e) {
+        console.error(e);
         throw new Error(`could not transform data: ${sFileName} - ${(e as Error).message}`);
     }
 }
 
-main(process.argv[2], process.argv[3], process.argv[4]);
+main(process.argv[2], process.argv[3], process.argv[4]).then(() => console.log('done.'));

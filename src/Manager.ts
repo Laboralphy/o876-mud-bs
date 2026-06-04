@@ -23,23 +23,21 @@ import { EventCreatureHeal } from './schemas/events/EventCreatureHeal';
 import { EventCreatureDeath } from './schemas/events/EventCreatureDeath';
 import { EventCreatureCastSpell } from './schemas/events/EventCreatureCastSpell';
 import { EventCreatureAction } from './schemas/events/EventCreatureAction';
+import { EventCreatureRunScript } from './schemas/events/EventCreatureRunScript';
 import { EquipItemOutcome } from './schemas/enums/EquipItemOutcome';
 import { EffectSubtype } from './schemas/enums/EffectSubtype';
-import { ScriptManager } from './libs/script-manager';
 import { ModuleManager } from './ModuleManager';
+import { CreatureActionScript } from './schemas/CreatureActionScript';
 import { ExtendableEntity } from './libs/extend-resolver/ExtendResolver';
 import { CombatManager } from './libs/combat/CombatManager';
 import { IManager } from './interfaces/IManager';
-import baseModule from './modules/base';
-import classicModule from './modules/classic';
+import * as MODULES from './modules';
+import { ModuleStructureSchema } from './schemas/ModuleStructure';
 
 export class Manager implements IManager {
     public readonly events = new EventEmitter();
-    public readonly scripts = new ScriptManager();
     private _time: number = 0;
-    private readonly _moduleManager = new ModuleManager()
-        .loadModule(baseModule.blueprints)
-        .loadModule(classicModule.blueprints);
+    private readonly _moduleManager = new ModuleManager();
     private readonly _combatManager = new CombatManager();
     private readonly _creatures = new Map<string, Creature>();
     private readonly _items = new Map<string, Item>();
@@ -55,6 +53,16 @@ export class Manager implements IManager {
 
     defineAsset(resref: string, asset: ExtendableEntity) {
         this._moduleManager.addAsset(resref, asset);
+    }
+
+    defineScript(scriptId: string, fn: CreatureActionScript) {
+        this._moduleManager.defineScript(scriptId, fn);
+    }
+
+    loadModules() {
+        for (const moduleStructure of Object.values(MODULES)) {
+            this._moduleManager.loadModule(ModuleStructureSchema.parse(moduleStructure));
+        }
     }
 
     //  ▄▄              ▗▖                                                      ▗▖
@@ -321,8 +329,12 @@ export class Manager implements IManager {
     }
 
     invokeThinker(scriptId: string, creature: Creature, target?: Creature): void {
-        if (this.scripts.hasScript(scriptId)) {
-            this.scripts.runScript(scriptId, this, creature, target);
+        const script = this._moduleManager.getScript(scriptId);
+        if (script) {
+            script(this, creature, target);
+        } else {
+            const payload: EventCreatureRunScript = { scriptId, creature, target };
+            this.events.emit(CONSTS.EVENT_CREATURE_RUN_SCRIPT, payload);
         }
     }
 
@@ -464,8 +476,16 @@ export class Manager implements IManager {
     }
 
     private _onCreatureAction(payload: EventCreatureAction): void {
-        if (this.scripts.hasScript(payload.script)) {
-            this.scripts.runScript(payload.script, this, payload.creature, payload.target);
+        const script = this._moduleManager.getScript(payload.script);
+        if (script) {
+            script(this, payload.creature, payload.target);
+        } else {
+            const runScriptPayload: EventCreatureRunScript = {
+                scriptId: payload.script,
+                creature: payload.creature,
+                target: payload.target,
+            };
+            this.events.emit(CONSTS.EVENT_CREATURE_RUN_SCRIPT, runScriptPayload);
         }
         this.events.emit(CONSTS.EVENT_CREATURE_ACTION, payload);
     }

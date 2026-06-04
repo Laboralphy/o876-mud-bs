@@ -11,6 +11,7 @@ import { Ability } from './schemas/enums/Ability';
 import { WeaponBlueprintSchema } from './schemas/WeaponBlueprint';
 import NULL_WEAPON_BLUEPRINT from './data/null-weapon.json';
 import { ItemBuilder } from './builders/ItemBuilder';
+import { aggregate } from '@/libs/aggregator';
 
 export type Damage = {
     amount: number;
@@ -287,7 +288,12 @@ export class Attack {
         if (isWeapon(weapon)) {
             const damageFormula = weapon.damages;
             const damageType = this.damageType;
-            let amount = this.attacker.dice.roll(damageFormula);
+            const nExtraDamage = aggregate(
+                [CONSTS.PROPERTY_WEAPON_DAMAGE_MODIFIER],
+                {},
+                this.attacker.getters
+            ).sum;
+            let amount = this.attacker.dice.roll(damageFormula) + nExtraDamage;
             if (this.attackType === CONSTS.ATTACK_TYPE_MELEE) {
                 amount += this.attacker.getters.getAbilityModifiers[CONSTS.ABILITY_BODY];
                 if (this.attacker.getters.isWieldingTwoHandedWeapon) {
