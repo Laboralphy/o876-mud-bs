@@ -33,6 +33,8 @@ import { CombatManager } from './libs/combat/CombatManager';
 import { IRulesEngine } from './interfaces/IRulesEngine';
 import * as MODULES from './modules';
 import { ModuleStructureSchema } from './schemas/ModuleStructure';
+import { Distance } from './schemas/enums/Distance';
+import { Combat } from './libs/combat/Combat';
 
 export class RulesEngine implements IRulesEngine {
     public readonly events = new EventEmitter();
@@ -327,8 +329,30 @@ export class RulesEngine implements IRulesEngine {
         return this._combatManager.getCombat(creature)?.target;
     }
 
-    getCombatAggressors(creature: Creature): Creature[] {
-        return this._combatManager.getAllInvolvedCombats(creature).map((c) => c.attacker);
+    /**
+     * Returns an array of creatures that are targeting the subject in a combat.
+     * @param creature Targetted creature
+     * @param distance Optional distance to filter combatants by
+     */
+    getCombatAggressors(creature: Creature, distance?: Distance): Creature[] {
+        return this._combatManager
+            .getAllInvolvedCombats(creature)
+            .filter((combat: Combat) => {
+                if (distance) {
+                    return combat.getDistance() === distance;
+                }
+                return true;
+            })
+            .map((c) => c.attacker);
+    }
+
+    /**
+     * Return the distance between a creature and its target, if involved in a combat.
+     * If creature is not attacking target, returns undefined
+     * @param creature
+     */
+    getDistanceToCombatTarget(creature: Creature): Distance | undefined {
+        return this._combatManager.getCombat(creature)?.getDistance() ?? undefined;
     }
 
     invokeThinker(scriptId: string, creature: Creature, target?: Creature): void {

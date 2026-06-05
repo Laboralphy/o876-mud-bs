@@ -5,6 +5,7 @@ import { Item } from '../schemas/Item';
 import { EquipItemOutcome } from '../schemas/enums/EquipItemOutcome';
 import { Effect, EffectDefinition } from '../effects/schemas';
 import { EffectSubtype } from '../schemas/enums/EffectSubtype';
+import { Distance } from '../schemas/enums/Distance';
 
 export interface IRulesEngine {
     //  ▄▄              ▗▖                                                      ▗▖
@@ -70,6 +71,7 @@ export interface IRulesEngine {
     stopCombat(creature: Creature, bDisengage?: boolean): void;
     isFighting(creature: Creature, target?: Creature): boolean;
     getCombatTarget(creature: Creature): Creature | undefined;
-    getCombatAggressors(creature: Creature): Creature[];
+    getDistanceToCombatTarget(creature: Creature): Distance | undefined;
+    getCombatAggressors(creature: Creature, distance?: Distance): Creature[];
     invokeThinker(scriptId: string, creature: Creature, target?: Creature): void;
 }

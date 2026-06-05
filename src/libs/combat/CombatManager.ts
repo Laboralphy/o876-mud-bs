@@ -26,6 +26,10 @@ export class CombatManager {
         return this.getCombat(combat.target);
     }
 
+    /**
+     * Returns all combats involving the specified creature as target
+     * @param creature
+     */
     getAllInvolvedCombats(creature: Creature): Combat[] {
         return [...this.combats.values()].filter((combat) => combat.target === creature);
     }
