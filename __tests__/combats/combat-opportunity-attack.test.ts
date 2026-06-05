@@ -3,19 +3,19 @@ import { Creature } from '../../src/Creature';
 import { CombatManager } from '../../src/libs/combat/CombatManager';
 import { Combat } from '../../src/libs/combat/Combat';
 import { CONSTS } from '../../src/consts';
-import { CREATURE_WITH_GEAR_RESREF, makeManager } from '../Manager/helpers';
+import { CREATURE_WITH_GEAR_RESREF, makeRulesEngine } from '../RulesEngine/helpers';
 
 describe('Combat — opportunity attack on unilateral disengagement', () => {
     let combatManager: CombatManager;
     let alice: Creature; // has melee weapon
     let bob: Creature;
     let cAlice: Combat; // alice → bob
-    let cBob: Combat;   // bob → alice
+    let cBob: Combat; // bob → alice
 
     beforeEach(() => {
-        const manager = makeManager();
-        alice = manager.createCreature(CREATURE_WITH_GEAR_RESREF);
-        bob = manager.createCreature(CREATURE_WITH_GEAR_RESREF);
+        const rules = makeRulesEngine();
+        alice = rules.createCreature(CREATURE_WITH_GEAR_RESREF);
+        bob = rules.createCreature(CREATURE_WITH_GEAR_RESREF);
         combatManager = new CombatManager();
         cAlice = combatManager.createCombat(alice, bob);
         cBob = combatManager.getCombat(bob)!;

@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { Manager } from '../../src/Manager';
+import { RulesEngine } from '../../src/RulesEngine';
 import { CONSTS } from '../../src/consts';
 
 // Load modules once at module level so resref lists are ready for it.each
-const _setup = new Manager();
+const _setup = new RulesEngine();
 _setup.loadModules();
 
 const creatureRefs = _setup.moduleManager
@@ -20,15 +20,15 @@ const itemRefs = _setup.moduleManager
     );
 
 describe('blueprint instantiation – creatures', () => {
-    let manager: Manager;
+    let rules: RulesEngine;
 
     beforeEach(() => {
-        manager = new Manager();
-        manager.loadModules();
+        rules = new RulesEngine();
+        rules.loadModules();
     });
 
     afterEach(() => {
-        // nothing to clean up; Manager is local to each test
+        // nothing to clean up; RulesEngine is local to each test
     });
 
     it('has at least one creature blueprint', () => {
@@ -37,18 +37,18 @@ describe('blueprint instantiation – creatures', () => {
 
     it.each(creatureRefs)('createCreature("%s") does not throw', (ref) => {
         expect(() => {
-            const creature = manager.createCreature(ref);
-            manager.destroyCreature(creature);
+            const creature = rules.createCreature(ref);
+            rules.destroyCreature(creature);
         }).not.toThrow();
     });
 });
 
 describe('blueprint instantiation – items', () => {
-    let manager: Manager;
+    let rules: RulesEngine;
 
     beforeEach(() => {
-        manager = new Manager();
-        manager.loadModules();
+        rules = new RulesEngine();
+        rules.loadModules();
     });
 
     it('has at least one item blueprint', () => {
@@ -60,7 +60,7 @@ describe('blueprint instantiation – items', () => {
         // not processed yet
 
         expect(() => {
-            manager.createItem(ref);
+            rules.createItem(ref);
         }).not.toThrow();
     });
 });

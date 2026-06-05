@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CONSTS } from '../../src/consts';
-import { Manager } from '../../src/Manager';
+import { RulesEngine } from '../../src/RulesEngine';
 import { Creature } from '../../src/Creature';
 import { CooldownManager } from '../../src/libs/cooldown';
 import { ActionStateSchema } from '../../src/schemas/Action';
-import { CREATURE_RESREF, makeManager } from './helpers';
+import { CREATURE_RESREF, makeRulesEngine } from './helpers';
 
 function addAction(creature: Creature, id: string, charges = 2, bonus = false): void {
     creature.state.actions[id] = ActionStateSchema.parse({
@@ -17,15 +17,15 @@ function addAction(creature: Creature, id: string, charges = 2, bonus = false): 
     });
 }
 
-describe('Manager — action event', () => {
-    let manager: Manager;
+describe('RulesEngine — action event', () => {
+    let rules: RulesEngine;
     let creature: Creature;
     let target: Creature;
 
     beforeEach(() => {
-        manager = makeManager();
-        creature = manager.createCreature(CREATURE_RESREF);
-        target = manager.createCreature(CREATURE_RESREF);
+        rules = makeRulesEngine();
+        creature = rules.createCreature(CREATURE_RESREF);
+        target = rules.createCreature(CREATURE_RESREF);
         addAction(creature, 'fireball');
     });
 

@@ -6,7 +6,7 @@ import { EquipItemOutcome } from '../schemas/enums/EquipItemOutcome';
 import { Effect, EffectDefinition } from '../effects/schemas';
 import { EffectSubtype } from '../schemas/enums/EffectSubtype';
 
-export interface IManager {
+export interface IRulesEngine {
     //  ▄▄              ▗▖                                                      ▗▖
     // ▐▌▝▘▐▛▜▖▗▛▜▖ ▀▜▖▝▜▛▘▐▌▐▌▐▛▜▖▗▛▜▖    ▐▙▟▙ ▀▜▖▐▛▜▖ ▀▜▖▗▛▜▌▗▛▜▖▐▙▟▙▗▛▜▖▐▛▜▖▝▜▛▘
     // ▐▌▗▖▐▌  ▐▛▀▘▗▛▜▌ ▐▌ ▐▌▐▌▐▌  ▐▛▀▘    ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌

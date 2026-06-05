@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CONSTS } from '../../src/consts';
-import { Manager } from '../../src/Manager';
+import { RulesEngine } from '../../src/RulesEngine';
 import { Creature } from '../../src/Creature';
-import { CREATURE_RESREF, makeManager } from './helpers';
+import { CREATURE_RESREF, makeRulesEngine } from './helpers';
 
-describe('Manager — check events', () => {
-    let manager: Manager;
+describe('RulesEngine — check events', () => {
+    let rules: RulesEngine;
     let creature: Creature;
 
     beforeEach(() => {
-        manager = makeManager();
-        creature = manager.createCreature(CREATURE_RESREF);
+        rules = makeRulesEngine();
+        creature = rules.createCreature(CREATURE_RESREF);
     });
 
     describe('EVENT_CREATURE_SKILL_CHECK', () => {
@@ -33,7 +33,7 @@ describe('Manager — check events', () => {
         });
 
         it('fires once per checkSkillAgainst call for each participant', () => {
-            const opponent = manager.createCreature(CREATURE_RESREF);
+            const opponent = rules.createCreature(CREATURE_RESREF);
             const spy = vi.fn();
             creature.events.on(CONSTS.EVENT_CREATURE_SKILL_CHECK, spy);
             opponent.events.on(CONSTS.EVENT_CREATURE_SKILL_CHECK, spy);

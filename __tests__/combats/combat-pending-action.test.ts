@@ -5,7 +5,7 @@ import { CombatManager } from '../../src/libs/combat/CombatManager';
 import { CooldownManager } from '../../src/libs/cooldown';
 import { ActionStateSchema } from '../../src/schemas/Action';
 import { CONSTS } from '../../src/consts';
-import { CREATURE_RESREF, makeManager } from '../Manager/helpers';
+import { CREATURE_RESREF, makeRulesEngine } from '../RulesEngine/helpers';
 
 function addAction(creature: Creature, id: string, charges = 2, bonus = false) {
     creature.state.actions[id] = ActionStateSchema.parse({
@@ -25,9 +25,9 @@ describe('Combat — pending action slot', () => {
     let combat: Combat; // alice → bob
 
     beforeEach(() => {
-        const manager = makeManager();
-        alice = manager.createCreature(CREATURE_RESREF);
-        bob = manager.createCreature(CREATURE_RESREF);
+        const rules = makeRulesEngine();
+        alice = rules.createCreature(CREATURE_RESREF);
+        bob = rules.createCreature(CREATURE_RESREF);
         combatManager = new CombatManager();
         combat = combatManager.createCombat(alice, bob);
         combat.setDistance(CONSTS.DISTANCE_CLOSE);
@@ -40,11 +40,15 @@ describe('Combat — pending action slot', () => {
             const fn1 = vi.fn();
             const fn2 = vi.fn();
             alice.events.on(CONSTS.EVENT_CREATURE_ACTION, (p: { actionId: string }) => {
-                if (p.actionId === 'strike') fn1();
+                if (p.actionId === 'strike') {
+                    fn1();
+                }
             });
             addAction(alice, 'zap');
             alice.events.on(CONSTS.EVENT_CREATURE_ACTION, (p: { actionId: string }) => {
-                if (p.actionId === 'zap') fn2();
+                if (p.actionId === 'zap') {
+                    fn2();
+                }
             });
             combat.enqueueAction('strike', bob, false);
             combat.enqueueAction('zap', bob, false); // replaces 'strike'
@@ -88,7 +92,9 @@ describe('Combat — pending action slot', () => {
             alice.state.actionTaken = false;
             const fn = vi.fn();
             alice.events.on(CONSTS.EVENT_CREATURE_ACTION, (p: { actionId: string }) => {
-                if (p.actionId === 'heal') fn();
+                if (p.actionId === 'heal') {
+                    fn();
+                }
             });
             combat.playRound();
             expect(fn).not.toHaveBeenCalled();

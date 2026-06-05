@@ -1,18 +1,18 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CONSTS } from '../../src/consts';
-import { Manager } from '../../src/Manager';
+import { RulesEngine } from '../../src/RulesEngine';
 import { Creature } from '../../src/Creature';
-import { CREATURE_RESREF, makeManager } from './helpers';
+import { CREATURE_RESREF, makeRulesEngine } from './helpers';
 
-describe('Manager — combat events', () => {
-    let manager: Manager;
+describe('RulesEngine — combat events', () => {
+    let rules: RulesEngine;
     let creature: Creature;
     let source: Creature;
 
     beforeEach(() => {
-        manager = makeManager();
-        creature = manager.createCreature(CREATURE_RESREF);
-        source = manager.createCreature(CREATURE_RESREF);
+        rules = makeRulesEngine();
+        creature = rules.createCreature(CREATURE_RESREF);
+        source = rules.createCreature(CREATURE_RESREF);
     });
 
     describe('EVENT_CREATURE_DAMAGED', () => {
@@ -88,11 +88,11 @@ describe('Manager — combat events', () => {
             expect(spy.mock.calls[0][0]).toMatchObject({ creature, killer: source });
         });
 
-        it('keeps the creature in the Manager registry (corpse remains until destroyCreature is called)', () => {
+        it('keeps the creature in the RulesEngine registry (corpse remains until destroyCreature is called)', () => {
             const id = creature.id;
             creature.hitPoints = 0;
             creature.triggerDamagedEvent(1, CONSTS.DAMAGE_TYPE_SLASHING, source);
-            expect(manager.getCreature(id)).toBe(creature);
+            expect(rules.getCreature(id)).toBe(creature);
         });
 
         it('does not fire when hitPoints are still above 0', () => {

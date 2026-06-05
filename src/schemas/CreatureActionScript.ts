@@ -1,9 +1,9 @@
-import { Manager } from '../Manager';
+import { RulesEngine } from '../RulesEngine';
 import { Creature } from '../Creature';
 import { z } from 'zod';
 
 export const CreatureActionScriptSchema = z.function({
-    input: [z.instanceof(Manager), z.instanceof(Creature), z.instanceof(Creature).optional()],
+    input: [z.instanceof(RulesEngine), z.instanceof(Creature), z.instanceof(Creature).optional()],
     output: z.void(),
 });
 

@@ -38,7 +38,7 @@ import { EventEffectProcessorImmunity } from './schemas/events/EventEffectProces
 import { EventEffectProcessorCreatureEffect } from './schemas/events/EventEffectProcessorCreatureEffect';
 import { getImmunityRules } from './libs/get-immunity-rules';
 import { CooldownManager } from './libs/cooldown';
-import { IManager } from './interfaces/IManager';
+import { IRulesEngine } from './interfaces/IRulesEngine';
 
 export class Creature {
     private readonly _store = buildStore();
@@ -47,7 +47,7 @@ export class Creature {
 
     private _hitpoints: number = 1;
     public location: Location | null = null;
-    protected _manager: IManager | null = null;
+    protected _rules: IRulesEngine | null = null;
 
     get registry(): LocationRegistry | null {
         return this.location?.registry ?? null;
@@ -65,15 +65,15 @@ export class Creature {
         return this._store.state;
     }
 
-    set manager(m: IManager | null) {
-        this._manager = m;
+    set rules(m: IRulesEngine | null) {
+        this._rules = m;
     }
 
-    get manager(): IManager {
-        if (this._manager) {
-            return this._manager;
+    get rules(): IRulesEngine {
+        if (this._rules) {
+            return this._rules;
         } else {
-            throw new Error(`Creature ${this.id} has no manager assigned`);
+            throw new Error(`Creature ${this.id} has no rules engine assigned`);
         }
     }
 

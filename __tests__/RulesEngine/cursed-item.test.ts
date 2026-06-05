@@ -1,19 +1,19 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { CONSTS } from '../../src/consts';
-import { Manager } from '../../src/Manager';
+import { RulesEngine } from '../../src/RulesEngine';
 import { Creature } from '../../src/Creature';
 import { Item } from '../../src/schemas/Item';
-import { makeManager, CREATURE_RESREF } from './helpers';
+import { makeRulesEngine, CREATURE_RESREF } from './helpers';
 
 describe('cursed item', () => {
-    let manager: Manager;
+    let rules: RulesEngine;
     let bob: Creature;
     let cursedSword: Item;
 
     beforeEach(() => {
-        manager = makeManager();
-        bob = manager.createCreature(CREATURE_RESREF);
-        cursedSword = manager.createItem({
+        rules = makeRulesEngine();
+        bob = rules.createCreature(CREATURE_RESREF);
+        cursedSword = rules.createItem({
             entityType: CONSTS.ENTITY_TYPE_ITEM,
             itemType: CONSTS.ITEM_TYPE_WEAPON,
             damages: '1d6',
@@ -29,7 +29,7 @@ describe('cursed item', () => {
     });
 
     it('cursed sword is registered in item ownership after equip', () => {
-        expect(manager.getItemOwner(cursedSword)).toBe(bob);
+        expect(rules.getItemOwner(cursedSword)).toBe(bob);
     });
 
     it('unequipping without bypass returns a failure reason', () => {
@@ -45,6 +45,6 @@ describe('cursed item', () => {
 
     it('cursed sword remains registered in item ownership after failed unequip', () => {
         bob.unequipItem(cursedSword);
-        expect(manager.getItemOwner(cursedSword)).toBe(bob);
+        expect(rules.getItemOwner(cursedSword)).toBe(bob);
     });
 });

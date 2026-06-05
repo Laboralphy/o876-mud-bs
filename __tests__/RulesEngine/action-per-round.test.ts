@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { CooldownManager } from '../../src/libs/cooldown';
 import { ActionStateSchema } from '../../src/schemas/Action';
-import { CREATURE_RESREF, makeManager } from './helpers';
+import { CREATURE_RESREF, makeRulesEngine } from './helpers';
 import { CONSTS } from '../../src/consts';
 
 describe('Creature — action per round', () => {
@@ -10,9 +10,9 @@ describe('Creature — action per round', () => {
     let target: Creature;
 
     beforeEach(() => {
-        const manager = makeManager();
-        creature = manager.createCreature(CREATURE_RESREF);
-        target = manager.createCreature(CREATURE_RESREF);
+        const rules = makeRulesEngine();
+        creature = rules.createCreature(CREATURE_RESREF);
+        target = rules.createCreature(CREATURE_RESREF);
         creature.state.actions['strike'] = ActionStateSchema.parse({
             id: 'strike',
             hostile: true,

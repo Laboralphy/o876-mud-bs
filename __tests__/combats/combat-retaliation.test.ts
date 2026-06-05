@@ -1,19 +1,19 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { CombatManager } from '../../src/libs/combat/CombatManager';
-import { CREATURE_RESREF, makeManager } from '../Manager/helpers';
+import { CREATURE_RESREF, makeRulesEngine } from '../RulesEngine/helpers';
 
-describe('CombatManager — retaliation on engagement', () => {
+describe('CombatRulesEngine — retaliation on engagement', () => {
     let combatManager: CombatManager;
     let alice: Creature;
     let bob: Creature;
     let charlie: Creature;
 
     beforeEach(() => {
-        const manager = makeManager();
-        alice = manager.createCreature(CREATURE_RESREF);
-        bob = manager.createCreature(CREATURE_RESREF);
-        charlie = manager.createCreature(CREATURE_RESREF);
+        const rules = makeRulesEngine();
+        alice = rules.createCreature(CREATURE_RESREF);
+        bob = rules.createCreature(CREATURE_RESREF);
+        charlie = rules.createCreature(CREATURE_RESREF);
         combatManager = new CombatManager();
     });
 

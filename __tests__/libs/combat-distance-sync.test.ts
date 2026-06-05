@@ -4,9 +4,9 @@ import { CombatManager } from '../../src/libs/combat/CombatManager';
 import { Combat } from '../../src/libs/combat/Combat';
 import { CONSTS } from '../../src/consts';
 import { Distance } from '../../src/schemas/enums/Distance';
-import { CREATURE_RESREF, makeManager } from '../Manager/helpers';
+import { CREATURE_RESREF, makeRulesEngine } from '../RulesEngine/helpers';
 
-describe('CombatManager — combat distance synchronization', () => {
+describe('CombatRulesEngine — combat distance synchronization', () => {
     let alice: Creature;
     let bob: Creature;
     let combatManager: CombatManager;
@@ -14,9 +14,9 @@ describe('CombatManager — combat distance synchronization', () => {
     let c2: Combat; // bob → alice
 
     beforeEach(() => {
-        const manager = makeManager();
-        alice = manager.createCreature(CREATURE_RESREF);
-        bob = manager.createCreature(CREATURE_RESREF);
+        const rules = makeRulesEngine();
+        alice = rules.createCreature(CREATURE_RESREF);
+        bob = rules.createCreature(CREATURE_RESREF);
         combatManager = new CombatManager();
         c1 = combatManager.createCombat(alice, bob);
         c2 = combatManager.getCombat(bob)!;
@@ -46,9 +46,7 @@ describe('CombatManager — combat distance synchronization', () => {
 
     it('sync does not cause infinite loop (C2 change does not re-trigger C1 event)', () => {
         const distances: Distance[] = [];
-        c1.events.on('distance-changed', (d: { distance: Distance }) =>
-            distances.push(d.distance)
-        );
+        c1.events.on('distance-changed', (d: { distance: Distance }) => distances.push(d.distance));
         c1.setDistance(CONSTS.DISTANCE_MEDIUM);
         // C1 emits once; C2 is updated quietly — C2's update must NOT re-emit back to C1
         expect(distances).toHaveLength(1);

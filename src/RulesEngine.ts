@@ -30,11 +30,11 @@ import { ModuleManager } from './ModuleManager';
 import { CreatureActionScript } from './schemas/CreatureActionScript';
 import { ExtendableEntity } from './libs/extend-resolver/ExtendResolver';
 import { CombatManager } from './libs/combat/CombatManager';
-import { IManager } from './interfaces/IManager';
+import { IRulesEngine } from './interfaces/IRulesEngine';
 import * as MODULES from './modules';
 import { ModuleStructureSchema } from './schemas/ModuleStructure';
 
-export class Manager implements IManager {
+export class RulesEngine implements IRulesEngine {
     public readonly events = new EventEmitter();
     private _time: number = 0;
     private readonly _moduleManager = new ModuleManager();
@@ -101,7 +101,7 @@ export class Manager implements IManager {
             ...properties.map((p: PropertyDefinition) => PropertyBuilder.buildProperty(p))
         );
         this._creatures.set(creature.id, creature);
-        creature.manager = this;
+        creature.rules = this;
         this.plugCreatureEvents(creature);
         equipment
             .map((itemBlueprint: ItemBlueprint | string): Item => this.createItem(itemBlueprint))
@@ -130,7 +130,7 @@ export class Manager implements IManager {
             this._creatureCleanup.delete(creature.id);
         }
         this._creatures.delete(creature.id);
-        creature.manager = null;
+        creature.rules = null;
     }
 
     getCreature(id: string): Creature {

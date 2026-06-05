@@ -12,21 +12,21 @@ export class PropertyProgramThink implements IProgram<Property> {
     mutate(prop: Property, creature: Creature): void {
         const { mutate: scriptId } = prop.data as ThinkData;
         if (scriptId) {
-            creature.manager.invokeThinker(scriptId, creature, undefined);
+            creature.rules.invokeThinker(scriptId, creature, undefined);
         }
     }
 
     attack(prop: Property, attack: Attack): void {
         const { attack: scriptId } = prop.data as ThinkData;
         if (scriptId) {
-            attack.attacker.manager.invokeThinker(scriptId, attack.attacker, attack.target);
+            attack.attacker.rules.invokeThinker(scriptId, attack.attacker, attack.target);
         }
     }
 
     attacked(prop: Property, attack: Attack): void {
         const { attacked: scriptId } = prop.data as ThinkData;
         if (scriptId) {
-            attack.target.manager.invokeThinker(scriptId, attack.target, attack.attacker);
+            attack.target.rules.invokeThinker(scriptId, attack.target, attack.attacker);
         }
     }
 
@@ -39,7 +39,7 @@ export class PropertyProgramThink implements IProgram<Property> {
     ): void {
         const { damage: scriptId } = prop.data as ThinkData;
         if (scriptId) {
-            creature.manager.invokeThinker(scriptId, creature, target);
+            creature.rules.invokeThinker(scriptId, creature, target);
         }
     }
 
@@ -52,7 +52,7 @@ export class PropertyProgramThink implements IProgram<Property> {
     ): void {
         const { damaged: scriptId } = prop.data as ThinkData;
         if (scriptId) {
-            creature.manager.invokeThinker(scriptId, creature, source);
+            creature.rules.invokeThinker(scriptId, creature, source);
         }
     }
 }

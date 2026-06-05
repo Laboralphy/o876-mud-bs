@@ -1,4 +1,4 @@
-import { Manager } from '../../src/Manager';
+import { RulesEngine } from '../../src/RulesEngine';
 import { CONSTS } from '../../src/consts';
 import { Item } from '../../src/schemas/Item';
 import { ItemBuilder } from '../../src/builders/ItemBuilder';
@@ -39,9 +39,9 @@ const BASE_ABILITIES = {
     [CONSTS.ABILITY_PRESENCE]: 10,
 };
 
-export function makeManager(): Manager {
-    const manager = new Manager();
-    manager.defineAsset(CREATURE_RESREF, {
+export function makeRulesEngine(): RulesEngine {
+    const rules = new RulesEngine();
+    rules.defineAsset(CREATURE_RESREF, {
         entityType: CONSTS.ENTITY_TYPE_CREATURE,
         abilities: BASE_ABILITIES,
         armorClass: 10,
@@ -52,7 +52,7 @@ export function makeManager(): Manager {
         equipment: [],
         actions: [],
     });
-    manager.defineAsset(CREATURE_WITH_GEAR_RESREF, {
+    rules.defineAsset(CREATURE_WITH_GEAR_RESREF, {
         entityType: CONSTS.ENTITY_TYPE_CREATURE,
         abilities: BASE_ABILITIES,
         armorClass: 10,
@@ -64,7 +64,7 @@ export function makeManager(): Manager {
         equipment: [WEAPON_BLUEPRINT, SHIELD_BLUEPRINT],
         actions: [],
     });
-    return manager;
+    return rules;
 }
 
 export function makeWeapon(id?: string): Item {
