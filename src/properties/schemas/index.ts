@@ -9,6 +9,7 @@ import { PropertyDamageVulnerability } from './damage/damage-vulnerability';
 import { PropertyHealingFactor } from './healing/healing-factor';
 import { PropertyHealingModifier } from './healing/healing-modifier';
 import { PropertyRegeneration } from './healing/regeneration';
+import { PropertyVampyre } from './healing/vampyre';
 import { PropertyCursed } from './items/cursed';
 import { PropertyUnidentified } from './items/unidentified';
 import { PropertyWeightFactor } from './items/weight-factor';
@@ -36,6 +37,7 @@ export const PropertyDefinitionSchema = z.discriminatedUnion('type', [
     PropertyHealingFactor,
     PropertyHealingModifier,
     PropertyRegeneration,
+    PropertyVampyre,
     PropertyCursed,
     PropertyUnidentified,
     PropertyWeightFactor,
@@ -65,6 +67,7 @@ const _WrappedPropertyDamageVulnerability = BasePropertySchema.extend({ type: z.
 const _WrappedPropertyHealingFactor = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_HEALING_FACTOR), data: PropertyHealingFactor });
 const _WrappedPropertyHealingModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_HEALING_MODIFIER), data: PropertyHealingModifier });
 const _WrappedPropertyRegeneration = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_REGENERATION), data: PropertyRegeneration });
+const _WrappedPropertyVampyre = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_VAMPYRE), data: PropertyVampyre });
 const _WrappedPropertyCursed = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_CURSED), data: PropertyCursed });
 const _WrappedPropertyUnidentified = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_UNIDENTIFIED), data: PropertyUnidentified });
 const _WrappedPropertyWeightFactor = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_WEIGHT_FACTOR), data: PropertyWeightFactor });
@@ -92,6 +95,7 @@ export const PropertySchema = z.discriminatedUnion('type', [
     _WrappedPropertyHealingFactor,
     _WrappedPropertyHealingModifier,
     _WrappedPropertyRegeneration,
+    _WrappedPropertyVampyre,
     _WrappedPropertyCursed,
     _WrappedPropertyUnidentified,
     _WrappedPropertyWeightFactor,

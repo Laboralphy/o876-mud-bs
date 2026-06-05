@@ -41,7 +41,7 @@
       "weight": 0,
       "size": "WEAPON_SIZE_SMALL",
       "attributes": [],
-      "damages": "1d1",
+      "damages": 1,
       "damageType": "DAMAGE_TYPE_RADIANT",
       "properties": [
         {
@@ -49,6 +49,7 @@
           "ailment": "AILMENT_PETRIFICATION",
           "chance": 4,
           "dc": 12,
+          "duration": -1,
           "subtype": "EFFECT_SUBTYPE_EXTRAORDINARY"
         }
       ],

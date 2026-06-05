@@ -5,14 +5,14 @@
   ],
   "properties": [
     {
-      "type": "vampyre",
+      "type": "PROPERTY_VAMPYRE",
       "amp": 1,
-      "damageType": "DAMAGE_TYPE_WITHERING"
+      "damageType": "DAMAGE_TYPE_NECROTIC"
     },
     {
       "type": "PROPERTY_DAMAGE_MODIFIER",
       "amp": "1d6",
-      "damageType": "DAMAGE_TYPE_WITHERING"
+      "damageType": "DAMAGE_TYPE_NECROTIC"
     }
   ]
 }

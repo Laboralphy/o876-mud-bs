@@ -51,7 +51,7 @@ describe('PropertyProgramAilment – AILMENT_ABILITY_DRAIN', () => {
             type: CONSTS.PROPERTY_AILMENT,
             ...BASE,
             ailment: CONSTS.AILMENT_ABILITY_DRAIN,
-            amp: '1d1',
+            amp: 1,
             ability: CONSTS.ABILITY_BODY,
         });
     });
@@ -75,7 +75,7 @@ describe('PropertyProgramAilment – AILMENT_ABILITY_DRAIN', () => {
             ...BASE,
             dc: 0,
             ailment: CONSTS.AILMENT_ABILITY_DRAIN,
-            amp: '1d1',
+            amp: 1,
             ability: CONSTS.ABILITY_BODY,
         });
         trigger(attacker, target);
@@ -91,7 +91,7 @@ describe('PropertyProgramAilment – AILMENT_ABILITY_DRAIN', () => {
             dc: 0, // would always be resisted for supernatural/weapon/etc.
             subtype: CONSTS.EFFECT_SUBTYPE_UNYIELDING,
             ailment: CONSTS.AILMENT_ABILITY_DRAIN,
-            amp: '1d1',
+            amp: 1,
             ability: CONSTS.ABILITY_BODY,
         });
         trigger(attacker, target);
@@ -113,7 +113,7 @@ describe('PropertyProgramAilment – AILMENT_ATTACK_DRAIN', () => {
             type: CONSTS.PROPERTY_AILMENT,
             ...BASE,
             ailment: CONSTS.AILMENT_ATTACK_DRAIN,
-            amp: '1d1',
+            amp: 1,
         });
         trigger(attacker, target);
         expect(hasEffect(target, CONSTS.EFFECT_ATTACK_MODIFIER)).toBe(true);
@@ -124,7 +124,7 @@ describe('PropertyProgramAilment – AILMENT_ATTACK_DRAIN', () => {
             type: CONSTS.PROPERTY_AILMENT,
             ...BASE,
             ailment: CONSTS.AILMENT_ATTACK_DRAIN,
-            amp: '1d1',
+            amp: 1,
         });
         trigger(attacker, target);
         const e = target.state.effects.find((e) => e.type === CONSTS.EFFECT_ATTACK_MODIFIER);
@@ -137,7 +137,7 @@ describe('PropertyProgramAilment – AILMENT_ATTACK_DRAIN', () => {
             ...BASE,
             dc: 0,
             ailment: CONSTS.AILMENT_ATTACK_DRAIN,
-            amp: '1d1',
+            amp: 1,
         });
         trigger(attacker, target);
         expect(hasEffect(target, CONSTS.EFFECT_ATTACK_MODIFIER)).toBe(false);
@@ -158,7 +158,7 @@ describe('PropertyProgramAilment – AILMENT_ARMOR_CLASS_DRAIN', () => {
             type: CONSTS.PROPERTY_AILMENT,
             ...BASE,
             ailment: CONSTS.AILMENT_ARMOR_CLASS_DRAIN,
-            amp: '1d1',
+            amp: 1,
         });
         trigger(attacker, target);
         expect(hasEffect(target, CONSTS.EFFECT_ARMOR_CLASS_MODIFIER)).toBe(true);
@@ -169,7 +169,7 @@ describe('PropertyProgramAilment – AILMENT_ARMOR_CLASS_DRAIN', () => {
             type: CONSTS.PROPERTY_AILMENT,
             ...BASE,
             ailment: CONSTS.AILMENT_ARMOR_CLASS_DRAIN,
-            amp: '1d1',
+            amp: 1,
         });
         trigger(attacker, target);
         const e = target.state.effects.find((e) => e.type === CONSTS.EFFECT_ARMOR_CLASS_MODIFIER);
@@ -182,7 +182,7 @@ describe('PropertyProgramAilment – AILMENT_ARMOR_CLASS_DRAIN', () => {
             ...BASE,
             dc: 0,
             ailment: CONSTS.AILMENT_ARMOR_CLASS_DRAIN,
-            amp: '1d1',
+            amp: 1,
         });
         trigger(attacker, target);
         expect(hasEffect(target, CONSTS.EFFECT_ARMOR_CLASS_MODIFIER)).toBe(false);
@@ -327,7 +327,6 @@ describe('PropertyProgramAilment – AILMENT_POISON', () => {
     let attacker: Creature;
     let target: Creature;
 
-    // amp must be a DiceExpression string; String(number) like "2" does not match XdY regex
     beforeEach(() => {
         attacker = makeAttacker();
         target = makeTarget();

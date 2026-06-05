@@ -59,7 +59,6 @@ describe('blueprint instantiation – items', () => {
         // TODO Test is crashing (and other tests too) because ammo-arrow-fire is dependent to something
         // not processed yet
 
-        console.log(ref);
         expect(() => {
             manager.createItem(ref);
         }).not.toThrow();

@@ -50,8 +50,17 @@
                   "const": "PROPERTY_DAMAGE_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Modifier amount (dice expression)"
                 },
                 "damageType": {
@@ -86,8 +95,17 @@
                   "const": "PROPERTY_DAMAGE_REDUCTION"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Reduction amount (dice expression)"
                 },
                 "damageType": {
@@ -201,8 +219,17 @@
                   "const": "PROPERTY_HEALING_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Healing amount modifier (dice expression)"
                 }
               },
@@ -221,8 +248,17 @@
                   "const": "PROPERTY_REGENERATION"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "HP regained per turn (dice expression)"
                 },
                 "vulnerabilities": {
@@ -271,6 +307,39 @@
               ],
               "additionalProperties": false,
               "description": "Regeneration"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_VAMPYRE"
+                },
+                "amp": {
+                  "type": "number"
+                },
+                "damageType": {
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ],
+                  "description": "fields.damageType"
+                }
+              },
+              "required": [
+                "type",
+                "amp",
+                "damageType"
+              ],
+              "additionalProperties": false
             },
             {
               "type": "object",
@@ -622,8 +691,17 @@
                   "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Bonus damage dice added to weapon attacks (e.g. 1d6)"
                 }
               },
@@ -697,8 +775,17 @@
                       "maximum": 9007199254740991
                     },
                     {
-                      "type": "string",
-                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -1037,8 +1124,17 @@
                   "const": "PROPERTY_DAMAGE_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Modifier amount (dice expression)"
                 },
                 "damageType": {
@@ -1073,8 +1169,17 @@
                   "const": "PROPERTY_DAMAGE_REDUCTION"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Reduction amount (dice expression)"
                 },
                 "damageType": {
@@ -1188,8 +1293,17 @@
                   "const": "PROPERTY_HEALING_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Healing amount modifier (dice expression)"
                 }
               },
@@ -1208,8 +1322,17 @@
                   "const": "PROPERTY_REGENERATION"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "HP regained per turn (dice expression)"
                 },
                 "vulnerabilities": {
@@ -1258,6 +1381,39 @@
               ],
               "additionalProperties": false,
               "description": "Regeneration"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_VAMPYRE"
+                },
+                "amp": {
+                  "type": "number"
+                },
+                "damageType": {
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ],
+                  "description": "fields.damageType"
+                }
+              },
+              "required": [
+                "type",
+                "amp",
+                "damageType"
+              ],
+              "additionalProperties": false
             },
             {
               "type": "object",
@@ -1609,8 +1765,17 @@
                   "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Bonus damage dice added to weapon attacks (e.g. 1d6)"
                 }
               },
@@ -1684,8 +1849,17 @@
                       "maximum": 9007199254740991
                     },
                     {
-                      "type": "string",
-                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -1970,8 +2144,17 @@
                   "const": "PROPERTY_DAMAGE_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Modifier amount (dice expression)"
                 },
                 "damageType": {
@@ -2006,8 +2189,17 @@
                   "const": "PROPERTY_DAMAGE_REDUCTION"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Reduction amount (dice expression)"
                 },
                 "damageType": {
@@ -2121,8 +2313,17 @@
                   "const": "PROPERTY_HEALING_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Healing amount modifier (dice expression)"
                 }
               },
@@ -2141,8 +2342,17 @@
                   "const": "PROPERTY_REGENERATION"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "HP regained per turn (dice expression)"
                 },
                 "vulnerabilities": {
@@ -2191,6 +2401,39 @@
               ],
               "additionalProperties": false,
               "description": "Regeneration"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_VAMPYRE"
+                },
+                "amp": {
+                  "type": "number"
+                },
+                "damageType": {
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ],
+                  "description": "fields.damageType"
+                }
+              },
+              "required": [
+                "type",
+                "amp",
+                "damageType"
+              ],
+              "additionalProperties": false
             },
             {
               "type": "object",
@@ -2542,8 +2785,17 @@
                   "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Bonus damage dice added to weapon attacks (e.g. 1d6)"
                 }
               },
@@ -2617,8 +2869,17 @@
                       "maximum": 9007199254740991
                     },
                     {
-                      "type": "string",
-                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -2887,8 +3148,17 @@
                   "const": "PROPERTY_DAMAGE_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Modifier amount (dice expression)"
                 },
                 "damageType": {
@@ -2923,8 +3193,17 @@
                   "const": "PROPERTY_DAMAGE_REDUCTION"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Reduction amount (dice expression)"
                 },
                 "damageType": {
@@ -3038,8 +3317,17 @@
                   "const": "PROPERTY_HEALING_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Healing amount modifier (dice expression)"
                 }
               },
@@ -3058,8 +3346,17 @@
                   "const": "PROPERTY_REGENERATION"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "HP regained per turn (dice expression)"
                 },
                 "vulnerabilities": {
@@ -3108,6 +3405,39 @@
               ],
               "additionalProperties": false,
               "description": "Regeneration"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_VAMPYRE"
+                },
+                "amp": {
+                  "type": "number"
+                },
+                "damageType": {
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ],
+                  "description": "fields.damageType"
+                }
+              },
+              "required": [
+                "type",
+                "amp",
+                "damageType"
+              ],
+              "additionalProperties": false
             },
             {
               "type": "object",
@@ -3459,8 +3789,17 @@
                   "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Bonus damage dice added to weapon attacks (e.g. 1d6)"
                 }
               },
@@ -3534,8 +3873,17 @@
                       "maximum": 9007199254740991
                     },
                     {
-                      "type": "string",
-                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -3804,8 +4152,17 @@
                   "const": "PROPERTY_DAMAGE_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Modifier amount (dice expression)"
                 },
                 "damageType": {
@@ -3840,8 +4197,17 @@
                   "const": "PROPERTY_DAMAGE_REDUCTION"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Reduction amount (dice expression)"
                 },
                 "damageType": {
@@ -3955,8 +4321,17 @@
                   "const": "PROPERTY_HEALING_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Healing amount modifier (dice expression)"
                 }
               },
@@ -3975,8 +4350,17 @@
                   "const": "PROPERTY_REGENERATION"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "HP regained per turn (dice expression)"
                 },
                 "vulnerabilities": {
@@ -4025,6 +4409,39 @@
               ],
               "additionalProperties": false,
               "description": "Regeneration"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_VAMPYRE"
+                },
+                "amp": {
+                  "type": "number"
+                },
+                "damageType": {
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ],
+                  "description": "fields.damageType"
+                }
+              },
+              "required": [
+                "type",
+                "amp",
+                "damageType"
+              ],
+              "additionalProperties": false
             },
             {
               "type": "object",
@@ -4376,8 +4793,17 @@
                   "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Bonus damage dice added to weapon attacks (e.g. 1d6)"
                 }
               },
@@ -4451,8 +4877,17 @@
                       "maximum": 9007199254740991
                     },
                     {
-                      "type": "string",
-                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -4808,8 +5243,17 @@
                   "const": "PROPERTY_DAMAGE_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Modifier amount (dice expression)"
                 },
                 "damageType": {
@@ -4844,8 +5288,17 @@
                   "const": "PROPERTY_DAMAGE_REDUCTION"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Reduction amount (dice expression)"
                 },
                 "damageType": {
@@ -4959,8 +5412,17 @@
                   "const": "PROPERTY_HEALING_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Healing amount modifier (dice expression)"
                 }
               },
@@ -4979,8 +5441,17 @@
                   "const": "PROPERTY_REGENERATION"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "HP regained per turn (dice expression)"
                 },
                 "vulnerabilities": {
@@ -5029,6 +5500,39 @@
               ],
               "additionalProperties": false,
               "description": "Regeneration"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_VAMPYRE"
+                },
+                "amp": {
+                  "type": "number"
+                },
+                "damageType": {
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ],
+                  "description": "fields.damageType"
+                }
+              },
+              "required": [
+                "type",
+                "amp",
+                "damageType"
+              ],
+              "additionalProperties": false
             },
             {
               "type": "object",
@@ -5380,8 +5884,17 @@
                   "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Bonus damage dice added to weapon attacks (e.g. 1d6)"
                 }
               },
@@ -5455,8 +5968,17 @@
                       "maximum": 9007199254740991
                     },
                     {
-                      "type": "string",
-                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -5659,8 +6181,17 @@
                                 "const": "PROPERTY_DAMAGE_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Modifier amount (dice expression)"
                               },
                               "damageType": {
@@ -5695,8 +6226,17 @@
                                 "const": "PROPERTY_DAMAGE_REDUCTION"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Reduction amount (dice expression)"
                               },
                               "damageType": {
@@ -5810,8 +6350,17 @@
                                 "const": "PROPERTY_HEALING_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Healing amount modifier (dice expression)"
                               }
                             },
@@ -5830,8 +6379,17 @@
                                 "const": "PROPERTY_REGENERATION"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "HP regained per turn (dice expression)"
                               },
                               "vulnerabilities": {
@@ -5880,6 +6438,39 @@
                             ],
                             "additionalProperties": false,
                             "description": "Regeneration"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_VAMPYRE"
+                              },
+                              "amp": {
+                                "type": "number"
+                              },
+                              "damageType": {
+                                "type": "string",
+                                "enum": [
+                                  "DAMAGE_TYPE_SLASHING",
+                                  "DAMAGE_TYPE_CRUSHING",
+                                  "DAMAGE_TYPE_PIERCING",
+                                  "DAMAGE_TYPE_THERMAL",
+                                  "DAMAGE_TYPE_CRYOGENIC",
+                                  "DAMAGE_TYPE_CHEMICAL",
+                                  "DAMAGE_TYPE_ELECTRIC",
+                                  "DAMAGE_TYPE_NECROTIC",
+                                  "DAMAGE_TYPE_RADIANT"
+                                ],
+                                "description": "fields.damageType"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp",
+                              "damageType"
+                            ],
+                            "additionalProperties": false
                           },
                           {
                             "type": "object",
@@ -6231,8 +6822,17 @@
                                 "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Bonus damage dice added to weapon attacks (e.g. 1d6)"
                               }
                             },
@@ -6306,8 +6906,17 @@
                                     "maximum": 9007199254740991
                                   },
                                   {
-                                    "type": "string",
-                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                    "anyOf": [
+                                      {
+                                        "type": "integer",
+                                        "minimum": -9007199254740991,
+                                        "maximum": 9007199254740991
+                                      },
+                                      {
+                                        "type": "string",
+                                        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                      }
+                                    ]
                                   }
                                 ]
                               },
@@ -6591,8 +7200,17 @@
                                 "const": "PROPERTY_DAMAGE_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Modifier amount (dice expression)"
                               },
                               "damageType": {
@@ -6627,8 +7245,17 @@
                                 "const": "PROPERTY_DAMAGE_REDUCTION"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Reduction amount (dice expression)"
                               },
                               "damageType": {
@@ -6742,8 +7369,17 @@
                                 "const": "PROPERTY_HEALING_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Healing amount modifier (dice expression)"
                               }
                             },
@@ -6762,8 +7398,17 @@
                                 "const": "PROPERTY_REGENERATION"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "HP regained per turn (dice expression)"
                               },
                               "vulnerabilities": {
@@ -6812,6 +7457,39 @@
                             ],
                             "additionalProperties": false,
                             "description": "Regeneration"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_VAMPYRE"
+                              },
+                              "amp": {
+                                "type": "number"
+                              },
+                              "damageType": {
+                                "type": "string",
+                                "enum": [
+                                  "DAMAGE_TYPE_SLASHING",
+                                  "DAMAGE_TYPE_CRUSHING",
+                                  "DAMAGE_TYPE_PIERCING",
+                                  "DAMAGE_TYPE_THERMAL",
+                                  "DAMAGE_TYPE_CRYOGENIC",
+                                  "DAMAGE_TYPE_CHEMICAL",
+                                  "DAMAGE_TYPE_ELECTRIC",
+                                  "DAMAGE_TYPE_NECROTIC",
+                                  "DAMAGE_TYPE_RADIANT"
+                                ],
+                                "description": "fields.damageType"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp",
+                              "damageType"
+                            ],
+                            "additionalProperties": false
                           },
                           {
                             "type": "object",
@@ -7163,8 +7841,17 @@
                                 "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Bonus damage dice added to weapon attacks (e.g. 1d6)"
                               }
                             },
@@ -7238,8 +7925,17 @@
                                     "maximum": 9007199254740991
                                   },
                                   {
-                                    "type": "string",
-                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                    "anyOf": [
+                                      {
+                                        "type": "integer",
+                                        "minimum": -9007199254740991,
+                                        "maximum": 9007199254740991
+                                      },
+                                      {
+                                        "type": "string",
+                                        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                      }
+                                    ]
                                   }
                                 ]
                               },
@@ -7577,8 +8273,17 @@
                                 "const": "PROPERTY_DAMAGE_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Modifier amount (dice expression)"
                               },
                               "damageType": {
@@ -7613,8 +8318,17 @@
                                 "const": "PROPERTY_DAMAGE_REDUCTION"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Reduction amount (dice expression)"
                               },
                               "damageType": {
@@ -7728,8 +8442,17 @@
                                 "const": "PROPERTY_HEALING_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Healing amount modifier (dice expression)"
                               }
                             },
@@ -7748,8 +8471,17 @@
                                 "const": "PROPERTY_REGENERATION"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "HP regained per turn (dice expression)"
                               },
                               "vulnerabilities": {
@@ -7798,6 +8530,39 @@
                             ],
                             "additionalProperties": false,
                             "description": "Regeneration"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_VAMPYRE"
+                              },
+                              "amp": {
+                                "type": "number"
+                              },
+                              "damageType": {
+                                "type": "string",
+                                "enum": [
+                                  "DAMAGE_TYPE_SLASHING",
+                                  "DAMAGE_TYPE_CRUSHING",
+                                  "DAMAGE_TYPE_PIERCING",
+                                  "DAMAGE_TYPE_THERMAL",
+                                  "DAMAGE_TYPE_CRYOGENIC",
+                                  "DAMAGE_TYPE_CHEMICAL",
+                                  "DAMAGE_TYPE_ELECTRIC",
+                                  "DAMAGE_TYPE_NECROTIC",
+                                  "DAMAGE_TYPE_RADIANT"
+                                ],
+                                "description": "fields.damageType"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp",
+                              "damageType"
+                            ],
+                            "additionalProperties": false
                           },
                           {
                             "type": "object",
@@ -8149,8 +8914,17 @@
                                 "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Bonus damage dice added to weapon attacks (e.g. 1d6)"
                               }
                             },
@@ -8224,8 +8998,17 @@
                                     "maximum": 9007199254740991
                                   },
                                   {
-                                    "type": "string",
-                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                    "anyOf": [
+                                      {
+                                        "type": "integer",
+                                        "minimum": -9007199254740991,
+                                        "maximum": 9007199254740991
+                                      },
+                                      {
+                                        "type": "string",
+                                        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                      }
+                                    ]
                                   }
                                 ]
                               },
@@ -8493,8 +9276,17 @@
                                 "const": "PROPERTY_DAMAGE_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Modifier amount (dice expression)"
                               },
                               "damageType": {
@@ -8529,8 +9321,17 @@
                                 "const": "PROPERTY_DAMAGE_REDUCTION"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Reduction amount (dice expression)"
                               },
                               "damageType": {
@@ -8644,8 +9445,17 @@
                                 "const": "PROPERTY_HEALING_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Healing amount modifier (dice expression)"
                               }
                             },
@@ -8664,8 +9474,17 @@
                                 "const": "PROPERTY_REGENERATION"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "HP regained per turn (dice expression)"
                               },
                               "vulnerabilities": {
@@ -8714,6 +9533,39 @@
                             ],
                             "additionalProperties": false,
                             "description": "Regeneration"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_VAMPYRE"
+                              },
+                              "amp": {
+                                "type": "number"
+                              },
+                              "damageType": {
+                                "type": "string",
+                                "enum": [
+                                  "DAMAGE_TYPE_SLASHING",
+                                  "DAMAGE_TYPE_CRUSHING",
+                                  "DAMAGE_TYPE_PIERCING",
+                                  "DAMAGE_TYPE_THERMAL",
+                                  "DAMAGE_TYPE_CRYOGENIC",
+                                  "DAMAGE_TYPE_CHEMICAL",
+                                  "DAMAGE_TYPE_ELECTRIC",
+                                  "DAMAGE_TYPE_NECROTIC",
+                                  "DAMAGE_TYPE_RADIANT"
+                                ],
+                                "description": "fields.damageType"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp",
+                              "damageType"
+                            ],
+                            "additionalProperties": false
                           },
                           {
                             "type": "object",
@@ -9065,8 +9917,17 @@
                                 "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Bonus damage dice added to weapon attacks (e.g. 1d6)"
                               }
                             },
@@ -9140,8 +10001,17 @@
                                     "maximum": 9007199254740991
                                   },
                                   {
-                                    "type": "string",
-                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                    "anyOf": [
+                                      {
+                                        "type": "integer",
+                                        "minimum": -9007199254740991,
+                                        "maximum": 9007199254740991
+                                      },
+                                      {
+                                        "type": "string",
+                                        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                      }
+                                    ]
                                   }
                                 ]
                               },
@@ -9409,8 +10279,17 @@
                                 "const": "PROPERTY_DAMAGE_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Modifier amount (dice expression)"
                               },
                               "damageType": {
@@ -9445,8 +10324,17 @@
                                 "const": "PROPERTY_DAMAGE_REDUCTION"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Reduction amount (dice expression)"
                               },
                               "damageType": {
@@ -9560,8 +10448,17 @@
                                 "const": "PROPERTY_HEALING_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Healing amount modifier (dice expression)"
                               }
                             },
@@ -9580,8 +10477,17 @@
                                 "const": "PROPERTY_REGENERATION"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "HP regained per turn (dice expression)"
                               },
                               "vulnerabilities": {
@@ -9630,6 +10536,39 @@
                             ],
                             "additionalProperties": false,
                             "description": "Regeneration"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_VAMPYRE"
+                              },
+                              "amp": {
+                                "type": "number"
+                              },
+                              "damageType": {
+                                "type": "string",
+                                "enum": [
+                                  "DAMAGE_TYPE_SLASHING",
+                                  "DAMAGE_TYPE_CRUSHING",
+                                  "DAMAGE_TYPE_PIERCING",
+                                  "DAMAGE_TYPE_THERMAL",
+                                  "DAMAGE_TYPE_CRYOGENIC",
+                                  "DAMAGE_TYPE_CHEMICAL",
+                                  "DAMAGE_TYPE_ELECTRIC",
+                                  "DAMAGE_TYPE_NECROTIC",
+                                  "DAMAGE_TYPE_RADIANT"
+                                ],
+                                "description": "fields.damageType"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp",
+                              "damageType"
+                            ],
+                            "additionalProperties": false
                           },
                           {
                             "type": "object",
@@ -9981,8 +10920,17 @@
                                 "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                               },
                               "amp": {
-                                "type": "string",
-                                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                  }
+                                ],
                                 "description": "Bonus damage dice added to weapon attacks (e.g. 1d6)"
                               }
                             },
@@ -10056,8 +11004,17 @@
                                     "maximum": 9007199254740991
                                   },
                                   {
-                                    "type": "string",
-                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                    "anyOf": [
+                                      {
+                                        "type": "integer",
+                                        "minimum": -9007199254740991,
+                                        "maximum": 9007199254740991
+                                      },
+                                      {
+                                        "type": "string",
+                                        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                                      }
+                                    ]
                                   }
                                 ]
                               },
@@ -10508,8 +11465,17 @@
                   "const": "PROPERTY_DAMAGE_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Modifier amount (dice expression)"
                 },
                 "damageType": {
@@ -10544,8 +11510,17 @@
                   "const": "PROPERTY_DAMAGE_REDUCTION"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Reduction amount (dice expression)"
                 },
                 "damageType": {
@@ -10659,8 +11634,17 @@
                   "const": "PROPERTY_HEALING_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Healing amount modifier (dice expression)"
                 }
               },
@@ -10679,8 +11663,17 @@
                   "const": "PROPERTY_REGENERATION"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "HP regained per turn (dice expression)"
                 },
                 "vulnerabilities": {
@@ -10729,6 +11722,39 @@
               ],
               "additionalProperties": false,
               "description": "Regeneration"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_VAMPYRE"
+                },
+                "amp": {
+                  "type": "number"
+                },
+                "damageType": {
+                  "type": "string",
+                  "enum": [
+                    "DAMAGE_TYPE_SLASHING",
+                    "DAMAGE_TYPE_CRUSHING",
+                    "DAMAGE_TYPE_PIERCING",
+                    "DAMAGE_TYPE_THERMAL",
+                    "DAMAGE_TYPE_CRYOGENIC",
+                    "DAMAGE_TYPE_CHEMICAL",
+                    "DAMAGE_TYPE_ELECTRIC",
+                    "DAMAGE_TYPE_NECROTIC",
+                    "DAMAGE_TYPE_RADIANT"
+                  ],
+                  "description": "fields.damageType"
+                }
+              },
+              "required": [
+                "type",
+                "amp",
+                "damageType"
+              ],
+              "additionalProperties": false
             },
             {
               "type": "object",
@@ -11080,8 +12106,17 @@
                   "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                 },
                 "amp": {
-                  "type": "string",
-                  "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                    }
+                  ],
                   "description": "Bonus damage dice added to weapon attacks (e.g. 1d6)"
                 }
               },
@@ -11155,8 +12190,17 @@
                       "maximum": 9007199254740991
                     },
                     {
-                      "type": "string",
-                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -11351,8 +12395,17 @@
         "const": "PROPERTY_DAMAGE_MODIFIER"
       },
       "amp": {
-        "type": "string",
-        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          {
+            "type": "string",
+            "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+          }
+        ],
         "description": "Modifier amount (dice expression)"
       },
       "damageType": {
@@ -11388,8 +12441,17 @@
         "const": "PROPERTY_DAMAGE_REDUCTION"
       },
       "amp": {
-        "type": "string",
-        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          {
+            "type": "string",
+            "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+          }
+        ],
         "description": "Reduction amount (dice expression)"
       },
       "damageType": {
@@ -11507,8 +12569,17 @@
         "const": "PROPERTY_HEALING_MODIFIER"
       },
       "amp": {
-        "type": "string",
-        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          {
+            "type": "string",
+            "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+          }
+        ],
         "description": "Healing amount modifier (dice expression)"
       }
     },
@@ -11528,8 +12599,17 @@
         "const": "PROPERTY_REGENERATION"
       },
       "amp": {
-        "type": "string",
-        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          {
+            "type": "string",
+            "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+          }
+        ],
         "description": "HP regained per turn (dice expression)"
       },
       "vulnerabilities": {
@@ -11941,8 +13021,17 @@
         "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
       },
       "amp": {
-        "type": "string",
-        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$",
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          {
+            "type": "string",
+            "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+          }
+        ],
         "description": "Bonus damage dice added to weapon attacks (e.g. 1d6)"
       }
     },
@@ -12017,8 +13106,17 @@
             "maximum": 9007199254740991
           },
           {
-            "type": "string",
-            "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "string",
+                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+              }
+            ]
           }
         ]
       },

@@ -27,7 +27,7 @@ export class PropertyProgramRegeneration implements IProgram<Property> {
         }
     }
 
-    damaged?(prop: Property, amount: number, damageType: DamageType): void {
+    damaged(prop: Property, amount: number, damageType: DamageType): void {
         const d = prop.data as TPropertyRegeneration;
         if (d.vulnerabilities?.includes(damageType)) {
             d.shutdown += amount;

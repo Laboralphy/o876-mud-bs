@@ -74,7 +74,7 @@ describe('aggregateProperties', () => {
 
     describe('type filtering', () => {
         it('ignores properties not in aWantedProperties', () => {
-            const getters = makeGetters([makeAbilityModifier(5), makeRegenProperty('3d1')]);
+            const getters = makeGetters([makeAbilityModifier(5), makeRegenProperty(3)]);
             const result = aggregateProperties(
                 ['PROPERTY_ABILITY_MODIFIER'],
                 getters,

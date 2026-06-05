@@ -12,13 +12,10 @@ export const PropertyAilment = z
         type: z.literal(CONSTS.PROPERTY_AILMENT),
         ailment: AilmentSchema.describe('PropertyAilment.ailment'),
         chance: z.number().int().min(1).max(20).describe('PropertyAilment.chance'),
-        duration: z.number().int().min(1).describe('PropertyAilment.duration'),
+        duration: z.number().int().describe('PropertyAilment.duration'),
         subtype: EffectSubtypeSchema.describe('PropertyAilment.subtype'),
         dc: z.number().int().min(0).default(10).describe('PropertyAilment.dc'),
-        amp: z
-            .union([z.number().int().positive(), DiceExpression])
-            .optional()
-            .describe('PropertyAilment.amp'),
+        amp: DiceExpression.optional().describe('PropertyAilment.amp'),
         ability: AbilitySchema.optional().describe('PropertyAilment.ability'),
         disease: DiseaseSchema.optional().describe('PropertyAilment.disease'),
         damageType: DamageTypeSchema.optional().describe('PropertyAilment.damageType'),

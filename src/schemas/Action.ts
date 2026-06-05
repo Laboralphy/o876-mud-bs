@@ -8,7 +8,7 @@ export const ActionBlueprintSchema = z
         hostile: z.boolean().describe('ActionBlueprint.hostile'),
         script: z.string().describe('ActionBlueprint.script'),
         cooldown: z.number().int().describe('ActionBlueprint.cooldown'),
-        charges: z.number().int().describe('ActionBlueprint.charges'),
+        charges: z.number().int().optional().default(1).describe('ActionBlueprint.charges'),
         range: DistanceSchema.describe('ActionBlueprint.range'),
         bonus: z.boolean().describe('ActionBlueprint.bonus'),
     })

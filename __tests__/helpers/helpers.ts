@@ -101,7 +101,7 @@ export function makeRegenEffect(overrides: Partial<Effect> = {}): Effect {
     } as Effect;
 }
 
-export function makeRegenProperty(amp: string = '2d1'): Property {
+export function makeRegenProperty(amp: string | number = 2): Property {
     return PropertyBuilder.buildProperty({
         type: CONSTS.PROPERTY_REGENERATION,
         shutdown: 0,

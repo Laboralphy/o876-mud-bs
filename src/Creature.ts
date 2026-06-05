@@ -257,11 +257,12 @@ export class Creature {
      */
     applyEffect(
         effectDefinition: EffectDefinition,
-        source: Creature,
-        duration: number,
+        source: Creature | null = null,
+        duration: number = 0,
         subtype: EffectSubtype = CONSTS.EFFECT_SUBTYPE_MAGICAL,
         tag: string = ''
     ): Effect {
+        source = source ?? this;
         const effect: Effect = EffectSchema.parse({
             type: effectDefinition.type,
             data: effectDefinition,
@@ -327,7 +328,7 @@ export class Creature {
                 id: randomUUID(),
                 source: source.id,
                 target: this.id,
-                duration,
+                duration: duration < 0 ? Infinity : duration,
                 subtype,
                 tag,
                 siblings: aEffectIds,
@@ -340,7 +341,7 @@ export class Creature {
                     immune = true;
                 },
             });
-            if (!immune) {
+            if (!immune && effect.duration > 0) {
                 aEffectIds.push(effect.id);
                 aEffects.push(effect);
                 this.state.effects.push(effect);
