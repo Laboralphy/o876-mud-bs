@@ -5,3 +5,5 @@ import { IRulesEngine } from '../../../interfaces/IRulesEngine';
 import { Creature } from '../../../Creature';
 
 export function main(rules: IRulesEngine, subject: Creature, target: Creature | undefined) {}
+
+export default main;

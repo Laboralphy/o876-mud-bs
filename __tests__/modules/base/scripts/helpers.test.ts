@@ -4,18 +4,19 @@ import { RulesEngine } from '../../../../src/RulesEngine';
 import { CONSTS } from '../../../../src/consts';
 import { getAreaOfEffectCreatures } from '../../../../src/modules/classic/scripts/helpers';
 import { CREATURE_RESREF, makeRulesEngine } from '../../../RulesEngine/helpers';
+import { Distance } from '../../../../src/schemas/enums/Distance';
 
 // startCombat always creates a mutual combat (mirror is auto-created).
 // Setting distance on the attacker side syncs to the mirror via the distance-changed event.
 
-function setCombatDistance(rules: RulesEngine, attacker: Creature, distance: string) {
+function setCombatDistance(rules: RulesEngine, attacker: Creature, distance: Distance) {
     rules['_combatManager'].getCombat(attacker)!.setDistance(distance);
 }
 
 describe('getAreaOfEffectCreatures', () => {
     let rules: RulesEngine;
     let alice: Creature; // subject
-    let bob: Creature;   // target
+    let bob: Creature; // target
     let carol: Creature; // extra aggressor
 
     beforeEach(() => {
@@ -51,7 +52,7 @@ describe('getAreaOfEffectCreatures', () => {
     it('excludes aggressors at a different distance than the target', () => {
         rules.startCombat(alice, bob);
         rules.startCombat(carol, alice);
-        setCombatDistance(rules, carol, CONSTS.DISTANCE_FAR);   // carol→alice at FAR (also propagates to alice→bob)
+        setCombatDistance(rules, carol, CONSTS.DISTANCE_FAR); // carol→alice at FAR (also propagates to alice→bob)
         setCombatDistance(rules, alice, CONSTS.DISTANCE_CLOSE); // alice→bob + bob→alice at CLOSE (wins)
         const result = getAreaOfEffectCreatures(rules, alice, bob);
         expect(result).toContain(bob);
