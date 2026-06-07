@@ -32,6 +32,8 @@ import { generateUniqueId } from './libs/unique-id';
 import { Skill } from './schemas/enums/Skill';
 import { DiceRoll } from './DiceRoll';
 import { Ability } from './schemas/enums/Ability';
+import { Threat } from './schemas/enums/Threat';
+import THREAT_RESISTANCE from './data/threat-resistance.json';
 import { randomUUID } from 'node:crypto';
 import { EffectSubtype } from './schemas/enums/EffectSubtype';
 import { EventEffectProcessorImmunity } from './schemas/events/EventEffectProcessorImmunity';
@@ -755,10 +757,22 @@ export class Creature {
     // ▝▘▝▘ ▀▀  ▀▀  ▀▀ ▝▀▀      ▀▀▘▝▘▝▘ ▀▀▘     ▀▀ ▝▘▝▘ ▀▀  ▀▀ ▝▘▝▘▝▀▀
     // Rolls and checks
 
+    /**
+     * Just roll a 1D20 with a modifier equal to the specified skill
+     * @param skill
+     */
     rollSkill(skill: Skill): DiceRoll {
         return new DiceRoll('1d20', this.getters.getSkillValues[skill]);
     }
 
+    /**
+     * Two creatures roll a distinct skill and result are compared
+     * Return true if this roll skill is higher or equal to adversary creature roll skill
+     * This is useful for skill contest like stealth vs perception
+     * @param skill
+     * @param adversary
+     * @param advSkill
+     */
     checkSkillAgainst(skill: Skill, adversary: Creature, advSkill: Skill) {
         const meDice = this.rollSkill(skill);
         const advDice = adversary.rollSkill(advSkill);
@@ -789,12 +803,31 @@ export class Creature {
         return d.success;
     }
 
-    checkResistance(ability: Ability, dc: number): boolean {
-        const d = new DiceRoll('1d20', this.getters.getAbilityModifiers[ability], dc);
+    rollAbilityCheck(ability: Ability, dc: number): boolean {
+        return new DiceRoll('1d20', this.getters.getAbilityModifiers[ability], dc).success;
+    }
+
+    checkResistance(threat: Threat, dc: number): boolean {
+        const TR = THREAT_RESISTANCE as Record<
+            Threat,
+            { resistingSkill?: Skill; resistingAbility?: Ability }
+        >;
+        const entry = TR[threat];
+        if (!entry) {
+            throw new ReferenceError(`Unknown threat: ${threat}`);
+        }
+        let bonus = 0;
+        if (entry.resistingSkill) {
+            bonus = this.getters.getSkillValues[entry.resistingSkill];
+        } else if (entry.resistingAbility) {
+            bonus = this.getters.getAbilityModifiers[entry.resistingAbility];
+        }
+        const d = new DiceRoll('1d20', bonus, dc);
         this.emit<EventCreatureCheckResistance>(CONSTS.EVENT_CREATURE_RESISTANCE_CHECK, {
             creature: this,
-            ability,
+            threat,
             dc,
+            bonus,
             success: d.success,
         });
         return d.success;

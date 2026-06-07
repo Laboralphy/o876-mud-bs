@@ -1,10 +1,11 @@
 import z from 'zod';
 import { Creature } from '../../Creature';
-import { AbilitySchema } from '../enums/Ability';
+import { ThreatSchema } from '../enums/Threat';
 
 export const EventCreatureCheckResistanceSchema = z.strictObject({
     creature: z.instanceof(Creature),
-    ability: AbilitySchema,
+    threat: ThreatSchema,
+    bonus: z.number(),
     dc: z.number().int(),
     success: z.boolean(),
 });

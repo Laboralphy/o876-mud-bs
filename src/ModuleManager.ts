@@ -4,6 +4,7 @@ import { ItemBlueprint, ItemBlueprintSchema } from './schemas/ItemBlueprint';
 import { CreatureBlueprint, CreatureBlueprintSchema } from './schemas/CreatureBlueprint';
 import { ModuleStructure } from './schemas/ModuleStructure';
 import { CreatureActionScript } from './schemas/CreatureActionScript';
+import { ExtendedPropertiesSchema } from './schemas/ExtendedProperties';
 
 function validateCreature(entity: ExtendableEntity): CreatureBlueprint {
     return CreatureBlueprintSchema.parse(entity);
@@ -26,7 +27,7 @@ export class ModuleManager {
     }
 
     getResRefList() {
-        return this.extendResolver.keys
+        return this.extendResolver.keys;
     }
 
     loadModuleBlueprints(moduleContent: Record<string, ExtendableEntity>) {
@@ -43,7 +44,7 @@ export class ModuleManager {
 
     loadModule(module: ModuleStructure) {
         if (module.blueprints) {
-            this.loadModuleBlueprints(module.blueprints);
+            this.loadModuleBlueprints(module.blueprints as Record<string, ExtendableEntity>);
         }
         if (module.thinkers) {
             this.loadModuleScripts(module.thinkers);

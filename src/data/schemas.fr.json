@@ -744,7 +744,7 @@
                 },
                 "duration": {
                   "type": "integer",
-                  "minimum": 1,
+                  "minimum": -9007199254740991,
                   "maximum": 9007199254740991,
                   "description": "Durée de l'effet (rounds)"
                 },
@@ -771,21 +771,12 @@
                   "anyOf": [
                     {
                       "type": "integer",
-                      "exclusiveMinimum": 0,
+                      "minimum": -9007199254740991,
                       "maximum": 9007199254740991
                     },
                     {
-                      "anyOf": [
-                        {
-                          "type": "integer",
-                          "minimum": -9007199254740991,
-                          "maximum": 9007199254740991
-                        },
-                        {
-                          "type": "string",
-                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
-                        }
-                      ]
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
                     }
                   ]
                 },
@@ -943,7 +934,17 @@
         "description": "Type d'objet"
       },
       "damages": {
-        "type": "string",
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          {
+            "type": "string",
+            "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+          }
+        ],
         "description": "Formule de dégâts (ex. 1d8, 2d6+2)"
       },
       "damageType": {
@@ -1818,7 +1819,7 @@
                 },
                 "duration": {
                   "type": "integer",
-                  "minimum": 1,
+                  "minimum": -9007199254740991,
                   "maximum": 9007199254740991,
                   "description": "Durée de l'effet (rounds)"
                 },
@@ -1845,21 +1846,12 @@
                   "anyOf": [
                     {
                       "type": "integer",
-                      "exclusiveMinimum": 0,
+                      "minimum": -9007199254740991,
                       "maximum": 9007199254740991
                     },
                     {
-                      "anyOf": [
-                        {
-                          "type": "integer",
-                          "minimum": -9007199254740991,
-                          "maximum": 9007199254740991
-                        },
-                        {
-                          "type": "string",
-                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
-                        }
-                      ]
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
                     }
                   ]
                 },
@@ -2838,7 +2830,7 @@
                 },
                 "duration": {
                   "type": "integer",
-                  "minimum": 1,
+                  "minimum": -9007199254740991,
                   "maximum": 9007199254740991,
                   "description": "Durée de l'effet (rounds)"
                 },
@@ -2865,21 +2857,12 @@
                   "anyOf": [
                     {
                       "type": "integer",
-                      "exclusiveMinimum": 0,
+                      "minimum": -9007199254740991,
                       "maximum": 9007199254740991
                     },
                     {
-                      "anyOf": [
-                        {
-                          "type": "integer",
-                          "minimum": -9007199254740991,
-                          "maximum": 9007199254740991
-                        },
-                        {
-                          "type": "string",
-                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
-                        }
-                      ]
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
                     }
                   ]
                 },
@@ -3842,7 +3825,7 @@
                 },
                 "duration": {
                   "type": "integer",
-                  "minimum": 1,
+                  "minimum": -9007199254740991,
                   "maximum": 9007199254740991,
                   "description": "Durée de l'effet (rounds)"
                 },
@@ -3869,21 +3852,12 @@
                   "anyOf": [
                     {
                       "type": "integer",
-                      "exclusiveMinimum": 0,
+                      "minimum": -9007199254740991,
                       "maximum": 9007199254740991
                     },
                     {
-                      "anyOf": [
-                        {
-                          "type": "integer",
-                          "minimum": -9007199254740991,
-                          "maximum": 9007199254740991
-                        },
-                        {
-                          "type": "string",
-                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
-                        }
-                      ]
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
                     }
                   ]
                 },
@@ -4846,7 +4820,7 @@
                 },
                 "duration": {
                   "type": "integer",
-                  "minimum": 1,
+                  "minimum": -9007199254740991,
                   "maximum": 9007199254740991,
                   "description": "Durée de l'effet (rounds)"
                 },
@@ -4873,21 +4847,12 @@
                   "anyOf": [
                     {
                       "type": "integer",
-                      "exclusiveMinimum": 0,
+                      "minimum": -9007199254740991,
                       "maximum": 9007199254740991
                     },
                     {
-                      "anyOf": [
-                        {
-                          "type": "integer",
-                          "minimum": -9007199254740991,
-                          "maximum": 9007199254740991
-                        },
-                        {
-                          "type": "string",
-                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
-                        }
-                      ]
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
                     }
                   ]
                 },
@@ -5937,7 +5902,7 @@
                 },
                 "duration": {
                   "type": "integer",
-                  "minimum": 1,
+                  "minimum": -9007199254740991,
                   "maximum": 9007199254740991,
                   "description": "Durée de l'effet (rounds)"
                 },
@@ -5964,21 +5929,12 @@
                   "anyOf": [
                     {
                       "type": "integer",
-                      "exclusiveMinimum": 0,
+                      "minimum": -9007199254740991,
                       "maximum": 9007199254740991
                     },
                     {
-                      "anyOf": [
-                        {
-                          "type": "integer",
-                          "minimum": -9007199254740991,
-                          "maximum": 9007199254740991
-                        },
-                        {
-                          "type": "string",
-                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
-                        }
-                      ]
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
                     }
                   ]
                 },
@@ -6875,7 +6831,7 @@
                               },
                               "duration": {
                                 "type": "integer",
-                                "minimum": 1,
+                                "minimum": -9007199254740991,
                                 "maximum": 9007199254740991,
                                 "description": "Durée de l'effet (rounds)"
                               },
@@ -6902,21 +6858,12 @@
                                 "anyOf": [
                                   {
                                     "type": "integer",
-                                    "exclusiveMinimum": 0,
+                                    "minimum": -9007199254740991,
                                     "maximum": 9007199254740991
                                   },
                                   {
-                                    "anyOf": [
-                                      {
-                                        "type": "integer",
-                                        "minimum": -9007199254740991,
-                                        "maximum": 9007199254740991
-                                      },
-                                      {
-                                        "type": "string",
-                                        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
                                   }
                                 ]
                               },
@@ -7894,7 +7841,7 @@
                               },
                               "duration": {
                                 "type": "integer",
-                                "minimum": 1,
+                                "minimum": -9007199254740991,
                                 "maximum": 9007199254740991,
                                 "description": "Durée de l'effet (rounds)"
                               },
@@ -7921,21 +7868,12 @@
                                 "anyOf": [
                                   {
                                     "type": "integer",
-                                    "exclusiveMinimum": 0,
+                                    "minimum": -9007199254740991,
                                     "maximum": 9007199254740991
                                   },
                                   {
-                                    "anyOf": [
-                                      {
-                                        "type": "integer",
-                                        "minimum": -9007199254740991,
-                                        "maximum": 9007199254740991
-                                      },
-                                      {
-                                        "type": "string",
-                                        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
                                   }
                                 ]
                               },
@@ -8093,7 +8031,17 @@
                       "description": "Type d'objet"
                     },
                     "damages": {
-                      "type": "string",
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
+                        }
+                      ],
                       "description": "Formule de dégâts (ex. 1d8, 2d6+2)"
                     },
                     "damageType": {
@@ -8967,7 +8915,7 @@
                               },
                               "duration": {
                                 "type": "integer",
-                                "minimum": 1,
+                                "minimum": -9007199254740991,
                                 "maximum": 9007199254740991,
                                 "description": "Durée de l'effet (rounds)"
                               },
@@ -8994,21 +8942,12 @@
                                 "anyOf": [
                                   {
                                     "type": "integer",
-                                    "exclusiveMinimum": 0,
+                                    "minimum": -9007199254740991,
                                     "maximum": 9007199254740991
                                   },
                                   {
-                                    "anyOf": [
-                                      {
-                                        "type": "integer",
-                                        "minimum": -9007199254740991,
-                                        "maximum": 9007199254740991
-                                      },
-                                      {
-                                        "type": "string",
-                                        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
                                   }
                                 ]
                               },
@@ -9970,7 +9909,7 @@
                               },
                               "duration": {
                                 "type": "integer",
-                                "minimum": 1,
+                                "minimum": -9007199254740991,
                                 "maximum": 9007199254740991,
                                 "description": "Durée de l'effet (rounds)"
                               },
@@ -9997,21 +9936,12 @@
                                 "anyOf": [
                                   {
                                     "type": "integer",
-                                    "exclusiveMinimum": 0,
+                                    "minimum": -9007199254740991,
                                     "maximum": 9007199254740991
                                   },
                                   {
-                                    "anyOf": [
-                                      {
-                                        "type": "integer",
-                                        "minimum": -9007199254740991,
-                                        "maximum": 9007199254740991
-                                      },
-                                      {
-                                        "type": "string",
-                                        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
                                   }
                                 ]
                               },
@@ -10973,7 +10903,7 @@
                               },
                               "duration": {
                                 "type": "integer",
-                                "minimum": 1,
+                                "minimum": -9007199254740991,
                                 "maximum": 9007199254740991,
                                 "description": "Durée de l'effet (rounds)"
                               },
@@ -11000,21 +10930,12 @@
                                 "anyOf": [
                                   {
                                     "type": "integer",
-                                    "exclusiveMinimum": 0,
+                                    "minimum": -9007199254740991,
                                     "maximum": 9007199254740991
                                   },
                                   {
-                                    "anyOf": [
-                                      {
-                                        "type": "integer",
-                                        "minimum": -9007199254740991,
-                                        "maximum": 9007199254740991
-                                      },
-                                      {
-                                        "type": "string",
-                                        "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
                                   }
                                 ]
                               },
@@ -11305,10 +11226,11 @@
               "description": "Durée de recharge (tours)"
             },
             "charges": {
+              "default": 1,
+              "description": "Charges par recharge",
               "type": "integer",
               "minimum": -9007199254740991,
-              "maximum": 9007199254740991,
-              "description": "Charges par recharge"
+              "maximum": 9007199254740991
             },
             "range": {
               "type": "string",
@@ -11376,10 +11298,11 @@
         "description": "Durée de recharge (tours)"
       },
       "charges": {
+        "default": 1,
+        "description": "Charges par recharge",
         "type": "integer",
         "minimum": -9007199254740991,
-        "maximum": 9007199254740991,
-        "description": "Charges par recharge"
+        "maximum": 9007199254740991
       },
       "range": {
         "type": "string",
@@ -12159,7 +12082,7 @@
                 },
                 "duration": {
                   "type": "integer",
-                  "minimum": 1,
+                  "minimum": -9007199254740991,
                   "maximum": 9007199254740991,
                   "description": "Durée de l'effet (rounds)"
                 },
@@ -12186,21 +12109,12 @@
                   "anyOf": [
                     {
                       "type": "integer",
-                      "exclusiveMinimum": 0,
+                      "minimum": -9007199254740991,
                       "maximum": 9007199254740991
                     },
                     {
-                      "anyOf": [
-                        {
-                          "type": "integer",
-                          "minimum": -9007199254740991,
-                          "maximum": 9007199254740991
-                        },
-                        {
-                          "type": "string",
-                          "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
-                        }
-                      ]
+                      "type": "string",
+                      "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
                     }
                   ]
                 },
@@ -13075,7 +12989,7 @@
       },
       "duration": {
         "type": "integer",
-        "minimum": 1,
+        "minimum": -9007199254740991,
         "maximum": 9007199254740991,
         "description": "Durée de l'effet (rounds)"
       },
@@ -13102,21 +13016,12 @@
         "anyOf": [
           {
             "type": "integer",
-            "exclusiveMinimum": 0,
+            "minimum": -9007199254740991,
             "maximum": 9007199254740991
           },
           {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": -9007199254740991,
-                "maximum": 9007199254740991
-              },
-              {
-                "type": "string",
-                "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
-              }
-            ]
+            "type": "string",
+            "pattern": "^\\s*([-+]?)\\s*(\\d+)\\s*[Dd]\\s*(\\d+)\\s*(([-+])\\s*(\\d+))?\\s*$"
           }
         ]
       },

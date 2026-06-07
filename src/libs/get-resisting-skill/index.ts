@@ -1,13 +1,16 @@
-import skillsData from '../../data/skills.json';
+import THREAT_RESISTANCE from '../../data/threat-resistance.json';
 import { Skill } from '../../schemas/enums/Skill';
 import { EffectType } from '../../schemas/enums/EffectType';
 
-const effectToSkill = Object.fromEntries(
-    Object.entries(skillsData)
-        .filter(([, def]) => def.resistance !== null)
-        .map(([skill, def]) => [def.resistance, skill])
-) as Partial<Record<EffectType, Skill>>;
+const effectToSkill: Partial<Record<string, string>> = {};
+for (const entry of Object.values(THREAT_RESISTANCE)) {
+    if (entry.resistingSkill) {
+        for (const effect of entry.effects) {
+            effectToSkill[effect] = entry.resistingSkill;
+        }
+    }
+}
 
 export function getResistingSkill(effectType: EffectType): Skill | null {
-    return effectToSkill[effectType] ?? null;
+    return (effectToSkill[effectType] as Skill) ?? null;
 }

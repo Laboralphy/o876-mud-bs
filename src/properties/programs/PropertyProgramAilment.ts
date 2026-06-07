@@ -7,9 +7,7 @@ import { Ability } from '../../schemas/enums/Ability';
 import { EffectSubtype } from '../../schemas/enums/EffectSubtype';
 import { Creature } from '../../Creature';
 import { DamageType } from '../../schemas/enums/DamageType';
-import { EffectType } from '../../schemas/enums/EffectType';
-import { getResistingSkill } from '../../libs/get-resisting-skill';
-import { Skill } from '../../schemas/enums/Skill';
+import { Threat } from '../../schemas/enums/Threat';
 
 type TPropertyAilment = z.infer<typeof PropertyAilment>;
 
@@ -34,23 +32,20 @@ export class PropertyProgramAilment implements IProgram<Property> {
             return;
         }
 
-        // UNYIELDING effects bypass resistance checks
-        const resistAbility = () => {
+        const isUnyielding = data.subtype === CONSTS.EFFECT_SUBTYPE_UNYIELDING;
+
+        // Drains resist via a subtype-based ability check (no fixed threat type yet)
+        const resistDrain = () => {
+            if (isUnyielding) return false;
             const ra = SUBTYPE_ABILITY[data.subtype];
-            if (ra !== undefined && target.checkResistance(ra, data.dc)) {
-                return true;
-            }
-            return false;
+            return ra !== undefined && target.rollAbilityCheck(ra, data.dc);
         };
 
-        const resistSkill = (effectType: EffectType) => {
-            const rs: Skill | null = getResistingSkill(effectType);
-            return !!(rs && target.checkSkill(rs, data.dc));
-        };
+        const resist = (threat: Threat) => !isUnyielding && target.checkResistance(threat, data.dc);
 
         switch (data.ailment) {
             case CONSTS.AILMENT_ABILITY_DRAIN: {
-                if (resistAbility()) {
+                if (resistDrain()) {
                     return;
                 }
                 target.applyEffect(
@@ -67,7 +62,7 @@ export class PropertyProgramAilment implements IProgram<Property> {
             }
 
             case CONSTS.AILMENT_ATTACK_DRAIN: {
-                if (resistAbility()) {
+                if (resistDrain()) {
                     return;
                 }
                 target.applyEffect(
@@ -80,7 +75,7 @@ export class PropertyProgramAilment implements IProgram<Property> {
             }
 
             case CONSTS.AILMENT_ARMOR_CLASS_DRAIN: {
-                if (resistAbility()) {
+                if (resistDrain()) {
                     return;
                 }
                 target.applyEffect(
@@ -96,7 +91,7 @@ export class PropertyProgramAilment implements IProgram<Property> {
             }
 
             case CONSTS.AILMENT_DISEASE: {
-                if (resistSkill(CONSTS.EFFECT_DISEASE)) {
+                if (resist(CONSTS.THREAT_DISEASE)) {
                     return;
                 }
                 const alreadyInfected = target.state.effects.some(
@@ -122,7 +117,7 @@ export class PropertyProgramAilment implements IProgram<Property> {
             }
 
             case CONSTS.AILMENT_BLINDNESS: {
-                if (resistSkill(CONSTS.EFFECT_BLINDNESS)) {
+                if (resist(CONSTS.THREAT_BLINDNESS)) {
                     return;
                 }
                 target.applyEffect(
@@ -135,7 +130,7 @@ export class PropertyProgramAilment implements IProgram<Property> {
             }
 
             case CONSTS.AILMENT_FEAR: {
-                if (resistSkill(CONSTS.EFFECT_FEAR)) {
+                if (resist(CONSTS.THREAT_FEAR)) {
                     return;
                 }
                 target.applyEffect(
@@ -148,7 +143,7 @@ export class PropertyProgramAilment implements IProgram<Property> {
             }
 
             case CONSTS.AILMENT_POISON: {
-                if (resistSkill(CONSTS.EFFECT_POISON)) {
+                if (resist(CONSTS.THREAT_POISON)) {
                     return;
                 }
                 target.applyEffect(
@@ -168,7 +163,7 @@ export class PropertyProgramAilment implements IProgram<Property> {
             }
 
             case CONSTS.AILMENT_PARALYSIS: {
-                if (resistSkill(CONSTS.EFFECT_PARALYSIS)) {
+                if (resist(CONSTS.THREAT_PARALYSIS)) {
                     return;
                 }
                 target.applyEffect(
@@ -181,7 +176,7 @@ export class PropertyProgramAilment implements IProgram<Property> {
             }
 
             case CONSTS.AILMENT_PETRIFICATION: {
-                if (resistAbility()) {
+                if (resist(CONSTS.THREAT_PETRIFY)) {
                     return;
                 }
                 target.applyEffect(
@@ -194,7 +189,7 @@ export class PropertyProgramAilment implements IProgram<Property> {
             }
 
             case CONSTS.AILMENT_STUN: {
-                if (resistSkill(CONSTS.EFFECT_STUN)) {
+                if (resist(CONSTS.THREAT_STUN)) {
                     return;
                 }
                 target.applyEffect(
@@ -207,7 +202,7 @@ export class PropertyProgramAilment implements IProgram<Property> {
             }
 
             case CONSTS.AILMENT_ROOT: {
-                if (resistSkill(CONSTS.EFFECT_ROOT)) {
+                if (resist(CONSTS.THREAT_BLAST)) {
                     return;
                 }
                 target.applyEffect(

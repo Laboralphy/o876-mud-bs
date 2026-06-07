@@ -1,5 +1,10 @@
 import { Creature } from '../../../Creature';
 import { IRulesEngine } from '../../../interfaces/IRulesEngine';
+import { DamageType } from '../../../schemas/enums/DamageType';
+import { EffectSubtype } from '../../../schemas/enums/EffectSubtype';
+import { CONSTS } from '../../../consts';
+import { Ability } from '../../../schemas/enums/Ability';
+import { Skill } from '../../../schemas/enums/Skill';
 
 /**
  * When a subject is attacking the target with an area of effect, this function can be used to determine
@@ -25,4 +30,46 @@ export function getAreaOfEffectCreatures(
     // get all creatures that are hostile to the subject
     // The target is guaranteed to be in combat, so distance is valid
     return rules.getCombatAggressors(subject, distance);
+}
+
+export function doDamage(
+    rules: IRulesEngine,
+    target: Creature,
+    source: Creature,
+    amount: number | string,
+    damageType: DamageType,
+    offensiveAbility: Ability,
+    defensiveSkill: Skill,
+    effectSubType: EffectSubtype = CONSTS.EFFECT_SUBTYPE_MAGICAL
+) {
+    return rules.applyEffect(
+        target,
+        {
+            type: CONSTS.EFFECT_DAMAGE,
+            amp: target.dice.roll(amount),
+            damageType,
+        },
+        source,
+        0,
+        effectSubType
+    );
+}
+
+export function doHeal(
+    rules: IRulesEngine,
+    target: Creature,
+    healer: Creature,
+    amount: number | string,
+    effectSubType: EffectSubtype = CONSTS.EFFECT_SUBTYPE_MAGICAL
+) {
+    return rules.applyEffect(
+        target,
+        {
+            type: CONSTS.EFFECT_HEAL,
+            amp: target.dice.roll(amount),
+        },
+        healer,
+        0,
+        effectSubType
+    );
 }

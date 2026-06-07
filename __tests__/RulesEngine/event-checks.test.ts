@@ -46,17 +46,17 @@ describe('RulesEngine — check events', () => {
         it('fires when checkResistance is called', () => {
             const spy = vi.fn();
             creature.events.on(CONSTS.EVENT_CREATURE_RESISTANCE_CHECK, spy);
-            creature.checkResistance(CONSTS.ABILITY_BODY, 10);
+            creature.checkResistance(CONSTS.THREAT_PETRIFY, 10);
             expect(spy).toHaveBeenCalledOnce();
         });
 
-        it('payload includes creature, ability, dc, and outcome', () => {
+        it('payload includes creature, threat, dc, and outcome', () => {
             const spy = vi.fn();
             creature.events.on(CONSTS.EVENT_CREATURE_RESISTANCE_CHECK, spy);
-            creature.checkResistance(CONSTS.ABILITY_BODY, 0); // dc=0 always succeeds
+            creature.checkResistance(CONSTS.THREAT_PETRIFY, 0); // dc=0 always succeeds
             expect(spy.mock.calls[0][0]).toMatchObject({
                 creature,
-                ability: CONSTS.ABILITY_BODY,
+                threat: CONSTS.THREAT_PETRIFY,
                 dc: 0,
             });
         });

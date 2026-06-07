@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { Creature } from '../../../../src/Creature';
 import { RulesEngine } from '../../../../src/RulesEngine';
 import { CONSTS } from '../../../../src/consts';
-import { getAreaOfEffectCreatures } from '../../../../src/modules/classic/scripts/helpers';
+import { getAreaOfEffectCreatures } from '../../../../src/modules/base/scripts/helpers';
 import { CREATURE_RESREF, makeRulesEngine } from '../../../RulesEngine/helpers';
 import { Distance } from '../../../../src/schemas/enums/Distance';
 

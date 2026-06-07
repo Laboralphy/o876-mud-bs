@@ -1,0 +1,46 @@
+{
+    "THREAT_PARALYSIS": {
+        "resistingSkill": "SKILL_ATHLETICS",
+        "effects": ["EFFECT_PARALYSIS"]
+    },
+    "THREAT_STUN": {
+        "resistingSkill": "SKILL_DISCIPLINE",
+        "effects": ["EFFECT_STUN"]
+    },
+    "THREAT_DISEASE": {
+        "resistingSkill": "SKILL_SURVIVAL",
+        "effects": ["EFFECT_DISEASE"]
+    },
+    "THREAT_POISON": {
+        "resistingSkill": "SKILL_ALCHEMY",
+        "effects": ["EFFECT_POISON"]
+    },
+    "THREAT_BLAST": {
+        "resistingSkill": "SKILL_ACROBATICS",
+        "effects": ["EFFECT_ROOT"]
+    },
+    "THREAT_BLINDNESS": {
+        "resistingSkill": "SKILL_PERCEPTION",
+        "effects": ["EFFECT_BLINDNESS"]
+    },
+    "THREAT_FEAR": {
+        "resistingSkill": "SKILL_FAITH",
+        "effects": ["EFFECT_FEAR"]
+    },
+    "THREAT_CHARM": {
+        "resistingSkill": "SKILL_AURA",
+        "effects": ["EFFECT_CHARM"]
+    },
+    "THREAT_SPELL": {
+        "resistingSkill": "SKILL_ARCANA",
+        "effects": []
+    },
+    "THREAT_DEVICE": {
+        "resistingSkill": "SKILL_TECHNOLOGY",
+        "effects": []
+    },
+    "THREAT_PETRIFY": {
+        "resistingAbility": "ABILITY_BODY",
+        "effects": ["EFFECT_PETRIFICATION"]
+    }
+}

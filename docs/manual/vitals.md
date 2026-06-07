@@ -73,7 +73,8 @@ reflexive dodge, hardness of hide, and the wearing of physical protection.
 ### Formula
 
 ```
-Base AC = Size AC + SENSES modifier + floor(BODY modifier / 2) + Natural Armour
+AC = Size AC + min(SENSES modifier, max SENSES bonus) + floor(BODY modifier / 2)
+   + Natural Armour + Equipped Armour + Equipped Shield
 ```
 
 Where **Size AC** reflects how easy a creature of that bulk is to land a solid blow on:
@@ -87,7 +88,9 @@ Where **Size AC** reflects how easy a creature of that bulk is to land a solid b
 | Huge        |       6 |
 | Gargantuan  |       5 |
 
-**SENSES** contributes fully — a fast, perceptive creature turns aside blows it sees coming.
+**SENSES** contributes up to a maximum cap (`PROPERTY_MAX_SENSE_BONUS`). Heavy armour typically sets
+this cap to a low value — a creature in full plate cannot dodge as freely as one unencumbered. Without
+any cap property, SENSES contributes in full.
 
 **BODY** contributes at half — physical density and resilience matter, but sheer mass can also make a
 creature a bigger target.
@@ -95,10 +98,13 @@ creature a bigger target.
 **Natural Armour** is an intrinsic value set per creature: scales, thick hide, a stone shell. It does
 not come from equipment.
 
+**Equipped Armour and Shield** each contribute their own `armorClass` value when worn. These are
+separate from natural armour and from each other.
+
 > A medium creature with SENSES +2, BODY +1, and no natural armour has a base AC of
 > **8 + 2 + 0 (floor of 0.5) + 0 = 10**.
 
-> The same creature wearing armour that grants +4 natural armour has AC **14**.
+> The same creature wearing armour with armorClass 4 has AC **14**.
 
 ### Contextual Modifiers
 

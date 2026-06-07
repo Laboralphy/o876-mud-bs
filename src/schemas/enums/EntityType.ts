@@ -8,7 +8,6 @@ export const EntityTypeSchema = z
         CONSTS.ENTITY_TYPE_CREATURE,
         CONSTS.ENTITY_TYPE_ITEM,
         CONSTS.ENTITY_TYPE_EXTENDED_PROPERTIES,
-        CONSTS.ENTITY_TYPE_PARTIAL_ITEM,
     ])
     .describe('fields.entityType');
 

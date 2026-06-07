@@ -53,5 +53,6 @@ generateFile Proficiency proficiencies
 generateFile PropertyType property-types
 generateFile Skill skills
 generateFile Specie species
+generateFile Threat threats
 generateFile WeaponAttribute weapon-attributes
 generateFile WeaponSize weapon-sizes

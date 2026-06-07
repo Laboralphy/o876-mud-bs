@@ -84,17 +84,17 @@ Some skills are designated as the natural counter to one status effect. When tha
 |-------------------|----------|-------------|------------------------------------|
 | Athletics         | BODY     | `PARALYSIS` | On damage taken while paralysed    |
 | Discipline        | BODY     | `STUN`      | On damage taken while stunned      |
-| Survival          | BODY     | `DISEASE`   | At each disease stage begining     |
+| Survival          | BODY     | `DISEASE`   | At each disease stage beginning    |
 | Martial Expertise | BODY     | —           | —                                  |
-| Acrobatics        | SENSES   | `ROOT`      | On damage taken while rooted       |
+| Acrobatics        | SENSES   | `BLAST`     | On damage taken while rooted       |
 | Stealth           | SENSES   | —           | —                                  |
 | Perception        | SENSES   | `BLINDNESS` | When a blindness effect is applied |
 | Sleight of Hand   | SENSES   | —           | —                                  |
 | Arcana            | MIND     | —           | —                                  |
 | Technology        | MIND     | —           | —                                  |
 | Investigation     | MIND     | —           | —                                  |
-| Alchemy           | MIND     | `POISON`    | When a poison effect is applied    |
-| Persuasion        | PRESENCE | —           |
+| Alchemy           | MIND     | `POISON`    | At application and each poison tick |
+| Persuasion        | PRESENCE | —           | —                                  |
 | Faith             | PRESENCE | `FEAR`      | When a fear effect is applied      |
 | Haggle            | PRESENCE | —           | —                                  |
 | Aura              | PRESENCE | `CHARM`     | On being attacked by the charmer   |

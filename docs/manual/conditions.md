@@ -155,6 +155,62 @@ possessed by constructs, certain undead, and creatures with distributed or alien
 
 ---
 
+## Ability Drain
+
+*"She still stood. She still swung. The sword was just… heavier than it had been."*
+
+Ability drain strips away one of a creature's core attributes — Body, Senses, Mind, or Presence — for a
+duration. The lost points reduce every derived value that flows from that ability: hit points, attack bonus,
+armor class, skill checks. The creature still functions, but at a diminished version of itself. The drain is
+temporary; the ability returns when the effect expires.
+
+**Mechanical effects:** A negative modifier is applied to a specific ability score for the duration. All
+stats derived from that ability are recalculated immediately.
+
+**Resistance:** Resisted at the moment of application by an ability check. The defending ability depends on
+the nature of the attack: Presence counters supernatural drains, Body counters extraordinary, Mind counters
+magical, Senses counters weapon-delivered drains.
+
+*There is no immunity to ability drain.*
+
+---
+
+## Attack Drain
+
+*"He was a capable fighter. Watching him miss three times in a row, you had to wonder what had changed."*
+
+Attack drain dulls the precision and force behind a creature's strikes — not through injury, but through a
+debilitating effect that saps combat effectiveness directly. The creature attacks as often, moves as freely,
+but lands blows less reliably. The penalty applies to all attacks for the duration.
+
+**Mechanical effects:** A flat penalty is applied to attack bonus for the duration. Affects both melee and
+ranged attack rolls.
+
+**Resistance:** Resisted at the moment of application by an ability check, using the same subtype-to-ability
+mapping as ability drain.
+
+*There is no immunity to attack drain.*
+
+---
+
+## Armor Class Drain
+
+*"The armor was still on. It just didn't seem to matter as much anymore."*
+
+Armor class drain reduces a creature's effective defenses without removing its equipment or wounding it. The
+creature becomes easier to hit — its movements slower to read, its guard easier to break. As with other
+drains, this fades when the effect expires.
+
+**Mechanical effects:** A flat penalty is applied to armor class for the duration. Affects all incoming
+attacks.
+
+**Resistance:** Resisted at the moment of application by an ability check, using the same subtype-to-ability
+mapping as ability drain.
+
+*There is no immunity to armor class drain.*
+
+---
+
 ## Blindness
 
 *"Darkness is something you can adjust to. This was not darkness. This was absence."*
