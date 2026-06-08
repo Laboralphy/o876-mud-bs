@@ -2,19 +2,14 @@ import { z } from 'zod';
 import { CooldownSchema } from '../libs/cooldown/Cooldown';
 import { DistanceSchema } from './enums/Distance';
 
-export const ActionBlueprintSchema = z
-    .strictObject({
-        id: z.string().describe('ActionBlueprint.id'),
-        hostile: z.boolean().describe('ActionBlueprint.hostile'),
-        script: z.string().describe('ActionBlueprint.script'),
-        cooldown: z.number().int().describe('ActionBlueprint.cooldown'),
-        charges: z.number().int().optional().default(1).describe('ActionBlueprint.charges'),
-        range: DistanceSchema.describe('ActionBlueprint.range'),
-        bonus: z.boolean().describe('ActionBlueprint.bonus'),
-    })
-    .describe('ActionBlueprint');
-
-export type ActionBlueprint = z.infer<typeof ActionBlueprintSchema>;
+export const ActionBlueprintBaseSchema = z.object({
+    id: z.string().describe('ActionBlueprint.id'),
+    hostile: z.boolean().describe('ActionBlueprint.hostile'),
+    cooldown: z.number().int().describe('ActionBlueprint.cooldown'),
+    charges: z.number().int().optional().default(1).describe('ActionBlueprint.charges'),
+    range: DistanceSchema.describe('ActionBlueprint.range'),
+    bonus: z.boolean().describe('ActionBlueprint.bonus'),
+});
 
 export const ActionStateSchema = z.strictObject({
     id: z.string(),
@@ -23,6 +18,7 @@ export const ActionStateSchema = z.strictObject({
     range: DistanceSchema,
     cooldown: CooldownSchema,
     bonus: z.boolean(),
+    config: z.record(z.string(), z.unknown()).optional().default({}),
 });
 
 export type ActionState = z.infer<typeof ActionStateSchema>;

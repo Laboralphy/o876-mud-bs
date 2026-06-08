@@ -4,7 +4,7 @@ import { AbilitySchema } from './enums/Ability';
 import { SpecieSchema } from './enums/Specie';
 import { PropertyDefinitionSchema } from '../properties/schemas';
 import { ItemBlueprintSchema } from './ItemBlueprint';
-import { ActionBlueprintSchema } from './Action';
+import { ActionBlueprintSchema } from './actions';
 import { CreatureSizeSchema } from './enums/CreatureSize';
 import { ProficiencySchema } from './enums/Proficiency';
 import { CONSTS } from '../consts';

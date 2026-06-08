@@ -1,20 +1,20 @@
-/**
- * This action is used to deal damage to the target creatures and all creatures that are hostile to the subject
- */
 import { IRulesEngine } from '../../../interfaces/IRulesEngine';
 import { Creature } from '../../../Creature';
-import { doDamage, getAreaOfEffectCreatures } from '../../base/scripts/helpers';
+import { doBlastDamage } from '../../base/scripts/helpers';
+import { CONSTS } from '../../../consts';
+import { CaElementalBreathConfigSchema } from '../../../schemas/actions/ca-elemental-breath';
 
-export function main(rules: IRulesEngine, subject: Creature, target: Creature | undefined) {
+export function main(
+    rules: IRulesEngine,
+    subject: Creature,
+    target: Creature | undefined,
+    config: Record<string, unknown>
+) {
     if (!target) {
         return;
     }
-    // get all involved creature
-    const aCreatures = getAreaOfEffectCreatures(rules, subject, target);
-    // deal damage to all creatures
-    aCreatures.forEach((creature) => {
-        doDamage();
-    });
+    const { damageType, amp } = CaElementalBreathConfigSchema.parse(config);
+    doBlastDamage(rules, target, subject, amp, damageType, CONSTS.EFFECT_SUBTYPE_EXTRAORDINARY);
 }
 
 export default main;

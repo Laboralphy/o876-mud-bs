@@ -6,6 +6,7 @@ export const EventCreatureActionSchema = z.strictObject({
     actionId: z.string(),
     target: z.instanceof(Creature).optional(),
     script: z.string(),
+    config: z.record(z.string(), z.unknown()),
 });
 
 export type EventCreatureAction = z.infer<typeof EventCreatureActionSchema>;

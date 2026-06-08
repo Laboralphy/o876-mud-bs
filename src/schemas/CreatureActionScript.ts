@@ -3,7 +3,12 @@ import { Creature } from '../Creature';
 import { z } from 'zod';
 
 export const CreatureActionScriptSchema = z.function({
-    input: [z.instanceof(RulesEngine), z.instanceof(Creature), z.instanceof(Creature).optional()],
+    input: [
+        z.instanceof(RulesEngine),
+        z.instanceof(Creature),
+        z.instanceof(Creature).optional(),
+        z.record(z.string(), z.unknown()).optional(),
+    ],
     output: z.void(),
 });
 

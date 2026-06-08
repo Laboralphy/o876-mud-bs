@@ -6,7 +6,8 @@ import { ItemBlueprint } from './schemas/ItemBlueprint';
 import { ItemBuilder } from './builders/ItemBuilder';
 import { Property, PropertyDefinition } from './properties/schemas';
 import { Effect, EffectDefinition } from './effects/schemas';
-import { ActionBlueprint, ActionState, ActionStateSchema } from './schemas/Action';
+import { ActionState, ActionStateSchema } from './schemas/Action';
+import { ActionBlueprint } from './schemas/actions';
 import { CooldownManager } from './libs/cooldown';
 import { deepClone } from './libs/deep-clone';
 import { CONSTS } from './consts';
@@ -505,7 +506,7 @@ export class RulesEngine implements IRulesEngine {
     private _onCreatureAction(payload: EventCreatureAction): void {
         const script = this._moduleManager.getScript(payload.script);
         if (script) {
-            script(this, payload.creature, payload.target);
+            script(this, payload.creature, payload.target, payload.config);
         } else {
             const runScriptPayload: EventCreatureRunScript = {
                 scriptId: payload.script,
@@ -540,16 +541,15 @@ export class RulesEngine implements IRulesEngine {
     }
 
     private createActionStateFromBlueprint(actionBlueprint: ActionBlueprint): ActionState {
+        const { id, hostile, script, cooldown, charges, range, bonus, ...config } = actionBlueprint;
         return ActionStateSchema.parse({
-            id: actionBlueprint.id,
-            hostile: actionBlueprint.hostile,
-            script: actionBlueprint.script,
-            range: actionBlueprint.range,
-            bonus: actionBlueprint.bonus,
-            cooldown: CooldownManager.create({
-                duration: actionBlueprint.cooldown,
-                charges: actionBlueprint.charges,
-            }),
+            id,
+            hostile,
+            script,
+            range,
+            bonus,
+            cooldown: CooldownManager.create({ duration: cooldown, charges }),
+            config,
         });
     }
 

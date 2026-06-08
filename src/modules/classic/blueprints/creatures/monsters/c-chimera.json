@@ -81,7 +81,9 @@
       "bonus": false,
       "hostile": false,
       "range": "DISTANCE_MEDIUM",
-      "cooldown": 6
+      "cooldown": 6,
+      "damageType": "DAMAGE_TYPE_THERMAL",
+      "amp": "6d6"
     }
   ]
 }

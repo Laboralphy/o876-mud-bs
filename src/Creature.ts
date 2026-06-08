@@ -459,6 +459,7 @@ export class Creature {
                 actionId,
                 script: action.script,
                 target,
+                config: this.state.actions[actionId].config,
             });
             return {
                 success: true,
