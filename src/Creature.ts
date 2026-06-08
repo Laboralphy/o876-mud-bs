@@ -22,10 +22,6 @@ import { Item } from './schemas/Item';
 import { EquipmentSlot } from './schemas/enums/EquipmentSlot';
 import EventEmitter from 'node:events';
 import { EquipItemOutcome } from './schemas/enums/EquipItemOutcome';
-import { EventCreatureRemoveItemFailed } from './schemas/events/EventCreatureRemoveItemFailed';
-import { EventCreatureRemoveItem } from './schemas/events/EventCreatureRemoveItem';
-import { EventCreatureEquipItemFailed } from './schemas/events/EventCreatureEquipItemFailed';
-import { EventCreatureEquipItem } from './schemas/events/EventCreatureEquipItem';
 import { EventCreatureCheckSkill } from './schemas/events/EventCreatureCheckSkill';
 import { EventCreatureCheckResistance } from './schemas/events/EventCreatureCheckResistance';
 import { generateUniqueId } from './libs/unique-id';
@@ -38,6 +34,7 @@ import { EffectSubtype } from './schemas/enums/EffectSubtype';
 import { CooldownManager } from './libs/cooldown';
 import { IRulesEngine } from './interfaces/IRulesEngine';
 import { EffectContainer } from './libs/effect-container';
+import { EquipmentContainer } from './libs/equipment-container';
 import {
     isWieldingLight as _isWieldingLight,
     hasDarkvision as _hasDarkvision,
@@ -49,6 +46,7 @@ export class Creature {
     private readonly _store = buildStore();
     public readonly dice = new Dice();
     public readonly effectContainer = new EffectContainer(this);
+    public readonly equipmentContainer = new EquipmentContainer(this);
     public ref: string = '';
 
     private _hitpoints: number = 1;
@@ -373,15 +371,7 @@ export class Creature {
      * @returns The slot where the item is equipped, or undefined if the item is not equipped.
      */
     findEquippedItemSlot(item: Item): EquipmentSlot | undefined {
-        const itemId = item.id;
-        for (const s in this._store.state.equipment) {
-            const slot = s as EquipmentSlot;
-            const slotItemId = this._store.state.equipment[slot]?.id ?? '';
-            if (slotItemId === itemId) {
-                return slot;
-            }
-        }
-        return undefined;
+        return this.equipmentContainer.findEquippedItemSlot(item);
     }
 
     /**
@@ -392,150 +382,15 @@ export class Creature {
      * @returns The outcome of the operation. @see constant group EQUI_ITEM_*
      */
     unequipItem(item: Item, bypass: boolean = false): EquipItemOutcome {
-        const slot = this.findEquippedItemSlot(item);
-        // Check if item is really equipped
-        if (!slot) {
-            // Item not equipped : exit
-            this.emit<EventCreatureRemoveItemFailed>(CONSTS.EVENT_CREATURE_REMOVE_ITEM_FAILED, {
-                creature: this,
-                item,
-                reason: CONSTS.EQUIP_ITEM_FAILURE_REASON_NOT_EQUIPPED,
-            });
-            return CONSTS.EQUIP_ITEM_FAILURE_REASON_NOT_EQUIPPED;
-        }
-        // Check if item is cursed (skipped when bypass is true)
-        if (
-            !bypass &&
-            this.aggregate([CONSTS.PROPERTY_CURSED], {
-                restrictSlots: [slot],
-            }).count > 0
-        ) {
-            // Item is cursed and cannot be removed
-            this.emit<EventCreatureRemoveItemFailed>(CONSTS.EVENT_CREATURE_REMOVE_ITEM_FAILED, {
-                creature: this,
-                item,
-                slot,
-                reason: CONSTS.EQUIP_ITEM_FAILURE_REASON_CURSED_SLOT,
-            });
-            return CONSTS.EQUIP_ITEM_FAILURE_REASON_CURSED_SLOT;
-        }
-        // Item is equipped and not cursed (or bypass): it can be safely removed
-        this._store.state.equipment[slot] = null;
-        this.emit<EventCreatureRemoveItem>(CONSTS.EVENT_CREATURE_REMOVE_ITEM, {
-            creature: this,
-            item,
-            slot,
-        });
-        return CONSTS.EQUIP_ITEM_SUCCESS;
+        return this.equipmentContainer.unequipItem(item, bypass);
     }
 
-    /**
-     * Remove item currently equipped in the given slot. If no item is equipped in this slot, exit.
-     * @param slot - The slot to remove the item from.
-     * @returns An object containing the outcome of the operation and the item that has been removed from the slot.
-     * The operation may failed if the item in the specified slot is cursed
-     */
-    private unequipSlot(slot: EquipmentSlot): {
-        unequippedItem: Item | null;
-        outcome: EquipItemOutcome;
-    } {
-        const item = this._store.state.equipment[slot];
-        if (!item) {
-            // No item equipped in this slot
-            // Cannot fire Creature Remove Item Failed event because no referenced item (slot is empty)
-            return {
-                unequippedItem: null,
-                outcome: CONSTS.EQUIP_ITEM_FAILURE_REASON_NOT_EQUIPPED,
-            };
-        }
-        const outcome = this.unequipItem(item);
-        return {
-            unequippedItem: outcome === CONSTS.EQUIP_ITEM_SUCCESS ? item : null,
-            outcome,
-        };
-    }
-
-    /**
-     * Equip the item in the first available slot.
-     * If no slot is available, unequip items in other slots until an available slot is found.
-     * @param item - The item to equip.
-     * @returns An object containing the outcome of the operation and the item that has been equipped.
-     * The operation may fail if the item currently equipped in the slot is cursed
-     * and cannot be replaced by the new item.
-     */
     equipItem(item: Item): {
         unequippedItem: Item | null;
         outcome: EquipItemOutcome;
         equippedItem: Item | null;
     } {
-        const slots = item.equipmentSlots;
-        if (slots.length === 0) {
-            // Cannot equip this item: fits in no slot
-            this.emit<EventCreatureEquipItemFailed>(CONSTS.EVENT_CREATURE_EQUIP_ITEM_FAILED, {
-                creature: this,
-                item,
-                reason: CONSTS.EQUIP_ITEM_FAILURE_REASON_NO_SUITABLE_SLOT,
-            });
-            return {
-                outcome: CONSTS.EQUIP_ITEM_FAILURE_REASON_NO_SUITABLE_SLOT,
-                unequippedItem: null,
-                equippedItem: null,
-            };
-        }
-        // get the first slot available
-        const availableSlot: EquipmentSlot | undefined = slots.find(
-            (slot) => !this._store.state.equipment[slot]
-        );
-        if (availableSlot) {
-            // Available slot identified ; no previous item to unequip
-            this._store.state.equipment[availableSlot] = item;
-            this.emit<EventCreatureEquipItem>(CONSTS.EVENT_CREATURE_EQUIP_ITEM, {
-                item: this._store.state.equipment[availableSlot],
-                creature: this,
-                slot: availableSlot,
-            });
-            return {
-                unequippedItem: null,
-                outcome: CONSTS.EQUIP_ITEM_SUCCESS,
-                equippedItem: this._store.state.equipment[availableSlot],
-            };
-        } else {
-            // No available slot: must remove item prior to equip the new one
-            let lastOutcome: EquipItemOutcome = CONSTS.EQUIP_ITEM_SUCCESS;
-            for (const slot of slots) {
-                const eqo = this.unequipSlot(slot);
-                if (eqo.outcome === CONSTS.EQUIP_ITEM_SUCCESS) {
-                    // an item of one of the suitable slots has been unequipped
-                    // use this very slot to equip the new item
-                    // ann exit with success
-                    this._store.state.equipment[slot] = item;
-                    this.emit<EventCreatureEquipItem>(CONSTS.EVENT_CREATURE_EQUIP_ITEM, {
-                        item: this._store.state.equipment[slot],
-                        creature: this,
-                        slot: slot,
-                    });
-                    return {
-                        unequippedItem: eqo.unequippedItem,
-                        outcome: CONSTS.EQUIP_ITEM_SUCCESS,
-                        equippedItem: this._store.state.equipment[slot],
-                    };
-                } else {
-                    lastOutcome = eqo.outcome;
-                }
-            }
-            // Could not find an available slot, even after attempting to unequip items
-            // Exit
-            this.emit<EventCreatureEquipItemFailed>(CONSTS.EVENT_CREATURE_EQUIP_ITEM_FAILED, {
-                creature: this,
-                item,
-                reason: lastOutcome,
-            });
-            return {
-                outcome: lastOutcome,
-                unequippedItem: null,
-                equippedItem: null,
-            };
-        }
+        return this.equipmentContainer.equipItem(item);
     }
 
     // ▗▄▄      ▄▖  ▄▖                   ▗▖        ▗▖          ▗▖
