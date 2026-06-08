@@ -38,8 +38,6 @@ export function doDamage(
     source: Creature,
     amount: number | string,
     damageType: DamageType,
-    offensiveAbility: Ability,
-    defensiveSkill: Skill,
     effectSubType: EffectSubtype = CONSTS.EFFECT_SUBTYPE_MAGICAL
 ) {
     return rules.applyEffect(
@@ -53,6 +51,31 @@ export function doDamage(
         0,
         effectSubType
     );
+}
+
+export function doBlastDamage(
+    rules: IRulesEngine,
+    target: Creature,
+    source: Creature,
+    amount: number | string,
+    damageType: DamageType,
+    effectSubType: EffectSubtype = CONSTS.EFFECT_SUBTYPE_MAGICAL
+) {
+    const creatures = getAreaOfEffectCreatures(rules, source, target);
+    const ability: Ability =
+        effectSubType == CONSTS.EFFECT_SUBTYPE_MAGICAL
+            ? CONSTS.ABILITY_MIND
+            : CONSTS.ABILITY_SENSES;
+    for (const creature of creatures) {
+        let nThisAmount = creature.dice.roll(amount);
+        // check resistance
+        if (source.rollThreat(CONSTS.THREAT_BLAST, ability, creature)) {
+            // blast has been resisted : halves damage
+            nThisAmount = Math.ceil(nThisAmount / 2);
+        }
+        // apply damage
+        doDamage(rules, creature, source, nThisAmount, damageType, effectSubType);
+    }
 }
 
 export function doHeal(
