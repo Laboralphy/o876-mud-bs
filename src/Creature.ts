@@ -10,7 +10,7 @@ import { clamp } from './libs/clamp';
 import { propertyPrograms } from './properties/programs';
 import { effectPrograms } from './effects/programs';
 import { IProgram } from './interfaces/IProgram';
-import { Effect, EffectDefinition, EffectSchema } from './effects/schemas';
+import { Effect, EffectDefinition } from './effects/schemas';
 import { DamageType } from './schemas/enums/DamageType';
 import { aggregate, AggregateOptions } from './libs/aggregator';
 import { PropertyType } from './schemas/enums/PropertyType';
@@ -34,13 +34,10 @@ import { DiceRoll } from './DiceRoll';
 import { Ability } from './schemas/enums/Ability';
 import { Threat } from './schemas/enums/Threat';
 import THREAT_RESISTANCE from './data/threats.json';
-import { randomUUID } from 'node:crypto';
 import { EffectSubtype } from './schemas/enums/EffectSubtype';
-import { EventEffectProcessorImmunity } from './schemas/events/EventEffectProcessorImmunity';
-import { EventEffectProcessorCreatureEffect } from './schemas/events/EventEffectProcessorCreatureEffect';
-import { getImmunityRules } from './libs/get-immunity-rules';
 import { CooldownManager } from './libs/cooldown';
 import { IRulesEngine } from './interfaces/IRulesEngine';
+import { EffectContainer } from './libs/effect-container';
 import {
     isWieldingLight as _isWieldingLight,
     hasDarkvision as _hasDarkvision,
@@ -51,6 +48,7 @@ import {
 export class Creature {
     private readonly _store = buildStore();
     public readonly dice = new Dice();
+    public readonly effectContainer = new EffectContainer(this);
     public ref: string = '';
 
     private _hitpoints: number = 1;
@@ -270,43 +268,7 @@ export class Creature {
         subtype: EffectSubtype = CONSTS.EFFECT_SUBTYPE_MAGICAL,
         tag: string = ''
     ): Effect {
-        source = source ?? this;
-        const effect: Effect = EffectSchema.parse({
-            type: effectDefinition.type,
-            data: effectDefinition,
-            id: randomUUID(),
-            source: source.id,
-            target: this.id,
-            duration,
-            subtype,
-            tag,
-            siblings: [],
-        });
-        let immune: boolean = getImmunityRules(effect, this.getters.getImmunities);
-        this.emit<EventEffectProcessorImmunity>(CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_IMMUNITY, {
-            creature: this,
-            effect,
-            immune: (b: boolean) => {
-                immune = b;
-            },
-        });
-        if (!immune) {
-            if (duration > 0) {
-                this.state.effects.push(effect);
-            }
-            this.emit<EventEffectProcessorCreatureEffect>(
-                CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_APPLIED,
-                {
-                    creature: this,
-                    effect,
-                }
-            );
-            const prog = effectPrograms.get(effect.type);
-            if (prog?.apply) {
-                prog.apply(effect, this, source);
-            }
-        }
-        return effect;
+        return this.effectContainer.apply(effectDefinition, source, duration, subtype, tag);
     }
 
     /**
@@ -327,147 +289,27 @@ export class Creature {
         subtype: EffectSubtype = CONSTS.EFFECT_SUBTYPE_MAGICAL,
         tag: string = ''
     ): Effect[] {
-        const aEffectIds: string[] = [];
-        const aEffects: Effect[] = [];
-        for (const effectDefinition of effectDefinitions) {
-            const effect: Effect = EffectSchema.parse({
-                type: effectDefinition.type,
-                data: effectDefinition,
-                id: randomUUID(),
-                source: source.id,
-                target: this.id,
-                duration: duration < 0 ? Infinity : duration,
-                subtype,
-                tag,
-                siblings: aEffectIds,
-            });
-            let immune: boolean = false;
-            this.emit<EventEffectProcessorImmunity>(CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_IMMUNITY, {
-                creature: this,
-                effect,
-                immune: () => {
-                    immune = true;
-                },
-            });
-            if (!immune && effect.duration > 0) {
-                aEffectIds.push(effect.id);
-                aEffects.push(effect);
-                this.state.effects.push(effect);
-                this.emit<EventEffectProcessorCreatureEffect>(
-                    CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_APPLIED,
-                    {
-                        creature: this,
-                        effect,
-                    }
-                );
-            }
-        }
-        return aEffects;
+        return this.effectContainer.applyGroup(effectDefinitions, source, duration, subtype, tag);
     }
 
-    /**
-     * Remove an effect from the creature's effects list.
-     * If the effect is not found in the creature's effects list, exit.
-     * @param effect - The effect to remove from the creature's effects list.
-     * @param bIgnoreSiblings - If true, the effect will be removed, but its siblings will not be removed.
-     * If false (default value), the effect and its siblings will be removed.
-     */
     removeEffect(effect: Effect, bIgnoreSiblings: boolean = false) {
-        const effIndex = this.state.effects.findIndex((eff: Effect) => eff.id === effect.id);
-        if (effIndex >= 0) {
-            // effect was found in the effects list
-            const effect = this.state.effects[effIndex];
-            if (!bIgnoreSiblings) {
-                // remove siblings
-                effect.siblings.forEach((siblingId: string) => {
-                    const sibling = this.findEffectById(siblingId);
-                    if (sibling) {
-                        // Remove this sibling, but ignore the sibling's siblings
-                        this.removeEffect(sibling, true);
-                    }
-                });
-                // all siblings have been removed, remove the effect itself
-                this.removeEffect(effect, true);
-                return;
-            }
-            const source = this.registry?.getCreature(effect.source);
-            this.emit<EventEffectProcessorCreatureEffect>(
-                CONSTS.EVENT_EFFECT_PROCESSOR_EFFECT_DISPOSED,
-                {
-                    creature: this,
-                    effect,
-                }
-            );
-            const prog = effectPrograms.get(effect.type);
-            if (prog?.dispose) {
-                prog.dispose(effect, this, source);
-            }
-            this.state.effects.splice(effIndex, 1);
-        }
+        this.effectContainer.remove(effect, bIgnoreSiblings);
     }
 
-    /**
-     * Get an effect from the creature's effects list.
-     * If the effect is not found in the creature's effects list, returns undefined.
-     * The effect is the Reactive Version of the effect. That means that modifying effect will trigger reactive systeme
-     * Thus this function is private.
-     * This function works as a sort of type guard.
-     * The "Effect" management function set should not throw error when dealing with incorrect effect,
-     * to act like NWN : when trying to dispel an effect that does not exist, nothing happens.
-     * @param idEffect {string} - The id of the effect to retrieve.
-     * @return The instance of the effect with the specified id, or undefined if not found.
-     */
-    private findEffectById(idEffect: string): Effect | undefined {
-        const effIndex = this.state.effects.findIndex((eff: Effect) => eff.id === idEffect);
-        return effIndex >= 0 ? this.state.effects[effIndex] : undefined;
-    }
-
-    /**
-     * Set the duration of an effect.
-     * If the effect is not found in the creature's effects list, exit.
-     * @param effect - The effect to modify.
-     * @param duration - The new duration of the effect.
-     */
     setEffectDuration(effect: Effect, duration: number) {
-        const effFound = this.findEffectById(effect.id);
-        if (effFound) {
-            effFound.duration = duration;
-        }
+        this.effectContainer.setDuration(effect, duration);
     }
 
-    /**
-     * Decrease each effect duration by 1.
-     * Effects that expire will be removed from the creature's effects list.
-     * This method should be called each round.
-     */
     depleteEffects() {
-        for (const effect of this.state.effects) {
-            --effect.duration;
-        }
-        this.removeDeadEffects();
+        this.effectContainer.deplete();
     }
 
-    /**
-     * Dispel an effect. Actually set the duration of the effect to 0.
-     * The effect will be removed from the creature's effects list.'
-     * @param effect - effect to be dispelled
-     */
     dispelEffect(effect: Effect) {
-        this.setEffectDuration(effect, 0);
+        this.effectContainer.dispel(effect);
     }
 
-    /**
-     * Removes all effects with expired duration from the creature's state.
-     * Iterates backwards through the effects array to safely remove effects whose duration has reached or fallen below 0.
-     */
     removeDeadEffects() {
-        let i = this.state.effects.length - 1;
-        while (i >= 0) {
-            if (this.state.effects[i].duration <= 0) {
-                this.removeEffect(this.state.effects[i], true);
-            }
-            --i;
-        }
+        this.effectContainer.removeDeadEffects();
     }
 
     // ▗▄▄                      ▗▖                                              ▗▖
