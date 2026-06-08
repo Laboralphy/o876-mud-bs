@@ -22,19 +22,23 @@ import { Item } from './schemas/Item';
 import { EquipmentSlot } from './schemas/enums/EquipmentSlot';
 import EventEmitter from 'node:events';
 import { EquipItemOutcome } from './schemas/enums/EquipItemOutcome';
-import { EventCreatureCheckSkill } from './schemas/events/EventCreatureCheckSkill';
-import { EventCreatureCheckResistance } from './schemas/events/EventCreatureCheckResistance';
 import { generateUniqueId } from './libs/unique-id';
 import { Skill } from './schemas/enums/Skill';
 import { DiceRoll } from './DiceRoll';
 import { Ability } from './schemas/enums/Ability';
 import { Threat } from './schemas/enums/Threat';
-import THREAT_RESISTANCE from './data/threats.json';
 import { EffectSubtype } from './schemas/enums/EffectSubtype';
 import { CooldownManager } from './libs/cooldown';
 import { IRulesEngine } from './interfaces/IRulesEngine';
 import { EffectContainer } from './libs/effect-container';
 import { EquipmentContainer } from './libs/equipment-container';
+import {
+    rollSkill as _rollSkill,
+    checkSkill as _checkSkill,
+    checkSkillAgainst as _checkSkillAgainst,
+    rollAbilityCheck as _rollAbilityCheck,
+    checkResistance as _checkResistance,
+} from './libs/checks';
 import {
     isWieldingLight as _isWieldingLight,
     hasDarkvision as _hasDarkvision,
@@ -404,76 +408,25 @@ export class Creature {
      * @param skill
      */
     rollSkill(skill: Skill): DiceRoll {
-        return new DiceRoll('1d20', this.getters.getSkillValues[skill]);
+        return _rollSkill(this, skill);
     }
 
-    /**
-     * Two creatures roll a distinct skill and result are compared
-     * Return true if this roll skill is higher or equal to adversary creature roll skill
-     * This is useful for skill contest like stealth vs perception
-     * @param skill
-     * @param adversary
-     * @param advSkill
-     */
     checkSkillAgainst(skill: Skill, adversary: Creature, advSkill: Skill) {
-        const meDice = this.rollSkill(skill);
-        const advDice = adversary.rollSkill(advSkill);
-        const success = meDice.total >= advDice.total;
-        this.emit<EventCreatureCheckSkill>(CONSTS.EVENT_CREATURE_SKILL_CHECK, {
-            creature: this,
-            skill,
-            dc: advDice.total,
-            success,
-        });
-        adversary.emit<EventCreatureCheckSkill>(CONSTS.EVENT_CREATURE_SKILL_CHECK, {
-            creature: adversary,
-            skill: advSkill,
-            dc: meDice.total + 1,
-            success: advDice.total >= meDice.total + 1,
-        });
-        return success;
+        return _checkSkillAgainst(this, skill, adversary, advSkill);
     }
 
     checkSkill(skill: Skill, dc: number): boolean {
-        const d = new DiceRoll('1d20', this.getters.getSkillValues[skill], dc);
-        this.emit<EventCreatureCheckSkill>(CONSTS.EVENT_CREATURE_SKILL_CHECK, {
-            creature: this,
-            skill,
-            dc,
-            success: d.success,
-        });
-        return d.success;
+        return _checkSkill(this, skill, dc);
     }
 
     rollAbilityCheck(ability: Ability, dc: number): boolean {
-        return new DiceRoll('1d20', this.getters.getAbilityModifiers[ability], dc).success;
+        return _rollAbilityCheck(this, ability, dc);
     }
 
     checkResistance(threat: Threat, dc: number): boolean {
-        const TR = THREAT_RESISTANCE as Record<
-            Threat,
-            { resistingSkill?: Skill; resistingAbility?: Ability }
-        >;
-        const entry = TR[threat];
-        if (!entry) {
-            throw new ReferenceError(`Unknown threat: ${threat}`);
-        }
-        let bonus = 0;
-        if (entry.resistingSkill) {
-            bonus = this.getters.getSkillValues[entry.resistingSkill];
-        } else if (entry.resistingAbility) {
-            bonus = this.getters.getAbilityModifiers[entry.resistingAbility];
-        }
-        const d = new DiceRoll('1d20', bonus, dc);
-        this.emit<EventCreatureCheckResistance>(CONSTS.EVENT_CREATURE_RESISTANCE_CHECK, {
-            creature: this,
-            threat,
-            dc,
-            bonus,
-            success: d.success,
-        });
-        return d.success;
+        return _checkResistance(this, threat, dc);
     }
+
 
     //  ▗▖      ▗▖  ▗▖
     // ▗▛▜▖▗▛▀ ▝▜▛▘ ▄▖ ▗▛▜▖▐▛▜▖▗▛▀▘
