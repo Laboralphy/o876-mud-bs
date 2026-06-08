@@ -21,6 +21,7 @@ import { PropertyAttackModifier } from './modifiers/attack-modifier';
 import { PropertyExtraHitpoints } from './modifiers/extra-hitpoints';
 import { PropertyMaxSenseBonus } from './modifiers/max-sense-bonus';
 import { PropertySkillModifier } from './modifiers/skill-modifier';
+import { PropertyThreatPower } from './modifiers/threat-power';
 import { PropertyWeaponDamageModifier } from './modifiers/weapon-damage-modifier';
 import { PropertyAilment } from './status/ailment';
 import { PropertyImmunity } from './status/immunity';
@@ -49,6 +50,7 @@ export const PropertyDefinitionSchema = z.discriminatedUnion('type', [
     PropertyExtraHitpoints,
     PropertyMaxSenseBonus,
     PropertySkillModifier,
+    PropertyThreatPower,
     PropertyWeaponDamageModifier,
     PropertyAilment,
     PropertyImmunity,
@@ -79,6 +81,7 @@ const _WrappedPropertyAttackModifier = BasePropertySchema.extend({ type: z.liter
 const _WrappedPropertyExtraHitpoints = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_EXTRA_HITPOINTS), data: PropertyExtraHitpoints });
 const _WrappedPropertyMaxSenseBonus = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_MAX_SENSE_BONUS), data: PropertyMaxSenseBonus });
 const _WrappedPropertySkillModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_SKILL_MODIFIER), data: PropertySkillModifier });
+const _WrappedPropertyThreatPower = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_THREAT_POWER), data: PropertyThreatPower });
 const _WrappedPropertyWeaponDamageModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_WEAPON_DAMAGE_MODIFIER), data: PropertyWeaponDamageModifier });
 const _WrappedPropertyAilment = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_AILMENT), data: PropertyAilment });
 const _WrappedPropertyImmunity = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_IMMUNITY), data: PropertyImmunity });
@@ -107,6 +110,7 @@ export const PropertySchema = z.discriminatedUnion('type', [
     _WrappedPropertyExtraHitpoints,
     _WrappedPropertyMaxSenseBonus,
     _WrappedPropertySkillModifier,
+    _WrappedPropertyThreatPower,
     _WrappedPropertyWeaponDamageModifier,
     _WrappedPropertyAilment,
     _WrappedPropertyImmunity,

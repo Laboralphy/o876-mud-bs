@@ -4,11 +4,11 @@ import { BaseEffectSchema } from '../../schemas/BaseEffect';
 import { EffectDamageImmunity } from './damage/damage-immunity';
 import { EffectDamageReduction } from './damage/damage-reduction';
 import { EffectDamageResistance } from './damage/damage-resistance';
-import { EffectDamageVulnerability } from './damage/damage-vulnerability';
 import { EffectDamage } from './damage/damage';
-import { EffectHeal } from './healing/heal';
+import { EffectDamageVulnerability } from './damage/damage-vulnerability';
 import { EffectHealingFactor } from './healing/healing-factor';
 import { EffectHealingModifier } from './healing/healing-modifier';
+import { EffectHeal } from './healing/heal';
 import { EffectRegeneration } from './healing/regeneration';
 import { EffectAbilityCheckModifier } from './modifiers/ability-check-modifier';
 import { EffectAbilityModifier } from './modifiers/ability-modifier';
@@ -17,6 +17,7 @@ import { EffectArmorClassModifier } from './modifiers/armor-class-modifier';
 import { EffectAttackModifier } from './modifiers/attack-modifier';
 import { EffectExtraHitpoints } from './modifiers/extra-hitpoints';
 import { EffectSkillModifier } from './modifiers/skill-modifier';
+import { EffectThreatPower } from './modifiers/threat-power';
 import { EffectCharm } from './status/charm';
 import { EffectDisease } from './status/disease';
 import { EffectFear } from './status/fear';
@@ -37,11 +38,11 @@ export const EffectDefinitionSchema = z.discriminatedUnion('type', [
     EffectDamageImmunity,
     EffectDamageReduction,
     EffectDamageResistance,
-    EffectDamageVulnerability,
     EffectDamage,
-    EffectHeal,
+    EffectDamageVulnerability,
     EffectHealingFactor,
     EffectHealingModifier,
+    EffectHeal,
     EffectRegeneration,
     EffectAbilityCheckModifier,
     EffectAbilityModifier,
@@ -50,6 +51,7 @@ export const EffectDefinitionSchema = z.discriminatedUnion('type', [
     EffectAttackModifier,
     EffectExtraHitpoints,
     EffectSkillModifier,
+    EffectThreatPower,
     EffectCharm,
     EffectDisease,
     EffectFear,
@@ -72,11 +74,11 @@ export type EffectDefinition = z.infer<typeof EffectDefinitionSchema>;
 const _WrappedEffectDamageImmunity = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_DAMAGE_IMMUNITY), data: EffectDamageImmunity });
 const _WrappedEffectDamageReduction = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_DAMAGE_REDUCTION), data: EffectDamageReduction });
 const _WrappedEffectDamageResistance = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_DAMAGE_RESISTANCE), data: EffectDamageResistance });
-const _WrappedEffectDamageVulnerability = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_DAMAGE_VULNERABILITY), data: EffectDamageVulnerability });
 const _WrappedEffectDamage = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_DAMAGE), data: EffectDamage });
-const _WrappedEffectHeal = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_HEAL), data: EffectHeal });
+const _WrappedEffectDamageVulnerability = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_DAMAGE_VULNERABILITY), data: EffectDamageVulnerability });
 const _WrappedEffectHealingFactor = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_HEALING_FACTOR), data: EffectHealingFactor });
 const _WrappedEffectHealingModifier = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_HEALING_MODIFIER), data: EffectHealingModifier });
+const _WrappedEffectHeal = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_HEAL), data: EffectHeal });
 const _WrappedEffectRegeneration = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_REGENERATION), data: EffectRegeneration });
 const _WrappedEffectAbilityCheckModifier = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_ABILITY_CHECK_MODIFIER), data: EffectAbilityCheckModifier });
 const _WrappedEffectAbilityModifier = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_ABILITY_MODIFIER), data: EffectAbilityModifier });
@@ -85,6 +87,7 @@ const _WrappedEffectArmorClassModifier = BaseEffectSchema.extend({ type: z.liter
 const _WrappedEffectAttackModifier = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_ATTACK_MODIFIER), data: EffectAttackModifier });
 const _WrappedEffectExtraHitpoints = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_EXTRA_HITPOINTS), data: EffectExtraHitpoints });
 const _WrappedEffectSkillModifier = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_SKILL_MODIFIER), data: EffectSkillModifier });
+const _WrappedEffectThreatPower = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_THREAT_POWER), data: EffectThreatPower });
 const _WrappedEffectCharm = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_CHARM), data: EffectCharm });
 const _WrappedEffectDisease = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_DISEASE), data: EffectDisease });
 const _WrappedEffectFear = BaseEffectSchema.extend({ type: z.literal(CONSTS.EFFECT_FEAR), data: EffectFear });
@@ -105,11 +108,11 @@ export const EffectSchema = z.discriminatedUnion('type', [
     _WrappedEffectDamageImmunity,
     _WrappedEffectDamageReduction,
     _WrappedEffectDamageResistance,
-    _WrappedEffectDamageVulnerability,
     _WrappedEffectDamage,
-    _WrappedEffectHeal,
+    _WrappedEffectDamageVulnerability,
     _WrappedEffectHealingFactor,
     _WrappedEffectHealingModifier,
+    _WrappedEffectHeal,
     _WrappedEffectRegeneration,
     _WrappedEffectAbilityCheckModifier,
     _WrappedEffectAbilityModifier,
@@ -118,6 +121,7 @@ export const EffectSchema = z.discriminatedUnion('type', [
     _WrappedEffectAttackModifier,
     _WrappedEffectExtraHitpoints,
     _WrappedEffectSkillModifier,
+    _WrappedEffectThreatPower,
     _WrappedEffectCharm,
     _WrappedEffectDisease,
     _WrappedEffectFear,

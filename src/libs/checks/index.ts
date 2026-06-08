@@ -7,6 +7,10 @@ import { CONSTS } from '../../consts';
 import { EventCreatureCheckSkill } from '../../schemas/events/EventCreatureCheckSkill';
 import { EventCreatureCheckResistance } from '../../schemas/events/EventCreatureCheckResistance';
 import THREAT_RESISTANCE from '../../data/threats.json';
+import { z } from 'zod';
+import { PropertyThreatPower } from '../../properties/schemas/modifiers/threat-power';
+
+type ThreatPowerData = z.infer<typeof PropertyThreatPower>;
 
 export function rollSkill(creature: Creature, skill: Skill): DiceRoll {
     return new DiceRoll('1d20', creature.getters.getSkillValues[skill]);
@@ -23,7 +27,12 @@ export function checkSkill(creature: Creature, skill: Skill, dc: number): boolea
     return d.success;
 }
 
-export function checkSkillAgainst(creature: Creature, skill: Skill, adversary: Creature, advSkill: Skill): boolean {
+export function checkSkillAgainst(
+    creature: Creature,
+    skill: Skill,
+    adversary: Creature,
+    advSkill: Skill
+): boolean {
     const meDice = rollSkill(creature, skill);
     const advDice = rollSkill(adversary, advSkill);
     const success = meDice.total >= advDice.total;
@@ -47,7 +56,10 @@ export function rollAbilityCheck(creature: Creature, ability: Ability, dc: numbe
 }
 
 export function checkResistance(creature: Creature, threat: Threat, dc: number): boolean {
-    const TR = THREAT_RESISTANCE as Record<Threat, { resistingSkill?: Skill; resistingAbility?: Ability }>;
+    const TR = THREAT_RESISTANCE as Record<
+        Threat,
+        { resistingSkill?: Skill; resistingAbility?: Ability }
+    >;
     const entry = TR[threat];
     if (!entry) {
         throw new ReferenceError(`Unknown threat: ${threat}`);
@@ -67,4 +79,26 @@ export function checkResistance(creature: Creature, threat: Threat, dc: number):
         success: d.success,
     });
     return d.success;
+}
+
+export function rollThreat(
+    attacker: Creature,
+    threat: Threat,
+    offensiveAbility: Ability,
+    target: Creature
+): boolean {
+    const abilityBonus = attacker.getters.getAbilityModifiers[offensiveAbility];
+    const { sum: propEffectBonus } = attacker.aggregate(
+        [CONSTS.PROPERTY_THREAT_POWER, CONSTS.EFFECT_THREAT_POWER],
+        {
+            properties: {
+                filter: (p) => (p.data as ThreatPowerData).threat === threat,
+            },
+            effects: {
+                filter: (e) => (e.data as ThreatPowerData).threat === threat,
+            },
+        }
+    );
+    const dc = 8 + abilityBonus + propEffectBonus;
+    return !target.checkResistance(threat, dc);
 }

@@ -27,9 +27,9 @@ import { getOffensiveSlots } from './getters/getOffensiveSlots';
 import { getPropertiesWithProgram } from './getters/getPropertiesWithProgram';
 import { getPropertySet } from './getters/getPropertySet';
 import { getResistanceValues } from './getters/getResistanceValues';
-import { getSelectedWeapon } from './getters/getSelectedWeapon';
 import { getSelectedWeaponAmmo } from './getters/getSelectedWeaponAmmo';
 import { getSelectedWeaponAttributeSet } from './getters/getSelectedWeaponAttributeSet';
+import { getSelectedWeapon } from './getters/getSelectedWeapon';
 import { getSize } from './getters/getSize';
 import { getSkillBonusValues } from './getters/getSkillBonusValues';
 import { getSkillValues } from './getters/getSkillValues';
@@ -66,9 +66,9 @@ export type GetterReturnFunctions = {
     getPropertiesWithProgram: typeof getPropertiesWithProgram;
     getPropertySet: typeof getPropertySet;
     getResistanceValues: typeof getResistanceValues;
-    getSelectedWeapon: typeof getSelectedWeapon;
     getSelectedWeaponAmmo: typeof getSelectedWeaponAmmo;
     getSelectedWeaponAttributeSet: typeof getSelectedWeaponAttributeSet;
+    getSelectedWeapon: typeof getSelectedWeapon;
     getSize: typeof getSize;
     getSkillBonusValues: typeof getSkillBonusValues;
     getSkillValues: typeof getSkillValues;
@@ -108,9 +108,9 @@ export const Getters = {
     getPropertiesWithProgram,
     getPropertySet,
     getResistanceValues,
-    getSelectedWeapon,
     getSelectedWeaponAmmo,
     getSelectedWeaponAttributeSet,
+    getSelectedWeapon,
     getSize,
     getSkillBonusValues,
     getSkillValues,

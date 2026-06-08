@@ -38,6 +38,7 @@ import {
     checkSkillAgainst as _checkSkillAgainst,
     rollAbilityCheck as _rollAbilityCheck,
     checkResistance as _checkResistance,
+    rollThreat as _rollThreat,
 } from './libs/checks';
 import {
     isWieldingLight as _isWieldingLight,
@@ -425,6 +426,10 @@ export class Creature {
 
     checkResistance(threat: Threat, dc: number): boolean {
         return _checkResistance(this, threat, dc);
+    }
+
+    rollThreat(threat: Threat, offensiveAbility: Ability, target: Creature): boolean {
+        return _rollThreat(this, threat, offensiveAbility, target);
     }
 
 

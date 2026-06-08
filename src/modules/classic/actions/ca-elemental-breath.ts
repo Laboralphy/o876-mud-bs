@@ -3,7 +3,18 @@
  */
 import { IRulesEngine } from '../../../interfaces/IRulesEngine';
 import { Creature } from '../../../Creature';
+import { doDamage, getAreaOfEffectCreatures } from '../../base/scripts/helpers';
 
-export function main(rules: IRulesEngine, subject: Creature, target: Creature | undefined) {}
+export function main(rules: IRulesEngine, subject: Creature, target: Creature | undefined) {
+    if (!target) {
+        return;
+    }
+    // get all involved creature
+    const aCreatures = getAreaOfEffectCreatures(rules, subject, target);
+    // deal damage to all creatures
+    aCreatures.forEach((creature) => {
+        doDamage();
+    });
+}
 
 export default main;

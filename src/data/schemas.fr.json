@@ -688,6 +688,45 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_THREAT_POWER"
+                },
+                "threat": {
+                  "type": "string",
+                  "enum": [
+                    "THREAT_PARALYSIS",
+                    "THREAT_STUN",
+                    "THREAT_DISEASE",
+                    "THREAT_POISON",
+                    "THREAT_BLAST",
+                    "THREAT_BLINDNESS",
+                    "THREAT_FEAR",
+                    "THREAT_CHARM",
+                    "THREAT_SPELL",
+                    "THREAT_DEVICE",
+                    "THREAT_PETRIFY"
+                  ],
+                  "description": "PropertyThreatPower.threat"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "description": "PropertyThreatPower.amp"
+                }
+              },
+              "required": [
+                "type",
+                "threat",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThreatPower"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                 },
                 "amp": {
@@ -1763,6 +1802,45 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_THREAT_POWER"
+                },
+                "threat": {
+                  "type": "string",
+                  "enum": [
+                    "THREAT_PARALYSIS",
+                    "THREAT_STUN",
+                    "THREAT_DISEASE",
+                    "THREAT_POISON",
+                    "THREAT_BLAST",
+                    "THREAT_BLINDNESS",
+                    "THREAT_FEAR",
+                    "THREAT_CHARM",
+                    "THREAT_SPELL",
+                    "THREAT_DEVICE",
+                    "THREAT_PETRIFY"
+                  ],
+                  "description": "PropertyThreatPower.threat"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "description": "PropertyThreatPower.amp"
+                }
+              },
+              "required": [
+                "type",
+                "threat",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThreatPower"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                 },
                 "amp": {
@@ -2774,6 +2852,45 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_THREAT_POWER"
+                },
+                "threat": {
+                  "type": "string",
+                  "enum": [
+                    "THREAT_PARALYSIS",
+                    "THREAT_STUN",
+                    "THREAT_DISEASE",
+                    "THREAT_POISON",
+                    "THREAT_BLAST",
+                    "THREAT_BLINDNESS",
+                    "THREAT_FEAR",
+                    "THREAT_CHARM",
+                    "THREAT_SPELL",
+                    "THREAT_DEVICE",
+                    "THREAT_PETRIFY"
+                  ],
+                  "description": "PropertyThreatPower.threat"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "description": "PropertyThreatPower.amp"
+                }
+              },
+              "required": [
+                "type",
+                "threat",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThreatPower"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                 },
                 "amp": {
@@ -3769,6 +3886,45 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_THREAT_POWER"
+                },
+                "threat": {
+                  "type": "string",
+                  "enum": [
+                    "THREAT_PARALYSIS",
+                    "THREAT_STUN",
+                    "THREAT_DISEASE",
+                    "THREAT_POISON",
+                    "THREAT_BLAST",
+                    "THREAT_BLINDNESS",
+                    "THREAT_FEAR",
+                    "THREAT_CHARM",
+                    "THREAT_SPELL",
+                    "THREAT_DEVICE",
+                    "THREAT_PETRIFY"
+                  ],
+                  "description": "PropertyThreatPower.threat"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "description": "PropertyThreatPower.amp"
+                }
+              },
+              "required": [
+                "type",
+                "threat",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThreatPower"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                 },
                 "amp": {
@@ -4758,6 +4914,45 @@
               ],
               "additionalProperties": false,
               "description": "Modificateur de compétence"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "PROPERTY_THREAT_POWER"
+                },
+                "threat": {
+                  "type": "string",
+                  "enum": [
+                    "THREAT_PARALYSIS",
+                    "THREAT_STUN",
+                    "THREAT_DISEASE",
+                    "THREAT_POISON",
+                    "THREAT_BLAST",
+                    "THREAT_BLINDNESS",
+                    "THREAT_FEAR",
+                    "THREAT_CHARM",
+                    "THREAT_SPELL",
+                    "THREAT_DEVICE",
+                    "THREAT_PETRIFY"
+                  ],
+                  "description": "PropertyThreatPower.threat"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "description": "PropertyThreatPower.amp"
+                }
+              },
+              "required": [
+                "type",
+                "threat",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThreatPower"
             },
             {
               "type": "object",
@@ -5846,6 +6041,45 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_THREAT_POWER"
+                },
+                "threat": {
+                  "type": "string",
+                  "enum": [
+                    "THREAT_PARALYSIS",
+                    "THREAT_STUN",
+                    "THREAT_DISEASE",
+                    "THREAT_POISON",
+                    "THREAT_BLAST",
+                    "THREAT_BLINDNESS",
+                    "THREAT_FEAR",
+                    "THREAT_CHARM",
+                    "THREAT_SPELL",
+                    "THREAT_DEVICE",
+                    "THREAT_PETRIFY"
+                  ],
+                  "description": "PropertyThreatPower.threat"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "description": "PropertyThreatPower.amp"
+                }
+              },
+              "required": [
+                "type",
+                "threat",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThreatPower"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                 },
                 "amp": {
@@ -6769,6 +7003,45 @@
                             ],
                             "additionalProperties": false,
                             "description": "Modificateur de compétence"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_THREAT_POWER"
+                              },
+                              "threat": {
+                                "type": "string",
+                                "enum": [
+                                  "THREAT_PARALYSIS",
+                                  "THREAT_STUN",
+                                  "THREAT_DISEASE",
+                                  "THREAT_POISON",
+                                  "THREAT_BLAST",
+                                  "THREAT_BLINDNESS",
+                                  "THREAT_FEAR",
+                                  "THREAT_CHARM",
+                                  "THREAT_SPELL",
+                                  "THREAT_DEVICE",
+                                  "THREAT_PETRIFY"
+                                ],
+                                "description": "PropertyThreatPower.threat"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991,
+                                "description": "PropertyThreatPower.amp"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "threat",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThreatPower"
                           },
                           {
                             "type": "object",
@@ -7779,6 +8052,45 @@
                             ],
                             "additionalProperties": false,
                             "description": "Modificateur de compétence"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_THREAT_POWER"
+                              },
+                              "threat": {
+                                "type": "string",
+                                "enum": [
+                                  "THREAT_PARALYSIS",
+                                  "THREAT_STUN",
+                                  "THREAT_DISEASE",
+                                  "THREAT_POISON",
+                                  "THREAT_BLAST",
+                                  "THREAT_BLINDNESS",
+                                  "THREAT_FEAR",
+                                  "THREAT_CHARM",
+                                  "THREAT_SPELL",
+                                  "THREAT_DEVICE",
+                                  "THREAT_PETRIFY"
+                                ],
+                                "description": "PropertyThreatPower.threat"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991,
+                                "description": "PropertyThreatPower.amp"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "threat",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThreatPower"
                           },
                           {
                             "type": "object",
@@ -8859,6 +9171,45 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_THREAT_POWER"
+                              },
+                              "threat": {
+                                "type": "string",
+                                "enum": [
+                                  "THREAT_PARALYSIS",
+                                  "THREAT_STUN",
+                                  "THREAT_DISEASE",
+                                  "THREAT_POISON",
+                                  "THREAT_BLAST",
+                                  "THREAT_BLINDNESS",
+                                  "THREAT_FEAR",
+                                  "THREAT_CHARM",
+                                  "THREAT_SPELL",
+                                  "THREAT_DEVICE",
+                                  "THREAT_PETRIFY"
+                                ],
+                                "description": "PropertyThreatPower.threat"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991,
+                                "description": "PropertyThreatPower.amp"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "threat",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThreatPower"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                               },
                               "amp": {
@@ -9853,6 +10204,45 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_THREAT_POWER"
+                              },
+                              "threat": {
+                                "type": "string",
+                                "enum": [
+                                  "THREAT_PARALYSIS",
+                                  "THREAT_STUN",
+                                  "THREAT_DISEASE",
+                                  "THREAT_POISON",
+                                  "THREAT_BLAST",
+                                  "THREAT_BLINDNESS",
+                                  "THREAT_FEAR",
+                                  "THREAT_CHARM",
+                                  "THREAT_SPELL",
+                                  "THREAT_DEVICE",
+                                  "THREAT_PETRIFY"
+                                ],
+                                "description": "PropertyThreatPower.threat"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991,
+                                "description": "PropertyThreatPower.amp"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "threat",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThreatPower"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                               },
                               "amp": {
@@ -10841,6 +11231,45 @@
                             ],
                             "additionalProperties": false,
                             "description": "Modificateur de compétence"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "PROPERTY_THREAT_POWER"
+                              },
+                              "threat": {
+                                "type": "string",
+                                "enum": [
+                                  "THREAT_PARALYSIS",
+                                  "THREAT_STUN",
+                                  "THREAT_DISEASE",
+                                  "THREAT_POISON",
+                                  "THREAT_BLAST",
+                                  "THREAT_BLINDNESS",
+                                  "THREAT_FEAR",
+                                  "THREAT_CHARM",
+                                  "THREAT_SPELL",
+                                  "THREAT_DEVICE",
+                                  "THREAT_PETRIFY"
+                                ],
+                                "description": "PropertyThreatPower.threat"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991,
+                                "description": "PropertyThreatPower.amp"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "threat",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyThreatPower"
                           },
                           {
                             "type": "object",
@@ -12026,6 +12455,45 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_THREAT_POWER"
+                },
+                "threat": {
+                  "type": "string",
+                  "enum": [
+                    "THREAT_PARALYSIS",
+                    "THREAT_STUN",
+                    "THREAT_DISEASE",
+                    "THREAT_POISON",
+                    "THREAT_BLAST",
+                    "THREAT_BLINDNESS",
+                    "THREAT_FEAR",
+                    "THREAT_CHARM",
+                    "THREAT_SPELL",
+                    "THREAT_DEVICE",
+                    "THREAT_PETRIFY"
+                  ],
+                  "description": "PropertyThreatPower.threat"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "description": "PropertyThreatPower.amp"
+                }
+              },
+              "required": [
+                "type",
+                "threat",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyThreatPower"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_WEAPON_DAMAGE_MODIFIER"
                 },
                 "amp": {
@@ -12925,6 +13393,46 @@
     ],
     "additionalProperties": false,
     "description": "Modificateur de compétence"
+  },
+  "PropertyThreatPower": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "const": "PROPERTY_THREAT_POWER"
+      },
+      "threat": {
+        "type": "string",
+        "enum": [
+          "THREAT_PARALYSIS",
+          "THREAT_STUN",
+          "THREAT_DISEASE",
+          "THREAT_POISON",
+          "THREAT_BLAST",
+          "THREAT_BLINDNESS",
+          "THREAT_FEAR",
+          "THREAT_CHARM",
+          "THREAT_SPELL",
+          "THREAT_DEVICE",
+          "THREAT_PETRIFY"
+        ],
+        "description": "PropertyThreatPower.threat"
+      },
+      "amp": {
+        "type": "integer",
+        "minimum": -9007199254740991,
+        "maximum": 9007199254740991,
+        "description": "PropertyThreatPower.amp"
+      }
+    },
+    "required": [
+      "type",
+      "threat",
+      "amp"
+    ],
+    "additionalProperties": false,
+    "description": "PropertyThreatPower"
   },
   "PropertyWeaponDamageModifier": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
