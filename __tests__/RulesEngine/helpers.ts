@@ -60,7 +60,6 @@ export function makeRulesEngine(): RulesEngine {
         size: CONSTS.CREATURE_SIZE_MEDIUM,
         proficiencies: [],
         properties: [],
-        proficiencies: [],
         equipment: [WEAPON_BLUEPRINT, SHIELD_BLUEPRINT],
         actions: [],
     });

@@ -3,7 +3,6 @@ import { Effect } from '../schemas';
 import { Creature } from '../../Creature';
 import { CONSTS } from '../../consts';
 import { VARS } from '../../vars';
-import { getResistingSkill } from '../../libs/get-resisting-skill';
 import DISEASES from '../../data/diseases';
 import { DamageType } from '../../schemas/enums/DamageType';
 
@@ -88,7 +87,7 @@ export class EffectProgramDisease implements IProgram<Effect> {
         if (data.timer >= data.amp) {
             if (
                 stage.resistance &&
-                creature.checkSkill(getResistingSkill(CONSTS.EFFECT_DISEASE)!, data.dc ?? disease.dc)
+                creature.checkResistance(CONSTS.THREAT_DISEASE, data.dc ?? disease.dc)
             ) {
                 creature.removeEffect(effect, false);
                 return;

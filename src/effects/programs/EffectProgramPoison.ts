@@ -3,7 +3,6 @@ import { Effect } from '../schemas';
 import { Creature } from '../../Creature';
 import { CONSTS } from '../../consts';
 import { DamageType } from '../../schemas/enums/DamageType';
-import { getResistingSkill } from '../../libs/get-resisting-skill';
 
 export class EffectProgramPoison implements IProgram<Effect> {
     private _dealDamage(
@@ -33,8 +32,7 @@ export class EffectProgramPoison implements IProgram<Effect> {
         }
         const dc = data.dc ?? 0;
         if (dc > 0) {
-            const skill = getResistingSkill(CONSTS.EFFECT_POISON);
-            if (skill && creature.checkSkill(skill, dc)) {
+            if (creature.checkResistance(CONSTS.THREAT_POISON, dc)) {
                 creature.removeEffect(effect);
                 return;
             }

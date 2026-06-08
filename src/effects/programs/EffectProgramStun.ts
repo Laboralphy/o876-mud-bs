@@ -3,8 +3,6 @@ import { Effect } from '../schemas';
 import { Creature } from '../../Creature';
 import { CONSTS } from '../../consts';
 import { DamageType } from '../../schemas/enums/DamageType';
-import { getResistingSkill } from '../../libs/get-resisting-skill';
-
 export class EffectProgramStun implements IProgram<Effect> {
     damaged(
         effect: Effect,
@@ -15,8 +13,7 @@ export class EffectProgramStun implements IProgram<Effect> {
     ): void {
         if (effect.type === CONSTS.EFFECT_STUN) {
             const dc = effect.data.dc ?? 0;
-            const skill = getResistingSkill(effect.type);
-            if (dc > 0 && skill && creature.checkSkill(skill, dc)) {
+            if (dc > 0 && creature.checkResistance(CONSTS.THREAT_STUN, dc)) {
                 creature.removeEffect(effect);
             }
         }

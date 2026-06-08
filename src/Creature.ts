@@ -33,7 +33,7 @@ import { Skill } from './schemas/enums/Skill';
 import { DiceRoll } from './DiceRoll';
 import { Ability } from './schemas/enums/Ability';
 import { Threat } from './schemas/enums/Threat';
-import THREAT_RESISTANCE from './data/threat-resistance.json';
+import THREAT_RESISTANCE from './data/threats.json';
 import { randomUUID } from 'node:crypto';
 import { EffectSubtype } from './schemas/enums/EffectSubtype';
 import { EventEffectProcessorImmunity } from './schemas/events/EventEffectProcessorImmunity';
@@ -41,6 +41,12 @@ import { EventEffectProcessorCreatureEffect } from './schemas/events/EventEffect
 import { getImmunityRules } from './libs/get-immunity-rules';
 import { CooldownManager } from './libs/cooldown';
 import { IRulesEngine } from './interfaces/IRulesEngine';
+import {
+    isWieldingLight as _isWieldingLight,
+    hasDarkvision as _hasDarkvision,
+    isInBrightLocation as _isInBrightLocation,
+    getCreatureVisibility as _getCreatureVisibility,
+} from './libs/visibility';
 
 export class Creature {
     private readonly _store = buildStore();
@@ -499,80 +505,19 @@ export class Creature {
      * @return {string} CREATURE_VISIBILITY_*
      */
     getCreatureVisibility(oTarget: Creature): CreatureVisibility {
-        if (oTarget === this) {
-            return CONSTS.CREATURE_VISIBILITY_VISIBLE;
-        }
-        const mg = this.getters;
-        const tg = oTarget.getters;
-        const myEffects = mg.getEffectSet;
-        const targetEffects = tg.getEffectSet;
-        const bFog = this.location?.environments.has(CONSTS.ENVIRONMENT_FOG) ?? false;
-
-        if (myEffects.has(CONSTS.EFFECT_BLINDNESS) || bFog) {
-            // Blinded creatures, or creature in fog cannot see target
-            return CONSTS.CREATURE_VISIBILITY_BLINDED;
-        }
-        if (
-            targetEffects.has(CONSTS.EFFECT_INVISIBILITY) &&
-            !myEffects.has(CONSTS.EFFECT_SEE_INVISIBILITY)
-        ) {
-            // Invisibility effect prevents target detection unless creature has see invisibility effect
-            return CONSTS.CREATURE_VISIBILITY_INVISIBLE;
-        }
-        if (targetEffects.has(CONSTS.EFFECT_STEALTH)) {
-            return CONSTS.CREATURE_VISIBILITY_HIDDEN;
-        }
-        if (this.isInBrightLocation()) {
-            return CONSTS.CREATURE_VISIBILITY_VISIBLE;
-        }
-        if (this.location?.environments.has(CONSTS.ENVIRONMENT_DARKNESS) && this.hasDarkvision()) {
-            return CONSTS.CREATURE_VISIBILITY_VISIBLE;
-        }
-        return CONSTS.CREATURE_VISIBILITY_DARKNESS;
+        return _getCreatureVisibility(this, oTarget);
     }
 
-    /**
-     * Return true if this creature is using a light source enlightening surroundings
-     */
     isWieldingLight(): boolean {
-        const mg = this.getters;
-        const myEffects = mg.getEffectSet;
-        const myProps = mg.getPropertySet;
-        return myEffects.has(CONSTS.EFFECT_LIGHT) || myProps.has(CONSTS.PROPERTY_LIGHT);
+        return _isWieldingLight(this);
     }
 
     hasDarkvision(): boolean {
-        const mg = this.getters;
-        return (
-            mg.getEffectSet.has(CONSTS.EFFECT_DARKVISION) ||
-            mg.getPropertySet.has(CONSTS.PROPERTY_DARKVISION)
-        );
+        return _hasDarkvision(this);
     }
 
-    /**
-     * Return true if this creature is able to see in this room
-     * That means, if this creature is
-     * - not in a fog room
-     * - not in a dark room
-     * - in a dark room with a creature wielding light
-     */
     isInBrightLocation(): boolean {
-        const location = this.location;
-        if (!location) {
-            return false;
-        }
-        if (location.environments.has(CONSTS.ENVIRONMENT_FOG)) {
-            return false;
-        }
-        if (location.environments.has(CONSTS.ENVIRONMENT_DARKNESS)) {
-            for (const creature of location.creatures) {
-                if (creature.isWieldingLight()) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        return true;
+        return _isInBrightLocation(this);
     }
 
     // ▗▄▄▖ ▗▖              ▟▜▖                 ▗▖                  ▗▖                                          ▗▖
