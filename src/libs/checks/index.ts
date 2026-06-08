@@ -7,6 +7,7 @@ import { CONSTS } from '../../consts';
 import { EventCreatureCheckSkill } from '../../schemas/events/EventCreatureCheckSkill';
 import { EventCreatureCheckResistance } from '../../schemas/events/EventCreatureCheckResistance';
 import THREAT_RESISTANCE from '../../data/threats.json';
+import { VARS } from '../../vars';
 import { z } from 'zod';
 import { PropertyThreatPower } from '../../properties/schemas/modifiers/threat-power';
 
@@ -99,6 +100,6 @@ export function rollThreat(
             },
         }
     );
-    const dc = 8 + abilityBonus + propEffectBonus;
+    const dc = VARS.BASE_DIFFICULTY_CLASS + abilityBonus + propEffectBonus;
     return !target.checkResistance(threat, dc);
 }
