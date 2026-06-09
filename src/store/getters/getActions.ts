@@ -1,5 +1,5 @@
 import { State } from '../state';
-import { ActionConfig } from '../../schemas/actions';
+import { ActionConfig } from '../../schemas/Action';
 
 export type ActionStatus = {
     id: string;

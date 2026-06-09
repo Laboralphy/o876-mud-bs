@@ -93,10 +93,10 @@ export function rollThreat(
         [CONSTS.PROPERTY_THREAT_POWER, CONSTS.EFFECT_THREAT_POWER],
         {
             properties: {
-                filter: (p) => (p.data as ThreatPowerData).threat === threat,
+                filter: (p) => (p.data as unknown as ThreatPowerData).threat === threat,
             },
             effects: {
-                filter: (e) => (e.data as ThreatPowerData).threat === threat,
+                filter: (e) => (e.data as unknown as ThreatPowerData).threat === threat,
             },
         }
     );

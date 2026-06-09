@@ -15,6 +15,8 @@ export const ActionBlueprintBaseSchema = z.object({
 
 export type ActionBlueprint = z.infer<typeof ActionBlueprintBaseSchema>;
 
+export type ActionConfig = Record<string, unknown>;
+
 export const ActionStateSchema = z.strictObject({
     id: z.string(),
     hostile: z.boolean(),
