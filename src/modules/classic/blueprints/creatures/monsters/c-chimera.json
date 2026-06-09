@@ -79,11 +79,13 @@
       "id": "act-elemental-breath",
       "script": "ca-elemental-breath",
       "bonus": false,
-      "hostile": false,
+      "hostile": true,
       "range": "DISTANCE_MEDIUM",
-      "cooldown": 6,
-      "damageType": "DAMAGE_TYPE_THERMAL",
-      "amp": "6d6"
+      "config": {
+        "damageType": "DAMAGE_TYPE_FIRE",
+        "amp": "2d6"
+      },
+      "cooldown": 6
     }
   ]
 }

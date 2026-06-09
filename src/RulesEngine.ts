@@ -6,8 +6,8 @@ import { ItemBlueprint } from './schemas/ItemBlueprint';
 import { ItemBuilder } from './builders/ItemBuilder';
 import { Property, PropertyDefinition } from './properties/schemas';
 import { Effect, EffectDefinition } from './effects/schemas';
-import { ActionState, ActionStateSchema } from './schemas/Action';
-import { ActionBlueprint } from './schemas/actions';
+import { ActionBlueprint, ActionState, ActionStateSchema } from './schemas/Action';
+
 import { CooldownManager } from './libs/cooldown';
 import { deepClone } from './libs/deep-clone';
 import { CONSTS } from './consts';
@@ -541,7 +541,7 @@ export class RulesEngine implements IRulesEngine {
     }
 
     private createActionStateFromBlueprint(actionBlueprint: ActionBlueprint): ActionState {
-        const { id, hostile, script, cooldown, charges, range, bonus, ...config } = actionBlueprint;
+        const { id, hostile, script, cooldown, charges, range, bonus, config } = actionBlueprint;
         return ActionStateSchema.parse({
             id,
             hostile,

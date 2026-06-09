@@ -37,6 +37,8 @@
  * - action-range  : effective range
  * - action-bonus  : TRUE | FALSE — is bonus action
  * - action-hostile: TRUE | FALSE — targets enemies
+ * - action-paramName
+ * - action-paramValue
  * - traits        : extended-properties bundle ref (e.g. cp-undead) — repeatable
  * - def-property  : defensive property short name — repeatable
  * - def-amp       : amp for the last pushed defensive property
@@ -71,6 +73,8 @@ export const HEADERS = [
     'action-range',
     'action-bonus',
     'action-hostile',
+    'action-paramName',
+    'action-paramValue',
     'traits',
     'def-property',
     'def-amp',
@@ -98,13 +102,15 @@ export const SCRIPTS = [
     /* natw-amp       */ `last(last(c.equipment).properties).amp = value`,
     /* natw-paramName */ ``,
     /* natw-paramValue*/ `kv(last(last(c.equipment).properties))`,
-    /* action         */ `c.actions.push({ id: value, script: '', bonus: false, hostile: false, range: 30 })`,
+    /* action         */ `c.actions.push({ id: value, script: '', bonus: false, hostile: false, range: 30, config: {} })`,
     /* action-script  */ `last(c.actions).script = value`,
     /* action-cooldown*/ `last(c.actions).cooldown = value`,
     /* action-charges */ `last(c.actions).charges = value`,
     /* action-range   */ `last(c.actions).range = ref(value, 'DISTANCE')`,
-    /* action-bonus   */ `last(c.actions).bonus = value === 'TRUE'`,
-    /* action-hostile */ `last(c.actions).hostile = value === 'TRUE'`,
+    /* action-bonus   */ `last(c.actions).bonus = value`,
+    /* action-hostile */ `last(c.actions).hostile = value`,
+    /* action-paramName */ ``,
+    /* action-paramValue */ `kv(last(c.actions).config)`,
     /* traits         */ `if (!c.extends) { c.extends = [] } c.extends.push(value)`,
     /* def-property   */ `c.properties.push({ type: ref(value, 'property') })`,
     /* def-amp        */ `last(c.properties).amp = value`,

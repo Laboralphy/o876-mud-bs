@@ -1,14 +1,14 @@
 import { State } from '../state';
-import { GetterReturnType } from '../define-getters';
+import { ActionConfig } from '../../schemas/actions';
 
 export type ActionStatus = {
     id: string;
-    script: string;
     ready: boolean;
     charges: number;
     maxCharges: number;
     cooldown: number;
     bonus: boolean;
+    config: ActionConfig;
 };
 
 export function getActions(state: State): ActionStatus[] {
@@ -26,12 +26,12 @@ export function getActions(state: State): ActionStatus[] {
         const cooldown = ready ? 0 : timers[0];
         return {
             id: action.id,
-            script: action.script,
             ready,
             charges,
             bonus: action.bonus,
             maxCharges: timerMaxCount,
             cooldown,
+            config: action.config,
         };
     });
 }

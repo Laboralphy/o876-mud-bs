@@ -4,7 +4,6 @@ import { ItemBlueprint, ItemBlueprintSchema } from './schemas/ItemBlueprint';
 import { CreatureBlueprint, CreatureBlueprintSchema } from './schemas/CreatureBlueprint';
 import { ModuleStructure } from './schemas/ModuleStructure';
 import { CreatureActionScript } from './schemas/CreatureActionScript';
-import { ExtendedPropertiesSchema } from './schemas/ExtendedProperties';
 
 function validateCreature(entity: ExtendableEntity): CreatureBlueprint {
     return CreatureBlueprintSchema.parse(entity);

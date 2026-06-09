@@ -41,7 +41,7 @@
       "weight": 0,
       "size": "WEAPON_SIZE_SMALL",
       "attributes": [],
-      "damages": 1,
+      "damages": "1d1",
       "damageType": "DAMAGE_TYPE_RADIANT",
       "properties": [
         {

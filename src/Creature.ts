@@ -432,7 +432,6 @@ export class Creature {
         return _rollThreat(this, threat, offensiveAbility, target);
     }
 
-
     //  ▗▖      ▗▖  ▗▖
     // ▗▛▜▖▗▛▀ ▝▜▛▘ ▄▖ ▗▛▜▖▐▛▜▖▗▛▀▘
     // ▐▙▟▌▐▌   ▐▌  ▐▌ ▐▌▐▌▐▌▐▌ ▀▜▖
@@ -453,13 +452,14 @@ export class Creature {
             } else {
                 this.state.actionTaken = true;
             }
-            CooldownManager.pushTimer(this.state.actions[actionId].cooldown);
+            const actionState = this.state.actions[actionId];
+            CooldownManager.pushTimer(actionState.cooldown);
             this.emit(CONSTS.EVENT_CREATURE_ACTION, {
                 creature: this,
                 actionId,
-                script: action.script,
+                script: actionState.script,
                 target,
-                config: this.state.actions[actionId].config,
+                config: actionState.config ?? {},
             });
             return {
                 success: true,

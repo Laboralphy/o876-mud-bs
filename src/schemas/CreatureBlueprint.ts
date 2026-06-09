@@ -4,7 +4,7 @@ import { AbilitySchema } from './enums/Ability';
 import { SpecieSchema } from './enums/Specie';
 import { PropertyDefinitionSchema } from '../properties/schemas';
 import { ItemBlueprintSchema } from './ItemBlueprint';
-import { ActionBlueprintSchema } from './actions';
+import { ActionBlueprintBaseSchema } from './Action';
 import { CreatureSizeSchema } from './enums/CreatureSize';
 import { ProficiencySchema } from './enums/Proficiency';
 import { CONSTS } from '../consts';
@@ -24,7 +24,7 @@ export const CreatureBlueprintSchema = z
             .array(ItemBlueprintSchema.or(z.string()))
             .describe('CreatureBlueprint.equipment'),
         proficiencies: z.array(ProficiencySchema).describe('CreatureBlueprint.proficiencies'),
-        actions: z.array(ActionBlueprintSchema).describe('CreatureBlueprint.actions'),
+        actions: z.array(ActionBlueprintBaseSchema).describe('CreatureBlueprint.actions'),
     })
     .describe('CreatureBlueprint');
 
