@@ -8,10 +8,7 @@ import { EventCreatureCheckSkill } from '../../schemas/events/EventCreatureCheck
 import { EventCreatureCheckResistance } from '../../schemas/events/EventCreatureCheckResistance';
 import THREAT_RESISTANCE from '../../data/threats.json';
 import { VARS } from '../../vars';
-import { z } from 'zod';
-import { PropertyThreatPower } from '../../properties/schemas/modifiers/threat-power';
-
-type ThreatPowerData = z.infer<typeof PropertyThreatPower>;
+type WithThreat = { threat: Threat };
 
 export function rollSkill(creature: Creature, skill: Skill): DiceRoll {
     return new DiceRoll('1d20', creature.getters.getSkillValues[skill]);
@@ -93,10 +90,10 @@ export function rollThreat(
         [CONSTS.PROPERTY_THREAT_POWER, CONSTS.EFFECT_THREAT_POWER],
         {
             properties: {
-                filter: (p) => (p.data as unknown as ThreatPowerData).threat === threat,
+                filter: (p) => (p.data as WithThreat).threat === threat,
             },
             effects: {
-                filter: (e) => (e.data as unknown as ThreatPowerData).threat === threat,
+                filter: (e) => (e.data as WithThreat).threat === threat,
             },
         }
     );
