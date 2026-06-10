@@ -34,7 +34,7 @@ doTransformDataTypes () {
     npx tsx "$SCRIPT_DIR/../src/libs/build-assets/transform-data.ts" "$MODULE-$THIS_TYPE.csv" "$BP_PATH" "$SCRIPT_DIR/../src/libs/build-assets/transforms/$THIS_TYPE.ts"
     rm "$MODULE-$THIS_TYPE.csv"
   else
-    echo "module $MODULE : has no data for $THIS_TYPE"
+    echo "module $MODULE : no $THIS_TYPE blueprints"
   fi
 }
 
@@ -49,7 +49,9 @@ doProcessModuleData () {
   url_var_ammo_types=${URL_SHEET_PREFIX}_AMMO_TYPES
   url_var_gear_types=${URL_SHEET_PREFIX}_GEAR_TYPES
   url_var_shield_types=${URL_SHEET_PREFIX}_SHIELD_TYPES
+  url_var_actions=${URL_SHEET_PREFIX}_ACTIONS
   url_var_weapons=${URL_SHEET_PREFIX}_WEAPONS
+  url_var_nat_weapons=${URL_SHEET_PREFIX}_NAT_WEAPONS
   url_var_armors=${URL_SHEET_PREFIX}_ARMORS
   url_var_ammunition=${URL_SHEET_PREFIX}_AMMUNITION
   url_var_gear=${URL_SHEET_PREFIX}_GEAR
@@ -62,12 +64,14 @@ doProcessModuleData () {
   doTransformDataTypes "$MODULE" types gear-types "${!url_var_gear_types}"
   doTransformDataTypes "$MODULE" types shield-types "${!url_var_shield_types}"
   doTransformDataTypes "$MODULE" items weapons "${!url_var_weapons}"
+  doTransformDataTypes "$MODULE" items nat-weapons "${!url_var_nat_weapons}"
   doTransformDataTypes "$MODULE" items armors "${!url_var_armors}"
   doTransformDataTypes "$MODULE" items ammo "${!url_var_ammunition}"
   doTransformDataTypes "$MODULE" items gear "${!url_var_gear}"
   doTransformDataTypes "$MODULE" items shields "${!url_var_shields}"
   doTransformDataTypes "$MODULE" creatures monsters "${!url_var_monsters}"
   doTransformDataTypes "$MODULE" creatures common-props "${!url_var_common_props}"
+  doTransformDataTypes "$MODULE" creatures actions "${!url_var_actions}"
   echo "done with data transform, returning to previous directory"
   cd - || exit 1
 }

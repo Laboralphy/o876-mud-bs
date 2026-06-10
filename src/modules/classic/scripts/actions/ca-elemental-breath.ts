@@ -18,7 +18,7 @@ export function main(
     if (!target) {
         return;
     }
-    const { damageType, amp } = config;
+    const { damageType = CONSTS.DAMAGE_TYPE_THERMAL, amp = '1d6' } = config;
     doBlastDamage(rules, target, subject, amp, damageType, CONSTS.EFFECT_SUBTYPE_EXTRAORDINARY);
 }
 

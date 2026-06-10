@@ -1,3 +1,0 @@
-id,script,range,hostile,param-name,param-value
-act-fire-breath-2d6,ca-elemental-breath,medium,TRUE,damageType,DAMAGE_TYPE_FIRE
-,,,,amp,2d6
