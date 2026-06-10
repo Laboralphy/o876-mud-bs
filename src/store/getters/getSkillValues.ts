@@ -8,10 +8,13 @@ const skillAbilityMap = Object.fromEntries(
     Object.entries(skillsData).map(([skill, def]) => [skill, def.ability])
 ) as Record<string, Ability>;
 
-export const getSkillValues = (
-    state: State,
-    getters: GetterReturnType
-): Record<Skill, number> => {
+/**
+ * Return all skill values (including base, ability modifiers, and bonus values)
+ * This is used as a base to skill rolls
+ * @param state
+ * @param getters
+ */
+export const getSkillValues = (state: State, getters: GetterReturnType): Record<Skill, number> => {
     const modifiers = getters.getAbilityModifiers;
     const skillBonuses = getters.getSkillBonusValues;
     return Object.fromEntries(

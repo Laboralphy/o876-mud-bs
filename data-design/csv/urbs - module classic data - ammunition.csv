@@ -1,0 +1,15 @@
+id,type,property,amp,param-name,param-value
+ammo-arrow,ammo-type-arrow,,,,
+ammo-quarrel,ammo-type-quarrel,,,,
+ammo-arrow-hq,ammo-type-arrow,attack-modifier,1,,
+ammo-quarrel-hq,ammo-type-quarrel,attack-modifier,1,,
+ammo-arrow-p1,ammo-type-arrow,attack-modifier,1,,
+,,weapon-damage-modifier,1,,
+ammo-quarrel-p1,ammo-type-quarrel,attack-modifier,1,,
+,,weapon-damage-modifier,1,,
+ammo-arrow-p2,ammo-type-arrow,attack-modifier,2,,
+,,weapon-damage-modifier,2,,
+ammo-quarrel-p2,ammo-type-quarrel,attack-modifier,2,,
+,,weapon-damage-modifier,2,,
+ammo-arrow-fire,ammo-type-arrow,damage-modifier,1d4,damageType,DAMAGE_TYPE_THERMAL
+ammo-quarrel-fire,ammo-type-quarrel,damage-modifier,1d4,damageType,DAMAGE_TYPE_THERMAL

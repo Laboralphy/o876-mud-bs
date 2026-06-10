@@ -36,7 +36,9 @@ export class PropertyProgramAilment implements IProgram<Property> {
 
         // Drains resist via a subtype-based ability check (no fixed threat type yet)
         const resistDrain = () => {
-            if (isUnyielding) return false;
+            if (isUnyielding) {
+                return false;
+            }
             const ra = SUBTYPE_ABILITY[data.subtype];
             return ra !== undefined && target.rollAbilityCheck(ra, data.dc);
         };
@@ -150,7 +152,7 @@ export class PropertyProgramAilment implements IProgram<Property> {
                     {
                         type: CONSTS.EFFECT_POISON,
                         amp: String(data.amp),
-                        damageType: data.damageType ?? CONSTS.DAMAGE_TYPE_NECROTIC,
+                        damageType: CONSTS.DAMAGE_TYPE_NECROTIC,
                         dc: data.dc,
                         periodicity: 1,
                         timer: 0,

@@ -21,7 +21,7 @@
       "damageType": "DAMAGE_TYPE_CRUSHING"
     },
     {
-      "type": "PROPERTY_MAX_SENSE_BONUS",
+      "type": "PROPERTY_AC_SENSES_CAP",
       "amp": 0
     },
     {

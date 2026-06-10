@@ -1,0 +1,47 @@
+| id | extends | property | amp | param-name | param-value |
+| --- | --- | --- | --- | --- | --- |
+| cp-freedom |  | immunity |  | immunityType | IMMUNITY_TYPE_PARALYSIS |
+|  |  | immunity |  | immunityType | IMMUNITY_TYPE_ROOT |
+| cp-mindless |  | immunity |  | immunityType | IMMUNITY_TYPE_FEAR |
+|  |  | immunity |  | immunityType | IMMUNITY_TYPE_CHARM |
+| cp-poison-immunity |  | immunity |  | immunityType | IMMUNITY_TYPE_POISON |
+| cp-lifeless | cp-poison-immunity | immunity |  | immunityType | IMMUNITY_TYPE_DISEASE |
+| cp-unholy |  | damage-resistance |  | damageType | DAMAGE_TYPE_NECROTIC |
+|  |  | damage-vulnerability |  | damageType | DAMAGE_TYPE_RADIANT |
+| cp-hard-skin |  | damage-resistance |  | damageType | DAMAGE_TYPE_SLASHING |
+|  |  | damage-resistance |  | damageType | DAMAGE_TYPE_PIERCING |
+|  |  | damage-resistance |  | damageType | DAMAGE_TYPE_CRUSHING |
+| cp-flawed-deflective-skin |  | damage-resistance |  | damageType | DAMAGE_TYPE_SLASHING |
+|  |  | damage-resistance |  | damageType | DAMAGE_TYPE_PIERCING |
+|  |  | damage-vulnerability |  | damageType | DAMAGE_TYPE_CRUSHING |
+| cp-deflective-skin |  | damage-resistance |  | damageType | DAMAGE_TYPE_SLASHING |
+|  |  | damage-resistance |  | damageType | DAMAGE_TYPE_PIERCING |
+| cp-ultra-deflective-skin |  | damage-immunity |  | damageType | DAMAGE_TYPE_SLASHING |
+|  |  | damage-immunity |  | damageType | DAMAGE_TYPE_PIERCING |
+|  |  | damage-resistance |  | damageType | DAMAGE_TYPE_CRUSHING |
+| cp-construct | cp-lifeless | immunity |  | immunityType | IMMUNITY_TYPE_PARALYSIS |
+|  | cp-mindless | immunity |  | immunityType | IMMUNITY_TYPE_PETRIFICATION |
+| cp-construct-organic | cp-lifeless | immunity |  | immunityType | IMMUNITY_TYPE_PARALYSIS |
+|  | cp-mindless |  |  |  |  |
+|  | cp-hard-skin |  |  |  |  |
+| cp-construct-mineral | cp-construct |  |  |  |  |
+|  | cp-flawed-deflective-skin |  |  |  |  |
+| cp-construct-metal | cp-construct |  |  |  |  |
+|  | cp-deflective-skin |  |  |  |  |
+| cp-construct-armored | cp-construct |  |  |  |  |
+|  | cp-ultra-deflective-skin |  |  |  |  |
+| cp-undead | cp-lifeless | darkvision |  |  |  |
+|  | cp-unholy |  |  |  |  |
+| cp-undead-corporeal | cp-undead |  |  |  |  |
+|  | cp-hard-skin |  |  |  |  |
+| cp-undead-skeleton | cp-undead | immunity |  | immunityType | IMMUNITY_TYPE_PETRIFICATION |
+|  | cp-mindless |  |  |  |  |
+|  | cp-flawed-deflective-skin |  |  |  |  |
+|  | cp-unholy |  |  |  |  |
+| cp-undead-ethereal | cp-undead | damage-immunity |  | damageType | DAMAGE_TYPE_CRYOGENIC |
+|  | cp-hard-skin | immunity |  | immunityType | IMMUNITY_TYPE_PETRIFICATION |
+| cp-fiend | cp-poison-immunity | darkvision |  |  |  |
+|  |  | damage-resistance |  | damageType | DAMAGE_TYPE_THERMAL |
+|  |  | damage-vulnerability |  | damageType | DAMAGE_TYPE_RADIANT |
+| cp-celestial |  | damage-resistance |  | damageType | DAMAGE_TYPE_RADIANT |
+|  |  | immunity |  | immunityType | IMMUNITY_TYPE_FEAR |

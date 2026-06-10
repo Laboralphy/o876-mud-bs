@@ -88,7 +88,7 @@ Where **Size AC** reflects how easy a creature of that bulk is to land a solid b
 | Huge        |       6 |
 | Gargantuan  |       5 |
 
-**SENSES** contributes up to a maximum cap (`PROPERTY_MAX_SENSE_BONUS`). Heavy armour typically sets
+**SENSES** contributes up to a maximum cap (`PROPERTY_MAX_SENSES_BONUS`). Heavy armour typically sets
 this cap to a low value — a creature in full plate cannot dodge as freely as one unencumbered. Without
 any cap property, SENSES contributes in full.
 

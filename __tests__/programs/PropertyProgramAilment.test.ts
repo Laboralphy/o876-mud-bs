@@ -355,20 +355,6 @@ describe('PropertyProgramAilment – AILMENT_POISON', () => {
         expect((e!.data as { damageType: string }).damageType).toBe(CONSTS.DAMAGE_TYPE_NECROTIC);
     });
 
-    it('uses overridden damageType when provided', () => {
-        attacker = makeAttacker();
-        target = makeTarget();
-        attacker.addInnateProperty({
-            type: CONSTS.PROPERTY_AILMENT,
-            ...BASE,
-            ailment: CONSTS.AILMENT_POISON,
-            amp: '1d4',
-            damageType: CONSTS.DAMAGE_TYPE_THERMAL,
-        });
-        trigger(attacker, target);
-        const e = target.state.effects.find((e) => e.type === CONSTS.EFFECT_POISON);
-        expect((e!.data as { damageType: string }).damageType).toBe(CONSTS.DAMAGE_TYPE_THERMAL);
-    });
 
     it('is blocked when target skill-resists (dc=0)', () => {
         attacker = makeAttacker();

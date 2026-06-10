@@ -21,8 +21,8 @@ export function getArmorClass(state: State, getters: GetterReturnType): ArmorCla
     const acNatural = state.armorClass;
     const equippedArmor = state.equipment[CONSTS.EQUIPMENT_SLOT_CHEST];
     const equippedShield = state.equipment[CONSTS.EQUIPMENT_SLOT_SHIELD];
-    const maxSenseBonus = aggregate([CONSTS.PROPERTY_MAX_SENSE_BONUS], {}, getters).min;
-    const acAbilities = acbv + Math.min(am[CONSTS.ABILITY_SENSES], maxSenseBonus) + Math.floor(am[CONSTS.ABILITY_BODY] / 2);
+    const acSensesCap = aggregate([CONSTS.PROPERTY_AC_SENSES_CAP], {}, getters).min;
+    const acAbilities = acbv + Math.min(am[CONSTS.ABILITY_SENSES], acSensesCap) + Math.floor(am[CONSTS.ABILITY_BODY] / 2);
     const acArmor =
         equippedArmor && equippedArmor.itemType === CONSTS.ITEM_TYPE_ARMOR ? equippedArmor.armorClass : 0;
     const acShield =

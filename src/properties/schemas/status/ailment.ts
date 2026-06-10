@@ -4,7 +4,6 @@ import { AilmentSchema } from '../../../schemas/enums/Ailment';
 import { EffectSubtypeSchema } from '../../../schemas/enums/EffectSubtype';
 import { AbilitySchema } from '../../../schemas/enums/Ability';
 import { DiseaseSchema } from '../../../schemas/enums/Disease';
-import { DamageTypeSchema } from '../../../schemas/enums/DamageType';
 import { DiceExpression } from '../../../schemas/DiceExpression';
 
 export const PropertyAilment = z
@@ -18,6 +17,5 @@ export const PropertyAilment = z
         amp: DiceExpression.optional().describe('PropertyAilment.amp'),
         ability: AbilitySchema.optional().describe('PropertyAilment.ability'),
         disease: DiseaseSchema.optional().describe('PropertyAilment.disease'),
-        damageType: DamageTypeSchema.optional().describe('PropertyAilment.damageType'),
     })
     .describe('PropertyAilment');

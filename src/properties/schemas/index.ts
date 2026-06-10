@@ -10,6 +10,7 @@ import { PropertyHealingFactor } from './healing/healing-factor';
 import { PropertyHealingModifier } from './healing/healing-modifier';
 import { PropertyRegeneration } from './healing/regeneration';
 import { PropertyVampyre } from './healing/vampyre';
+import { PropertyAcSensesCap } from './items/ac-senses-cap';
 import { PropertyCursed } from './items/cursed';
 import { PropertyUnidentified } from './items/unidentified';
 import { PropertyWeightFactor } from './items/weight-factor';
@@ -19,7 +20,6 @@ import { PropertyAbilityResistanceModifier } from './modifiers/ability-resistanc
 import { PropertyArmorClassModifier } from './modifiers/armor-class-modifier';
 import { PropertyAttackModifier } from './modifiers/attack-modifier';
 import { PropertyExtraHitpoints } from './modifiers/extra-hitpoints';
-import { PropertyMaxSenseBonus } from './modifiers/max-sense-bonus';
 import { PropertySkillModifier } from './modifiers/skill-modifier';
 import { PropertyThreatPower } from './modifiers/threat-power';
 import { PropertyWeaponDamageModifier } from './modifiers/weapon-damage-modifier';
@@ -39,6 +39,7 @@ export const PropertyDefinitionSchema = z.discriminatedUnion('type', [
     PropertyHealingModifier,
     PropertyRegeneration,
     PropertyVampyre,
+    PropertyAcSensesCap,
     PropertyCursed,
     PropertyUnidentified,
     PropertyWeightFactor,
@@ -48,7 +49,6 @@ export const PropertyDefinitionSchema = z.discriminatedUnion('type', [
     PropertyArmorClassModifier,
     PropertyAttackModifier,
     PropertyExtraHitpoints,
-    PropertyMaxSenseBonus,
     PropertySkillModifier,
     PropertyThreatPower,
     PropertyWeaponDamageModifier,
@@ -70,6 +70,7 @@ const _WrappedPropertyHealingFactor = BasePropertySchema.extend({ type: z.litera
 const _WrappedPropertyHealingModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_HEALING_MODIFIER), data: PropertyHealingModifier });
 const _WrappedPropertyRegeneration = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_REGENERATION), data: PropertyRegeneration });
 const _WrappedPropertyVampyre = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_VAMPYRE), data: PropertyVampyre });
+const _WrappedPropertyAcSensesCap = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_AC_SENSES_CAP), data: PropertyAcSensesCap });
 const _WrappedPropertyCursed = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_CURSED), data: PropertyCursed });
 const _WrappedPropertyUnidentified = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_UNIDENTIFIED), data: PropertyUnidentified });
 const _WrappedPropertyWeightFactor = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_WEIGHT_FACTOR), data: PropertyWeightFactor });
@@ -79,7 +80,6 @@ const _WrappedPropertyAbilityResistanceModifier = BasePropertySchema.extend({ ty
 const _WrappedPropertyArmorClassModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_ARMOR_CLASS_MODIFIER), data: PropertyArmorClassModifier });
 const _WrappedPropertyAttackModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_ATTACK_MODIFIER), data: PropertyAttackModifier });
 const _WrappedPropertyExtraHitpoints = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_EXTRA_HITPOINTS), data: PropertyExtraHitpoints });
-const _WrappedPropertyMaxSenseBonus = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_MAX_SENSE_BONUS), data: PropertyMaxSenseBonus });
 const _WrappedPropertySkillModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_SKILL_MODIFIER), data: PropertySkillModifier });
 const _WrappedPropertyThreatPower = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_THREAT_POWER), data: PropertyThreatPower });
 const _WrappedPropertyWeaponDamageModifier = BasePropertySchema.extend({ type: z.literal(CONSTS.PROPERTY_WEAPON_DAMAGE_MODIFIER), data: PropertyWeaponDamageModifier });
@@ -99,6 +99,7 @@ export const PropertySchema = z.discriminatedUnion('type', [
     _WrappedPropertyHealingModifier,
     _WrappedPropertyRegeneration,
     _WrappedPropertyVampyre,
+    _WrappedPropertyAcSensesCap,
     _WrappedPropertyCursed,
     _WrappedPropertyUnidentified,
     _WrappedPropertyWeightFactor,
@@ -108,7 +109,6 @@ export const PropertySchema = z.discriminatedUnion('type', [
     _WrappedPropertyArmorClassModifier,
     _WrappedPropertyAttackModifier,
     _WrappedPropertyExtraHitpoints,
-    _WrappedPropertyMaxSenseBonus,
     _WrappedPropertySkillModifier,
     _WrappedPropertyThreatPower,
     _WrappedPropertyWeaponDamageModifier,

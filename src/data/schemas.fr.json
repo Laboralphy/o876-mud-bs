@@ -360,6 +360,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_MAX_SENSES_BONUS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Bonus de Sens maximal"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_UNIDENTIFIED"
                 }
               },
@@ -623,27 +644,6 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "const": "PROPERTY_MAX_SENSE_BONUS"
-                },
-                "amp": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 9007199254740991,
-                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                }
-              },
-              "required": [
-                "type",
-                "amp"
-              ],
-              "additionalProperties": false,
-              "description": "Bonus de Sens maximal"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
                   "const": "PROPERTY_SKILL_MODIFIER"
                 },
                 "amp": {
@@ -836,21 +836,6 @@
                     "DISEASE_GHOUL_FEVER",
                     "DISEASE_MUMMY_ROT",
                     "DISEASE_RAT_SICKNESS"
-                  ]
-                },
-                "damageType": {
-                  "description": "Type de dégâts du poison (AILMENT_POISON uniquement)",
-                  "type": "string",
-                  "enum": [
-                    "DAMAGE_TYPE_SLASHING",
-                    "DAMAGE_TYPE_CRUSHING",
-                    "DAMAGE_TYPE_PIERCING",
-                    "DAMAGE_TYPE_THERMAL",
-                    "DAMAGE_TYPE_CRYOGENIC",
-                    "DAMAGE_TYPE_CHEMICAL",
-                    "DAMAGE_TYPE_ELECTRIC",
-                    "DAMAGE_TYPE_NECROTIC",
-                    "DAMAGE_TYPE_RADIANT"
                   ]
                 }
               },
@@ -1474,6 +1459,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_MAX_SENSES_BONUS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Bonus de Sens maximal"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_UNIDENTIFIED"
                 }
               },
@@ -1737,27 +1743,6 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "const": "PROPERTY_MAX_SENSE_BONUS"
-                },
-                "amp": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 9007199254740991,
-                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                }
-              },
-              "required": [
-                "type",
-                "amp"
-              ],
-              "additionalProperties": false,
-              "description": "Bonus de Sens maximal"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
                   "const": "PROPERTY_SKILL_MODIFIER"
                 },
                 "amp": {
@@ -1950,21 +1935,6 @@
                     "DISEASE_GHOUL_FEVER",
                     "DISEASE_MUMMY_ROT",
                     "DISEASE_RAT_SICKNESS"
-                  ]
-                },
-                "damageType": {
-                  "description": "Type de dégâts du poison (AILMENT_POISON uniquement)",
-                  "type": "string",
-                  "enum": [
-                    "DAMAGE_TYPE_SLASHING",
-                    "DAMAGE_TYPE_CRUSHING",
-                    "DAMAGE_TYPE_PIERCING",
-                    "DAMAGE_TYPE_THERMAL",
-                    "DAMAGE_TYPE_CRYOGENIC",
-                    "DAMAGE_TYPE_CHEMICAL",
-                    "DAMAGE_TYPE_ELECTRIC",
-                    "DAMAGE_TYPE_NECROTIC",
-                    "DAMAGE_TYPE_RADIANT"
                   ]
                 }
               },
@@ -2524,6 +2494,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_MAX_SENSES_BONUS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Bonus de Sens maximal"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_UNIDENTIFIED"
                 }
               },
@@ -2787,27 +2778,6 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "const": "PROPERTY_MAX_SENSE_BONUS"
-                },
-                "amp": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 9007199254740991,
-                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                }
-              },
-              "required": [
-                "type",
-                "amp"
-              ],
-              "additionalProperties": false,
-              "description": "Bonus de Sens maximal"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
                   "const": "PROPERTY_SKILL_MODIFIER"
                 },
                 "amp": {
@@ -3000,21 +2970,6 @@
                     "DISEASE_GHOUL_FEVER",
                     "DISEASE_MUMMY_ROT",
                     "DISEASE_RAT_SICKNESS"
-                  ]
-                },
-                "damageType": {
-                  "description": "Type de dégâts du poison (AILMENT_POISON uniquement)",
-                  "type": "string",
-                  "enum": [
-                    "DAMAGE_TYPE_SLASHING",
-                    "DAMAGE_TYPE_CRUSHING",
-                    "DAMAGE_TYPE_PIERCING",
-                    "DAMAGE_TYPE_THERMAL",
-                    "DAMAGE_TYPE_CRYOGENIC",
-                    "DAMAGE_TYPE_CHEMICAL",
-                    "DAMAGE_TYPE_ELECTRIC",
-                    "DAMAGE_TYPE_NECROTIC",
-                    "DAMAGE_TYPE_RADIANT"
                   ]
                 }
               },
@@ -3558,6 +3513,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_MAX_SENSES_BONUS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Bonus de Sens maximal"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_UNIDENTIFIED"
                 }
               },
@@ -3821,27 +3797,6 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "const": "PROPERTY_MAX_SENSE_BONUS"
-                },
-                "amp": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 9007199254740991,
-                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                }
-              },
-              "required": [
-                "type",
-                "amp"
-              ],
-              "additionalProperties": false,
-              "description": "Bonus de Sens maximal"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
                   "const": "PROPERTY_SKILL_MODIFIER"
                 },
                 "amp": {
@@ -4034,21 +3989,6 @@
                     "DISEASE_GHOUL_FEVER",
                     "DISEASE_MUMMY_ROT",
                     "DISEASE_RAT_SICKNESS"
-                  ]
-                },
-                "damageType": {
-                  "description": "Type de dégâts du poison (AILMENT_POISON uniquement)",
-                  "type": "string",
-                  "enum": [
-                    "DAMAGE_TYPE_SLASHING",
-                    "DAMAGE_TYPE_CRUSHING",
-                    "DAMAGE_TYPE_PIERCING",
-                    "DAMAGE_TYPE_THERMAL",
-                    "DAMAGE_TYPE_CRYOGENIC",
-                    "DAMAGE_TYPE_CHEMICAL",
-                    "DAMAGE_TYPE_ELECTRIC",
-                    "DAMAGE_TYPE_NECROTIC",
-                    "DAMAGE_TYPE_RADIANT"
                   ]
                 }
               },
@@ -4592,6 +4532,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_MAX_SENSES_BONUS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Bonus de Sens maximal"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_UNIDENTIFIED"
                 }
               },
@@ -4855,27 +4816,6 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "const": "PROPERTY_MAX_SENSE_BONUS"
-                },
-                "amp": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 9007199254740991,
-                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                }
-              },
-              "required": [
-                "type",
-                "amp"
-              ],
-              "additionalProperties": false,
-              "description": "Bonus de Sens maximal"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
                   "const": "PROPERTY_SKILL_MODIFIER"
                 },
                 "amp": {
@@ -5068,21 +5008,6 @@
                     "DISEASE_GHOUL_FEVER",
                     "DISEASE_MUMMY_ROT",
                     "DISEASE_RAT_SICKNESS"
-                  ]
-                },
-                "damageType": {
-                  "description": "Type de dégâts du poison (AILMENT_POISON uniquement)",
-                  "type": "string",
-                  "enum": [
-                    "DAMAGE_TYPE_SLASHING",
-                    "DAMAGE_TYPE_CRUSHING",
-                    "DAMAGE_TYPE_PIERCING",
-                    "DAMAGE_TYPE_THERMAL",
-                    "DAMAGE_TYPE_CRYOGENIC",
-                    "DAMAGE_TYPE_CHEMICAL",
-                    "DAMAGE_TYPE_ELECTRIC",
-                    "DAMAGE_TYPE_NECROTIC",
-                    "DAMAGE_TYPE_RADIANT"
                   ]
                 }
               },
@@ -5713,6 +5638,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_MAX_SENSES_BONUS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Bonus de Sens maximal"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_UNIDENTIFIED"
                 }
               },
@@ -5976,27 +5922,6 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "const": "PROPERTY_MAX_SENSE_BONUS"
-                },
-                "amp": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 9007199254740991,
-                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                }
-              },
-              "required": [
-                "type",
-                "amp"
-              ],
-              "additionalProperties": false,
-              "description": "Bonus de Sens maximal"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
                   "const": "PROPERTY_SKILL_MODIFIER"
                 },
                 "amp": {
@@ -6189,21 +6114,6 @@
                     "DISEASE_GHOUL_FEVER",
                     "DISEASE_MUMMY_ROT",
                     "DISEASE_RAT_SICKNESS"
-                  ]
-                },
-                "damageType": {
-                  "description": "Type de dégâts du poison (AILMENT_POISON uniquement)",
-                  "type": "string",
-                  "enum": [
-                    "DAMAGE_TYPE_SLASHING",
-                    "DAMAGE_TYPE_CRUSHING",
-                    "DAMAGE_TYPE_PIERCING",
-                    "DAMAGE_TYPE_THERMAL",
-                    "DAMAGE_TYPE_CRYOGENIC",
-                    "DAMAGE_TYPE_CHEMICAL",
-                    "DAMAGE_TYPE_ELECTRIC",
-                    "DAMAGE_TYPE_NECROTIC",
-                    "DAMAGE_TYPE_RADIANT"
                   ]
                 }
               },
@@ -6681,6 +6591,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_MAX_SENSES_BONUS"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Bonus de Sens maximal"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_UNIDENTIFIED"
                               }
                             },
@@ -6944,27 +6875,6 @@
                             "properties": {
                               "type": {
                                 "type": "string",
-                                "const": "PROPERTY_MAX_SENSE_BONUS"
-                              },
-                              "amp": {
-                                "type": "integer",
-                                "minimum": 0,
-                                "maximum": 9007199254740991,
-                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "amp"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Bonus de Sens maximal"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
                                 "const": "PROPERTY_SKILL_MODIFIER"
                               },
                               "amp": {
@@ -7157,21 +7067,6 @@
                                   "DISEASE_GHOUL_FEVER",
                                   "DISEASE_MUMMY_ROT",
                                   "DISEASE_RAT_SICKNESS"
-                                ]
-                              },
-                              "damageType": {
-                                "description": "Type de dégâts du poison (AILMENT_POISON uniquement)",
-                                "type": "string",
-                                "enum": [
-                                  "DAMAGE_TYPE_SLASHING",
-                                  "DAMAGE_TYPE_CRUSHING",
-                                  "DAMAGE_TYPE_PIERCING",
-                                  "DAMAGE_TYPE_THERMAL",
-                                  "DAMAGE_TYPE_CRYOGENIC",
-                                  "DAMAGE_TYPE_CHEMICAL",
-                                  "DAMAGE_TYPE_ELECTRIC",
-                                  "DAMAGE_TYPE_NECROTIC",
-                                  "DAMAGE_TYPE_RADIANT"
                                 ]
                               }
                             },
@@ -7730,6 +7625,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_MAX_SENSES_BONUS"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Bonus de Sens maximal"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_UNIDENTIFIED"
                               }
                             },
@@ -7993,27 +7909,6 @@
                             "properties": {
                               "type": {
                                 "type": "string",
-                                "const": "PROPERTY_MAX_SENSE_BONUS"
-                              },
-                              "amp": {
-                                "type": "integer",
-                                "minimum": 0,
-                                "maximum": 9007199254740991,
-                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "amp"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Bonus de Sens maximal"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
                                 "const": "PROPERTY_SKILL_MODIFIER"
                               },
                               "amp": {
@@ -8206,21 +8101,6 @@
                                   "DISEASE_GHOUL_FEVER",
                                   "DISEASE_MUMMY_ROT",
                                   "DISEASE_RAT_SICKNESS"
-                                ]
-                              },
-                              "damageType": {
-                                "description": "Type de dégâts du poison (AILMENT_POISON uniquement)",
-                                "type": "string",
-                                "enum": [
-                                  "DAMAGE_TYPE_SLASHING",
-                                  "DAMAGE_TYPE_CRUSHING",
-                                  "DAMAGE_TYPE_PIERCING",
-                                  "DAMAGE_TYPE_THERMAL",
-                                  "DAMAGE_TYPE_CRYOGENIC",
-                                  "DAMAGE_TYPE_CHEMICAL",
-                                  "DAMAGE_TYPE_ELECTRIC",
-                                  "DAMAGE_TYPE_NECROTIC",
-                                  "DAMAGE_TYPE_RADIANT"
                                 ]
                               }
                             },
@@ -8843,6 +8723,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_MAX_SENSES_BONUS"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Bonus de Sens maximal"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_UNIDENTIFIED"
                               }
                             },
@@ -9106,27 +9007,6 @@
                             "properties": {
                               "type": {
                                 "type": "string",
-                                "const": "PROPERTY_MAX_SENSE_BONUS"
-                              },
-                              "amp": {
-                                "type": "integer",
-                                "minimum": 0,
-                                "maximum": 9007199254740991,
-                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "amp"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Bonus de Sens maximal"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
                                 "const": "PROPERTY_SKILL_MODIFIER"
                               },
                               "amp": {
@@ -9319,21 +9199,6 @@
                                   "DISEASE_GHOUL_FEVER",
                                   "DISEASE_MUMMY_ROT",
                                   "DISEASE_RAT_SICKNESS"
-                                ]
-                              },
-                              "damageType": {
-                                "description": "Type de dégâts du poison (AILMENT_POISON uniquement)",
-                                "type": "string",
-                                "enum": [
-                                  "DAMAGE_TYPE_SLASHING",
-                                  "DAMAGE_TYPE_CRUSHING",
-                                  "DAMAGE_TYPE_PIERCING",
-                                  "DAMAGE_TYPE_THERMAL",
-                                  "DAMAGE_TYPE_CRYOGENIC",
-                                  "DAMAGE_TYPE_CHEMICAL",
-                                  "DAMAGE_TYPE_ELECTRIC",
-                                  "DAMAGE_TYPE_NECROTIC",
-                                  "DAMAGE_TYPE_RADIANT"
                                 ]
                               }
                             },
@@ -9876,6 +9741,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_MAX_SENSES_BONUS"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Bonus de Sens maximal"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_UNIDENTIFIED"
                               }
                             },
@@ -10139,27 +10025,6 @@
                             "properties": {
                               "type": {
                                 "type": "string",
-                                "const": "PROPERTY_MAX_SENSE_BONUS"
-                              },
-                              "amp": {
-                                "type": "integer",
-                                "minimum": 0,
-                                "maximum": 9007199254740991,
-                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "amp"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Bonus de Sens maximal"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
                                 "const": "PROPERTY_SKILL_MODIFIER"
                               },
                               "amp": {
@@ -10352,21 +10217,6 @@
                                   "DISEASE_GHOUL_FEVER",
                                   "DISEASE_MUMMY_ROT",
                                   "DISEASE_RAT_SICKNESS"
-                                ]
-                              },
-                              "damageType": {
-                                "description": "Type de dégâts du poison (AILMENT_POISON uniquement)",
-                                "type": "string",
-                                "enum": [
-                                  "DAMAGE_TYPE_SLASHING",
-                                  "DAMAGE_TYPE_CRUSHING",
-                                  "DAMAGE_TYPE_PIERCING",
-                                  "DAMAGE_TYPE_THERMAL",
-                                  "DAMAGE_TYPE_CRYOGENIC",
-                                  "DAMAGE_TYPE_CHEMICAL",
-                                  "DAMAGE_TYPE_ELECTRIC",
-                                  "DAMAGE_TYPE_NECROTIC",
-                                  "DAMAGE_TYPE_RADIANT"
                                 ]
                               }
                             },
@@ -10909,6 +10759,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_MAX_SENSES_BONUS"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Bonus de Sens maximal"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_UNIDENTIFIED"
                               }
                             },
@@ -11172,27 +11043,6 @@
                             "properties": {
                               "type": {
                                 "type": "string",
-                                "const": "PROPERTY_MAX_SENSE_BONUS"
-                              },
-                              "amp": {
-                                "type": "integer",
-                                "minimum": 0,
-                                "maximum": 9007199254740991,
-                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "amp"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Bonus de Sens maximal"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
                                 "const": "PROPERTY_SKILL_MODIFIER"
                               },
                               "amp": {
@@ -11385,21 +11235,6 @@
                                   "DISEASE_GHOUL_FEVER",
                                   "DISEASE_MUMMY_ROT",
                                   "DISEASE_RAT_SICKNESS"
-                                ]
-                              },
-                              "damageType": {
-                                "description": "Type de dégâts du poison (AILMENT_POISON uniquement)",
-                                "type": "string",
-                                "enum": [
-                                  "DAMAGE_TYPE_SLASHING",
-                                  "DAMAGE_TYPE_CRUSHING",
-                                  "DAMAGE_TYPE_PIERCING",
-                                  "DAMAGE_TYPE_THERMAL",
-                                  "DAMAGE_TYPE_CRYOGENIC",
-                                  "DAMAGE_TYPE_CHEMICAL",
-                                  "DAMAGE_TYPE_ELECTRIC",
-                                  "DAMAGE_TYPE_NECROTIC",
-                                  "DAMAGE_TYPE_RADIANT"
                                 ]
                               }
                             },
@@ -11673,6 +11508,14 @@
             "bonus": {
               "type": "boolean",
               "description": "Action bonus"
+            },
+            "config": {
+              "default": {},
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {}
             }
           },
           "required": [
@@ -11682,10 +11525,10 @@
             "cooldown",
             "charges",
             "range",
-            "bonus"
+            "bonus",
+            "config"
           ],
-          "additionalProperties": false,
-          "description": "Action"
+          "additionalProperties": false
         },
         "description": "Actions disponibles"
       }
@@ -11745,6 +11588,14 @@
       "bonus": {
         "type": "boolean",
         "description": "Action bonus"
+      },
+      "config": {
+        "default": {},
+        "type": "object",
+        "propertyNames": {
+          "type": "string"
+        },
+        "additionalProperties": {}
       }
     },
     "required": [
@@ -11754,10 +11605,10 @@
       "cooldown",
       "charges",
       "range",
-      "bonus"
+      "bonus",
+      "config"
     ],
-    "additionalProperties": false,
-    "description": "Action"
+    "additionalProperties": false
   },
   "ExtendedProperties": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -12127,6 +11978,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_MAX_SENSES_BONUS"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "Bonus de Sens maximal"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_UNIDENTIFIED"
                 }
               },
@@ -12390,27 +12262,6 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "const": "PROPERTY_MAX_SENSE_BONUS"
-                },
-                "amp": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 9007199254740991,
-                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                }
-              },
-              "required": [
-                "type",
-                "amp"
-              ],
-              "additionalProperties": false,
-              "description": "Bonus de Sens maximal"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
                   "const": "PROPERTY_SKILL_MODIFIER"
                 },
                 "amp": {
@@ -12603,21 +12454,6 @@
                     "DISEASE_GHOUL_FEVER",
                     "DISEASE_MUMMY_ROT",
                     "DISEASE_RAT_SICKNESS"
-                  ]
-                },
-                "damageType": {
-                  "description": "Type de dégâts du poison (AILMENT_POISON uniquement)",
-                  "type": "string",
-                  "enum": [
-                    "DAMAGE_TYPE_SLASHING",
-                    "DAMAGE_TYPE_CRUSHING",
-                    "DAMAGE_TYPE_PIERCING",
-                    "DAMAGE_TYPE_THERMAL",
-                    "DAMAGE_TYPE_CRYOGENIC",
-                    "DAMAGE_TYPE_CHEMICAL",
-                    "DAMAGE_TYPE_ELECTRIC",
-                    "DAMAGE_TYPE_NECROTIC",
-                    "DAMAGE_TYPE_RADIANT"
                   ]
                 }
               },
@@ -13056,6 +12892,28 @@
     "additionalProperties": false,
     "description": "Maudit"
   },
+  "PropertyMaxSenseBonus": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "const": "PROPERTY_MAX_SENSES_BONUS"
+      },
+      "amp": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
+      }
+    },
+    "required": [
+      "type",
+      "amp"
+    ],
+    "additionalProperties": false,
+    "description": "Bonus de Sens maximal"
+  },
   "PropertyUnidentified": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
@@ -13327,28 +13185,6 @@
     "additionalProperties": false,
     "description": "Points de vie supplémentaires"
   },
-  "PropertyMaxSenseBonus": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "type": "object",
-    "properties": {
-      "type": {
-        "type": "string",
-        "const": "PROPERTY_MAX_SENSE_BONUS"
-      },
-      "amp": {
-        "type": "integer",
-        "minimum": 0,
-        "maximum": 9007199254740991,
-        "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-      }
-    },
-    "required": [
-      "type",
-      "amp"
-    ],
-    "additionalProperties": false,
-    "description": "Bonus de Sens maximal"
-  },
   "PropertySkillModifier": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
@@ -13550,21 +13386,6 @@
           "DISEASE_GHOUL_FEVER",
           "DISEASE_MUMMY_ROT",
           "DISEASE_RAT_SICKNESS"
-        ]
-      },
-      "damageType": {
-        "description": "Type de dégâts du poison (AILMENT_POISON uniquement)",
-        "type": "string",
-        "enum": [
-          "DAMAGE_TYPE_SLASHING",
-          "DAMAGE_TYPE_CRUSHING",
-          "DAMAGE_TYPE_PIERCING",
-          "DAMAGE_TYPE_THERMAL",
-          "DAMAGE_TYPE_CRYOGENIC",
-          "DAMAGE_TYPE_CHEMICAL",
-          "DAMAGE_TYPE_ELECTRIC",
-          "DAMAGE_TYPE_NECROTIC",
-          "DAMAGE_TYPE_RADIANT"
         ]
       }
     },
