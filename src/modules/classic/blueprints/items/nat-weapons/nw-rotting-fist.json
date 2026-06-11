@@ -1,0 +1,30 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "itemType": "ITEM_TYPE_WEAPON",
+  "proficiency": "PROFICIENCY_UNARMED",
+  "weight": 0,
+  "size": "WEAPON_SIZE_SMALL",
+  "damages": "2d6",
+  "damageType": "DAMAGE_TYPE_CRUSHING",
+  "attributes": [],
+  "properties": [
+    {
+      "type": "PROPERTY_DAMAGE_MODIFIER",
+      "amp": "3d6",
+      "damageType": "DAMAGE_TYPE_NECROTIC"
+    },
+    {
+      "type": "PROPERTY_AILMENT",
+      "ailment": "AILMENT_DISEASE",
+      "disease": "DISEASE_MUMMY_ROT",
+      "chance": 4,
+      "dc": 14,
+      "subtype": "EFFECT_SUBTYPE_SUPERNATURAL"
+    }
+  ],
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_NATURAL_WEAPON_1",
+    "EQUIPMENT_SLOT_NATURAL_WEAPON_2",
+    "EQUIPMENT_SLOT_NATURAL_WEAPON_3"
+  ]
+}

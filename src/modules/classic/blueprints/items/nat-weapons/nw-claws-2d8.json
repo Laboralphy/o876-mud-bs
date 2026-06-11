@@ -1,0 +1,16 @@
+{
+  "entityType": "ENTITY_TYPE_ITEM",
+  "itemType": "ITEM_TYPE_WEAPON",
+  "proficiency": "PROFICIENCY_UNARMED",
+  "weight": 0,
+  "size": "WEAPON_SIZE_SMALL",
+  "damages": "2d8",
+  "damageType": "DAMAGE_TYPE_SLASHING",
+  "attributes": [],
+  "properties": [],
+  "equipmentSlots": [
+    "EQUIPMENT_SLOT_NATURAL_WEAPON_1",
+    "EQUIPMENT_SLOT_NATURAL_WEAPON_2",
+    "EQUIPMENT_SLOT_NATURAL_WEAPON_3"
+  ]
+}

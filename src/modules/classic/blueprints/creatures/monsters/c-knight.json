@@ -1,0 +1,28 @@
+{
+  "entityType": "ENTITY_TYPE_CREATURE",
+  "abilities": {
+    "ABILITY_BODY": 16,
+    "ABILITY_SENSES": 10,
+    "ABILITY_MIND": 10,
+    "ABILITY_PRESENCE": 12
+  },
+  "armorClass": 0,
+  "specie": "SPECIE_HUMANOID",
+  "size": "CREATURE_SIZE_MEDIUM",
+  "proficiencies": [
+    "PROFICIENCY_UNARMED",
+    "PROFICIENCY_WEAPON_SIMPLE",
+    "PROFICIENCY_WEAPON_COMPLEX",
+    "PROFICIENCY_ARMOR_LIGHT",
+    "PROFICIENCY_ARMOR_MEDIUM",
+    "PROFICIENCY_ARMOR_HEAVY"
+  ],
+  "properties": [],
+  "equipment": [
+    "wpn-long-sword",
+    "arm-splint",
+    "gear-helm",
+    "shd-medium"
+  ],
+  "actions": []
+}

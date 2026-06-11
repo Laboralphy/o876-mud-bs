@@ -1,0 +1,26 @@
+{
+  "entityType": "ENTITY_TYPE_CREATURE",
+  "abilities": {
+    "ABILITY_BODY": 10,
+    "ABILITY_SENSES": 10,
+    "ABILITY_MIND": 10,
+    "ABILITY_PRESENCE": 10
+  },
+  "armorClass": 0,
+  "specie": "SPECIE_HUMANOID",
+  "size": "CREATURE_SIZE_MEDIUM",
+  "proficiencies": [
+    "PROFICIENCY_UNARMED",
+    "PROFICIENCY_WEAPON_SIMPLE",
+    "PROFICIENCY_ARMOR_LIGHT"
+  ],
+  "properties": [],
+  "equipment": [
+    "wpn-club",
+    "arm-leather",
+    "gear-boots",
+    "gear-hat",
+    "gear-belt"
+  ],
+  "actions": []
+}

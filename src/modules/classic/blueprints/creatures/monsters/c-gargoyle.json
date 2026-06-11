@@ -1,0 +1,29 @@
+{
+  "entityType": "ENTITY_TYPE_CREATURE",
+  "abilities": {
+    "ABILITY_BODY": 15,
+    "ABILITY_SENSES": 11,
+    "ABILITY_MIND": 8,
+    "ABILITY_PRESENCE": 8
+  },
+  "armorClass": 5,
+  "specie": "SPECIE_ELEMENTAL",
+  "size": "CREATURE_SIZE_MEDIUM",
+  "proficiencies": [
+    "PROFICIENCY_UNARMED"
+  ],
+  "properties": [
+    {
+      "type": "PROPERTY_DARKVISION"
+    },
+    {
+      "type": "PROPERTY_IMMUNITY",
+      "immunityType": "IMMUNITY_TYPE_PETRIFICATION"
+    }
+  ],
+  "equipment": [
+    "nw-bite-1d6",
+    "nw-claws-1d6"
+  ],
+  "actions": []
+}

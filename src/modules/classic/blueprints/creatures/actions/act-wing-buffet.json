@@ -1,0 +1,6 @@
+{
+  "script": "ca-wing-buffet",
+  "range": "DISTANCE_CLOSE",
+  "hostile": true,
+  "config": {}
+}

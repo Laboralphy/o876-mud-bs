@@ -1,0 +1,9 @@
+{
+  "script": "ca-elemental-breath",
+  "range": "DISTANCE_MEDIUM",
+  "hostile": true,
+  "config": {
+    "damageType": "DAMAGE_TYPE_FIRE",
+    "amp": "6d6"
+  }
+}

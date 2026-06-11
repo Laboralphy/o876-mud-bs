@@ -1,0 +1,37 @@
+{
+  "entityType": "ENTITY_TYPE_CREATURE",
+  "abilities": {
+    "ABILITY_BODY": 30,
+    "ABILITY_SENSES": 10,
+    "ABILITY_MIND": 17,
+    "ABILITY_PRESENCE": 20
+  },
+  "armorClass": 12,
+  "specie": "SPECIE_DRAGON",
+  "size": "CREATURE_SIZE_HUGE",
+  "proficiencies": [
+    "PROFICIENCY_UNARMED"
+  ],
+  "properties": [
+    {
+      "type": "PROPERTY_DARKVISION"
+    },
+    {
+      "type": "PROPERTY_DAMAGE_IMMUNITY",
+      "damageType": "DAMAGE_TYPE_THERMAL"
+    }
+  ],
+  "equipment": [
+    "nw-bite-dragon",
+    "nw-claws-2d6",
+    "nw-beast-tail"
+  ],
+  "actions": [
+    {
+      "id": "act-fire-breath-10d6",
+      "cooldown": 24,
+      "charges": 1,
+      "bonus": false
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "script": "ca-frightful-presence",
+  "range": "DISTANCE_FAR",
+  "hostile": true,
+  "config": {}
+}

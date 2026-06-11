@@ -1,0 +1,24 @@
+{
+  "entityType": "ENTITY_TYPE_CREATURE",
+  "abilities": {
+    "ABILITY_BODY": 8,
+    "ABILITY_SENSES": 12,
+    "ABILITY_MIND": 6,
+    "ABILITY_PRESENCE": 8
+  },
+  "armorClass": 0,
+  "specie": "SPECIE_MONSTROSITY",
+  "size": "CREATURE_SIZE_SMALL",
+  "proficiencies": [
+    "PROFICIENCY_UNARMED"
+  ],
+  "properties": [
+    {
+      "type": "PROPERTY_DARKVISION"
+    }
+  ],
+  "equipment": [
+    "nw-bite-cockatrice"
+  ],
+  "actions": []
+}
