@@ -9,6 +9,13 @@ type CaElementalBreathConfig = {
     amp: number | string;
 };
 
+/**
+ * An elemental breath is a stream of elemental energy emited by a creature to an Area around the target
+ * @param rules
+ * @param subject
+ * @param target
+ * @param config
+ */
 function main(
     rules: IRulesEngine,
     subject: Creature,
