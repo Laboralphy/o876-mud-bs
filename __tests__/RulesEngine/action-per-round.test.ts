@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { CooldownManager } from '../../src/libs/cooldown';
-import { ActionStateSchema } from '../../src/schemas/Action';
+import { ActionStateSchema } from '../../src/schemas/ActionState';
 import { CREATURE_RESREF, makeRulesEngine } from './helpers';
 import { CONSTS } from '../../src/consts';
 

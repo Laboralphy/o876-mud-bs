@@ -1,6 +1,6 @@
-import { IRulesEngine } from '../../../interfaces/IRulesEngine';
-import { Creature } from '../../../Creature';
-import { CONSTS } from '../../../consts';
+import { IRulesEngine } from '../../../../interfaces/IRulesEngine';
+import { Creature } from '../../../../Creature';
+import { CONSTS } from '../../../../consts';
 
 function main(rules: IRulesEngine, succubus: Creature, target: Creature | undefined): void {
     const oTarget = succubus.rules.getCombatTarget(succubus);

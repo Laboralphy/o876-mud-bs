@@ -1,15 +1,15 @@
-import { IRulesEngine } from '../../../interfaces/IRulesEngine';
-import { Creature } from '../../../Creature';
-import { doBlastDamage } from '../../base/scripts/helpers';
-import { CONSTS } from '../../../consts';
-import { DamageType } from '../../../schemas/enums/DamageType';
+import { IRulesEngine } from '../../../../interfaces/IRulesEngine';
+import { Creature } from '../../../../Creature';
+import { doBlastDamage } from '../../../base/scripts/helpers';
+import { CONSTS } from '../../../../consts';
+import { DamageType } from '../../../../schemas/enums/DamageType';
 
 type CaElementalBreathConfig = {
     damageType: DamageType;
     amp: number | string;
 };
 
-export function main(
+function main(
     rules: IRulesEngine,
     subject: Creature,
     target: Creature | undefined,

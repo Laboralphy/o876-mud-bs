@@ -5,7 +5,7 @@ import { Item } from '../../schemas/Item';
 import { CONSTS } from '../../consts';
 import { EquipmentSlot } from '../../schemas/enums/EquipmentSlot';
 import { isAmmo, isWeapon } from '../../store/type-guards';
-import { ActionState } from '../../schemas/Action';
+import { ActionState } from '../../schemas/ActionState';
 import EventEmitter from 'node:events';
 import { Attack } from '../../Attack';
 import { EventCombatActionFailure } from '../../schemas/events/EventCombatActionFailure';

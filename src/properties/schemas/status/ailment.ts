@@ -11,7 +11,7 @@ export const PropertyAilment = z
         type: z.literal(CONSTS.PROPERTY_AILMENT),
         ailment: AilmentSchema.describe('PropertyAilment.ailment'),
         chance: z.number().int().min(1).max(20).describe('PropertyAilment.chance'),
-        duration: z.number().int().describe('PropertyAilment.duration'),
+        duration: z.number().int().optional().describe('PropertyAilment.duration'),
         subtype: EffectSubtypeSchema.describe('PropertyAilment.subtype'),
         dc: z.number().int().min(0).default(10).describe('PropertyAilment.dc'),
         amp: DiceExpression.optional().describe('PropertyAilment.amp'),

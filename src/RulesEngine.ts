@@ -6,7 +6,7 @@ import { ItemBlueprint } from './schemas/ItemBlueprint';
 import { ItemBuilder } from './builders/ItemBuilder';
 import { Property, PropertyDefinition } from './properties/schemas';
 import { Effect, EffectDefinition } from './effects/schemas';
-import { ActionBlueprint, ActionState, ActionStateSchema } from './schemas/Action';
+import { ActionState, ActionStateSchema } from './schemas/ActionState';
 
 import { CooldownManager } from './libs/cooldown';
 import { deepClone } from './libs/deep-clone';
@@ -36,6 +36,8 @@ import * as MODULES from './modules';
 import { ModuleStructureSchema } from './schemas/ModuleStructure';
 import { Distance } from './schemas/enums/Distance';
 import { Combat } from './libs/combat/Combat';
+import { ActionBlueprint } from './schemas/ActionBlueprint';
+import { CreatureActionDefinition, CreatureBlueprint } from './schemas/CreatureBlueprint';
 
 export class RulesEngine implements IRulesEngine {
     public readonly events = new EventEmitter();
@@ -78,7 +80,8 @@ export class RulesEngine implements IRulesEngine {
     // Creature management
 
     createCreature(resref: string, id: string = ''): Creature {
-        const creatureBlueprint = this._moduleManager.getCreatureBlueprint(resref);
+        const creatureBlueprint: CreatureBlueprint =
+            this._moduleManager.getCreatureBlueprint(resref);
         if (!creatureBlueprint) {
             throw new ReferenceError(`Creature blueprint ${resref} not found`);
         }
@@ -111,7 +114,7 @@ export class RulesEngine implements IRulesEngine {
             .forEach((item: Item) => creature.equipItem(item));
         actions
             .map(
-                (actionBlueprint: ActionBlueprint | string): ActionState =>
+                (actionBlueprint: CreatureActionDefinition): ActionState =>
                     this.createActionState(actionBlueprint)
             )
             .forEach((a) => {
@@ -281,10 +284,6 @@ export class RulesEngine implements IRulesEngine {
     // ▐▙▟▌▐▌   ▐▌  ▐▌ ▐▌▐▌▐▌▐▌    ▐▛▛█▗▛▜▌▐▌▐▌▗▛▜▌▝▙▟▌▐▛▀▘▐▛▛█▐▛▀▘▐▌▐▌ ▐▌
     // ▝▘▝▘ ▀▀   ▀▘ ▀▀  ▀▀ ▝▘▝▘    ▝▘ ▀ ▀▀▘▝▘▝▘ ▀▀▘▗▄▟▘ ▀▀ ▝▘ ▀ ▀▀ ▝▘▝▘  ▀▘
     // Action management
-
-    defineAction(actionBlueprint: ActionBlueprint) {
-        this._actionBlueprints.set(actionBlueprint.id, actionBlueprint);
-    }
 
     doAction(creature: Creature, actionId: string, target: Creature | undefined): void {
         const combat = this._combatManager.getCombat(creature);
@@ -540,8 +539,9 @@ export class RulesEngine implements IRulesEngine {
         return this.createItemFromBlueprint(blueprint, id);
     }
 
-    private createActionStateFromBlueprint(actionBlueprint: ActionBlueprint): ActionState {
-        const { id, hostile, script, cooldown, charges, range, bonus, config } = actionBlueprint;
+    private createActionState(ab: CreatureActionDefinition): ActionState {
+        const { id, cooldown, charges, bonus } = ab;
+        const { hostile, script, range, config } = this._moduleManager.getActionBlueprint(id);
         return ActionStateSchema.parse({
             id,
             hostile,
@@ -551,20 +551,5 @@ export class RulesEngine implements IRulesEngine {
             cooldown: CooldownManager.create({ duration: cooldown, charges }),
             config,
         });
-    }
-
-    private createActionStateFromResref(resref: string): ActionState {
-        const blueprint: ActionBlueprint | undefined = this._actionBlueprints.get(resref);
-        if (!blueprint) {
-            throw new ReferenceError(`Action blueprint ${resref} not found`);
-        }
-        return this.createActionStateFromBlueprint(blueprint);
-    }
-
-    private createActionState(rb: ActionBlueprint | string): ActionState {
-        if (typeof rb === 'string') {
-            return this.createActionStateFromResref(rb);
-        }
-        return this.createActionStateFromBlueprint(rb);
     }
 }

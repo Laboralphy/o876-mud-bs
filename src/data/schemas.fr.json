@@ -346,6 +346,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_AC_SENSES_CAP"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "PropertyAcSensesCap.amp"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyAcSensesCap"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_CURSED"
                 }
               },
@@ -354,27 +375,6 @@
               ],
               "additionalProperties": false,
               "description": "Maudit"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "const": "PROPERTY_MAX_SENSES_BONUS"
-                },
-                "amp": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 9007199254740991,
-                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                }
-              },
-              "required": [
-                "type",
-                "amp"
-              ],
-              "additionalProperties": false,
-              "description": "Bonus de Sens maximal"
             },
             {
               "type": "object",
@@ -782,10 +782,10 @@
                   "description": "Chance de déclenchement (1d20 ≤ cette valeur)"
                 },
                 "duration": {
+                  "description": "Durée de l'effet (rounds)",
                   "type": "integer",
                   "minimum": -9007199254740991,
-                  "maximum": 9007199254740991,
-                  "description": "Durée de l'effet (rounds)"
+                  "maximum": 9007199254740991
                 },
                 "subtype": {
                   "type": "string",
@@ -843,7 +843,6 @@
                 "type",
                 "ailment",
                 "chance",
-                "duration",
                 "subtype",
                 "dc"
               ],
@@ -1445,6 +1444,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_AC_SENSES_CAP"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "PropertyAcSensesCap.amp"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyAcSensesCap"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_CURSED"
                 }
               },
@@ -1453,27 +1473,6 @@
               ],
               "additionalProperties": false,
               "description": "Maudit"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "const": "PROPERTY_MAX_SENSES_BONUS"
-                },
-                "amp": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 9007199254740991,
-                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                }
-              },
-              "required": [
-                "type",
-                "amp"
-              ],
-              "additionalProperties": false,
-              "description": "Bonus de Sens maximal"
             },
             {
               "type": "object",
@@ -1881,10 +1880,10 @@
                   "description": "Chance de déclenchement (1d20 ≤ cette valeur)"
                 },
                 "duration": {
+                  "description": "Durée de l'effet (rounds)",
                   "type": "integer",
                   "minimum": -9007199254740991,
-                  "maximum": 9007199254740991,
-                  "description": "Durée de l'effet (rounds)"
+                  "maximum": 9007199254740991
                 },
                 "subtype": {
                   "type": "string",
@@ -1942,7 +1941,6 @@
                 "type",
                 "ailment",
                 "chance",
-                "duration",
                 "subtype",
                 "dc"
               ],
@@ -2480,6 +2478,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_AC_SENSES_CAP"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "PropertyAcSensesCap.amp"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyAcSensesCap"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_CURSED"
                 }
               },
@@ -2488,27 +2507,6 @@
               ],
               "additionalProperties": false,
               "description": "Maudit"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "const": "PROPERTY_MAX_SENSES_BONUS"
-                },
-                "amp": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 9007199254740991,
-                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                }
-              },
-              "required": [
-                "type",
-                "amp"
-              ],
-              "additionalProperties": false,
-              "description": "Bonus de Sens maximal"
             },
             {
               "type": "object",
@@ -2916,10 +2914,10 @@
                   "description": "Chance de déclenchement (1d20 ≤ cette valeur)"
                 },
                 "duration": {
+                  "description": "Durée de l'effet (rounds)",
                   "type": "integer",
                   "minimum": -9007199254740991,
-                  "maximum": 9007199254740991,
-                  "description": "Durée de l'effet (rounds)"
+                  "maximum": 9007199254740991
                 },
                 "subtype": {
                   "type": "string",
@@ -2977,7 +2975,6 @@
                 "type",
                 "ailment",
                 "chance",
-                "duration",
                 "subtype",
                 "dc"
               ],
@@ -3499,6 +3496,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_AC_SENSES_CAP"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "PropertyAcSensesCap.amp"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyAcSensesCap"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_CURSED"
                 }
               },
@@ -3507,27 +3525,6 @@
               ],
               "additionalProperties": false,
               "description": "Maudit"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "const": "PROPERTY_MAX_SENSES_BONUS"
-                },
-                "amp": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 9007199254740991,
-                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                }
-              },
-              "required": [
-                "type",
-                "amp"
-              ],
-              "additionalProperties": false,
-              "description": "Bonus de Sens maximal"
             },
             {
               "type": "object",
@@ -3935,10 +3932,10 @@
                   "description": "Chance de déclenchement (1d20 ≤ cette valeur)"
                 },
                 "duration": {
+                  "description": "Durée de l'effet (rounds)",
                   "type": "integer",
                   "minimum": -9007199254740991,
-                  "maximum": 9007199254740991,
-                  "description": "Durée de l'effet (rounds)"
+                  "maximum": 9007199254740991
                 },
                 "subtype": {
                   "type": "string",
@@ -3996,7 +3993,6 @@
                 "type",
                 "ailment",
                 "chance",
-                "duration",
                 "subtype",
                 "dc"
               ],
@@ -4518,6 +4514,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_AC_SENSES_CAP"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "PropertyAcSensesCap.amp"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyAcSensesCap"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_CURSED"
                 }
               },
@@ -4526,27 +4543,6 @@
               ],
               "additionalProperties": false,
               "description": "Maudit"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "const": "PROPERTY_MAX_SENSES_BONUS"
-                },
-                "amp": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 9007199254740991,
-                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                }
-              },
-              "required": [
-                "type",
-                "amp"
-              ],
-              "additionalProperties": false,
-              "description": "Bonus de Sens maximal"
             },
             {
               "type": "object",
@@ -4954,10 +4950,10 @@
                   "description": "Chance de déclenchement (1d20 ≤ cette valeur)"
                 },
                 "duration": {
+                  "description": "Durée de l'effet (rounds)",
                   "type": "integer",
                   "minimum": -9007199254740991,
-                  "maximum": 9007199254740991,
-                  "description": "Durée de l'effet (rounds)"
+                  "maximum": 9007199254740991
                 },
                 "subtype": {
                   "type": "string",
@@ -5015,7 +5011,6 @@
                 "type",
                 "ailment",
                 "chance",
-                "duration",
                 "subtype",
                 "dc"
               ],
@@ -5624,6 +5619,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_AC_SENSES_CAP"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "PropertyAcSensesCap.amp"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyAcSensesCap"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_CURSED"
                 }
               },
@@ -5632,27 +5648,6 @@
               ],
               "additionalProperties": false,
               "description": "Maudit"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "const": "PROPERTY_MAX_SENSES_BONUS"
-                },
-                "amp": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 9007199254740991,
-                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                }
-              },
-              "required": [
-                "type",
-                "amp"
-              ],
-              "additionalProperties": false,
-              "description": "Bonus de Sens maximal"
             },
             {
               "type": "object",
@@ -6060,10 +6055,10 @@
                   "description": "Chance de déclenchement (1d20 ≤ cette valeur)"
                 },
                 "duration": {
+                  "description": "Durée de l'effet (rounds)",
                   "type": "integer",
                   "minimum": -9007199254740991,
-                  "maximum": 9007199254740991,
-                  "description": "Durée de l'effet (rounds)"
+                  "maximum": 9007199254740991
                 },
                 "subtype": {
                   "type": "string",
@@ -6121,7 +6116,6 @@
                 "type",
                 "ailment",
                 "chance",
-                "duration",
                 "subtype",
                 "dc"
               ],
@@ -6577,6 +6571,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_AC_SENSES_CAP"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "PropertyAcSensesCap.amp"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyAcSensesCap"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_CURSED"
                               }
                             },
@@ -6585,27 +6600,6 @@
                             ],
                             "additionalProperties": false,
                             "description": "Maudit"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
-                                "const": "PROPERTY_MAX_SENSES_BONUS"
-                              },
-                              "amp": {
-                                "type": "integer",
-                                "minimum": 0,
-                                "maximum": 9007199254740991,
-                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "amp"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Bonus de Sens maximal"
                           },
                           {
                             "type": "object",
@@ -7013,10 +7007,10 @@
                                 "description": "Chance de déclenchement (1d20 ≤ cette valeur)"
                               },
                               "duration": {
+                                "description": "Durée de l'effet (rounds)",
                                 "type": "integer",
                                 "minimum": -9007199254740991,
-                                "maximum": 9007199254740991,
-                                "description": "Durée de l'effet (rounds)"
+                                "maximum": 9007199254740991
                               },
                               "subtype": {
                                 "type": "string",
@@ -7074,7 +7068,6 @@
                               "type",
                               "ailment",
                               "chance",
-                              "duration",
                               "subtype",
                               "dc"
                             ],
@@ -7611,6 +7604,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_AC_SENSES_CAP"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "PropertyAcSensesCap.amp"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyAcSensesCap"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_CURSED"
                               }
                             },
@@ -7619,27 +7633,6 @@
                             ],
                             "additionalProperties": false,
                             "description": "Maudit"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
-                                "const": "PROPERTY_MAX_SENSES_BONUS"
-                              },
-                              "amp": {
-                                "type": "integer",
-                                "minimum": 0,
-                                "maximum": 9007199254740991,
-                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "amp"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Bonus de Sens maximal"
                           },
                           {
                             "type": "object",
@@ -8047,10 +8040,10 @@
                                 "description": "Chance de déclenchement (1d20 ≤ cette valeur)"
                               },
                               "duration": {
+                                "description": "Durée de l'effet (rounds)",
                                 "type": "integer",
                                 "minimum": -9007199254740991,
-                                "maximum": 9007199254740991,
-                                "description": "Durée de l'effet (rounds)"
+                                "maximum": 9007199254740991
                               },
                               "subtype": {
                                 "type": "string",
@@ -8108,7 +8101,6 @@
                               "type",
                               "ailment",
                               "chance",
-                              "duration",
                               "subtype",
                               "dc"
                             ],
@@ -8709,6 +8701,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_AC_SENSES_CAP"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "PropertyAcSensesCap.amp"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyAcSensesCap"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_CURSED"
                               }
                             },
@@ -8717,27 +8730,6 @@
                             ],
                             "additionalProperties": false,
                             "description": "Maudit"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
-                                "const": "PROPERTY_MAX_SENSES_BONUS"
-                              },
-                              "amp": {
-                                "type": "integer",
-                                "minimum": 0,
-                                "maximum": 9007199254740991,
-                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "amp"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Bonus de Sens maximal"
                           },
                           {
                             "type": "object",
@@ -9145,10 +9137,10 @@
                                 "description": "Chance de déclenchement (1d20 ≤ cette valeur)"
                               },
                               "duration": {
+                                "description": "Durée de l'effet (rounds)",
                                 "type": "integer",
                                 "minimum": -9007199254740991,
-                                "maximum": 9007199254740991,
-                                "description": "Durée de l'effet (rounds)"
+                                "maximum": 9007199254740991
                               },
                               "subtype": {
                                 "type": "string",
@@ -9206,7 +9198,6 @@
                               "type",
                               "ailment",
                               "chance",
-                              "duration",
                               "subtype",
                               "dc"
                             ],
@@ -9727,6 +9718,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_AC_SENSES_CAP"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "PropertyAcSensesCap.amp"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyAcSensesCap"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_CURSED"
                               }
                             },
@@ -9735,27 +9747,6 @@
                             ],
                             "additionalProperties": false,
                             "description": "Maudit"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
-                                "const": "PROPERTY_MAX_SENSES_BONUS"
-                              },
-                              "amp": {
-                                "type": "integer",
-                                "minimum": 0,
-                                "maximum": 9007199254740991,
-                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "amp"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Bonus de Sens maximal"
                           },
                           {
                             "type": "object",
@@ -10163,10 +10154,10 @@
                                 "description": "Chance de déclenchement (1d20 ≤ cette valeur)"
                               },
                               "duration": {
+                                "description": "Durée de l'effet (rounds)",
                                 "type": "integer",
                                 "minimum": -9007199254740991,
-                                "maximum": 9007199254740991,
-                                "description": "Durée de l'effet (rounds)"
+                                "maximum": 9007199254740991
                               },
                               "subtype": {
                                 "type": "string",
@@ -10224,7 +10215,6 @@
                               "type",
                               "ailment",
                               "chance",
-                              "duration",
                               "subtype",
                               "dc"
                             ],
@@ -10745,6 +10735,27 @@
                             "properties": {
                               "type": {
                                 "type": "string",
+                                "const": "PROPERTY_AC_SENSES_CAP"
+                              },
+                              "amp": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "PropertyAcSensesCap.amp"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "amp"
+                            ],
+                            "additionalProperties": false,
+                            "description": "PropertyAcSensesCap"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
                                 "const": "PROPERTY_CURSED"
                               }
                             },
@@ -10753,27 +10764,6 @@
                             ],
                             "additionalProperties": false,
                             "description": "Maudit"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
-                                "const": "PROPERTY_MAX_SENSES_BONUS"
-                              },
-                              "amp": {
-                                "type": "integer",
-                                "minimum": 0,
-                                "maximum": 9007199254740991,
-                                "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                              }
-                            },
-                            "required": [
-                              "type",
-                              "amp"
-                            ],
-                            "additionalProperties": false,
-                            "description": "Bonus de Sens maximal"
                           },
                           {
                             "type": "object",
@@ -11181,10 +11171,10 @@
                                 "description": "Chance de déclenchement (1d20 ≤ cette valeur)"
                               },
                               "duration": {
+                                "description": "Durée de l'effet (rounds)",
                                 "type": "integer",
                                 "minimum": -9007199254740991,
-                                "maximum": 9007199254740991,
-                                "description": "Durée de l'effet (rounds)"
+                                "maximum": 9007199254740991
                               },
                               "subtype": {
                                 "type": "string",
@@ -11242,7 +11232,6 @@
                               "type",
                               "ailment",
                               "chance",
-                              "duration",
                               "subtype",
                               "dc"
                             ],
@@ -11472,61 +11461,23 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
-              "description": "Identifiant de l'action"
-            },
-            "hostile": {
-              "type": "boolean",
-              "description": "Hostile (cible les ennemis)"
-            },
-            "script": {
-              "type": "string",
-              "description": "Identifiant du script"
+              "type": "string"
             },
             "cooldown": {
-              "type": "integer",
-              "minimum": -9007199254740991,
-              "maximum": 9007199254740991,
-              "description": "Durée de recharge (tours)"
+              "type": "number"
             },
             "charges": {
-              "default": 1,
-              "description": "Charges par recharge",
-              "type": "integer",
-              "minimum": -9007199254740991,
-              "maximum": 9007199254740991
-            },
-            "range": {
-              "type": "string",
-              "enum": [
-                "DISTANCE_CLOSE",
-                "DISTANCE_MEDIUM",
-                "DISTANCE_FAR"
-              ],
-              "description": "Portée effective"
+              "type": "number"
             },
             "bonus": {
-              "type": "boolean",
-              "description": "Action bonus"
-            },
-            "config": {
-              "default": {},
-              "type": "object",
-              "propertyNames": {
-                "type": "string"
-              },
-              "additionalProperties": {}
+              "type": "boolean"
             }
           },
           "required": [
             "id",
-            "hostile",
-            "script",
             "cooldown",
             "charges",
-            "range",
-            "bonus",
-            "config"
+            "bonus"
           ],
           "additionalProperties": false
         },
@@ -11551,10 +11502,6 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
     "properties": {
-      "id": {
-        "type": "string",
-        "description": "Identifiant de l'action"
-      },
       "hostile": {
         "type": "boolean",
         "description": "Hostile (cible les ennemis)"
@@ -11562,19 +11509,6 @@
       "script": {
         "type": "string",
         "description": "Identifiant du script"
-      },
-      "cooldown": {
-        "type": "integer",
-        "minimum": -9007199254740991,
-        "maximum": 9007199254740991,
-        "description": "Durée de recharge (tours)"
-      },
-      "charges": {
-        "default": 1,
-        "description": "Charges par recharge",
-        "type": "integer",
-        "minimum": -9007199254740991,
-        "maximum": 9007199254740991
       },
       "range": {
         "type": "string",
@@ -11584,10 +11518,6 @@
           "DISTANCE_FAR"
         ],
         "description": "Portée effective"
-      },
-      "bonus": {
-        "type": "boolean",
-        "description": "Action bonus"
       },
       "config": {
         "default": {},
@@ -11599,13 +11529,9 @@
       }
     },
     "required": [
-      "id",
       "hostile",
       "script",
-      "cooldown",
-      "charges",
       "range",
-      "bonus",
       "config"
     ],
     "additionalProperties": false
@@ -11964,6 +11890,27 @@
               "properties": {
                 "type": {
                   "type": "string",
+                  "const": "PROPERTY_AC_SENSES_CAP"
+                },
+                "amp": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "PropertyAcSensesCap.amp"
+                }
+              },
+              "required": [
+                "type",
+                "amp"
+              ],
+              "additionalProperties": false,
+              "description": "PropertyAcSensesCap"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
                   "const": "PROPERTY_CURSED"
                 }
               },
@@ -11972,27 +11919,6 @@
               ],
               "additionalProperties": false,
               "description": "Maudit"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "const": "PROPERTY_MAX_SENSES_BONUS"
-                },
-                "amp": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 9007199254740991,
-                  "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-                }
-              },
-              "required": [
-                "type",
-                "amp"
-              ],
-              "additionalProperties": false,
-              "description": "Bonus de Sens maximal"
             },
             {
               "type": "object",
@@ -12400,10 +12326,10 @@
                   "description": "Chance de déclenchement (1d20 ≤ cette valeur)"
                 },
                 "duration": {
+                  "description": "Durée de l'effet (rounds)",
                   "type": "integer",
                   "minimum": -9007199254740991,
-                  "maximum": 9007199254740991,
-                  "description": "Durée de l'effet (rounds)"
+                  "maximum": 9007199254740991
                 },
                 "subtype": {
                   "type": "string",
@@ -12461,7 +12387,6 @@
                 "type",
                 "ailment",
                 "chance",
-                "duration",
                 "subtype",
                 "dc"
               ],
@@ -12877,6 +12802,28 @@
     "additionalProperties": false,
     "description": "Régénération"
   },
+  "PropertyAcSensesCap": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "const": "PROPERTY_AC_SENSES_CAP"
+      },
+      "amp": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "description": "PropertyAcSensesCap.amp"
+      }
+    },
+    "required": [
+      "type",
+      "amp"
+    ],
+    "additionalProperties": false,
+    "description": "PropertyAcSensesCap"
+  },
   "PropertyCursed": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
@@ -12891,28 +12838,6 @@
     ],
     "additionalProperties": false,
     "description": "Maudit"
-  },
-  "PropertyMaxSenseBonus": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "type": "object",
-    "properties": {
-      "type": {
-        "type": "string",
-        "const": "PROPERTY_MAX_SENSES_BONUS"
-      },
-      "amp": {
-        "type": "integer",
-        "minimum": 0,
-        "maximum": 9007199254740991,
-        "description": "Bonus maximal de SENS appliqué à la CA (0 = aucun bonus, utilisé pour les armures lourdes)"
-      }
-    },
-    "required": [
-      "type",
-      "amp"
-    ],
-    "additionalProperties": false,
-    "description": "Bonus de Sens maximal"
   },
   "PropertyUnidentified": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -13332,10 +13257,10 @@
         "description": "Chance de déclenchement (1d20 ≤ cette valeur)"
       },
       "duration": {
+        "description": "Durée de l'effet (rounds)",
         "type": "integer",
         "minimum": -9007199254740991,
-        "maximum": 9007199254740991,
-        "description": "Durée de l'effet (rounds)"
+        "maximum": 9007199254740991
       },
       "subtype": {
         "type": "string",
@@ -13393,7 +13318,6 @@
       "type",
       "ailment",
       "chance",
-      "duration",
       "subtype",
       "dc"
     ],

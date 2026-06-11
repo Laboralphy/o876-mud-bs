@@ -25,8 +25,8 @@ toCamelCase() {
 }
 
 blueprints_folder="${module_folder}/blueprints"
-thinkers_folder="${module_folder}/thinkers"
-actions_folder="${module_folder}/actions"
+thinkers_folder="${module_folder}/scripts/thinkers"
+actions_folder="${module_folder}/scripts/actions"
 
 json_files=()
 if [ -d "$blueprints_folder" ]; then

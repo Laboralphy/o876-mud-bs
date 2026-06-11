@@ -111,7 +111,7 @@ export class PropertyProgramAilment implements IProgram<Property> {
                             timer: 0,
                         },
                         creature,
-                        data.duration,
+                        Number.MAX_SAFE_INTEGER,
                         data.subtype
                     );
                 }

@@ -6,7 +6,7 @@ import { EquipmentSchema } from '../../schemas/Equipment';
 import { EquipmentSlotSchema } from '../../schemas/enums/EquipmentSlot';
 import { SpecieSchema } from '../../schemas/enums/Specie';
 import { CreatureSizeSchema } from '../../schemas/enums/CreatureSize';
-import { ActionStateSchema } from '../../schemas/Action';
+import { ActionStateSchema } from '../../schemas/ActionState';
 import { ProficiencySchema } from '../../schemas/enums/Proficiency';
 
 export const StateSchema = z.object({

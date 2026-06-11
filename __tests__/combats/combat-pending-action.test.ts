@@ -3,7 +3,7 @@ import { Creature } from '../../src/Creature';
 import { Combat } from '../../src/libs/combat/Combat';
 import { CombatManager } from '../../src/libs/combat/CombatManager';
 import { CooldownManager } from '../../src/libs/cooldown';
-import { ActionStateSchema } from '../../src/schemas/Action';
+import { ActionStateSchema } from '../../src/schemas/ActionState';
 import { CONSTS } from '../../src/consts';
 import { CREATURE_RESREF, makeRulesEngine } from '../RulesEngine/helpers';
 

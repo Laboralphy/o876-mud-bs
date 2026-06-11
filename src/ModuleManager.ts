@@ -1,9 +1,14 @@
 import { ExtendResolver } from './libs/extend-resolver';
 import { ExtendableEntity } from './libs/extend-resolver/ExtendResolver';
 import { ItemBlueprint, ItemBlueprintSchema } from './schemas/ItemBlueprint';
-import { CreatureBlueprint, CreatureBlueprintSchema } from './schemas/CreatureBlueprint';
+import {
+    CreatureActionDefinition,
+    CreatureBlueprint,
+    CreatureBlueprintSchema,
+} from './schemas/CreatureBlueprint';
 import { ModuleStructure } from './schemas/ModuleStructure';
 import { CreatureActionScript } from './schemas/CreatureActionScript';
+import { ActionBlueprint, ActionBlueprintSchema } from './schemas/ActionBlueprint';
 
 function validateCreature(entity: ExtendableEntity): CreatureBlueprint {
     return CreatureBlueprintSchema.parse(entity);
@@ -11,6 +16,10 @@ function validateCreature(entity: ExtendableEntity): CreatureBlueprint {
 
 function validateItem(entity: ExtendableEntity): ItemBlueprint {
     return ItemBlueprintSchema.parse(entity);
+}
+
+function validateAction(entity: ExtendableEntity): ActionBlueprint {
+    return ActionBlueprintSchema.parse(entity);
 }
 
 export class ModuleManager {
@@ -72,5 +81,9 @@ export class ModuleManager {
 
     getItemBlueprint(resref: string): ItemBlueprint {
         return this.getAsset<ItemBlueprint>(resref, validateItem);
+    }
+
+    getActionBlueprint(resref: string): ActionBlueprint {
+        return this.getAsset<ActionBlueprint>(resref, validateAction);
     }
 }

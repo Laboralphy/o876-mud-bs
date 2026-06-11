@@ -3,7 +3,7 @@ import { CONSTS } from '../../src/consts';
 import { RulesEngine } from '../../src/RulesEngine';
 import { Creature } from '../../src/Creature';
 import { CooldownManager } from '../../src/libs/cooldown';
-import { ActionStateSchema } from '../../src/schemas/Action';
+import { ActionStateSchema } from '../../src/schemas/ActionState';
 import { CREATURE_RESREF, makeRulesEngine } from './helpers';
 
 function addAction(creature: Creature, id: string, charges = 2, bonus = false): void {

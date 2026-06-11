@@ -1,13 +1,20 @@
 import { z } from 'zod';
-import { EntityTypeSchema } from './enums/EntityType';
 import { AbilitySchema } from './enums/Ability';
 import { SpecieSchema } from './enums/Specie';
 import { PropertyDefinitionSchema } from '../properties/schemas';
 import { ItemBlueprintSchema } from './ItemBlueprint';
-import { ActionBlueprintBaseSchema } from './Action';
 import { CreatureSizeSchema } from './enums/CreatureSize';
 import { ProficiencySchema } from './enums/Proficiency';
 import { CONSTS } from '../consts';
+
+const CreatureActionDefinitionSchema = z.object({
+    id: z.string(),
+    cooldown: z.number(),
+    charges: z.number(),
+    bonus: z.boolean(),
+});
+
+export type CreatureActionDefinition = z.infer<typeof CreatureActionDefinitionSchema>;
 
 export const CreatureBlueprintSchema = z
     .strictObject({
@@ -24,7 +31,7 @@ export const CreatureBlueprintSchema = z
             .array(ItemBlueprintSchema.or(z.string()))
             .describe('CreatureBlueprint.equipment'),
         proficiencies: z.array(ProficiencySchema).describe('CreatureBlueprint.proficiencies'),
-        actions: z.array(ActionBlueprintBaseSchema).describe('CreatureBlueprint.actions'),
+        actions: z.array(CreatureActionDefinitionSchema).describe('CreatureBlueprint.actions'),
     })
     .describe('CreatureBlueprint');
 

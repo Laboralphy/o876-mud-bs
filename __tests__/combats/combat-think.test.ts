@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Creature } from '../../src/Creature';
 import { RulesEngine } from '../../src/RulesEngine';
 import { IRulesEngine } from '../../src/interfaces/IRulesEngine';
-import { ActionStateSchema } from '../../src/schemas/Action';
+import { ActionStateSchema } from '../../src/schemas/ActionState';
 import { CooldownManager } from '../../src/libs/cooldown';
 import { CONSTS } from '../../src/consts';
 import { CREATURE_RESREF, makeRulesEngine } from '../RulesEngine/helpers';

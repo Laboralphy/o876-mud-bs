@@ -29,4 +29,4 @@ async function main(sFileName: string, sDestPath: string, sTransformFile: string
     }
 }
 
-main(process.argv[2], process.argv[3], process.argv[4]).then(() => console.log('done.'));
+main(process.argv[2], process.argv[3], process.argv[4]);
