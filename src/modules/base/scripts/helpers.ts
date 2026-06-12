@@ -5,6 +5,7 @@ import { EffectSubtype } from '../../../schemas/enums/EffectSubtype';
 import { CONSTS } from '../../../consts';
 import { Ability } from '../../../schemas/enums/Ability';
 import { Skill } from '../../../schemas/enums/Skill';
+import { Distance } from '../../../schemas/enums/Distance';
 
 /**
  * When a subject is attacking the target with an area of effect, this function can be used to determine
@@ -32,6 +33,28 @@ export function getAreaOfEffectCreatures(
     return rules.getCombatAggressors(subject, distance);
 }
 
+export function getCreaturesWithinRange(
+    rules: IRulesEngine,
+    subject: Creature,
+    distance: Distance
+): Creature[] {
+    switch (distance) {
+        case CONSTS.DISTANCE_FAR: {
+            return rules
+                .getCombatAggressors(subject, distance)
+                .concat(getCreaturesWithinRange(rules, subject, CONSTS.DISTANCE_MEDIUM));
+        }
+        case CONSTS.DISTANCE_MEDIUM: {
+            return rules
+                .getCombatAggressors(subject, distance)
+                .concat(getCreaturesWithinRange(rules, subject, CONSTS.DISTANCE_CLOSE));
+        }
+        default: {
+            return rules.getCombatAggressors(subject, distance);
+        }
+    }
+}
+
 export function doDamage(
     rules: IRulesEngine,
     target: Creature,
@@ -53,29 +76,43 @@ export function doDamage(
     );
 }
 
+export type BlastDamageResult = {
+    creature: Creature;
+    resisted: boolean;
+    damage: number;
+};
+
 export function doBlastDamage(
     rules: IRulesEngine,
-    target: Creature,
+    creatures: Creature[],
     source: Creature,
     amount: number | string,
     damageType: DamageType,
     effectSubType: EffectSubtype = CONSTS.EFFECT_SUBTYPE_MAGICAL
 ) {
-    const creatures = getAreaOfEffectCreatures(rules, source, target);
+    const bdr: BlastDamageResult[] = [];
     const ability: Ability =
         effectSubType == CONSTS.EFFECT_SUBTYPE_MAGICAL
             ? CONSTS.ABILITY_MIND
             : CONSTS.ABILITY_SENSES;
     for (const creature of creatures) {
+        let resisted: boolean = false;
         let nThisAmount = creature.dice.roll(amount);
         // check resistance
         if (source.rollThreat(CONSTS.THREAT_BLAST, ability, creature)) {
             // blast has been resisted : halves damage
             nThisAmount = Math.ceil(nThisAmount / 2);
+            resisted = true;
         }
         // apply damage
         doDamage(rules, creature, source, nThisAmount, damageType, effectSubType);
+        bdr.push({
+            creature,
+            damage: nThisAmount,
+            resisted,
+        });
     }
+    return bdr;
 }
 
 export function doHeal(

@@ -6,6 +6,7 @@ import { EquipItemOutcome } from '../schemas/enums/EquipItemOutcome';
 import { Effect, EffectDefinition } from '../effects/schemas';
 import { EffectSubtype } from '../schemas/enums/EffectSubtype';
 import { Distance } from '../schemas/enums/Distance';
+import { CONSTS } from '../consts';
 
 export interface IRulesEngine {
     //  ▄▄              ▗▖                                                      ▗▖
@@ -51,6 +52,14 @@ export interface IRulesEngine {
         subtype?: EffectSubtype,
         tag?: string
     ): Effect;
+    applyEffectGroup(
+        creature: Creature,
+        effectDefinitions: EffectDefinition[],
+        source: Creature,
+        duration: number,
+        subtype?: EffectSubtype,
+        tag?: string
+    ): Effect[];
     removeCreatureEffect(creature: Creature, effect: Effect): void;
 
     //  ▗▖      ▗▖  ▗▖                                                  ▗▖
@@ -72,6 +81,7 @@ export interface IRulesEngine {
     isFighting(creature: Creature, target?: Creature): boolean;
     getCombatTarget(creature: Creature): Creature | undefined;
     getDistanceToCombatTarget(creature: Creature): Distance | undefined;
+    setDistanceToCombatTarget(creature: Creature, distance: Distance): void;
     getCombatAggressors(creature: Creature, distance?: Distance): Creature[];
     invokeThinker(scriptId: string, creature: Creature, target?: Creature): void;
 }

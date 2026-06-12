@@ -275,6 +275,17 @@ export class RulesEngine implements IRulesEngine {
         return creature.applyEffect(effect, source, duration, subtype, tag);
     }
 
+    applyEffectGroup(
+        creature: Creature,
+        effectDefinitions: EffectDefinition[],
+        source: Creature,
+        duration: number,
+        subtype: EffectSubtype = CONSTS.EFFECT_SUBTYPE_MAGICAL,
+        tag: string = ''
+    ): Effect[] {
+        return creature.applyEffectGroup(effectDefinitions, source, duration, subtype, tag);
+    }
+
     removeCreatureEffect(creature: Creature, effect: Effect): void {
         creature.removeEffect(effect);
     }
@@ -353,6 +364,15 @@ export class RulesEngine implements IRulesEngine {
      */
     getDistanceToCombatTarget(creature: Creature): Distance | undefined {
         return this._combatManager.getCombat(creature)?.getDistance() ?? undefined;
+    }
+
+    /**
+     * Modify combat distance between creature and it's target
+     * @param creature
+     * @param distance
+     */
+    setDistanceToCombatTarget(creature: Creature, distance: Distance): void {
+        return this._combatManager.getCombat(creature)?.setDistance(distance);
     }
 
     invokeThinker(scriptId: string, creature: Creature, target?: Creature): void {

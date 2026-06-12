@@ -1,6 +1,10 @@
 import { IRulesEngine } from '../../../../interfaces/IRulesEngine';
 import { Creature } from '../../../../Creature';
-import { doBlastDamage } from '../../../base/scripts/helpers';
+import {
+    doBlastDamage,
+    getAreaOfEffectCreatures,
+    getCreaturesWithinRange,
+} from '../../../base/scripts/helpers';
 import { CONSTS } from '../../../../consts';
 import { DamageType } from '../../../../schemas/enums/DamageType';
 
@@ -26,7 +30,8 @@ function main(
         return;
     }
     const { damageType = CONSTS.DAMAGE_TYPE_THERMAL, amp = '1d6' } = config;
-    doBlastDamage(rules, target, subject, amp, damageType, CONSTS.EFFECT_SUBTYPE_EXTRAORDINARY);
+    const creatures = getCreaturesWithinRange(rules, subject, CONSTS.DISTANCE_MEDIUM);
+    doBlastDamage(rules, creatures, subject, amp, damageType, CONSTS.EFFECT_SUBTYPE_EXTRAORDINARY);
 }
 
 export default main;
